@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:mb="http://java.sun.com/jsf/composite/mb"
+	template="../templates/header-and-footer.xhtml">
+
+	
+	<ui:define name="head">
+	
+		<script type="text/javascript">  
+		function handleComplete(args) {  
+			if(args.status == "SUCCESS") {
+    			document.location.href = args.url;
+			}
+		}  
+		</script>  
+	</ui:define>
+
+	<ui:define name="center-rail">
+
+		<h:form>
+			<p:panel header="Please enter your credentials" style="width:543px">
+				<h:panelGrid columns="2" style="align:center">  
+            		<h:outputText value="Username: " />  
+            		<p:inputText value="#{userController.username}" required="true"/>
+            		<h:outputText value="Password: " />  
+            		<p:password value="#{userController.password}" feedback="false" required="true"/>
+            	</h:panelGrid>
+            	
+            	<p:messages />
+            	
+            	<p:commandButton id="login" value="Login" actionListener="#{userController.login}" oncomplete="handleComplete(args)"/>
+            	
+			</p:panel>
+			
+		</h:form>
+	
+	
+	</ui:define>
+
+</ui:composition>
