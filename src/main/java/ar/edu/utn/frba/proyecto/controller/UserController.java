@@ -8,9 +8,9 @@ import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
 
+import ar.edu.utn.frba.proyecto.domain.User;
 import ar.edu.utn.frba.proyecto.service.RestService;
 
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion.User;
 
 /**
  * 
