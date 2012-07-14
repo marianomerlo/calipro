@@ -10,5 +10,4 @@ target/*
 src/main/webapps/console/target/*
 .classpath
 .project
-.settings/*
 .metadata
