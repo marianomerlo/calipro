@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
+	
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	
+	
+	<p:growl id="growlLogin" showDetail="true" life="3000" />
+	<h:form>
+
+		<h:panelGrid columns="2" cellpadding="5">
+			<h:outputLabel for="username" value="Legajo:" />
+			<p:inputText value="#{userController.username}" 
+					id="username" required="true" label="username" />
+			
+			<h:outputLabel for="password" value="Contraseña:" />
+			<h:inputSecret value="#{userController.password}" 
+					id="password" required="true" label="password" />
+			
+			<f:facet name="footer">
+				<p:commandButton id="loginButton" value="Login" update=":growlLogin" 
+					actionListener="#{userController.login}" 
+					oncomplete="handleLoginRequest(xhr, status, args)"/>
+			</f:facet>
+		</h:panelGrid>
+		
+	</h:form>	
+</ui:composition>

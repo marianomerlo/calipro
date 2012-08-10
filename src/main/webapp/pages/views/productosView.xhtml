@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+<h:form>
+
+
+    <p:dataTable id="dataTable" var="producto" value="#{productController.productDataModel}" 
+    		rowIndexVar="rowIndex"
+    		widgetVar="productsTable" 
+            emptyMessage="No hay coincidencias" 
+            selection="#{productController.selectedProduct}"
+            selectionMode="single"
+            scrollHeight="250"
+            scrollable="true"
+            style="width:1000px">
+            
+            <p:ajax event="rowSelect" listener="#{productController.onRowSelect}" 
+                   oncomplete="carDialog.show()" />
+
+         <f:facet name="header">
+            <p:outputPanel>
+                <h:outputText value="Buscar:" />
+                <p:inputText value="Escribir Texto" id="globalFilter" onkeyup="productsTable.filter()" style="width:200px" />
+            </p:outputPanel>
+        </f:facet>
+
+        <p:column id="numero" headerText="Nº"> 
+             <h:outputText value="#{rowIndex + 1}" />
+        </p:column>
+        
+        <p:column id="prodId" filterBy="#{producto.id}"
+                headerText="Id" 
+                filterMatchMode="contains">
+            <h:outputText value="#{producto.id}" />
+        </p:column>
+
+        <p:column id="prodName" filterBy="#{producto.nombre}"
+                headerText="Nombre" filterMatchMode="contains" style="width:200px">
+            <h:outputText value="#{producto.nombre}" />
+        </p:column>
+
+        <p:column id="prodDesc" filterBy="#{producto.descripcion}" 
+                headerText="Descripcion" filterMatchMode="contains" style="width:500px">
+            <h:outputText value="#{producto.descripcion}" />
+        </p:column>
+
+        <p:column id="prodLastMod" filterBy="#{producto.fechaUltimaModificacion}"
+                headerText="Fecha Ultima Modificacion" 
+                filterMatchMode="contains"
+                style="width:200px">
+            <h:outputText value="#{producto.fechaUltimaModificacion}" />
+        </p:column>
+    </p:dataTable>
+    
+    <p:dialog id="dialog" header="Producto Detail" widgetVar="carDialog" resizable="false" modal="true"
+                showEffect="explode" hideEffect="explode">
+
+        <ui:include src="../login.xhtml" />
+    </p:dialog>
+    
+</h:form>
+
+</ui:composition>
+                    

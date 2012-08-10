@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" >
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+<h:form>
+
+
+    <p:dataTable id="historicDataTable" var="historicProd" value="#{productController.histProductDataModel}" 
+    		rowIndexVar="rowIndexxx"
+    		widgetVar="historicProdTable" 
+            emptyMessage="No hay coincidencias" 
+            selection="#{productController.selectedProduct}"
+            selectionMode="single"
+            scrollHeight="250"
+            scrollable="true"
+            style="width:1000px">
+            
+            <p:ajax event="rowSelect" listener="#{productController.onRowSelect}" 
+                   oncomplete="carDialogg.show()" />
+
+         <f:facet name="header">
+            <p:outputPanel>
+                <h:outputText value="Buscar:" />
+                <p:inputText value="Escribir Texto" id="globalFilter" onkeyup="historicProdTable.filter()" style="width:200px" />
+            </p:outputPanel>
+        </f:facet>
+
+        <p:column id="historicNumero" headerText="Nº"> 
+             <h:outputText value="#{0 + 1}" />
+        </p:column>
+        
+        <p:column id="historicProdId" filterBy="#{historicProd.id}"
+                headerText="Id" 
+                filterMatchMode="contains">
+            <h:outputText value="#{historicProd.id}" />
+        </p:column>
+
+        <p:column id="historicProdName" filterBy="#{historicProd.nombre}"
+                headerText="Nombre" filterMatchMode="contains" style="width:200px">
+            <h:outputText value="#{historicProd.nombre}" />
+        </p:column>
+
+        <p:column id="historicProdDesc" filterBy="#{historicProd.descripcion}" 
+                headerText="Descripcion" filterMatchMode="contains" style="width:500px">
+            <h:outputText value="#{historicProd.descripcion}" />
+        </p:column>
+
+        <p:column id="historicProdLastMod" filterBy="#{historicProd.fechaUltimaModificacion}"
+                headerText="Fecha Ultima Modificacion" 
+                filterMatchMode="contains"
+                style="width:200px">
+            <h:outputText value="#{historicProd.fechaUltimaModificacion}" />
+        </p:column>
+    </p:dataTable>
+    
+    <p:dialog id="dialogg" header="Car Detail" widgetVar="carDialogg" resizable="false" modal="true"
+                showEffect="explode" hideEffect="explode">
+
+        <ui:include src="../login.xhtml" />
+    </p:dialog>
+    
+</h:form>
+
+</ui:composition>
+                    

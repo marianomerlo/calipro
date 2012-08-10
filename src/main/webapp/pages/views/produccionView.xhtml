@@ -1,0 +1,83 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+		<p:commandButton id="productAdd" value="Agregar" style="margin:10px"
+			onclick="addProductWidget.show();" type="button" />
+
+		<p:dialog id="addProduct" header="Agregar Producto"
+			widgetVar="addProductWidget" modal="true">
+			<ui:include src="agregar/addProduct.xhtml" />
+		</p:dialog>
+
+
+		<p:commandButton id="productDelete" value="Eliminar"
+			style="margin:10px" onclick="deleteProductWidget.show();"
+			type="button" />
+
+		<p:dialog id="login" header="Eliminar Producto"
+			widgetVar="deleteProductWidget" modal="true">
+<!-- 					<ui:include src="agregar/addProduct.xhtml" /> -->
+		</p:dialog>
+
+	<h:form id="productDataTableForm">
+		<p:dataTable id="productDataTable" var="producto" lazy="false"
+			value="#{productController.productDataModel}"
+			rowIndexVar="prodIndex" widgetVar="productsTable"
+			emptyMessage="No hay coincidencias"
+			selection="#{productController.selectedProduct}" paginator="true"
+			paginatorPosition="bottom"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+			selectionMode="single" style="width:800px">
+
+			<p:ajax event="rowSelect" listener="#{productController.onRowSelect}" 
+				oncomplete="modifyProductDialog.show()" />
+
+			<f:facet name="header">
+				<p:outputPanel>
+					<h:outputText value="Buscar:" />
+					<p:inputText value="Escribir Texto" id="globalFilter"
+						onkeyup="productsTable.filter()" style="width:200px" />
+				</p:outputPanel>
+			</f:facet>
+
+			<p:column id="productRowNumber" headerText="Nº">
+				<h:outputText value="#{prodIndex + 1}" />
+			</p:column>
+
+			<p:column id="productId" filterBy="#{producto.prodId}"
+				headerText="Id" filterMatchMode="contains">
+				<h:outputText value="#{producto.prodId}" />
+			</p:column>
+
+			<p:column id="productName" filterBy="#{producto.nombre}"
+				headerText="Nombre" filterMatchMode="contains" style="width:200px">
+				<h:outputText value="#{producto.nombre}" />
+			</p:column>
+
+			<p:column id="productDescription" filterBy="#{producto.descripcion}"
+				headerText="Descripcion" filterMatchMode="contains"
+				style="width:400px">
+				<h:outputText value="#{producto.descripcion}" />
+			</p:column>
+
+			<p:column id="productLastModDate"
+				filterBy="#{producto.fechaUltimaModificacion}"
+				headerText="Fecha Ultima Modificacion" filterMatchMode="contains"
+				style="width:100px">
+				<h:outputText value="#{producto.fechaUltimaModificacion}" />
+			</p:column>
+
+		</p:dataTable>
+			<p:dialog id="modifyProduct" header="Modificar Producto" widgetVar="modifyProductDialog"
+				modal="true" resizable="false" >
+			<ui:include src="modificar/modifyProduct.xhtml" />
+			</p:dialog>
+
+	</h:form>
+</ui:composition>

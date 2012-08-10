@@ -1,0 +1,21 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:accordionPanel id="baseAccordion" style="width:1000px">
+		<c:forEach var="profile" items="#{userController.profiles}">
+			<p:tab title="#{profile.name}">
+				<p:tabView id="profileTabView">
+					<c:forEach var="vista" items="#{profile.vistas}">
+						<p:tab title="#{vista.name}">
+								<ui:include src="#{vista.view}" />
+						</p:tab>
+					</c:forEach>
+				</p:tabView>
+			</p:tab>
+		</c:forEach>
+	</p:accordionPanel>
+</ui:composition>
+
