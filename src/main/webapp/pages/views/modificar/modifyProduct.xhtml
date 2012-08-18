@@ -8,38 +8,37 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
 
+	<h:panelGrid columns="2" cellpadding="5" id="modifyProductPanelGrid"
+		style="width:500px !important" >
+		<h:outputLabel for="name" value="Nombre" />
+		<p:inputText value="#{productController.selectedProduct.nombre}"
+			id="name" required="true" label="name"  />
 
-<!-- 	<h:form id="modifyProductForm"> -->
+		<h:outputLabel for="description" value="Descripcion" />
+		<h:inputText value="#{productController.selectedProduct.descripcion}"
+			id="description" required="true" label="description" />
 
-		<h:panelGrid columns="2" cellpadding="5" id="modifyProductPanelGrid"
-			style="width:500px !important">
-			<h:outputLabel for="name" value="Nombre" />
-			<p:inputText value="#{productController.selectedProduct.nombre}" id="name"
-				required="true" label="name" />
+		<f:facet name="footer">
+			<p:commandButton id="saveUpdateButton" value="Guardar" style="margin:10px"
+				actionListener="#{productController.updateProduct()}"
+				oncomplete="updateConfirmationWidget.show()"
+				update="modifiedProductConfirmDialog" />
 
-			<h:outputLabel for="description" value="Descripcion" />
-			<h:inputText value="#{productController.selectedProduct.descripcion}"
-				id="description" required="true" label="description" />
+			<p:commandButton id="cancelUpdateButton" immediate="true" value="Cancelar"
+				style="margin:10px" 
+				actionListener="#{productController.restoreOriginalProduct()}"
+				oncomplete="modifyProductWidget.hide()"/>
+		</f:facet>
+	</h:panelGrid>
 
-			<f:facet name="footer">
-				<p:commandButton id="saveButton" value="Guardar"
-					style="margin:10px"
-					actionListener="#{productController.updateProduct}"
-					oncomplete="updateConfirmation.show()"
-					 />
-				<p:commandButton id="cancelButton" value="Cancelar"
-					style="margin:10px" onclick="addProductWidget.hide()" />
-			</f:facet>
-		</h:panelGrid>
+	<p:confirmDialog id="modifiedProductConfirmDialog" appendToBody="true"
+		closable="false"
+		message="Producto #{productController.selectedProduct.nombre} modificado satisfactoriamente."
+		header="Information" severity="info" widgetVar="updateConfirmationWidget">
 
-		<p:confirmDialog id="modifiedProductConfirmDialog" appendToBody="true"
-			message="Producto #{productController.selectedProduct.nombre} modificado satisfactoriamente."
-			header="Information" severity="info" widgetVar="updateConfirmation">
+		<p:commandButton id="confirm" value="OK"
+			oncomplete="window.location.reload()" />
 
-			<p:commandButton id="confirm" value="OK"
-				oncomplete="window.location.reload()"  />
-					
-		</p:confirmDialog>
+	</p:confirmDialog>
 
-<!-- 	</h:form> -->
 </ui:composition>

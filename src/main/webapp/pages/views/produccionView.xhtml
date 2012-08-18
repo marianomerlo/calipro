@@ -7,77 +7,126 @@
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
+
+	<h:form id="addOrDeleteProductForm" style="border:0px;float:left">
 		<p:commandButton id="productAdd" value="Agregar" style="margin:10px"
 			onclick="addProductWidget.show();" type="button" />
 
-		<p:dialog id="addProduct" header="Agregar Producto"
-			widgetVar="addProductWidget" modal="true">
+		<p:dialog id="addProductDialog" widgetVar="addProductWidget"
+			resizable="false" header="Agregar Producto" closable="false"
+			modal="true">
 			<ui:include src="agregar/addProduct.xhtml" />
 		</p:dialog>
+	</h:form>
 
-
-		<p:commandButton id="productDelete" value="Eliminar"
+	<h:form id="productDataTableForm">
+		<p:commandButton id="productDelete" value="Eliminar" immediate="true"
 			style="margin:10px" onclick="deleteProductWidget.show();"
 			type="button" />
 
-		<p:dialog id="login" header="Eliminar Producto"
-			widgetVar="deleteProductWidget" modal="true">
-<!-- 					<ui:include src="agregar/addProduct.xhtml" /> -->
+		<p:dialog id="deleteProductDialog" widgetVar="deleteProductWidget"
+			modal="true" resizable="false" header="Eliminar Producto" closable="false">
+			<ui:include src="eliminar/deleteProduct.xhtml" />
 		</p:dialog>
-
-	<h:form id="productDataTableForm">
-		<p:dataTable id="productDataTable" var="producto" lazy="false"
-			value="#{productController.productDataModel}"
+		<p:dataTable id="productDataTable" var="producto"
+			value="#{productController.histProductDataModel}"
 			rowIndexVar="prodIndex" widgetVar="productsTable"
 			emptyMessage="No hay coincidencias"
-			selection="#{productController.selectedProduct}" paginator="true"
-			paginatorPosition="bottom"
-			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-			selectionMode="single" style="width:800px">
+			selection="#{productController.selectedProducts}" paginator="true"
+			paginatorPosition="bottom" rows="10"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+			style="width:800px;text-align:center">
 
-			<p:ajax event="rowSelect" listener="#{productController.onRowSelect}" 
-				oncomplete="modifyProductDialog.show()" />
+			<p:ajax event="rowSelectCheckbox"
+				update=":baseAccordion:profileTabView:productDataTableForm:deleteProductDialog 
+													  " />
+
+			<p:ajax event="rowUnselectCheckbox"
+				update=":baseAccordion:profileTabView:productDataTableForm:deleteProductDialog
+														" />
 
 			<f:facet name="header">
 				<p:outputPanel>
 					<h:outputText value="Buscar:" />
-					<p:inputText value="Escribir Texto" id="globalFilter"
-						onkeyup="productsTable.filter()" style="width:200px" />
+					<p:inputText id="globalFilter" onkeyup="productsTable.filter()"
+						style="width:200px" />
+					<p:watermark for="globalFilter" value="Producto" />
 				</p:outputPanel>
 			</f:facet>
 
-			<p:column id="productRowNumber" headerText="Nº">
-				<h:outputText value="#{prodIndex + 1}" />
+			<p:column selectionMode="multiple" style="width:auto" />
+
+			<p:column id="productRowNumber" headerText="Nº" style="width:auto">
+				<p:commandLink style="text-decoration:none" value="#{prodIndex + 1}"
+					ajax="true"
+					update=":baseAccordion:profileTabView:productDataTableForm:modifyProductPanelGrid :baseAccordion:profileTabView:productDataTableForm:modifiedProductConfirmDialog"
+					actionListener="#{productController.storeOriginalProduct(producto)}"
+					oncomplete="modifyProductWidget.show();">
+					<f:setPropertyActionListener
+						target="#{productController.selectedProduct}" value="#{producto}" />
+				</p:commandLink>
 			</p:column>
 
 			<p:column id="productId" filterBy="#{producto.prodId}"
-				headerText="Id" filterMatchMode="contains">
-				<h:outputText value="#{producto.prodId}" />
+				filterStyle="display:none" headerText="Id"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none"
+					value="#{producto.prodId}"
+					actionListener="#{productController.storeOriginalProduct(producto)}"
+					update=":baseAccordion:profileTabView:productDataTableForm:modifyProductPanelGrid :baseAccordion:profileTabView:productDataTableForm:modifiedProductConfirmDialog"
+					oncomplete="modifyProductWidget.show();">
+					<f:setPropertyActionListener
+						target="#{productController.selectedProduct}" value="#{producto}" />
+				</p:commandLink>
 			</p:column>
 
 			<p:column id="productName" filterBy="#{producto.nombre}"
-				headerText="Nombre" filterMatchMode="contains" style="width:200px">
-				<h:outputText value="#{producto.nombre}" />
+				filterStyle="display:none" headerText="Nombre"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none"
+					value="#{producto.nombre}"
+					actionListener="#{productController.storeOriginalProduct(producto)}"
+					update=":baseAccordion:profileTabView:productDataTableForm:modifyProductPanelGrid :baseAccordion:profileTabView:productDataTableForm:modifiedProductConfirmDialog"
+					oncomplete="modifyProductWidget.show();">
+					<f:setPropertyActionListener
+						target="#{productController.selectedProduct}" value="#{producto}" />
+				</p:commandLink>
 			</p:column>
 
 			<p:column id="productDescription" filterBy="#{producto.descripcion}"
-				headerText="Descripcion" filterMatchMode="contains"
-				style="width:400px">
-				<h:outputText value="#{producto.descripcion}" />
+				filterStyle="display:none" headerText="Descripcion"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none"
+					value="#{producto.descripcion}"
+					actionListener="#{productController.storeOriginalProduct(producto)}"
+					update=":baseAccordion:profileTabView:productDataTableForm:modifyProductPanelGrid :baseAccordion:profileTabView:productDataTableForm:modifiedProductConfirmDialog"
+					oncomplete="modifyProductWidget.show();">
+					<f:setPropertyActionListener
+						target="#{productController.selectedProduct}" value="#{producto}" />
+				</p:commandLink>
 			</p:column>
 
 			<p:column id="productLastModDate"
 				filterBy="#{producto.fechaUltimaModificacion}"
-				headerText="Fecha Ultima Modificacion" filterMatchMode="contains"
-				style="width:100px">
-				<h:outputText value="#{producto.fechaUltimaModificacion}" />
+				filterStyle="display:none" headerText="Fecha Ultima Modificacion"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none"
+					value="#{producto.fechaUltimaModificacion}"
+					actionListener="#{productController.preSetProduct}"
+					update=":baseAccordion:profileTabView:productDataTableForm:modifyProductPanelGrid :baseAccordion:profileTabView:productDataTableForm:modifiedProductConfirmDialog"
+					oncomplete="modifyProductWidget.show();">
+					<f:setPropertyActionListener
+						target="#{productController.selectedProduct}" value="#{producto}" />
+				</p:commandLink>
 			</p:column>
 
 		</p:dataTable>
-			<p:dialog id="modifyProduct" header="Modificar Producto" widgetVar="modifyProductDialog"
-				modal="true" resizable="false" >
+		<p:dialog id="modifyProductDialog" header="Modificar Producto"
+			widgetVar="modifyProductWidget" modal="true" resizable="false"
+			closable="false">
 			<ui:include src="modificar/modifyProduct.xhtml" />
-			</p:dialog>
+
+		</p:dialog>
 
 	</h:form>
 </ui:composition>

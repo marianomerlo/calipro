@@ -2,69 +2,118 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui" >
+	xmlns:p="http://primefaces.org/ui">
 
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
-<h:form>
+	
+	<p:commandButton id="productAdd" value="Agregar" style="margin:10px"
+		onclick="addProductWidget.show();" type="button" />
 
+	<p:dialog id="addProduct" header="Agregar Producto"
+		widgetVar="addProductWidget" modal="true">
+		<h:panelGrid columns="2" cellpadding="5" id="addProductPanelGrid"
+			style="width:500px !important">
+			<h:outputLabel for="name" value="Nombre" />
+			<p:inputText value="#{productController.currentProduct.nombre}" id="name"
+				required="true" label="name"/>
 
-    <p:dataTable id="dataTable" var="producto" value="#{productController.productDataModel}" 
-    		rowIndexVar="rowIndex"
-    		widgetVar="productsTable" 
-            emptyMessage="No hay coincidencias" 
-            selection="#{productController.selectedProduct}"
-            selectionMode="single"
-            scrollHeight="250"
-            scrollable="true"
-            style="width:1000px">
-            
-            <p:ajax event="rowSelect" listener="#{productController.onRowSelect}" 
-                   oncomplete="carDialog.show()" />
+			<h:outputLabel for="description" value="Descripcion" />
+			<h:inputText value="#{productController.currentProduct.descripcion}"
+				id="description" required="true" label="description" />
 
-         <f:facet name="header">
-            <p:outputPanel>
-                <h:outputText value="Buscar:" />
-                <p:inputText value="Escribir Texto" id="globalFilter" onkeyup="productsTable.filter()" style="width:200px" />
-            </p:outputPanel>
-        </f:facet>
+			<f:facet name="footer">
+				<p:commandButton id="addButton" value="Agregar"
+					style="margin:10px"
+					actionListener="#{productController.addProduct}"
+					oncomplete="addConfirmation.show()"
+					 />
+				<p:commandButton id="cancelButton" value="Cancelar"
+					style="margin:10px" onclick="modifyProductWidget.hide()" />
+			</f:facet>
+		</h:panelGrid>
 
-        <p:column id="numero" headerText="Nº"> 
-             <h:outputText value="#{rowIndex + 1}" />
-        </p:column>
-        
-        <p:column id="modelColumn" filterBy="#{producto.id}"
-                headerText="Id" 
-                filterMatchMode="contains">
-            <h:outputText value="#{producto.id}" />
-        </p:column>
+		<p:confirmDialog id="addedProductConfirmDialog" appendToBody="true"
+			message="Producto #{productController.currentProduct.nombre} creado satisfactoriamente."
+			header="Information" severity="info" widgetVar="addConfirmation">
 
-        <p:column id="yearColumn" filterBy="#{producto.nombre}"
-                headerText="Nombre" filterMatchMode="contains" style="width:200px">
-            <h:outputText value="#{producto.nombre}" />
-        </p:column>
+			<p:commandButton id="confirm" value="OK"
+				oncomplete="window.location.reload()"  />
+					
+		</p:confirmDialog>
+	</p:dialog>
 
-        <p:column id="manufacturerColumn" filterBy="#{producto.descripcion}" 
-                headerText="Descripcion" filterMatchMode="contains" style="width:500px">
-            <h:outputText value="#{producto.descripcion}" />
-        </p:column>
+	<p:commandButton id="productDelete" value="Eliminar"
+		style="margin:10px" onclick="deleteProductWidget.show();"
+		type="button" />
 
-        <p:column id="colorColumn" filterBy="#{producto.fechaUltimaModificacion}"
-                headerText="Fecha Ultima Modificacion" 
-                filterMatchMode="contains"
-                style="width:200px">
-            <h:outputText value="#{producto.fechaUltimaModificacion}" />
-        </p:column>
-    </p:dataTable>
-    
-    <p:dialog id="dialog" header="Car Detail" widgetVar="carDialog" resizable="false" modal="true"
-                showEffect="explode" hideEffect="explode">
+	<p:dialog id="deleteProduct" header="Eliminar Producto" resizable="false"
+		widgetVar="deleteProductWidget" modal="true">
+		<!-- 					<ui:include src="agregar/addProduct.xhtml" /> -->
+	</p:dialog>
+	
+	<h:form id="productDataTableForm">
 
-        <ui:include src="../login.xhtml" />
-    </p:dialog>
-    
-</h:form>
+		<p:dataTable id="productDataTable" var="producto" lazy="false"
+			value="#{productController.histProductDataModel}" rowIndexVar="prodIndex"
+			widgetVar="productsTable" emptyMessage="No hay coincidencias"
+			selection="#{productController.selectedProduct}" paginator="true"
+			paginatorPosition="bottom"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+			selectionMode="single" style="width:800px">
+
+			<f:facet name="header">
+				<p:outputPanel>
+					<h:outputText value="Buscar:" />
+					<p:inputText value="Escribir Texto" id="globalFilter"
+						onkeyup="productsTable.filter()" style="width:200px" />
+				</p:outputPanel>
+			</f:facet>
+
+			<p:ajax event="rowSelect" listener="#{productController.onRowSelect}"
+				update=":productDataTableForm:modifyProductPanelGrid :productDataTableForm:modifiedProductConfirmDialog"
+				oncomplete="modifyProductDialog.show()" />
+			<p:ajax event="rowUnselect"
+				listener="#{productController.onRowUnselect}" />
+			<p:ajax event="rowDblselect"
+				listener="#{productController.onRowDblselect}" />
+
+			<p:column id="productRowNumber" headerText="Nº">
+				<h:outputText value="#{prodIndex + 1}" />
+			</p:column>
+
+			<p:column id="productId" filterBy="#{producto.prodId}"
+				headerText="Id" filterMatchMode="contains">
+				<h:outputText value="#{producto.prodId}" />
+			</p:column>
+
+			<p:column id="productName" filterBy="#{producto.nombre}"
+				headerText="Nombre" filterMatchMode="contains" style="width:200px">
+				<h:outputText value="#{producto.nombre}" />
+			</p:column>
+
+			<p:column id="productDescription" filterBy="#{producto.descripcion}"
+				headerText="Descripcion" filterMatchMode="contains"
+				style="width:400px">
+				<h:outputText value="#{producto.descripcion}" />
+			</p:column>
+
+			<p:column id="productLastModDate"
+				filterBy="#{producto.fechaUltimaModificacion}"
+				headerText="Fecha Ultima Modificacion" filterMatchMode="contains"
+				style="width:100px">
+				<h:outputText value="#{producto.fechaUltimaModificacion}" />
+			</p:column>
+
+		</p:dataTable>
+
+		<p:dialog id="modifyProductDialog" header="Modificar Producto"
+			widgetVar="modifyProductDialog" modal="true" resizable="false">
+			<ui:include src="modificar/modifyProduct.xhtml" />
+		</p:dialog>
+
+	</h:form>
+
 
 </ui:composition>
-                    

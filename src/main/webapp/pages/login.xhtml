@@ -8,8 +8,6 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
 	
-	
-	<p:growl id="growlLogin" showDetail="true" life="3000" />
 	<h:form>
 
 		<h:panelGrid columns="2" cellpadding="5">
@@ -22,7 +20,7 @@
 					id="password" required="true" label="password" />
 			
 			<f:facet name="footer">
-				<p:commandButton id="loginButton" value="Login" update=":growlLogin" 
+				<p:commandButton id="loginButton" value="Login" 
 					actionListener="#{userController.login}" 
 					oncomplete="handleLoginRequest(xhr, status, args)"/>
 			</f:facet>

@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.proyecto.datamodel;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.model.ListDataModel;
@@ -9,7 +10,7 @@ import org.primefaces.model.SelectableDataModel;
 import ar.edu.utn.frba.proyecto.domain.Producto;
 
 public class ProductDataModel extends ListDataModel<Producto> implements
-		SelectableDataModel<Producto> {
+		SelectableDataModel<Producto>, Serializable {
 
 	public ProductDataModel(List<Producto> data){
 		super(data);

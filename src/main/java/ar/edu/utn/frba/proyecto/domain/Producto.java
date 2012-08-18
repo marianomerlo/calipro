@@ -1,6 +1,13 @@
 package ar.edu.utn.frba.proyecto.domain;
 
-public class Producto extends AuditObject {
+import java.io.Serializable;
+
+public class Producto extends AuditObject implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 612447183267864545L;
 
 	private String prodId;
 	
@@ -13,6 +20,13 @@ public class Producto extends AuditObject {
 		this.prodId = prodId;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
+	}
+	
+	public Producto(Producto producto){
+		super();
+		this.prodId = producto.getProdId();
+		this.nombre = producto.getNombre();
+		this.descripcion = producto.getDescripcion();
 	}
 	
 	public String getProdId() {

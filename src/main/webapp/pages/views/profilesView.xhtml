@@ -5,17 +5,30 @@
 	xmlns:p="http://primefaces.org/ui">
 
 	<p:accordionPanel id="baseAccordion" style="width:1000px">
-		<c:forEach var="profile" items="#{userController.profiles}">
-			<p:tab title="#{profile.name}">
-				<p:tabView id="profileTabView">
-					<c:forEach var="vista" items="#{profile.vistas}">
-						<p:tab title="#{vista.name}">
-								<ui:include src="#{vista.view}" />
-						</p:tab>
-					</c:forEach>
-				</p:tabView>
-			</p:tab>
-		</c:forEach>
+		<p:tab title="aaaaaaaa">
+			<p:tabView id="profileTabView">
+				<p:tab title="bbbbbbbb">
+					<ui:include src="produccionView.xhtml" />
+				</p:tab>
+				<p:tab title="cccccccc">
+					<ui:include src="analisisView.xhtml" />
+				</p:tab>
+			</p:tabView>
+		</p:tab>
 	</p:accordionPanel>
+
+	<!-- 	<p:accordionPanel id="baseAccordion" style="width:1000px"> -->
+	<!-- 		<c:forEach var="profile" items="#{userController.profiles}"> -->
+	<!-- 			<p:tab title="#{profile.name}"> -->
+	<!-- 				<p:tabView id="profileTabView"> -->
+	<!-- 					<c:forEach var="vista" items="#{profile.vistas}"> -->
+	<!-- 						<p:tab title="#{vista.name}"> -->
+	<!-- 								<ui:include src="#{vista.view}" /> -->
+	<!-- 						</p:tab> -->
+	<!-- 					</c:forEach> -->
+	<!-- 				</p:tabView> -->
+	<!-- 			</p:tab> -->
+	<!-- 		</c:forEach> -->
+	<!-- 	</p:accordionPanel> -->
 </ui:composition>
 
