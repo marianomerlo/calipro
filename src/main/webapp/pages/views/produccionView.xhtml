@@ -15,7 +15,7 @@
 		<p:dialog id="addProductDialog" widgetVar="addProductWidget"
 			resizable="false" header="Agregar Producto" closable="false"
 			modal="true">
-			<ui:include src="agregar/addProduct.xhtml" />
+				<ui:include src="agregar/addProduct.xhtml" />
 		</p:dialog>
 	</h:form>
 
@@ -25,11 +25,12 @@
 			type="button" />
 
 		<p:dialog id="deleteProductDialog" widgetVar="deleteProductWidget"
-			modal="true" resizable="false" header="Eliminar Producto" closable="false">
+			modal="true" resizable="false" header="Eliminar Producto"
+			closable="false">
 			<ui:include src="eliminar/deleteProduct.xhtml" />
 		</p:dialog>
 		<p:dataTable id="productDataTable" var="producto"
-			value="#{productController.histProductDataModel}"
+			value="#{productController.productDataModel}"
 			rowIndexVar="prodIndex" widgetVar="productsTable"
 			emptyMessage="No hay coincidencias"
 			selection="#{productController.selectedProducts}" paginator="true"
@@ -38,6 +39,10 @@
 			style="width:800px;text-align:center">
 
 			<p:ajax event="rowSelectCheckbox"
+				update=":baseAccordion:profileTabView:productDataTableForm:deleteProductDialog 
+													  " />
+
+			<p:ajax event="toggleSelect"
 				update=":baseAccordion:profileTabView:productDataTableForm:deleteProductDialog 
 													  " />
 

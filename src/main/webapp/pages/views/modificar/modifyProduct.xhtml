@@ -7,38 +7,43 @@
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
+	<p:growl id="updateGrowlMessages" showSummary="true" autoUpdate="true"
+		for="updateGrowlMessageKeys" />
+	<p:panel id="updatePanel">
+		<p:message for="updateName" display="both" />
+		<p:message for="updateDescription" display="both" />
+		<h:panelGrid columns="2" cellpadding="5" id="modifyProductPanelGrid"
+			style="width:500px !important">
+			<h:outputLabel for="updateName" value="Nombre" />
+			<p:inputText value="#{productController.selectedProduct.nombre}"
+				id="updateName" required="true" label="updateName" />
 
-	<h:panelGrid columns="2" cellpadding="5" id="modifyProductPanelGrid"
-		style="width:500px !important" >
-		<h:outputLabel for="name" value="Nombre" />
-		<p:inputText value="#{productController.selectedProduct.nombre}"
-			id="name" required="true" label="name"  />
+			<h:outputLabel for="updateDescription" value="Descripcion" />
+			<p:inputText value="#{productController.selectedProduct.descripcion}"
+				id="updateDescription" required="true" label="updateDescription" />
 
-		<h:outputLabel for="description" value="Descripcion" />
-		<h:inputText value="#{productController.selectedProduct.descripcion}"
-			id="description" required="true" label="description" />
+			<f:facet name="footer">
+				<p:commandButton id="saveUpdateButton" value="Guardar"
+					style="margin:10px"
+					actionListener="#{productController.updateProduct()}"
+					update="modifyProductPanelGrid updatePanel" />
 
-		<f:facet name="footer">
-			<p:commandButton id="saveUpdateButton" value="Guardar" style="margin:10px"
-				actionListener="#{productController.updateProduct()}"
-				oncomplete="updateConfirmationWidget.show()"
-				update="modifiedProductConfirmDialog" />
+				<p:commandButton id="cancelUpdateButton" immediate="true"
+					value="Cancelar" style="margin:10px"
+					actionListener="#{productController.restoreOriginalProduct()}"
+					oncomplete="window.location.reload()" />
+			</f:facet>
+		</h:panelGrid>
 
-			<p:commandButton id="cancelUpdateButton" immediate="true" value="Cancelar"
-				style="margin:10px" 
-				actionListener="#{productController.restoreOriginalProduct()}"
-				oncomplete="modifyProductWidget.hide()"/>
-		</f:facet>
-	</h:panelGrid>
+		<p:confirmDialog id="modifiedProductConfirmDialog" appendToBody="true"
+			closable="false"
+			message="Producto #{productController.selectedProduct.nombre} modificado satisfactoriamente."
+			header="Information" severity="info"
+			widgetVar="updateConfirmationWidget">
 
-	<p:confirmDialog id="modifiedProductConfirmDialog" appendToBody="true"
-		closable="false"
-		message="Producto #{productController.selectedProduct.nombre} modificado satisfactoriamente."
-		header="Information" severity="info" widgetVar="updateConfirmationWidget">
+			<p:commandButton id="confirm" value="OK"
+				oncomplete="window.location.reload()" />
 
-		<p:commandButton id="confirm" value="OK"
-			oncomplete="window.location.reload()" />
-
-	</p:confirmDialog>
-
+		</p:confirmDialog>
+	</p:panel>
 </ui:composition>

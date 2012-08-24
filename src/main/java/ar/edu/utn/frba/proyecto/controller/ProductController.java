@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import org.springframework.util.StringUtils;
 
@@ -80,7 +82,11 @@ public class ProductController extends AbstractController {
 	public void addProduct() {
 		getProductos().add(currentProduct);
 		setProductDataModel(new ProductDataModel(getProductos()));
-	}
+		
+		String confirmMessage = "Producto " + currentProduct.getNombre() + " creado satisfactoriamente";
+        FacesContext.getCurrentInstance().addMessage("addGrowlMessageKeys", new FacesMessage(FacesMessage.SEVERITY_INFO,confirmMessage, null));
+        resetCurrent();
+        }
 
 	public void updateProduct() {
 
@@ -91,6 +97,9 @@ public class ProductController extends AbstractController {
 			}
 		}
 		setProductDataModel(new ProductDataModel(getProductos()));
+		String confirmMessage = "Producto " + selectedProduct.getNombre() + " modificado satisfactoriamente";
+        FacesContext.getCurrentInstance().addMessage("updateGrowlMessageKeys", new FacesMessage(FacesMessage.SEVERITY_INFO,confirmMessage, null));
+
 	}
 
 	public void deleteProducts() {

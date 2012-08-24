@@ -1,11 +1,19 @@
 package ar.edu.utn.frba.proyecto.domain;
 
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-public class Profile {
+public class Profile implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2030356771612881776L;
+
+
+
 	public Profile(){
 		super();
 	}
