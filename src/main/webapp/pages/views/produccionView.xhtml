@@ -8,14 +8,14 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
 
-	<h:form id="addOrDeleteProductForm" style="border:0px;float:left">
+	<h:form id="addProductForm" style="border:0px;float:left">
 		<p:commandButton id="productAdd" value="Agregar" style="margin:10px"
 			onclick="addProductWidget.show();" type="button" />
 
 		<p:dialog id="addProductDialog" widgetVar="addProductWidget"
 			resizable="false" header="Agregar Producto" closable="false"
 			modal="true">
-				<ui:include src="agregar/addProduct.xhtml" />
+			<ui:include src="agregar/addProduct.xhtml" />
 		</p:dialog>
 	</h:form>
 
@@ -30,26 +30,22 @@
 			<ui:include src="eliminar/deleteProduct.xhtml" />
 		</p:dialog>
 		<p:dataTable id="productDataTable" var="producto"
-			value="#{productController.productDataModel}"
-			rowIndexVar="prodIndex" widgetVar="productsTable"
-			emptyMessage="No hay coincidencias"
+			value="#{productController.productos}" rowIndexVar="prodIndex"
+			widgetVar="productsTable" emptyMessage="No hay coincidencias"
+			rowKey="#{producto.prodId}"
 			selection="#{productController.selectedProducts}" paginator="true"
 			paginatorPosition="bottom" rows="10"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 			style="width:800px;text-align:center">
 
 			<p:ajax event="rowSelectCheckbox"
-				update=":baseAccordion:profileTabView:productDataTableForm:deleteProductDialog 
-													  " />
+				update=":baseAccordion:profileTabView:productDataTableForm:deleteProductDialog" />
 
 			<p:ajax event="toggleSelect"
-				update=":baseAccordion:profileTabView:productDataTableForm:deleteProductDialog 
-													  " />
+				update=":baseAccordion:profileTabView:productDataTableForm:deleteProductDialog" />
 
 			<p:ajax event="rowUnselectCheckbox"
-				update=":baseAccordion:profileTabView:productDataTableForm:deleteProductDialog
-														" />
-
+				update=":baseAccordion:profileTabView:productDataTableForm:deleteProductDialog" />
 			<f:facet name="header">
 				<p:outputPanel>
 					<h:outputText value="Buscar:" />
@@ -64,7 +60,6 @@
 			<p:column id="productRowNumber" headerText="Nº" style="width:auto">
 				<p:commandLink style="text-decoration:none" value="#{prodIndex + 1}"
 					ajax="true"
-					update=":baseAccordion:profileTabView:productDataTableForm:modifyProductPanelGrid :baseAccordion:profileTabView:productDataTableForm:modifiedProductConfirmDialog"
 					actionListener="#{productController.storeOriginalProduct(producto)}"
 					oncomplete="modifyProductWidget.show();">
 					<f:setPropertyActionListener
@@ -78,7 +73,7 @@
 				<p:commandLink style="text-decoration:none"
 					value="#{producto.prodId}"
 					actionListener="#{productController.storeOriginalProduct(producto)}"
-					update=":baseAccordion:profileTabView:productDataTableForm:modifyProductPanelGrid :baseAccordion:profileTabView:productDataTableForm:modifiedProductConfirmDialog"
+					update=":baseAccordion:profileTabView:productDataTableForm:modifyProductPanelGrid"
 					oncomplete="modifyProductWidget.show();">
 					<f:setPropertyActionListener
 						target="#{productController.selectedProduct}" value="#{producto}" />
@@ -91,7 +86,7 @@
 				<p:commandLink style="text-decoration:none"
 					value="#{producto.nombre}"
 					actionListener="#{productController.storeOriginalProduct(producto)}"
-					update=":baseAccordion:profileTabView:productDataTableForm:modifyProductPanelGrid :baseAccordion:profileTabView:productDataTableForm:modifiedProductConfirmDialog"
+					update=":baseAccordion:profileTabView:productDataTableForm:modifyProductPanelGrid"
 					oncomplete="modifyProductWidget.show();">
 					<f:setPropertyActionListener
 						target="#{productController.selectedProduct}" value="#{producto}" />
@@ -104,7 +99,7 @@
 				<p:commandLink style="text-decoration:none"
 					value="#{producto.descripcion}"
 					actionListener="#{productController.storeOriginalProduct(producto)}"
-					update=":baseAccordion:profileTabView:productDataTableForm:modifyProductPanelGrid :baseAccordion:profileTabView:productDataTableForm:modifiedProductConfirmDialog"
+					update=":baseAccordion:profileTabView:productDataTableForm:modifyProductPanelGrid"
 					oncomplete="modifyProductWidget.show();">
 					<f:setPropertyActionListener
 						target="#{productController.selectedProduct}" value="#{producto}" />
@@ -117,8 +112,8 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{producto.fechaUltimaModificacion}"
-					actionListener="#{productController.preSetProduct}"
-					update=":baseAccordion:profileTabView:productDataTableForm:modifyProductPanelGrid :baseAccordion:profileTabView:productDataTableForm:modifiedProductConfirmDialog"
+					actionListener="#{productController.storeOriginalProduct(producto)}"
+					update=":baseAccordion:profileTabView:productDataTableForm:modifyProductPanelGrid"
 					oncomplete="modifyProductWidget.show();">
 					<f:setPropertyActionListener
 						target="#{productController.selectedProduct}" value="#{producto}" />

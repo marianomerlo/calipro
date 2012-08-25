@@ -16,12 +16,12 @@
 			value="¿Desea confirmar la eliminación de los Productos?" />
 
 		<f:facet name="footer">
-			<p:commandButton id="deleteConfirmButton" value="Si"
+			<p:commandButton id="deleteProductConfirmButton" value="Si"
 				actionListener="#{productController.deleteProducts}"
-				oncomplete="deletedConfirmationWidget.show()"
+				oncomplete="deletedProductConfirmationWidget.show()"
 				update="deletedProductConfirmDialog" />
 
-			<p:commandButton id="deleteCancelButton" value="No"
+			<p:commandButton id="deleteProductCancelButton" value="No"
 				onclick="deleteProductWidget.hide()" />
 		</f:facet>
 	</h:panelGrid>
@@ -33,20 +33,20 @@
 		<h:outputText value="Debes seleccionar al menos un producto" />
 
 		<f:facet name="footer">
-			<p:commandButton id="deleteCancelButtonEmpty" value="OK"
+			<p:commandButton id="deleteProductCancelButtonEmpty" value="OK"
 				onclick="deleteProductWidget.hide()" />
 		</f:facet>
 	</h:panelGrid>
 
 	<p:dialog id="deletedProductConfirmDialog" closable="false"
 		resizable="false" header="Information"
-		widgetVar="deletedConfirmationWidget">
+		widgetVar="deletedProductConfirmationWidget">
 		<h:panelGrid columns="2" style="padding: 15px">
 			<span class="ui-messages-info-icon" />
 			<h:outputText
 				value="Se han eliminado satisfactoriamente los siguientes Productos: #{productController.deletedProductIds(',')}" />
 		</h:panelGrid>
-		<p:commandButton id="deletedConfirm" value="OK"
+		<p:commandButton id="deletedProductConfirm" value="OK"
 			actionListener="#{productController.resetSelectedProducts}"
 			oncomplete="window.location.reload()" />
 	</p:dialog>

@@ -3,12 +3,15 @@ package ar.edu.utn.frba.proyecto.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.component.tabview.TabView;
+import org.primefaces.event.TabChangeEvent;
 import org.springframework.util.StringUtils;
 
 import ar.edu.utn.frba.proyecto.datamodel.ProductDataModel;
@@ -23,19 +26,20 @@ public class ProductController extends AbstractController {
 	private String fakeId = String.valueOf(Math.random());
 	private Producto currentProduct = new Producto(fakeId, "", "");
 
-	private String INITIAL_NAME = "initialName";
-	private String INITIAL_DESC = "initialDesc";
 	private List<Producto> productos;
 	private Producto selectedProduct = new Producto(fakeId, INITIAL_NAME,
 			INITIAL_DESC);
 	private Producto tempSelectedProduct = new Producto(fakeId, INITIAL_NAME,
 			INITIAL_DESC);
 
+	private List<Producto> filteredProducts;
 	private Producto[] selectedProducts;
 	private List<Producto> selectedProductsList;
 
 	private ProductDataModel productDataModel;
 	private ProductDataModel histProductDataModel;
+	
+	private int activeIndexTab;
 
 	/**
 	 * @return the productos
@@ -62,6 +66,14 @@ public class ProductController extends AbstractController {
 		this.productos.add(new Producto("P", "Puki", "DescripcionP"));
 		return this.productos;
 	}
+	
+	public final void onTabChange(final TabChangeEvent event) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		Map<String, String> params = context.getExternalContext().getRequestParameterMap();
+		TabView tabView = (TabView) event.getComponent();
+		String activeIndexValue = params.get(tabView.getClientId(context) + "_tabindex");
+        this.activeIndexTab = Integer.parseInt(activeIndexValue);
+	}	
 
 	public void storeOriginalProduct(Producto producto){
 			tempSelectedProduct = new Producto(producto);
@@ -84,9 +96,9 @@ public class ProductController extends AbstractController {
 		setProductDataModel(new ProductDataModel(getProductos()));
 		
 		String confirmMessage = "Producto " + currentProduct.getNombre() + " creado satisfactoriamente";
-        FacesContext.getCurrentInstance().addMessage("addGrowlMessageKeys", new FacesMessage(FacesMessage.SEVERITY_INFO,confirmMessage, null));
+        FacesContext.getCurrentInstance().addMessage("addProductGrowlMessageKeys", new FacesMessage(FacesMessage.SEVERITY_INFO,confirmMessage, null));
         resetCurrent();
-        }
+    }
 
 	public void updateProduct() {
 
@@ -98,7 +110,7 @@ public class ProductController extends AbstractController {
 		}
 		setProductDataModel(new ProductDataModel(getProductos()));
 		String confirmMessage = "Producto " + selectedProduct.getNombre() + " modificado satisfactoriamente";
-        FacesContext.getCurrentInstance().addMessage("updateGrowlMessageKeys", new FacesMessage(FacesMessage.SEVERITY_INFO,confirmMessage, null));
+        FacesContext.getCurrentInstance().addMessage("updateProductGrowlMessageKeys", new FacesMessage(FacesMessage.SEVERITY_INFO,confirmMessage, null));
 
 	}
 
@@ -240,6 +252,34 @@ public class ProductController extends AbstractController {
 	 */
 	public void setSelectedProductsList(List<Producto> selectedProductsList) {
 		this.selectedProductsList = selectedProductsList;
+	}
+
+	/**
+	 * @return the filteredProducts
+	 */
+	public List<Producto> getFilteredProducts() {
+		return filteredProducts;
+	}
+
+	/**
+	 * @param filteredProducts the filteredProducts to set
+	 */
+	public void setFilteredProducts(List<Producto> filteredProducts) {
+		this.filteredProducts = filteredProducts;
+	}
+
+	/**
+	 * @return the activeIndexTab
+	 */
+	public int getActiveIndexTab() {
+		return activeIndexTab;
+	}
+
+	/**
+	 * @param activeIndexTab the activeIndexTab to set
+	 */
+	public void setActiveIndexTab(int activeIndexTab) {
+		this.activeIndexTab = activeIndexTab;
 	}
 
 }

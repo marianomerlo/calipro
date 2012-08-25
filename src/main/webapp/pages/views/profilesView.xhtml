@@ -6,7 +6,9 @@
 
 	<p:accordionPanel id="baseAccordion" style="width:1000px">
 		<p:tab title="aaaaaaaa">
-			<p:tabView id="profileTabView">
+			<p:tabView id="profileTabView" activeIndex="#{productController.activeIndexTab}"   >
+			
+				<p:ajax event="tabChange" listener="#{productController.onTabChange}"/>
 				<p:tab title="bbbbbbbb">
 					<ui:include src="produccionView.xhtml" />
 				</p:tab>

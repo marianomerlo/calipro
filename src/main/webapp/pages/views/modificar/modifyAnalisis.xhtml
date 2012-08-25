@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<p:growl id="updateAnalisisGrowlMessages" showSummary="true" autoUpdate="true"
+		for="updateAnalisisGrowlMessageKeys" />
+	<p:panel id="updateAnalisisPanel">
+		<p:message for="updateAnalisisName" display="both" />
+		<h:panelGrid columns="2" cellpadding="5" id="modifyAnalisisPanelGrid"
+			style="width:500px !important">
+			<h:outputLabel for="updateAnalisisName" value="Nombre" />
+			<p:inputText value="#{analisisController.selectedSingleAnalisis.nombre}"
+				id="updateAnalisisName" required="true" label="updateAnalisisName" />
+
+			<f:facet name="footer">
+				<p:commandButton id="updateAnalisisConfirmButton" value="Guardar"
+					style="margin:10px"
+					actionListener="#{analisisController.updateAnalisis()}"
+					update="modifyAnalisisPanelGrid updateAnalisisPanel" />
+
+				<p:commandButton id="updateAnalisisCancelButton" immediate="true"
+					value="Cancelar" style="margin:10px"
+					actionListener="#{analisisController.restoreOriginalAnalisis()}"
+					oncomplete="window.location.reload()" />
+			</f:facet>
+		</h:panelGrid>
+	</p:panel>
+</ui:composition>

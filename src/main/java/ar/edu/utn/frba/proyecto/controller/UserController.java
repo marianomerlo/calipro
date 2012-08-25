@@ -17,11 +17,6 @@ import ar.edu.utn.frba.proyecto.domain.Vista;
 import ar.edu.utn.frba.proyecto.service.RestService;
 
 
-/**
- * 
- * @author mariano.gonzalez@mulesoft.com
- *
- */
 @ManagedBean
 @SessionScoped
 public class UserController extends AbstractController {

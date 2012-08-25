@@ -1,15 +1,28 @@
 package ar.edu.utn.frba.proyecto.domain;
 
-public class Analisis extends AuditObject {
+import java.io.Serializable;
+
+public class Analisis extends AuditObject implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1548694953389239757L;
 
 	private String analisisId;
 	
-	private String name;
+	private String nombre;
 
-	public Analisis ( String analisisId, String name){
+	public Analisis ( String analisisId, String nombre){
 		super();
 		this.analisisId = analisisId;
-		this.name = name;
+		this.nombre = nombre;
+	}
+	
+	public Analisis ( Analisis analisis){
+		super();
+		this.analisisId = analisis.getAnalisisId();
+		this.nombre = analisis.getNombre();
 	}
 	
 	public String getAnalisisId() {
@@ -20,13 +33,20 @@ public class Analisis extends AuditObject {
 		this.analisisId = analisisId;
 	}
 
-	public String getName() {
-		return name;
+	/**
+	 * @return the nombre
+	 */
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	/**
+	 * @param nombre the nombre to set
+	 */
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
+
 	
 	
 }
