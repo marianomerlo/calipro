@@ -1,14 +1,15 @@
 package ar.edu.utn.frba.proyecto.domain;
 
+
 public class AuditObject {
 
-	private String usuarioCreacion;
+	protected String usuarioCreacion;
 	
-	private String fechaCreacion;
+	protected String fechaCreacion;
 	
-	private String usuarioUltimaModificacion;
+	protected String usuarioUltimaModificacion;
 	
-	private String fechaUltimaModificacion;
+	protected String fechaUltimaModificacion;
 
 	public String getUsuarioCreacion() {
 		return usuarioCreacion;

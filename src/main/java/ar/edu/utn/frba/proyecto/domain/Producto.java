@@ -9,13 +9,13 @@ public class Producto extends AuditObject implements Serializable {
 	 */
 	private static final long serialVersionUID = 612447183267864545L;
 
-	private String prodId;
+	private Integer prodId;
 	
 	private String nombre;
 	
 	private String descripcion;
 
-	public Producto(String prodId, String nombre, String descripcion){
+	public Producto(Integer prodId, String nombre, String descripcion){
 		super();
 		this.prodId = prodId;
 		this.nombre = nombre;
@@ -29,11 +29,11 @@ public class Producto extends AuditObject implements Serializable {
 		this.descripcion = producto.getDescripcion();
 	}
 	
-	public String getProdId() {
+	public Integer getProdId() {
 		return prodId;
 	}
 
-	public void setId(String prodId) {
+	public void setProdId(Integer prodId) {
 		this.prodId = prodId;
 	}
 

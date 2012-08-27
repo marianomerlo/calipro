@@ -15,22 +15,22 @@ http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
  <!-- Data Source Declaration -->
- <bean id="DataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
-  <property name="driverClass" value="com.mysql.jdbc.Driver" />
-  <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/Test" />
-  <property name="user" value="root" />
-  <property name="password" value="root" />
-  <property name="maxPoolSize" value="10" />
-  <property name="maxStatements" value="0" />
-  <property name="minPoolSize" value="5" />
- </bean>
+<!--  <bean id="DataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"> -->
+<!--   <property name="driverClass" value="com.mysql.jdbc.Driver" /> -->
+<!--   <property name="jdbcUrl" value="jdbc:mysql://192.168.16.100:3306/calipro" /> -->
+<!--   <property name="user" value="mariano" /> -->
+<!--   <property name="password" value="mariano" /> -->
+<!--   <property name="maxPoolSize" value="10" /> -->
+<!--   <property name="maxStatements" value="0" /> -->
+<!--   <property name="minPoolSize" value="5" /> -->
+<!--  </bean> -->
 
- <!-- Session Factory Declaration -->
+<!--  Session Factory Declaration -->
 <!--  <bean id="SessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"> -->
 <!--   <property name="dataSource" ref="DataSource" /> -->
 <!--   <property name="annotatedClasses"> -->
 <!--    <list> -->
-<!--     <value>com.otv.model.User</value> -->
+<!--     <value>ar.edu.utn.frba.proyecto.domain.Producto</value> -->
 <!--    </list> -->
 <!--   </property> -->
 <!--   <property name="hibernateProperties"> -->
@@ -44,7 +44,7 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
  <!-- Enable the configuration of transactional behavior based on annotations -->
 <!--     <tx:annotation-driven transaction-manager="txManager"/> -->
 
- <!-- Transaction Manager is defined -->
+<!--  Transaction Manager is defined -->
 <!--     <bean id="txManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"> -->
 <!--        <property name="sessionFactory" ref="SessionFactory"/> -->
 <!--     </bean> -->

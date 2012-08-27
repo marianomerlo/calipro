@@ -14,6 +14,7 @@ import org.primefaces.component.tabview.TabView;
 import org.primefaces.event.TabChangeEvent;
 import org.springframework.util.StringUtils;
 
+import ar.edu.utn.frba.proyecto.dao.ProductDao;
 import ar.edu.utn.frba.proyecto.datamodel.ProductDataModel;
 import ar.edu.utn.frba.proyecto.domain.Producto;
 
@@ -23,13 +24,12 @@ public class ProductController extends AbstractController {
 
 	private static final long serialVersionUID = 4452567671269942318L;
 
-	private String fakeId = String.valueOf(Math.random());
-	private Producto currentProduct = new Producto(fakeId, "", "");
+	private Producto currentProduct = new Producto(0, "", "");
 
 	private List<Producto> productos;
-	private Producto selectedProduct = new Producto(fakeId, INITIAL_NAME,
+	private Producto selectedProduct = new Producto(0, INITIAL_NAME,
 			INITIAL_DESC);
-	private Producto tempSelectedProduct = new Producto(fakeId, INITIAL_NAME,
+	private Producto tempSelectedProduct = new Producto(0, INITIAL_NAME,
 			INITIAL_DESC);
 
 	private List<Producto> filteredProducts;
@@ -38,6 +38,8 @@ public class ProductController extends AbstractController {
 
 	private ProductDataModel productDataModel;
 	private ProductDataModel histProductDataModel;
+	
+	private ProductDao productDao = new ProductDao();
 	
 	private int activeIndexTab;
 
@@ -56,14 +58,14 @@ public class ProductController extends AbstractController {
 	 */
 	public List<Producto> getProductosHist() {
 		this.productos = new ArrayList<Producto>();
-		this.productos.add(new Producto("I", "Alejandra", "DescripcionI"));
-		this.productos.add(new Producto("J", "Mariano", "DescripcionJ"));
-		this.productos.add(new Producto("K", "Leandro", "DescripcionK"));
-		this.productos.add(new Producto("L", "Jesica", "DescripcionL"));
-		this.productos.add(new Producto("M", "Mario", "DescripcionM"));
-		this.productos.add(new Producto("N", "Mamita Mary", "DescripcionN"));
-		this.productos.add(new Producto("O", "Maqui", "DescripcionO"));
-		this.productos.add(new Producto("P", "Puki", "DescripcionP"));
+		this.productos.add(new Producto(1, "Alejandra", "DescripcionI"));
+		this.productos.add(new Producto(2, "Mariano", "DescripcionJ"));
+		this.productos.add(new Producto(3, "Leandro", "DescripcionK"));
+		this.productos.add(new Producto(4, "Jesica", "DescripcionL"));
+		this.productos.add(new Producto(5, "Mario", "DescripcionM"));
+		this.productos.add(new Producto(6, "Mamita Mary", "DescripcionN"));
+		this.productos.add(new Producto(7, "Maqui", "DescripcionO"));
+		this.productos.add(new Producto(8, "Puki", "DescripcionP"));
 		return this.productos;
 	}
 	
@@ -84,7 +86,7 @@ public class ProductController extends AbstractController {
 	}
 
 	public void resetCurrent() {
-		currentProduct = new Producto(currentProduct.getProdId() + "AA", "", "");
+		currentProduct = new Producto(0, "", "");
 	}
 	
 	public void resetSelectedProducts() {
@@ -99,6 +101,15 @@ public class ProductController extends AbstractController {
         FacesContext.getCurrentInstance().addMessage("addProductGrowlMessageKeys", new FacesMessage(FacesMessage.SEVERITY_INFO,confirmMessage, null));
         resetCurrent();
     }
+
+	public void addProductReal() {
+		currentProduct = productDao.addProduct(currentProduct);
+		getProductos().add(currentProduct);
+		
+		String confirmMessage = "Producto " + currentProduct.getNombre() + " creado satisfactoriamente";
+        FacesContext.getCurrentInstance().addMessage("addProductGrowlMessageKeys", new FacesMessage(FacesMessage.SEVERITY_INFO,confirmMessage, null));
+        resetCurrent();
+	}
 
 	public void updateProduct() {
 
@@ -122,7 +133,7 @@ public class ProductController extends AbstractController {
 	public String deletedProductIds(String splitter) {
 
 		if (getSelectedProducts() != null && getSelectedProducts().length > 0) {
-			List<String> productIds = new ArrayList<String>();
+			List<Integer> productIds = new ArrayList<Integer>();
 			for (Producto producto : getSelectedProducts())
 				productIds.add(producto.getProdId());
 			return StringUtils
