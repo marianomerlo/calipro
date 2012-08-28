@@ -4,12 +4,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public abstract class GenericDao {
+public class GenericDao {
 
-	private final String dbURL = "jdbc:mysql://localhost:3306/calipro";
-	private final String sqlDriver = "com.mysql.jdbc.Driver";
-	private final String username = "mariano";
-	private final String password = "mariano";
+	/* Spring Properties */
+	protected String dbURL;
+	protected String sqlDriver;
+	protected String username;
+	protected String password;
 
 	protected Connection getConnection() {
 		try {
@@ -31,6 +32,38 @@ public abstract class GenericDao {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+	}
+
+	public String getDbURL() {
+		return dbURL;
+	}
+
+	public void setDbURL(String dbURL) {
+		this.dbURL = dbURL;
+	}
+
+	public String getSqlDriver() {
+		return sqlDriver;
+	}
+
+	public void setSqlDriver(String sqlDriver) {
+		this.sqlDriver = sqlDriver;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }
