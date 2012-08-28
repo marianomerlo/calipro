@@ -11,7 +11,7 @@ public abstract class GenericDao {
 	private final String username = "mariano";
 	private final String password = "mariano";
 
-	public Connection getConnection() {
+	protected Connection getConnection() {
 		try {
 			Class.forName(sqlDriver).newInstance();
 			// Get a connection
@@ -24,7 +24,7 @@ public abstract class GenericDao {
 		return null;
 	}
 
-	public void releaseConnection(Connection connection) {
+	protected void releaseConnection(Connection connection) {
 		if (connection != null)
 			try {
 				connection.close();

@@ -38,9 +38,9 @@ public class ProductController extends AbstractController {
 
 	private ProductDataModel productDataModel;
 	private ProductDataModel histProductDataModel;
-	
+
 	private ProductDao productDao = new ProductDao();
-	
+
 	private int activeIndexTab;
 
 	/**
@@ -48,9 +48,13 @@ public class ProductController extends AbstractController {
 	 */
 	public List<Producto> getProductos() {
 		if (this.productos == null)
-			this.productos = new ArrayList<Producto>();
+			this.productos = productDao.getProductos();
 
 		return this.productos;
+	}
+
+	public void refreshProductos() {
+		this.productos = productDao.getProductos();
 	}
 
 	/**
@@ -68,19 +72,21 @@ public class ProductController extends AbstractController {
 		this.productos.add(new Producto(8, "Puki", "DescripcionP"));
 		return this.productos;
 	}
-	
+
 	public final void onTabChange(final TabChangeEvent event) {
 		FacesContext context = FacesContext.getCurrentInstance();
-		Map<String, String> params = context.getExternalContext().getRequestParameterMap();
+		Map<String, String> params = context.getExternalContext()
+				.getRequestParameterMap();
 		TabView tabView = (TabView) event.getComponent();
-		String activeIndexValue = params.get(tabView.getClientId(context) + "_tabindex");
-        this.activeIndexTab = Integer.parseInt(activeIndexValue);
-	}	
-
-	public void storeOriginalProduct(Producto producto){
-			tempSelectedProduct = new Producto(producto);
+		String activeIndexValue = params.get(tabView.getClientId(context)
+				+ "_tabindex");
+		this.activeIndexTab = Integer.parseInt(activeIndexValue);
 	}
-	
+
+	public void storeOriginalProduct(Producto producto) {
+		tempSelectedProduct = new Producto(producto);
+	}
+
 	public void restoreOriginalProduct() {
 		selectedProduct = new Producto(tempSelectedProduct);
 	}
@@ -88,7 +94,7 @@ public class ProductController extends AbstractController {
 	public void resetCurrent() {
 		currentProduct = new Producto(0, "", "");
 	}
-	
+
 	public void resetSelectedProducts() {
 		selectedProducts = null;
 	}
@@ -96,38 +102,51 @@ public class ProductController extends AbstractController {
 	public void addProduct() {
 		getProductos().add(currentProduct);
 		setProductDataModel(new ProductDataModel(getProductos()));
-		
-		String confirmMessage = "Producto " + currentProduct.getNombre() + " creado satisfactoriamente";
-        FacesContext.getCurrentInstance().addMessage("addProductGrowlMessageKeys", new FacesMessage(FacesMessage.SEVERITY_INFO,confirmMessage, null));
-        resetCurrent();
-    }
+
+		String confirmMessage = "Producto " + currentProduct.getNombre()
+				+ " creado satisfactoriamente";
+		FacesContext.getCurrentInstance().addMessage(
+				"addProductGrowlMessageKeys",
+				new FacesMessage(FacesMessage.SEVERITY_INFO, confirmMessage,
+						null));
+		resetCurrent();
+	}
 
 	public void addProductReal() {
-		currentProduct = productDao.addProduct(currentProduct);
-		getProductos().add(currentProduct);
-		
-		String confirmMessage = "Producto " + currentProduct.getNombre() + " creado satisfactoriamente";
-        FacesContext.getCurrentInstance().addMessage("addProductGrowlMessageKeys", new FacesMessage(FacesMessage.SEVERITY_INFO,confirmMessage, null));
-        resetCurrent();
+		productDao.addProduct(currentProduct);
+
+		String confirmMessage = "Producto " + currentProduct.getNombre()
+				+ " creado satisfactoriamente";
+		FacesContext.getCurrentInstance().addMessage(
+				"addProductGrowlMessageKeys",
+				new FacesMessage(FacesMessage.SEVERITY_INFO, confirmMessage,
+						null));
+
+		refreshProductos();
+		resetCurrent();
 	}
 
 	public void updateProduct() {
 
-		for (Producto producto : getProductos()) {
-			if (producto.getProdId().equals(selectedProduct.getProdId())) {
-				producto.setDescripcion(selectedProduct.getDescripcion());
-				producto.setNombre(selectedProduct.getNombre());
-			}
-		}
-		setProductDataModel(new ProductDataModel(getProductos()));
-		String confirmMessage = "Producto " + selectedProduct.getNombre() + " modificado satisfactoriamente";
-        FacesContext.getCurrentInstance().addMessage("updateProductGrowlMessageKeys", new FacesMessage(FacesMessage.SEVERITY_INFO,confirmMessage, null));
+		if (!tempSelectedProduct.getNombre().equals(selectedProduct.getNombre()) || 
+			!tempSelectedProduct.getDescripcion().equals(selectedProduct.getDescripcion())) {
+			productDao.updateProduct(selectedProduct);
 
+		String confirmMessage = "Producto " + selectedProduct.getNombre() + " modificado satisfactoriamente";
+		FacesContext.getCurrentInstance().addMessage("updateProductGrowlMessageKeys",
+				new FacesMessage(FacesMessage.SEVERITY_INFO, confirmMessage,null));
+		storeOriginalProduct(selectedProduct);
+		refreshProductos();
+		} else {
+			String errorMessage = "No ha realizado modificaciones";
+			FacesContext.getCurrentInstance().addMessage("updateProductGrowlMessageKeys",
+					new FacesMessage(FacesMessage.SEVERITY_WARN, errorMessage,null));
+		}
 	}
 
 	public void deleteProducts() {
-		getProductos().removeAll(Arrays.asList(getSelectedProducts()));
-		setProductDataModel(new ProductDataModel(getProductos()));
+		productDao.deleteProducts(Arrays.asList(getSelectedProducts()));
+		refreshProductos();
 	}
 
 	public String deletedProductIds(String splitter) {
@@ -251,7 +270,7 @@ public class ProductController extends AbstractController {
 	 * @return the selectedProductsList
 	 */
 	public List<Producto> getSelectedProductsList() {
-		
+
 		if (getSelectedProducts() != null && getSelectedProducts().length > 0) {
 			this.selectedProductsList = Arrays.asList(getSelectedProducts());
 		}
@@ -259,7 +278,8 @@ public class ProductController extends AbstractController {
 	}
 
 	/**
-	 * @param selectedProductsList the selectedProductsList to set
+	 * @param selectedProductsList
+	 *            the selectedProductsList to set
 	 */
 	public void setSelectedProductsList(List<Producto> selectedProductsList) {
 		this.selectedProductsList = selectedProductsList;
@@ -273,7 +293,8 @@ public class ProductController extends AbstractController {
 	}
 
 	/**
-	 * @param filteredProducts the filteredProducts to set
+	 * @param filteredProducts
+	 *            the filteredProducts to set
 	 */
 	public void setFilteredProducts(List<Producto> filteredProducts) {
 		this.filteredProducts = filteredProducts;
@@ -287,7 +308,8 @@ public class ProductController extends AbstractController {
 	}
 
 	/**
-	 * @param activeIndexTab the activeIndexTab to set
+	 * @param activeIndexTab
+	 *            the activeIndexTab to set
 	 */
 	public void setActiveIndexTab(int activeIndexTab) {
 		this.activeIndexTab = activeIndexTab;
