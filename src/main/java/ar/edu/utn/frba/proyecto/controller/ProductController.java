@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
@@ -39,7 +40,8 @@ public class ProductController extends AbstractController {
 	private ProductDataModel productDataModel;
 	private ProductDataModel histProductDataModel;
 
-	private ProductDao productDao = new ProductDao();
+	@ManagedProperty("#{productDao}")
+	private ProductDao productDao;
 
 	private int activeIndexTab;
 
@@ -313,6 +315,14 @@ public class ProductController extends AbstractController {
 	 */
 	public void setActiveIndexTab(int activeIndexTab) {
 		this.activeIndexTab = activeIndexTab;
+	}
+
+	public ProductDao getProductDao() {
+		return productDao;
+	}
+
+	public void setProductDao(ProductDao productDao) {
+		this.productDao = productDao;
 	}
 
 }
