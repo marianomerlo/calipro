@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.proyecto.dao;
+package ar.edu.utn.frba.proyecto.dao.back;
 
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;

@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-public abstract class AbstractController implements Serializable {
+public class BaseController implements Serializable {
 
 	private static final long serialVersionUID = 3567648080222548124L;
 	

@@ -19,7 +19,7 @@ import ar.edu.utn.frba.proyecto.service.RestService;
 
 @ManagedBean
 @SessionScoped
-public class UserController extends AbstractController {
+public class UserController extends BaseController {
 
 	private static final long serialVersionUID = 4452567671269942318L;
 	

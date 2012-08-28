@@ -11,7 +11,7 @@
    <!-- Spring Context Configuration' s Path definition -->
       <context-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>context.xml</param-value>
+      <param-value>context-config.xml</param-value>
    </context-param>
 
    <!-- The Bootstrap listener to start up and shut down Spring's root WebApplicationContext. It is registered to Servlet Container -->

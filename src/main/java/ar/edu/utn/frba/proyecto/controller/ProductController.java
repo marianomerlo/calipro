@@ -21,7 +21,7 @@ import ar.edu.utn.frba.proyecto.domain.Producto;
 
 @ManagedBean
 @SessionScoped
-public class ProductController extends AbstractController {
+public class ProductController extends BaseController {
 
 	private static final long serialVersionUID = 4452567671269942318L;
 
@@ -50,13 +50,13 @@ public class ProductController extends AbstractController {
 	 */
 	public List<Producto> getProductos() {
 		if (this.productos == null)
-			this.productos = productDao.getProductos();
+			this.productos = productDao.getAll();
 
 		return this.productos;
 	}
 
 	public void refreshProductos() {
-		this.productos = productDao.getProductos();
+		this.productos = productDao.getAll();
 	}
 
 	/**
@@ -102,20 +102,7 @@ public class ProductController extends AbstractController {
 	}
 
 	public void addProduct() {
-		getProductos().add(currentProduct);
-		setProductDataModel(new ProductDataModel(getProductos()));
-
-		String confirmMessage = "Producto " + currentProduct.getNombre()
-				+ " creado satisfactoriamente";
-		FacesContext.getCurrentInstance().addMessage(
-				"addProductGrowlMessageKeys",
-				new FacesMessage(FacesMessage.SEVERITY_INFO, confirmMessage,
-						null));
-		resetCurrent();
-	}
-
-	public void addProductReal() {
-		productDao.addProduct(currentProduct);
+		productDao.add(currentProduct);
 
 		String confirmMessage = "Producto " + currentProduct.getNombre()
 				+ " creado satisfactoriamente";
@@ -132,7 +119,7 @@ public class ProductController extends AbstractController {
 
 		if (!tempSelectedProduct.getNombre().equals(selectedProduct.getNombre()) || 
 			!tempSelectedProduct.getDescripcion().equals(selectedProduct.getDescripcion())) {
-			productDao.updateProduct(selectedProduct);
+			productDao.update(selectedProduct);
 
 		String confirmMessage = "Producto " + selectedProduct.getNombre() + " modificado satisfactoriamente";
 		FacesContext.getCurrentInstance().addMessage("updateProductGrowlMessageKeys",
@@ -147,7 +134,7 @@ public class ProductController extends AbstractController {
 	}
 
 	public void deleteProducts() {
-		productDao.deleteProducts(Arrays.asList(getSelectedProducts()));
+		productDao.delete(Arrays.asList(getSelectedProducts()));
 		refreshProductos();
 	}
 

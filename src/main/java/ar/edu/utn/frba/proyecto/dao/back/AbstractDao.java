@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.proyecto.dao;
+package ar.edu.utn.frba.proyecto.dao.back;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -11,6 +11,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+
 /**
  * 
  * @author mariano.gonzalez@mulesoft.com
@@ -18,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @param <K>
  * @param <T>
  */
-public abstract class AbstractDao<K extends Serializable, T> implements Dao<K, T> {
+public abstract class AbstractDao<K extends Serializable, T> implements DaoBACK<K, T> {
 
 	private SessionFactory sessionFactory;
 	private Class<T> persistentType;

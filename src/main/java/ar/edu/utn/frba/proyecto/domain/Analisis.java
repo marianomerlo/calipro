@@ -9,11 +9,11 @@ public class Analisis extends AuditObject implements Serializable {
 	 */
 	private static final long serialVersionUID = -1548694953389239757L;
 
-	private String analisisId;
+	private Integer analisisId;
 	
 	private String nombre;
 
-	public Analisis ( String analisisId, String nombre){
+	public Analisis ( Integer analisisId, String nombre){
 		super();
 		this.analisisId = analisisId;
 		this.nombre = nombre;
@@ -25,11 +25,11 @@ public class Analisis extends AuditObject implements Serializable {
 		this.nombre = analisis.getNombre();
 	}
 	
-	public String getAnalisisId() {
+	public Integer getAnalisisId() {
 		return analisisId;
 	}
 
-	public void setAnalisisId(String analisisId) {
+	public void setAnalisisId(Integer analisisId) {
 		this.analisisId = analisisId;
 	}
 

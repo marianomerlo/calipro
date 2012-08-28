@@ -6,59 +6,48 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.springframework.util.StringUtils;
 
+import ar.edu.utn.frba.proyecto.dao.AnalisisDao;
 import ar.edu.utn.frba.proyecto.datamodel.AnalisisDataModel;
 import ar.edu.utn.frba.proyecto.domain.Analisis;
 
 @ManagedBean
 @SessionScoped
-public class AnalisisController extends AbstractController {
+public class AnalisisController extends BaseController {
 
 	private static final long serialVersionUID = 4452567671269942318L;
 
 	private List<Analisis> analisis;
-	private String fakeId = String.valueOf(Math.random());
 
 	private Analisis[] selectedAnalisis;
 
-	private Analisis currentAnalisis = new Analisis(fakeId, "");
-	private Analisis selectedSingleAnalisis = new Analisis(fakeId, INITIAL_NAME);
-	private Analisis tempSelectedAnalisis = new Analisis(fakeId, INITIAL_NAME);
+	private Analisis currentAnalisis = new Analisis(0, "");
+	private Analisis selectedSingleAnalisis = new Analisis(0, INITIAL_NAME);
+	private Analisis tempSelectedAnalisis = new Analisis(0, INITIAL_NAME);
 
 	private AnalisisDataModel analisisDataModel;
-	private AnalisisDataModel histAnalisisDataModel;
+
+	@ManagedProperty("#{analisisDao}")
+	private AnalisisDao analisisDao;
 
 	public List<Analisis> getAnalisis() {
 		if (this.analisis == null)
-			this.analisis = new ArrayList<Analisis>();
+			this.analisis = analisisDao.getAll();
 
-		return this.analisis;
-	}
-
-	public List<Analisis> getAnalisisHist() {
-		this.analisis = new ArrayList<Analisis>();
-		this.analisis.add(new Analisis("A", "phA"));
-		this.analisis.add(new Analisis("B", "phB"));
-		this.analisis.add(new Analisis("C", "phC"));
-		this.analisis.add(new Analisis("D", "phD"));
-		this.analisis.add(new Analisis("E", "phE"));
-		this.analisis.add(new Analisis("F", "phF"));
-		this.analisis.add(new Analisis("G", "phG"));
 		return this.analisis;
 	}
 
 	public void resetCurrent() {
-		this.currentAnalisis = new Analisis(currentAnalisis.getAnalisisId()
-				+ "AA", "");
+		this.currentAnalisis = new Analisis(0, "");
 	}
 
 	public void addAnalisis() {
-		getAnalisis().add(currentAnalisis);
-		setAnalisisDataModel(new AnalisisDataModel(getAnalisis()));
+		analisisDao.add(currentAnalisis);
 
 		String confirmMessage = "Analisis " + currentAnalisis.getNombre()
 				+ " creado satisfactoriamente";
@@ -67,24 +56,36 @@ public class AnalisisController extends AbstractController {
 				new FacesMessage(FacesMessage.SEVERITY_INFO, confirmMessage,
 						null));
 		resetCurrent();
+		refreshAnalisis();
 	}
 	
+	private void refreshAnalisis() {
+		this.analisis = analisisDao.getAll();
+	}
+
 	public void updateAnalisis() {
 
-		for (Analisis analisis : getAnalisis()) {
-			if (analisis.getAnalisisId().equals(selectedSingleAnalisis.getAnalisisId())) {
-				analisis.setNombre(selectedSingleAnalisis.getNombre());
-			}
+		if (!tempSelectedAnalisis.getNombre().equals(selectedSingleAnalisis.getNombre())){
+			analisisDao.update(selectedSingleAnalisis);
+
+			String confirmMessage = "Analisis " + selectedSingleAnalisis.getNombre() + " modificado satisfactoriamente";
+			FacesContext.getCurrentInstance().addMessage("updateAnalisisGrowlMessageKeys", new FacesMessage(FacesMessage.SEVERITY_INFO,confirmMessage, null));
+			
+			storeOriginalAnalisis(selectedSingleAnalisis);
+			refreshAnalisis();
+			
+		} else {
+			String errorMessage = "No ha realizado modificaciones";
+			FacesContext.getCurrentInstance().addMessage("updateAnalisisGrowlMessageKeys",
+					new FacesMessage(FacesMessage.SEVERITY_WARN, errorMessage,null));
 		}
-		setAnalisisDataModel(new AnalisisDataModel(getAnalisis()));
-		String confirmMessage = "Analisis " + selectedSingleAnalisis.getNombre() + " modificado satisfactoriamente";
-        FacesContext.getCurrentInstance().addMessage("updateAnalisisGrowlMessageKeys", new FacesMessage(FacesMessage.SEVERITY_INFO,confirmMessage, null));
+		
 
 	}
 	
 	public void deleteAnalisis(){
-		getAnalisis().removeAll(Arrays.asList(getSelectedAnalisis()));
-		setAnalisisDataModel(new AnalisisDataModel(getAnalisis()));
+		analisisDao.delete(Arrays.asList(getSelectedAnalisis()));
+		refreshAnalisis();
 	}
 
 	public void storeOriginalAnalisis(Analisis analisis) {
@@ -112,7 +113,7 @@ public class AnalisisController extends AbstractController {
 	public String deletedAnalisisIds(String splitter) {
 
 		if (getSelectedAnalisis() != null && getSelectedAnalisis().length > 0) {
-			List<String> analisisIds = new ArrayList<String>();
+			List<Integer> analisisIds = new ArrayList<Integer>();
 			for (Analisis analisis : getSelectedAnalisis())
 				analisisIds.add(analisis.getAnalisisId());
 			return StringUtils
@@ -161,26 +162,6 @@ public class AnalisisController extends AbstractController {
 	}
 
 	/**
-	 * @return the histAnalisisDataModel
-	 */
-	public AnalisisDataModel getHistAnalisisDataModel() {
-		if (this.histAnalisisDataModel == null) {
-			this.histAnalisisDataModel = new AnalisisDataModel(
-					getAnalisisHist());
-		}
-
-		return this.histAnalisisDataModel;
-	}
-
-	/**
-	 * @param histAnalisisDataModel
-	 *            the histAnalisisDataModel to set
-	 */
-	public void setHistAnalisisDataModel(AnalisisDataModel histAnalisisDataModel) {
-		this.histAnalisisDataModel = histAnalisisDataModel;
-	}
-
-	/**
 	 * @return the currentAnalisis
 	 */
 	public Analisis getCurrentAnalisis() {
@@ -208,5 +189,13 @@ public class AnalisisController extends AbstractController {
 	 */
 	public void setTempSelectedAnalisis(Analisis tempSelectedAnalisis) {
 		this.tempSelectedAnalisis = tempSelectedAnalisis;
+	}
+
+	public AnalisisDao getAnalisisDao() {
+		return analisisDao;
+	}
+
+	public void setAnalisisDao(AnalisisDao analisisDao) {
+		this.analisisDao = analisisDao;
 	}
 }

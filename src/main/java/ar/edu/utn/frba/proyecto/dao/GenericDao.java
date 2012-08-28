@@ -1,10 +1,11 @@
 package ar.edu.utn.frba.proyecto.dao;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class GenericDao {
+public abstract class GenericDao{
 
 	/* Spring Properties */
 	protected String dbURL;

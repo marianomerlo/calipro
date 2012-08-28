@@ -1,6 +1,6 @@
 package ar.edu.utn.frba.proyecto.service;
 
-import ar.edu.utn.frba.proyecto.dao.UserDao;
+import ar.edu.utn.frba.proyecto.dao.back.UserDao;
 import ar.edu.utn.frba.proyecto.domain.LoginException;
 import ar.edu.utn.frba.proyecto.domain.User;
 

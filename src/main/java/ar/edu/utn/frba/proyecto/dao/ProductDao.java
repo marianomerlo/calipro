@@ -11,9 +11,10 @@ import ar.edu.utn.frba.proyecto.domain.Producto;
 
 import com.mysql.jdbc.Statement;
 
-public class ProductDao extends GenericDao {
+public class ProductDao extends GenericDao implements Dao<Producto> {
 	
-	public void addProduct(Producto producto){
+	@Override
+	public void add(Producto producto){
 		
 		String query = "INSERT INTO Producto (nombre,descripcion) VALUES (?,?)";
 		Connection conn = getConnection();
@@ -37,7 +38,8 @@ public class ProductDao extends GenericDao {
 		}
 	}
 	
-	public List<Producto> getProductos(){
+	@Override
+	public List<Producto> getAll(){
 		List<Producto> resultList = new ArrayList<Producto>();
 		
 		String query = "SELECT * FROM PRODUCTO";
@@ -48,11 +50,7 @@ public class ProductDao extends GenericDao {
 			result = prepStatement.executeQuery();
 			
 			while (result.next()){
-				Producto producto = new Producto(result.getInt(1),
-												result.getString(2), 
-												result.getString(3));
-				
-				resultList.add(producto);
+				resultList.add(getProduct(result));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -64,7 +62,8 @@ public class ProductDao extends GenericDao {
 		return resultList;
 	}
 	
-	public void updateProduct(Producto producto){
+	@Override
+	public void update(Producto producto){
 		
 		String query = "UPDATE PRODUCTO SET nombre = ?, descripcion = ? WHERE idProducto = ? ";
 		Connection conn = getConnection();
@@ -81,7 +80,8 @@ public class ProductDao extends GenericDao {
 		}
 	}
 	 
-	public void deleteProducts(List<Producto> productos){
+	@Override
+	public void delete(List<Producto> productos){
 		String query = "DELETE FROM PRODUCTO WHERE idProducto = ?";
 		Connection conn = getConnection();
 		try {
@@ -95,5 +95,54 @@ public class ProductDao extends GenericDao {
 		} finally {
 			releaseConnection(conn);
 		}
+	}
+
+	@Override
+	public Producto get(Producto producto) {
+		String query = "SELECT * FROM PRODUCTO WHERE idProducto = ? ";
+		Connection conn = getConnection();
+		ResultSet result = null;
+		try {
+			PreparedStatement prepStatement = conn.prepareStatement(query);
+			prepStatement.setInt(1, producto.getProdId());
+			result = prepStatement.executeQuery();
+			
+			if ( result.first()){
+				return getProduct(result);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+	        releaseConnection(conn);
+		}
+		return null;
+		
+	}
+
+	@Override
+	public void deleteAll() {
+		String query = "SELECT * FROM PRODUCTO";
+		Connection conn = getConnection();
+		try {
+			PreparedStatement prepStatement = conn.prepareStatement(query);
+			prepStatement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+	        releaseConnection(conn);
+		}
+		
+	}
+
+	private Producto getProduct(ResultSet result) {
+		try {
+			return new Producto(result.getInt(1),
+					result.getString(2),
+					result.getString(3));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		return null;
 	}
 }
