@@ -7,7 +7,7 @@
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
-	<p:growl id="addProductGrowlMessages" showSummary="true" autoUpdate="true" for="addProductGrowlMessageKeys" />
+	<p:growl id="addProductoGrowlMessages" showSummary="true" autoUpdate="true" for="addProductoGrowlMessageKeys" />
 	<p:panel id="addProductPanel">
 		<p:message for="addProductName" display="both" />
 		<p:message for="addProductDescription" display="both" />
@@ -15,18 +15,18 @@
 		<h:panelGrid columns="2" cellpadding="5" id="addProductPanelGrid"
 			style="width:auto !important">
 			<h:outputLabel for="addProductName" value="Nombre" />
-			<p:inputText value="#{productController.currentProduct.nombre}"
+			<p:inputText value="#{productController.currentItem.nombre}"
 				id="addProductName" label="Nombre" required="true">
 				<f:validateLength maximum="20" />
 			</p:inputText>
 
 			<h:outputLabel for="addProductDescription" value="Descripcion" />
-			<p:inputText value="#{productController.currentProduct.descripcion}"
+			<p:inputText value="#{productController.currentItem.descripcion}"
 				id="addProductDescription" required="true" label="Descripcion" />
 
 			<f:facet name="footer">
 				<p:commandButton id="addProductConfirmButton" value="Agregar"
-					actionListener="#{productController.addProduct}"
+					actionListener="#{productController.addItem}"
 					update="addProductPanelGrid addProductPanel" />
 
 				<p:commandButton id="addProductCancelButton" value="Cancelar"

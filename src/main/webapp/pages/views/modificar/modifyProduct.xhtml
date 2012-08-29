@@ -7,30 +7,30 @@
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
-	<p:growl id="updateProductGrowlMessages" showSummary="true" autoUpdate="true"
-		for="updateProductGrowlMessageKeys" />
+	<p:growl id="updateProductoGrowlMessages" showSummary="true" autoUpdate="true"
+		for="updateProductoGrowlMessageKeys" />
 	<p:panel id="updateProductPanel">
 		<p:message for="updateProductName" display="both" />
 		<p:message for="updateProductDescription" display="both" />
 		<h:panelGrid columns="2" cellpadding="5" id="modifyProductPanelGrid"
 			style="width:500px !important">
 			<h:outputLabel for="updateProductName" value="Nombre" />
-			<p:inputText value="#{productController.selectedProduct.nombre}"
+			<p:inputText value="#{productController.selectedItem.nombre}"
 				id="updateProductName" required="true" label="updateProductName" />
 
 			<h:outputLabel for="updateProductDescription" value="Descripcion" />
-			<p:inputText value="#{productController.selectedProduct.descripcion}"
+			<p:inputText value="#{productController.selectedItem.descripcion}"
 				id="updateProductDescription" required="true" label="updateProductDescription" />
 
 			<f:facet name="footer">
 				<p:commandButton id="updateProductConfirmButton" value="Guardar"
 					style="margin:10px"
-					actionListener="#{productController.updateProduct()}"
+					actionListener="#{productController.updateItem}"
 					update="modifyProductPanelGrid updateProductPanel" />
 
 				<p:commandButton id="updateProductCancelButton" immediate="true"
 					value="Cancelar" style="margin:10px"
-					actionListener="#{productController.restoreOriginalProduct()}"
+					actionListener="#{productController.restoreOriginalItem()}"
 					oncomplete="window.location.reload()" />
 			</f:facet>
 		</h:panelGrid>

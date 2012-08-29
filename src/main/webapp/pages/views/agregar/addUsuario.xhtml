@@ -1,0 +1,58 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<p:growl id="addUsuarioGrowlMessages" showSummary="true" autoUpdate="true" for="addUsuarioGrowlMessageKeys" />
+	<p:panel id="addUserPanel">
+		<p:message for="addUserName" display="both" />
+
+		<h:panelGrid columns="2" cellpadding="5" id="addUserPanelGrid"
+			style="width:auto !important">
+			<h:outputLabel for="addUserAlias" value="Alias" />
+			<p:inputText value="#{userController.currentItem.alias}"
+				id="addUserAlias" label="addUserAlias" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+			
+			<h:outputLabel for="addUserName" value="Nombre" />
+			<p:inputText value="#{userController.currentItem.nombre}"
+				id="addUserName" label="addUserName" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+			
+			<h:outputLabel for="addUserSurname" value="Apellido" />
+			<p:inputText value="#{userController.currentItem.apellido}"
+				id="addUserSurname" label="addUserSurname" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+			
+			<h:outputLabel for="addUserLeg" value="Legajo" />
+			<p:inputText value="#{userController.currentItem.legajo}"
+				id="addUserLeg" label="addUserLeg" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+			
+			<h:outputLabel for="addUserPass" value="Contraseña" />
+			<p:inputText value="#{userController.currentItem.contraseña}"
+				id="addUserPass" label="addUserPass" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+
+			<f:facet name="footer">
+				<p:commandButton id="addUserConfirmButton" value="Agregar"
+					actionListener="#{userController.addItem}"
+					update="addUserPanelGrid addUserPanel" />
+
+				<p:commandButton id="addUserCancelButton" value="Cancelar"
+					actionListener="#{userController.resetCurrent}"
+					update="addUserPanelGrid" 
+					style="margin:10px" oncomplete="window.location.reload()" />
+			</f:facet>
+		</h:panelGrid>
+	</p:panel>
+</ui:composition>

@@ -38,6 +38,7 @@
 
    <!-- Welcome Page -->
    <welcome-file-list>
+     <welcome-file>/pages/login.xhtml</welcome-file>
      <welcome-file>/pages/index.xhtml</welcome-file>
    </welcome-file-list>
 

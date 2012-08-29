@@ -14,18 +14,18 @@
 		<h:panelGrid columns="2" cellpadding="5" id="modifyAnalisisPanelGrid"
 			style="width:500px !important">
 			<h:outputLabel for="updateAnalisisName" value="Nombre" />
-			<p:inputText value="#{analisisController.selectedSingleAnalisis.nombre}"
+			<p:inputText value="#{analisisController.selectedItem.nombre}"
 				id="updateAnalisisName" required="true" label="updateAnalisisName" />
 
 			<f:facet name="footer">
 				<p:commandButton id="updateAnalisisConfirmButton" value="Guardar"
 					style="margin:10px"
-					actionListener="#{analisisController.updateAnalisis()}"
+					actionListener="#{analisisController.updateItem}"
 					update="modifyAnalisisPanelGrid updateAnalisisPanel" />
 
 				<p:commandButton id="updateAnalisisCancelButton" immediate="true"
 					value="Cancelar" style="margin:10px"
-					actionListener="#{analisisController.restoreOriginalAnalisis()}"
+					actionListener="#{analisisController.restoreOriginalItem}"
 					oncomplete="window.location.reload()" />
 			</f:facet>
 		</h:panelGrid>

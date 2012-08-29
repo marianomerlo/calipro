@@ -1,7 +1,16 @@
 package ar.edu.utn.frba.proyecto.domain;
 
+import java.io.Serializable;
 
-public class AuditObject {
+
+public abstract class AuditObject implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -168794914295343374L;
+
+	protected Integer id;
 
 	protected String usuarioCreacion;
 	
@@ -10,6 +19,16 @@ public class AuditObject {
 	protected String usuarioUltimaModificacion;
 	
 	protected String fechaUltimaModificacion;
+
+	public abstract String getIdentifingName();
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getUsuarioCreacion() {
 		return usuarioCreacion;

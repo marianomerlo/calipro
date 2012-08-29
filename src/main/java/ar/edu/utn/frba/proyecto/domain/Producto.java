@@ -9,34 +9,24 @@ public class Producto extends AuditObject implements Serializable {
 	 */
 	private static final long serialVersionUID = 612447183267864545L;
 
-	private Integer prodId;
-	
 	private String nombre;
 	
 	private String descripcion;
 
 	public Producto(Integer prodId, String nombre, String descripcion){
 		super();
-		this.prodId = prodId;
+		this.id = prodId;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 	}
 	
 	public Producto(Producto producto){
 		super();
-		this.prodId = producto.getProdId();
+		this.id = producto.getId();
 		this.nombre = producto.getNombre();
 		this.descripcion = producto.getDescripcion();
 	}
 	
-	public Integer getProdId() {
-		return prodId;
-	}
-
-	public void setProdId(Integer prodId) {
-		this.prodId = prodId;
-	}
-
 	public String getNombre() {
 		return nombre;
 	}
@@ -51,5 +41,10 @@ public class Producto extends AuditObject implements Serializable {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+
+	@Override
+	public String getIdentifingName() {
+		return getNombre();
 	}
 }

@@ -30,10 +30,10 @@
 			<ui:include src="eliminar/deleteAnalisis.xhtml" />
 		</p:dialog>
 		<p:dataTable id="analisisDataTable" var="analisis"
-			value="#{analisisController.analisis}"
+			value="#{analisisController.items}"
 			rowIndexVar="analisisIndex" widgetVar="analisisTable"
-			emptyMessage="No hay coincidencias" rowKey="#{analisis.analisisId}"
-			selection="#{analisisController.selectedAnalisis}" paginator="true"
+			emptyMessage="No hay coincidencias" rowKey="#{analisis.id}"
+			selection="#{analisisController.selectedItems}" paginator="true"
 			paginatorPosition="bottom" rows="10"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 			style="width:800px;text-align:center">
@@ -62,23 +62,23 @@
 				<p:commandLink style="text-decoration:none" value="#{analisisIndex + 1}"
 					ajax="true"
 					update=":baseAccordion:profileTabView:analisisDataTableForm:modifyAnalisisPanelGrid"
-					actionListener="#{analisisController.storeOriginalAnalisis(analisis)}"
+					actionListener="#{analisisController.storeOriginalItem(analisis)}"
 					oncomplete="modifyAnalisisWidget.show();">
 					<f:setPropertyActionListener
-						target="#{analisisController.selectedSingleAnalisis}" value="#{analisis}" />
+						target="#{analisisController.selectedItem}" value="#{analisis}" />
 				</p:commandLink>
 			</p:column>
 
-			<p:column id="analisisId" filterBy="#{analisis.analisisId}"
+			<p:column id="analisisId" filterBy="#{analisis.id}"
 				filterStyle="display:none" headerText="Id"
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
-					value="#{analisis.analisisId}"
-					actionListener="#{analisisController.storeOriginalAnalisis(analisis)}"
+					value="#{analisis.id}"
+					actionListener="#{analisisController.storeOriginalItem(analisis)}"
 					update=":baseAccordion:profileTabView:analisisDataTableForm:modifyAnalisisPanelGrid"
 					oncomplete="modifyAnalisisWidget.show();">
 					<f:setPropertyActionListener
-						target="#{analisisController.selectedSingleAnalisis}" value="#{analisis}" />
+						target="#{analisisController.selectedItem}" value="#{analisis}" />
 				</p:commandLink>
 			</p:column>
 
@@ -87,11 +87,11 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{analisis.nombre}"
-					actionListener="#{analisisController.storeOriginalAnalisis(analisis)}"
+					actionListener="#{analisisController.storeOriginalItem(analisis)}"
 					update=":baseAccordion:profileTabView:analisisDataTableForm:modifyAnalisisPanelGrid"
 					oncomplete="modifyAnalisisWidget.show();">
 					<f:setPropertyActionListener
-						target="#{analisisController.selectedSingleAnalisis}" value="#{analisis}" />
+						target="#{analisisController.selectedItem}" value="#{analisis}" />
 				</p:commandLink>
 			</p:column>
 
@@ -101,11 +101,11 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{analisis.fechaUltimaModificacion}"
-					actionListener="#{analisisController.storeOriginalAnalisis(analisis)}"
+					actionListener="#{analisisController.storeOriginalItem(analisis)}"
 					update=":baseAccordion:profileTabView:analisisDataTableForm:modifyAnalisisPanelGrid"
 					oncomplete="modifyAnalisisWidget.show();">
 					<f:setPropertyActionListener
-						target="#{analisisController.selectedSingleAnalisis}" value="#{analisis}" />
+						target="#{analisisController.selectedItem}" value="#{analisis}" />
 				</p:commandLink>
 			</p:column>
 

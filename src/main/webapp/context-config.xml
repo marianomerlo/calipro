@@ -16,5 +16,6 @@
 	</bean>
 
 	<import resource="context-dao.xml" />
+	<import resource="context-controller.xml" />
 
 </beans>

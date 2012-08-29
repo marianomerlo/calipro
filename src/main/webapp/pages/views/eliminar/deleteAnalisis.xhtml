@@ -9,7 +9,7 @@
 	</h:head>
 	<h:panelGrid columns="2" cellpadding="5" id="deleteAnalisisPanelGrid"
 		width="auto"
-		rendered="#{not empty analisisController.selectedAnalisis}">
+		rendered="#{not empty analisisController.selectedItems}">
 		<span class="ui-messages-warn-icon" />
 
 		<h:outputText
@@ -17,7 +17,7 @@
 
 		<f:facet name="footer">
 			<p:commandButton id="deleteAnalisisConfirmButton" value="Si"
-				actionListener="#{analisisController.deleteAnalisis}"
+				actionListener="#{analisisController.deleteItems}"
 				oncomplete="deletedAnalisisConfirmationWidget.show()"
 				update="deletedAnalisisConfirmDialog" />
 
@@ -27,7 +27,7 @@
 	</h:panelGrid>
 	<h:panelGrid columns="2" cellpadding="5"
 		id="deleteAnalisisPanelGridEmpty" width="auto"
-		rendered="#{empty analisisController.selectedAnalisis}">
+		rendered="#{empty analisisController.selectedItems}">
 		<span class="ui-messages-fatal-icon" />
 
 		<h:outputText value="Debes seleccionar al menos un Analisis" />
@@ -44,10 +44,10 @@
 		<h:panelGrid columns="2" style="padding: 15px">
 			<span class="ui-messages-info-icon" />
 			<h:outputText
-				value="Se han eliminado satisfactoriamente los siguientes Analisis: #{analisisController.deletedAnalisisIds(',')}" />
+				value="Se han eliminado satisfactoriamente los siguientes Analisis: #{analisisController.deletedItemIds(',')}" />
 		</h:panelGrid>
 		<p:commandButton id="deletedAnalisisConfirm" value="OK"
-			actionListener="#{analisisController.resetSelectedAnalisis}"
+			actionListener="#{analisisController.resetSelectedItems}"
 			oncomplete="window.location.reload()" />
 	</p:dialog>
 

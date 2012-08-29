@@ -6,8 +6,10 @@ import java.util.List;
 public interface Dao<T extends Serializable> {
 
 	public T get(T element);
-
+	
 	public List<T> getAll();
+	
+	public T getByUnique(T element);
 	
 	public void add(T element);
 	

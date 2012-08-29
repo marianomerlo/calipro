@@ -12,8 +12,20 @@
 		<property name="password" value="${database.password}" />
 	</bean>
 
-	<bean id="productDao" parent="genericDao" class="ar.edu.utn.frba.proyecto.dao.ProductDao" />
+	<bean id="productDao" parent="genericDao" class="ar.edu.utn.frba.proyecto.dao.ProductDao">
+		<property name="DATATABLE_NAME" value="PRODUCTO" />
+		<property name="DATATABLE_ID" value="idProducto" />
+	</bean>
+	
 
-	<bean id="analisisDao" parent="genericDao" class="ar.edu.utn.frba.proyecto.dao.AnalisisDao" />
+	<bean id="analisisDao" parent="genericDao" class="ar.edu.utn.frba.proyecto.dao.AnalisisDao">
+		<property name="DATATABLE_NAME" value="ANALISIS" />
+		<property name="DATATABLE_ID" value="idAnalisis" />
+	</bean>
+
+	<bean id="userDao" parent="genericDao" class="ar.edu.utn.frba.proyecto.dao.UserDao">
+		<property name="DATATABLE_NAME" value="USUARIO" />
+		<property name="DATATABLE_ID" value="idUsuario" />
+	</bean>
 
 </beans>

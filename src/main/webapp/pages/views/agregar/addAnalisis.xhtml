@@ -14,14 +14,14 @@
 		<h:panelGrid columns="2" cellpadding="5" id="addAnalisisPanelGrid"
 			style="width:auto !important">
 			<h:outputLabel for="addAnalisisName" value="Nombre" />
-			<p:inputText value="#{analisisController.currentAnalisis.nombre}"
+			<p:inputText value="#{analisisController.currentItem.nombre}"
 				id="addAnalisisName" label="addAnalisisName" required="true">
 				<f:validateLength maximum="20" />
 			</p:inputText>
 
 			<f:facet name="footer">
 				<p:commandButton id="addAnalisisConfirmButton" value="Agregar"
-					actionListener="#{analisisController.addAnalisis}"
+					actionListener="#{analisisController.addItem}"
 					update="addAnalisisPanelGrid addAnalisisPanel" />
 
 				<p:commandButton id="addAnalisisCancelButton" value="Cancelar"

@@ -30,10 +30,10 @@
 			<ui:include src="eliminar/deleteProduct.xhtml" />
 		</p:dialog>
 		<p:dataTable id="productDataTable" var="producto"
-			value="#{productController.productos}" rowIndexVar="prodIndex"
+			value="#{productController.items}" rowIndexVar="prodIndex"
 			widgetVar="productsTable" emptyMessage="No hay coincidencias"
-			rowKey="#{producto.prodId}"
-			selection="#{productController.selectedProducts}" paginator="true"
+			rowKey="#{producto.id}"
+			selection="#{productController.selectedItems}" paginator="true"
 			paginatorPosition="bottom" rows="10"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 			style="width:800px;text-align:center">
@@ -60,23 +60,24 @@
 			<p:column id="productRowNumber" headerText="Nº" style="width:auto">
 				<p:commandLink style="text-decoration:none" value="#{prodIndex + 1}"
 					ajax="true"
-					actionListener="#{productController.storeOriginalProduct(producto)}"
-					oncomplete="modifyProductWidget.show();">
-					<f:setPropertyActionListener
-						target="#{productController.selectedProduct}" value="#{producto}" />
-				</p:commandLink>
-			</p:column>
-
-			<p:column id="productId" filterBy="#{producto.prodId}"
-				filterStyle="display:none" headerText="Id"
-				filterMatchMode="contains" style="width:auto">
-				<p:commandLink style="text-decoration:none"
-					value="#{producto.prodId}"
-					actionListener="#{productController.storeOriginalProduct(producto)}"
+					actionListener="#{productController.storeOriginalItem(producto)}"
 					update=":baseAccordion:profileTabView:productDataTableForm:modifyProductPanelGrid"
 					oncomplete="modifyProductWidget.show();">
 					<f:setPropertyActionListener
-						target="#{productController.selectedProduct}" value="#{producto}" />
+						target="#{productController.selectedItem}" value="#{producto}" />
+				</p:commandLink>
+			</p:column>
+
+			<p:column id="productId" filterBy="#{producto.id}"
+				filterStyle="display:none" headerText="Id"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none"
+					value="#{producto.id}"
+					actionListener="#{productController.storeOriginalItem(producto)}"
+					update=":baseAccordion:profileTabView:productDataTableForm:modifyProductPanelGrid"
+					oncomplete="modifyProductWidget.show();">
+					<f:setPropertyActionListener
+						target="#{productController.selectedItem}" value="#{producto}" />
 				</p:commandLink>
 			</p:column>
 
@@ -85,11 +86,11 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{producto.nombre}"
-					actionListener="#{productController.storeOriginalProduct(producto)}"
+					actionListener="#{productController.storeOriginalItem(producto)}"
 					update=":baseAccordion:profileTabView:productDataTableForm:modifyProductPanelGrid"
 					oncomplete="modifyProductWidget.show();">
 					<f:setPropertyActionListener
-						target="#{productController.selectedProduct}" value="#{producto}" />
+						target="#{productController.selectedItem}" value="#{producto}" />
 				</p:commandLink>
 			</p:column>
 
@@ -98,11 +99,11 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{producto.descripcion}"
-					actionListener="#{productController.storeOriginalProduct(producto)}"
+					actionListener="#{productController.storeOriginalItem(producto)}"
 					update=":baseAccordion:profileTabView:productDataTableForm:modifyProductPanelGrid"
 					oncomplete="modifyProductWidget.show();">
 					<f:setPropertyActionListener
-						target="#{productController.selectedProduct}" value="#{producto}" />
+						target="#{productController.selectedItem}" value="#{producto}" />
 				</p:commandLink>
 			</p:column>
 
@@ -112,11 +113,11 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{producto.fechaUltimaModificacion}"
-					actionListener="#{productController.storeOriginalProduct(producto)}"
+					actionListener="#{productController.storeOriginalItem(producto)}"
 					update=":baseAccordion:profileTabView:productDataTableForm:modifyProductPanelGrid"
 					oncomplete="modifyProductWidget.show();">
 					<f:setPropertyActionListener
-						target="#{productController.selectedProduct}" value="#{producto}" />
+						target="#{productController.selectedItem}" value="#{producto}" />
 				</p:commandLink>
 			</p:column>
 
