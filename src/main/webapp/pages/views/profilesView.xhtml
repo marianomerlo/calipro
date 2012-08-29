@@ -7,8 +7,18 @@
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
+	<div style="width: 1000px" align="right">
+		<h:form id="logoutForm" rendered="#{userController.logged}">
+			<p:commandButton id="logoutButton"
+				actionListener="#{userController.logout}" value="Logout"
+				update=":logginForm :baseAccordion :separator :logoutForm"
+				oncomplete="window.location.reload()" />
+		</h:form>
+	</div>
+
+	<p:separator id="separator" rendered="#{userController.logged}" style="width:1000px"/>
 	
-	<p:accordionPanel id="baseAccordion" style="width:1000px">
+	<p:accordionPanel id="baseAccordion" rendered="#{userController.logged}"  style="width:1000px">
 		<p:tab title="Desarrollo">
 			<p:tabView id="profileTabView" activeIndex="#{productController.activeIndexTab}"   >
 			

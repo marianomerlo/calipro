@@ -3,9 +3,13 @@ package ar.edu.utn.frba.proyecto.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.context.RequestContext;
 
 import ar.edu.utn.frba.proyecto.dao.Dao;
 import ar.edu.utn.frba.proyecto.dao.UserDao;
@@ -24,6 +28,8 @@ public class UserController extends BaseController<Usuario> {
 	
 	@ManagedProperty("#{userDao}")
 	private UserDao userDao;
+	
+	private boolean logged = false;;
 	
 	private List<Profile> profiles;
 	
@@ -76,9 +82,32 @@ public class UserController extends BaseController<Usuario> {
 	public void login(){
 		Usuario tempUser = getDao().getByUnique(getCurrentItem());
 		if ( tempUser != null && getCurrentItem().getContraseña().equals(tempUser.getContraseña()) ){
-			
+			logged = true;
+			RequestContext.getCurrentInstance().addCallbackParam("url", "index.xhtml");
+		} else {
+			String errorMessage = "Legajo y/o contraseña invalidos";
+			FacesContext.getCurrentInstance().addMessage("loginGrowlMessages",
+					new FacesMessage(FacesMessage.SEVERITY_WARN, errorMessage,null));
 		}
+		RequestContext.getCurrentInstance().addCallbackParam("loggedIn", logged);
 	}
 	
+	public void logout(){
+		logged = false;
+	}
+
+	/**
+	 * @return the logged
+	 */
+	public boolean isLogged() {
+		return logged;
+	}
+
+	/**
+	 * @param logged the logged to set
+	 */
+	public void setLogged(boolean logged) {
+		this.logged = logged;
+	}
 
 }

@@ -5,17 +5,28 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="../templates/header-and-footer.xhtml">
 
-	<h:head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	</h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-	<ui:define name="center-rail">
-		<h:form>
+	<ui:define name="head">
+
+		<script type="text/javascript">
+			function handleLoginRequest(xhr, status, args) {
+				if ( args.loggedIn){
+					window.location.reload();
+				}
+			}
+		</script>
+	</ui:define>
+
+	<ui:define name="center-rail" >
+		<h:form id="logginForm" rendered="#{not userController.logged}">
+			<p:growl id="loginGrowlMessages" showSummary="true" autoUpdate="true" for="loginGrowlMessages" />
+			
 			<p:panel header="Login">
 				<h:panelGrid columns="2" cellpadding="5">
 					<h:outputLabel for="username" value="Legajo:" />
-					<h:inputText value="#{userController.currentItem.nombre}"
-						id="username" required="true" label="username" />
+					<h:inputText value="#{userController.currentItem.legajo}"
+						id="username" required="true" label="username"  />
 
 					<h:outputLabel for="password" value="Contraseña:" />
 					<h:inputSecret value="#{userController.currentItem.contraseña}"
@@ -24,10 +35,13 @@
 					<f:facet name="footer">
 						<p:commandButton id="loginButton" value="Login"
 							actionListener="#{userController.login}"
+							update="logginForm :baseAccordion"
 							oncomplete="handleLoginRequest(xhr, status, args)" />
 					</f:facet>
 				</h:panelGrid>
 			</p:panel>
+			
 		</h:form>
+		<ui:include src="views/profilesView.xhtml" />
 	</ui:define>
 </ui:composition>

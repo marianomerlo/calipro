@@ -101,7 +101,7 @@ public abstract class GenericDao<T extends AuditObject> implements Dao<T>{
 		try {
 			PreparedStatement prepStatement = prepareUniqueStatement(element);
 			result = prepStatement.executeQuery();
-			return getFromResult(result);
+			return result.first() ? getFromResult(result) : null;
 		} catch (SQLException e) { 
 			e.printStackTrace();
 		} finally {
