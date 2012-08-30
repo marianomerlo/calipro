@@ -30,9 +30,8 @@
 			<ui:include src="eliminar/deleteProduct.xhtml" />
 		</p:dialog>
 		<p:dataTable id="productDataTable" var="producto"
-			value="#{productController.items}" rowIndexVar="prodIndex"
+			value="#{productController.dataModel}" rowIndexVar="prodIndex"
 			widgetVar="productsTable" emptyMessage="No hay coincidencias"
-			rowKey="#{producto.id}"
 			selection="#{productController.selectedItems}" paginator="true"
 			paginatorPosition="bottom" rows="10"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"

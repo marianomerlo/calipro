@@ -11,6 +11,7 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.component.tabview.TabView;
 import org.primefaces.event.TabChangeEvent;
+import org.primefaces.model.SelectableDataModel;
 import org.springframework.util.StringUtils;
 
 import ar.edu.utn.frba.proyecto.dao.Dao;
@@ -30,6 +31,8 @@ public abstract class BaseController<T extends AuditObject> implements Serializa
 	private T selectedItem = newBaseItem();
 	private T originalSelectedItem = newBaseItem();
 	
+	private SelectableDataModel<T> dataModel; 
+	
 	private int activeIndexTab;
 	
 	protected abstract Dao<T> getDao(); 
@@ -37,6 +40,8 @@ public abstract class BaseController<T extends AuditObject> implements Serializa
 	protected abstract T newBaseItem();
 
 	protected abstract T newBaseItem(T item);
+	
+	protected abstract SelectableDataModel<T> newDataModel(List<T> all);
 	
 	protected abstract boolean isDifferent();
 	
@@ -53,6 +58,7 @@ public abstract class BaseController<T extends AuditObject> implements Serializa
 	
 	public void refreshItems() {
 		this.items = getDao().getAll();
+		this.dataModel = newDataModel(this.items);
 	}
 	
 	public void addItem() {
@@ -179,6 +185,17 @@ public abstract class BaseController<T extends AuditObject> implements Serializa
 
 	public void setActiveIndexTab(int activeIndexTab) {
 		this.activeIndexTab = activeIndexTab;
+	}
+
+	public SelectableDataModel<T> getDataModel() {
+		if ( this.dataModel == null){
+			this.dataModel = newDataModel(getItems());
+		}
+		return dataModel;
+	}
+
+	public void setDataModel(SelectableDataModel<T> dataModel) {
+		this.dataModel = dataModel;
 	}
 	
 	

@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
 import ar.edu.utn.frba.proyecto.domain.Producto;
 
 import com.mysql.jdbc.Statement;
@@ -13,7 +14,14 @@ public class ProductDao extends GenericDao<Producto>  {
 	@Override
 	public Producto getFromResult(ResultSet result) {
 		try {
-			return new Producto(result.getInt(1), result.getString(2), result.getString(3));
+			Producto producto = new Producto(result.getInt(ConstantsDatatable.PRODUCTO_ID), 
+											 result.getString(ConstantsDatatable.GENERAL_NOMBRE), 
+											 result.getString(ConstantsDatatable.GENERAL_DESCRIPCION));
+			
+			producto.setFechaUltimaModificacion(getFechaUltimaMod(result));
+
+			return producto;
+			
 		} catch (SQLException e) { e.printStackTrace();	}
 		
 		return null;

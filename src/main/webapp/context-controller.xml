@@ -5,17 +5,17 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 					http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<bean id="productController" class="ar.edu.utn.frba.proyecto.controller.ProductController">
+	<bean id="productController" class="ar.edu.utn.frba.proyecto.controller.ProductController" scope="session">
 		<property name="ITEM_NAME" value="Producto" />
 		<property name="productDao" ref="productDao" />
 	</bean>
 
-	<bean id="analisisController" class="ar.edu.utn.frba.proyecto.controller.AnalisisController">
+	<bean id="analisisController" class="ar.edu.utn.frba.proyecto.controller.AnalisisController" scope="session">
 		<property name="ITEM_NAME" value="Analisis" />
 		<property name="analisisDao" ref="analisisDao" />
 	</bean>
 
-	<bean id="userController" class="ar.edu.utn.frba.proyecto.controller.UserController">
+	<bean id="userController" class="ar.edu.utn.frba.proyecto.controller.UserController" scope="session">
 		<property name="ITEM_NAME" value="Usuario" />
 		<property name="userDao" ref="userDao" />
 	</bean>

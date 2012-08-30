@@ -6,10 +6,11 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
+import org.primefaces.model.SelectableDataModel;
 
 import ar.edu.utn.frba.proyecto.dao.Dao;
 import ar.edu.utn.frba.proyecto.dao.UserDao;
@@ -18,7 +19,7 @@ import ar.edu.utn.frba.proyecto.domain.Usuario;
 import ar.edu.utn.frba.proyecto.domain.Vista;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class UserController extends BaseController<Usuario> {
 	
 	/**
@@ -108,6 +109,12 @@ public class UserController extends BaseController<Usuario> {
 	 */
 	public void setLogged(boolean logged) {
 		this.logged = logged;
+	}
+
+	@Override
+	protected SelectableDataModel<Usuario> newDataModel(List<Usuario> all) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -30,9 +30,9 @@
 			<ui:include src="eliminar/deleteAnalisis.xhtml" />
 		</p:dialog>
 		<p:dataTable id="analisisDataTable" var="analisis"
-			value="#{analisisController.items}"
+			value="#{analisisController.dataModel}"
 			rowIndexVar="analisisIndex" widgetVar="analisisTable"
-			emptyMessage="No hay coincidencias" rowKey="#{analisis.id}"
+			emptyMessage="No hay coincidencias"
 			selection="#{analisisController.selectedItems}" paginator="true"
 			paginatorPosition="bottom" rows="10"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"

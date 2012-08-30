@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
 import ar.edu.utn.frba.proyecto.domain.Analisis;
 
 import com.mysql.jdbc.Statement;
@@ -13,7 +14,13 @@ public class AnalisisDao extends GenericDao<Analisis> {
 	@Override
 	public Analisis getFromResult(ResultSet result) {
 		try {
-			return new Analisis(result.getInt(1), result.getString(2));
+			Analisis analisis = new Analisis(result.getInt(ConstantsDatatable.ANALISIS_ID), 
+											 result.getString(ConstantsDatatable.GENERAL_NOMBRE));
+			
+			analisis.setFechaUltimaModificacion(getFechaUltimaMod(result));
+			
+			return analisis;
+			
 		} catch (SQLException e) { e.printStackTrace(); }
 
 		return null;

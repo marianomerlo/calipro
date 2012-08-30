@@ -11,7 +11,7 @@
 		<h:form id="logoutForm" rendered="#{userController.logged}">
 			<p:commandButton id="logoutButton"
 				actionListener="#{userController.logout}" value="Logout"
-				update=":logginForm :baseAccordion :separator :logoutForm"
+				update=":logginForm @this"
 				oncomplete="window.location.reload()" />
 		</h:form>
 	</div>
@@ -20,9 +20,9 @@
 	
 	<p:accordionPanel id="baseAccordion" rendered="#{userController.logged}"  style="width:1000px">
 		<p:tab title="Desarrollo">
-			<p:tabView id="profileTabView" activeIndex="#{productController.activeIndexTab}"   >
+			<p:tabView id="profileTabView" activeIndex="#{userController.activeIndexTab}"   >
 			
-				<p:ajax event="tabChange" listener="#{productController.onTabChange}"/>
+				<p:ajax event="tabChange" listener="#{userController.onTabChange}"/>
 				<p:tab title="Productos">
 					<ui:include src="produccionView.xhtml" />
 				</p:tab>

@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
 import ar.edu.utn.frba.proyecto.domain.AuditObject;
 
 public abstract class GenericDao<T extends AuditObject> implements Dao<T>{
@@ -162,20 +163,20 @@ public abstract class GenericDao<T extends AuditObject> implements Dao<T>{
 	@Override
 	public void add(T element){
 		conn = getConnection();
-		ResultSet generatedKeys = null;
+		ResultSet result = null;
 		
 		try {
 			PreparedStatement prepStatement = prepareAddStatement(element);
 			
-			prepStatement.execute();
-			generatedKeys = prepStatement.getGeneratedKeys();
+			prepStatement.executeUpdate();
+			result = prepStatement.getGeneratedKeys();
 			
-			if ( generatedKeys.next())
-				element.setId(generatedKeys.getInt(1));
+			if ( result.next())
+				element.setId(result.getInt(1));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally{
-	        if (generatedKeys != null) try { generatedKeys.close(); } catch (SQLException logOrIgnore) {}
+	        if (result != null) try { result.close(); } catch (SQLException logOrIgnore) {}
 	        releaseConnection(conn);
 		}
 	}
@@ -186,6 +187,7 @@ public abstract class GenericDao<T extends AuditObject> implements Dao<T>{
 
 	protected abstract PreparedStatement prepareUniqueStatement(T element);
 
+	protected abstract T getFromResult(ResultSet result);
 	
 	@Override
 	public void update(T element){
@@ -200,7 +202,14 @@ public abstract class GenericDao<T extends AuditObject> implements Dao<T>{
 		}
 	}
 
-	public abstract T getFromResult(ResultSet result);
+	
+	protected String getFechaUltimaMod(ResultSet result) throws SQLException{
+		String fechaUltimaMod = result.getString(ConstantsDatatable.AUDIT_FECHA_ULTIMA_MOD) != null ?
+				result.getString(ConstantsDatatable.AUDIT_FECHA_ULTIMA_MOD).split(" ")[0] :
+				result.getString(ConstantsDatatable.AUDIT_FECHA_CREACION).split(" ")[0];
+				
+		return fechaUltimaMod;
+	}
 
 	public String getDbURL() {
 		return dbURL;

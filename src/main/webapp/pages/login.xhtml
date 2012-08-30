@@ -22,7 +22,7 @@
 		<h:form id="logginForm" rendered="#{not userController.logged}">
 			<p:growl id="loginGrowlMessages" showSummary="true" autoUpdate="true" for="loginGrowlMessages" />
 			
-			<p:panel header="Login">
+			<p:panel header="Login" style="width:300px">
 				<h:panelGrid columns="2" cellpadding="5">
 					<h:outputLabel for="username" value="Legajo:" />
 					<h:inputText value="#{userController.currentItem.legajo}"
@@ -42,6 +42,8 @@
 			</p:panel>
 			
 		</h:form>
-		<ui:include src="views/profilesView.xhtml" />
+		<div id="profilesView">
+			<ui:include src="views/profilesView.xhtml" />
+		</div>
 	</ui:define>
 </ui:composition>
