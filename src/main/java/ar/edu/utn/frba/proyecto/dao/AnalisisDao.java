@@ -9,7 +9,7 @@ import ar.edu.utn.frba.proyecto.domain.Analisis;
 
 import com.mysql.jdbc.Statement;
 
-public class AnalisisDao extends GenericDao<Analisis> {
+public class AnalisisDao extends GenericAbmDao<Analisis> {
 
 	@Override
 	public Analisis getFromResult(ResultSet result) {

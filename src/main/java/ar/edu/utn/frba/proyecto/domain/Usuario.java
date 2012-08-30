@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.proyecto.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Usuario extends AuditObject implements Serializable {
 
@@ -20,6 +21,8 @@ public class Usuario extends AuditObject implements Serializable {
 	private Integer estado;
 	
 	private String contraseña;
+	
+	private List<Profile> perfiles;
 
 	public Usuario(Integer id,String alias, String nombre, String apellido, String legajo, String contraseña){
 		super();
@@ -95,6 +98,20 @@ public class Usuario extends AuditObject implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	/**
+	 * @return the perfiles
+	 */
+	public List<Profile> getPerfiles() {
+		return perfiles;
+	}
+
+	/**
+	 * @param perfiles the perfiles to set
+	 */
+	public void setPerfiles(List<Profile> perfiles) {
+		this.perfiles = perfiles;
 	}
 
 }

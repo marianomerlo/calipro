@@ -6,7 +6,19 @@ public class ConstantsDatatable {
 
 	public static String ANALISIS_ID = "idAnalisis";
 	
+	public static String USUARIO_ID = "idUsuario";
+
+	public static String PERFIL_ID = "idPerfil";
+
+	public static String USUARIO_CONTRASEÑA = "contrasenia";
+
+	public static String USUARIO_LEGAJO = "legajo";
+
+	public static String USUARIO_ALIAS = "alias";
+	
 	public static String GENERAL_NOMBRE = "nombre";
+
+	public static String GENERAL_APELLIDO = "apellido";
 
 	public static String GENERAL_DESCRIPCION = "descripcion";
 

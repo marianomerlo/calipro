@@ -14,7 +14,7 @@ import org.primefaces.event.TabChangeEvent;
 import org.primefaces.model.SelectableDataModel;
 import org.springframework.util.StringUtils;
 
-import ar.edu.utn.frba.proyecto.dao.Dao;
+import ar.edu.utn.frba.proyecto.dao.AbmDao;
 import ar.edu.utn.frba.proyecto.domain.AuditObject;
 
 public abstract class BaseController<T extends AuditObject> implements Serializable {
@@ -35,7 +35,7 @@ public abstract class BaseController<T extends AuditObject> implements Serializa
 	
 	private int activeIndexTab;
 	
-	protected abstract Dao<T> getDao(); 
+	protected abstract AbmDao<T> getDao(); 
 	
 	protected abstract T newBaseItem();
 

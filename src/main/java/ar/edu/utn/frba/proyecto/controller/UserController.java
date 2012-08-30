@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.proyecto.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -12,11 +11,11 @@ import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.SelectableDataModel;
 
-import ar.edu.utn.frba.proyecto.dao.Dao;
+import ar.edu.utn.frba.proyecto.dao.AbmDao;
+import ar.edu.utn.frba.proyecto.dao.ProfileDao;
 import ar.edu.utn.frba.proyecto.dao.UserDao;
 import ar.edu.utn.frba.proyecto.domain.Profile;
 import ar.edu.utn.frba.proyecto.domain.Usuario;
-import ar.edu.utn.frba.proyecto.domain.Vista;
 
 @ManagedBean
 @ViewScoped
@@ -29,13 +28,17 @@ public class UserController extends BaseController<Usuario> {
 	
 	@ManagedProperty("#{userDao}")
 	private UserDao userDao;
+
+	@ManagedProperty("#{profileDao}")
+	private ProfileDao profileDao;
 	
 	private boolean logged = false;;
 	
 	private List<Profile> profiles;
+	private Profile[] selectedProfiles;
 	
 	@Override
-	protected Dao<Usuario> getDao() {
+	protected AbmDao<Usuario> getDao() {
 		return this.userDao;
 	}
 
@@ -69,9 +72,11 @@ public class UserController extends BaseController<Usuario> {
 
 	public List<Profile> getProfiles() {
 		if ( this.profiles == null){
-			List<Profile> list = new ArrayList<Profile>();
-			list.add(new Profile("Produccion", "1", "2", new Vista("Productos", "produccion.xhtml"),
-					 									new Vista("Analisis", "analisis.xhtml")));
+			this.profiles = getProfileDao().getAll();
+//			List<Profile> list = new ArrayList<Profile>();
+//			list.add(new Profile("Produccion", "1", "2", new Vista("Productos", "produccion.xhtml"),
+//					 									new Vista("Analisis", "analisis.xhtml")));
+//			list.add(new Profile("Supervision","1","2", new Vista("Usuarios", "usuarios.xhtml")));
 		}
 		return profiles;
 	}
@@ -115,6 +120,34 @@ public class UserController extends BaseController<Usuario> {
 	protected SelectableDataModel<Usuario> newDataModel(List<Usuario> all) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+	 * @return the profileDao
+	 */
+	public ProfileDao getProfileDao() {
+		return profileDao;
+	}
+
+	/**
+	 * @param profileDao the profileDao to set
+	 */
+	public void setProfileDao(ProfileDao profileDao) {
+		this.profileDao = profileDao;
+	}
+
+	/**
+	 * @return the selectedProfiles
+	 */
+	public Profile[] getSelectedProfiles() {
+		return selectedProfiles;
+	}
+
+	/**
+	 * @param selectedProfiles the selectedProfiles to set
+	 */
+	public void setSelectedProfiles(Profile[] selectedProfiles) {
+		this.selectedProfiles = selectedProfiles;
 	}
 
 }

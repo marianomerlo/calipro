@@ -18,6 +18,7 @@
 	<bean id="userController" class="ar.edu.utn.frba.proyecto.controller.UserController" scope="session">
 		<property name="ITEM_NAME" value="Usuario" />
 		<property name="userDao" ref="userDao" />
+		<property name="profileDao" ref="profileDao" />
 	</bean>
 
 </beans>

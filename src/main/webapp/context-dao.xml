@@ -11,19 +11,25 @@
 		<property name="username" value="${database.username}" />
 		<property name="password" value="${database.password}" />
 	</bean>
+	
+	<bean id="profileDao" parent="genericDao" class="ar.edu.utn.frba.proyecto.dao.ProfileDao">
+		<property name="DATATABLE_NAME" value="PERFIL" />
+		<property name="DATATABLE_ID" value="idPerfil" />
+	</bean>
 
-	<bean id="productDao" parent="genericDao" class="ar.edu.utn.frba.proyecto.dao.ProductDao">
+	<bean id="genericAbmDao" abstract="true" parent="genericDao" />
+
+	<bean id="productDao" parent="genericAbmDao" class="ar.edu.utn.frba.proyecto.dao.ProductDao">
 		<property name="DATATABLE_NAME" value="PRODUCTO" />
 		<property name="DATATABLE_ID" value="idProducto" />
 	</bean>
-	
 
-	<bean id="analisisDao" parent="genericDao" class="ar.edu.utn.frba.proyecto.dao.AnalisisDao">
+	<bean id="analisisDao" parent="genericAbmDao" class="ar.edu.utn.frba.proyecto.dao.AnalisisDao">
 		<property name="DATATABLE_NAME" value="ANALISIS" />
 		<property name="DATATABLE_ID" value="idAnalisis" />
 	</bean>
 
-	<bean id="userDao" parent="genericDao" class="ar.edu.utn.frba.proyecto.dao.UserDao">
+	<bean id="userDao" parent="genericAbmDao" class="ar.edu.utn.frba.proyecto.dao.UserDao">
 		<property name="DATATABLE_NAME" value="USUARIO" />
 		<property name="DATATABLE_ID" value="idUsuario" />
 	</bean>

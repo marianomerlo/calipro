@@ -9,7 +9,7 @@ import javax.faces.bean.ViewScoped;
 import org.primefaces.model.SelectableDataModel;
 
 import ar.edu.utn.frba.proyecto.dao.AnalisisDao;
-import ar.edu.utn.frba.proyecto.dao.Dao;
+import ar.edu.utn.frba.proyecto.dao.AbmDao;
 import ar.edu.utn.frba.proyecto.datamodel.AnalisisDataModel;
 import ar.edu.utn.frba.proyecto.domain.Analisis;
 
@@ -26,7 +26,7 @@ public class AnalisisController extends BaseController<Analisis> {
 	private AnalisisDao analisisDao;
 
 	@Override
-	protected Dao<Analisis> getDao() {
+	protected AbmDao<Analisis> getDao() {
 		return this.analisisDao;
 	}
 

@@ -7,113 +7,106 @@
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
-	
-	<p:commandButton id="productAdd" value="Agregar" style="margin:10px"
-		onclick="addProductWidget.show();" type="button" />
 
-	<p:dialog id="addProduct" header="Agregar Producto"
-		widgetVar="addProductWidget" modal="true">
-		<h:panelGrid columns="2" cellpadding="5" id="addProductPanelGrid"
-			style="width:500px !important">
-			<h:outputLabel for="name" value="Nombre" />
-			<p:inputText value="#{productController.currentProduct.nombre}" id="name"
-				required="true" label="name"/>
+	<h:form id="addUserForm" style="border:0px">
+		<p:commandButton id="userAdd" value="Agregar" style="margin:10px"
+			onclick="addUserWidget.show();" type="button" />
 
-			<h:outputLabel for="description" value="Descripcion" />
-			<h:inputText value="#{productController.currentProduct.descripcion}"
-				id="description" required="true" label="description" />
+		<p:dialog id="addUSerDialog" widgetVar="addUserWidget"
+			resizable="false" header="Agregar Usuario" closable="false"
+			modal="true">
+			<ui:include src="agregar/addUsuario.xhtml" />
+		</p:dialog>
+	</h:form>
 
-			<f:facet name="footer">
-				<p:commandButton id="addButton" value="Agregar"
-					style="margin:10px"
-					actionListener="#{productController.addProduct}"
-					oncomplete="addConfirmation.show()"
-					 />
-				<p:commandButton id="cancelButton" value="Cancelar"
-					style="margin:10px" onclick="modifyProductWidget.hide()" />
-			</f:facet>
-		</h:panelGrid>
-
-		<p:confirmDialog id="addedProductConfirmDialog" appendToBody="true"
-			message="Producto #{productController.currentProduct.nombre} creado satisfactoriamente."
-			header="Information" severity="info" widgetVar="addConfirmation">
-
-			<p:commandButton id="confirm" value="OK"
-				oncomplete="window.location.reload()"  />
-					
-		</p:confirmDialog>
-	</p:dialog>
-
-	<p:commandButton id="productDelete" value="Eliminar"
-		style="margin:10px" onclick="deleteProductWidget.show();"
-		type="button" />
-
-	<p:dialog id="deleteProduct" header="Eliminar Producto" resizable="false"
-		widgetVar="deleteProductWidget" modal="true">
-		<!-- 					<ui:include src="agregar/addProduct.xhtml" /> -->
-	</p:dialog>
-	
-	<h:form id="productDataTableForm">
-
-		<p:dataTable id="productDataTable" var="producto" lazy="false"
-			value="#{productController.histProductDataModel}" rowIndexVar="prodIndex"
-			widgetVar="productsTable" emptyMessage="No hay coincidencias"
-			selection="#{productController.selectedProduct}" paginator="true"
-			paginatorPosition="bottom"
-			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-			selectionMode="single" style="width:800px">
+	<h:form id="userDataTableForm">
+		<p:dataTable id="userDataTable" var="user"
+			value="#{userController.dataModel}" rowIndexVar="userIndex"
+			widgetVar="usersTable" emptyMessage="No hay coincidencias"
+			selection="#{userController.selectedItems}" paginator="true"
+			paginatorPosition="bottom" rows="10"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+			style="width:800px;text-align:center">
 
 			<f:facet name="header">
 				<p:outputPanel>
 					<h:outputText value="Buscar:" />
-					<p:inputText value="Escribir Texto" id="globalFilter"
-						onkeyup="productsTable.filter()" style="width:200px" />
+					<p:inputText id="globalFilter" onkeyup="usersTable.filter()"
+						style="width:200px" />
+					<p:watermark for="globalFilter" value="Usuario" />
 				</p:outputPanel>
 			</f:facet>
 
-			<p:ajax event="rowSelect" listener="#{productController.onRowSelect}"
-				update=":productDataTableForm:modifyProductPanelGrid :productDataTableForm:modifiedProductConfirmDialog"
-				oncomplete="modifyProductDialog.show()" />
-			<p:ajax event="rowUnselect"
-				listener="#{productController.onRowUnselect}" />
-			<p:ajax event="rowDblselect"
-				listener="#{productController.onRowDblselect}" />
+			<p:column selectionMode="multiple" style="width:auto" />
 
-			<p:column id="productRowNumber" headerText="Nº">
-				<h:outputText value="#{prodIndex + 1}" />
+			<p:column id="userRowNumber" headerText="Nº" style="width:auto">
+				<p:commandLink style="text-decoration:none" value="#{userIndex + 1}"
+					ajax="true"
+					actionListener="#{userController.storeOriginalItem(user)}"
+					update=":baseAccordion:profileTabView:userDataTableForm:modifyUserPanelGrid"
+					oncomplete="modifyUserWidget.show();">
+					<f:setPropertyActionListener
+						target="#{userController.selectedItem}" value="#{user}" />
+				</p:commandLink>
 			</p:column>
 
-			<p:column id="productId" filterBy="#{producto.prodId}"
-				headerText="Id" filterMatchMode="contains">
-				<h:outputText value="#{producto.prodId}" />
+			<p:column id="userLegajo" filterBy="#{user.legajo}"
+				filterStyle="display:none" headerText="Legajo"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none" value="#{user.legajo}"
+					actionListener="#{userController.storeOriginalItem(user)}"
+					update=":baseAccordion:profileTabView:userDataTableForm:modifyUserPanelGrid"
+					oncomplete="modifyUserWidget.show();">
+					<f:setPropertyActionListener
+						target="#{userController.selectedItem}" value="#{user}" />
+				</p:commandLink>
 			</p:column>
 
-			<p:column id="productName" filterBy="#{producto.nombre}"
-				headerText="Nombre" filterMatchMode="contains" style="width:200px">
-				<h:outputText value="#{producto.nombre}" />
+			<p:column id="userName" filterBy="#{user.nombre}"
+				filterStyle="display:none" headerText="Nombre"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none" value="#{user.nombre}"
+					actionListener="#{userController.storeOriginalItem(user)}"
+					update=":baseAccordion:profileTabView:userDataTableForm:modifyUserPanelGrid"
+					oncomplete="modifyUserWidget.show();">
+					<f:setPropertyActionListener
+						target="#{userController.selectedItem}" value="#{user}" />
+				</p:commandLink>
 			</p:column>
 
-			<p:column id="productDescription" filterBy="#{producto.descripcion}"
-				headerText="Descripcion" filterMatchMode="contains"
-				style="width:400px">
-				<h:outputText value="#{producto.descripcion}" />
+			<p:column id="userApellido" filterBy="#{user.apellido}"
+				filterStyle="display:none" headerText="Apellido"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none" value="#{user.apellido}"
+					actionListener="#{userController.storeOriginalItem(user)}"
+					update=":baseAccordion:profileTabView:userDataTableForm:modifyUserPanelGrid"
+					oncomplete="modifyUserWidget.show();">
+					<f:setPropertyActionListener
+						target="#{userController.selectedItem}" value="#{user}" />
+				</p:commandLink>
 			</p:column>
 
-			<p:column id="productLastModDate"
-				filterBy="#{producto.fechaUltimaModificacion}"
-				headerText="Fecha Ultima Modificacion" filterMatchMode="contains"
-				style="width:100px">
-				<h:outputText value="#{producto.fechaUltimaModificacion}" />
+			<p:column id="userProfiles" filterStyle="display:none"
+				headerText="Perfiles" style="width:auto">
+				<p:dataList value="#{user.perfiles}" var="perfil">
+					<p:commandLink style="text-decoration:none"
+						value="#{perfil.nombre}"
+						actionListener="#{userController.storeOriginalItem(user)}"
+						update=":baseAccordion:profileTabView:userDataTableForm:modifyUserPanelGrid"
+						oncomplete="modifyUserWidget.show();">
+						<f:setPropertyActionListener
+							target="#{userController.selectedItem}" value="#{user}" />
+					</p:commandLink>
+				</p:dataList>
 			</p:column>
 
 		</p:dataTable>
-
-		<p:dialog id="modifyProductDialog" header="Modificar Producto"
-			widgetVar="modifyProductDialog" modal="true" resizable="false">
+		<p:dialog id="modifyUserDialog" header="Modificar Usuario"
+			widgetVar="modifyUserWidget" modal="true" resizable="false"
+			closable="false">
 			<ui:include src="modificar/modifyProduct.xhtml" />
+
 		</p:dialog>
 
 	</h:form>
-
-
 </ui:composition>

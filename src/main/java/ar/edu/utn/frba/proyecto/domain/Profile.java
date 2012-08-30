@@ -1,21 +1,24 @@
 package ar.edu.utn.frba.proyecto.domain;
 
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-public class Profile implements Serializable {
+public class Profile extends BaseObject{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 2030356771612881776L;
 
-
-
 	public Profile(){
 		super();
+	}
+	
+	public Profile ( Integer id, String name){
+		super();
+		this.id = id;
+		this.name = name;
 	}
 	
 	public Profile ( String name, String number, String position, Vista... vistas){
@@ -33,8 +36,6 @@ public class Profile implements Serializable {
 	private String position;
 	
 	private List<Vista> vistas;
-
-	
 	
 	/**
 	 * @return the position

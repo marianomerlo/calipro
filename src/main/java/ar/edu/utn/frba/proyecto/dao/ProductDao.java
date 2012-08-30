@@ -9,7 +9,7 @@ import ar.edu.utn.frba.proyecto.domain.Producto;
 
 import com.mysql.jdbc.Statement;
 
-public class ProductDao extends GenericDao<Producto>  {
+public class ProductDao extends GenericAbmDao<Producto>  {
 
 	@Override
 	public Producto getFromResult(ResultSet result) {

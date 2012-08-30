@@ -8,7 +8,7 @@ import javax.faces.bean.ViewScoped;
 
 import org.primefaces.model.SelectableDataModel;
 
-import ar.edu.utn.frba.proyecto.dao.Dao;
+import ar.edu.utn.frba.proyecto.dao.AbmDao;
 import ar.edu.utn.frba.proyecto.dao.ProductDao;
 import ar.edu.utn.frba.proyecto.datamodel.ProductDataModel;
 import ar.edu.utn.frba.proyecto.domain.Producto;
@@ -23,7 +23,7 @@ public class ProductController extends BaseController<Producto> {
 	private ProductDao productDao;
 
 	@Override
-	protected Dao<Producto> getDao() {
+	protected AbmDao<Producto> getDao() {
 		return this.productDao;
 	}
 

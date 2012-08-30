@@ -8,10 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
-import ar.edu.utn.frba.proyecto.domain.AuditObject;
+import ar.edu.utn.frba.proyecto.domain.BaseObject;
 
-public abstract class GenericDao<T extends AuditObject> implements Dao<T>{
+public abstract class GenericDao<T extends BaseObject> implements Dao<T> {
 
 	/* Spring Properties */
 	
@@ -24,6 +23,8 @@ public abstract class GenericDao<T extends AuditObject> implements Dao<T>{
 	protected String DATATABLE_ID;
 
 	protected Connection conn;
+	
+	protected abstract T getFromResult(ResultSet result);
 	
 	protected Connection getConnection() {
 		try {
@@ -47,8 +48,7 @@ public abstract class GenericDao<T extends AuditObject> implements Dao<T>{
 				e.printStackTrace();
 			}
 	}
-
-
+	
 	@Override
 	public T get(T element) {
 		String query = "SELECT * FROM " + DATATABLE_NAME + " WHERE " + DATATABLE_ID + " = ? ";
@@ -94,56 +94,6 @@ public abstract class GenericDao<T extends AuditObject> implements Dao<T>{
 		return resultList;
 	}
 	
-	@Override
-	public T getByUnique(T element){
-		
-		Connection conn = getConnection();
-		ResultSet result = null;
-		try {
-			PreparedStatement prepStatement = prepareUniqueStatement(element);
-			result = prepStatement.executeQuery();
-			return result.first() ? getFromResult(result) : null;
-		} catch (SQLException e) { 
-			e.printStackTrace();
-		} finally {
-			releaseConnection(conn);
-		}
-		return null;
-	}
-
-	@Override
-	public void delete(List<T> elements) {
-		String query = "DELETE FROM " + DATATABLE_NAME + " WHERE " +  DATATABLE_ID + " = ?";
-		conn = getConnection();
-		try {
-			for (T element : elements) {
-				PreparedStatement prepStatement = conn.prepareStatement(query);
-				prepStatement.setInt(1,element.getId() );
-				prepStatement.execute();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			releaseConnection(conn);
-		}
-		
-	}
-
-	@Override
-	public void deleteAll() {
-		String query = "SELECT * FROM " + DATATABLE_NAME;
-		conn = getConnection();
-		try {
-			PreparedStatement prepStatement = conn.prepareStatement(query);
-			prepStatement.execute();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-	        releaseConnection(conn);
-		}
-		
-	}
-
 	public String getDATATABLE_NAME() {
 		return DATATABLE_NAME;
 	}
@@ -159,58 +109,7 @@ public abstract class GenericDao<T extends AuditObject> implements Dao<T>{
 	public void setDATATABLE_ID(String dATATABLE_ID) {
 		DATATABLE_ID = dATATABLE_ID;
 	}
-
-	@Override
-	public void add(T element){
-		conn = getConnection();
-		ResultSet result = null;
-		
-		try {
-			PreparedStatement prepStatement = prepareAddStatement(element);
-			
-			prepStatement.executeUpdate();
-			result = prepStatement.getGeneratedKeys();
-			
-			if ( result.next())
-				element.setId(result.getInt(1));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally{
-	        if (result != null) try { result.close(); } catch (SQLException logOrIgnore) {}
-	        releaseConnection(conn);
-		}
-	}
-
-	protected abstract PreparedStatement prepareAddStatement(T element);
-
-	protected abstract PreparedStatement prepareUpdateStatement(T element);
-
-	protected abstract PreparedStatement prepareUniqueStatement(T element);
-
-	protected abstract T getFromResult(ResultSet result);
 	
-	@Override
-	public void update(T element){
-		conn = getConnection();
-		try {
-			PreparedStatement prepStatement = prepareUpdateStatement(element);
-			prepStatement.execute();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-	        releaseConnection(conn);
-		}
-	}
-
-	
-	protected String getFechaUltimaMod(ResultSet result) throws SQLException{
-		String fechaUltimaMod = result.getString(ConstantsDatatable.AUDIT_FECHA_ULTIMA_MOD) != null ?
-				result.getString(ConstantsDatatable.AUDIT_FECHA_ULTIMA_MOD).split(" ")[0] :
-				result.getString(ConstantsDatatable.AUDIT_FECHA_CREACION).split(" ")[0];
-				
-		return fechaUltimaMod;
-	}
-
 	public String getDbURL() {
 		return dbURL;
 	}

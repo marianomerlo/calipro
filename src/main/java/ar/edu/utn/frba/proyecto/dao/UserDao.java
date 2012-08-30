@@ -4,11 +4,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
 import ar.edu.utn.frba.proyecto.domain.Usuario;
 
 import com.mysql.jdbc.Statement;
 
-public class UserDao extends GenericDao<Usuario> {
+public class UserDao extends GenericAbmDao<Usuario> {
 
 	@Override
 	protected PreparedStatement prepareAddStatement(Usuario element) {
@@ -48,12 +49,12 @@ public class UserDao extends GenericDao<Usuario> {
 	@Override
 	public Usuario getFromResult(ResultSet result) {
 		try {
-			return new Usuario(result.getInt(1), 
-							   result.getString(2), 
-							   result.getString(3), 
-							   result.getString(4), 
-							   result.getString(6), 
-							   result.getString(7));
+			return new Usuario(result.getInt(ConstantsDatatable.USUARIO_ID), 
+							   result.getString(ConstantsDatatable.USUARIO_ALIAS), 
+							   result.getString(ConstantsDatatable.GENERAL_NOMBRE), 
+							   result.getString(ConstantsDatatable.GENERAL_APELLIDO), 
+							   result.getString(ConstantsDatatable.USUARIO_LEGAJO), 
+							   result.getString(ConstantsDatatable.USUARIO_CONTRASEÑA));
 		} catch (SQLException e) { e.printStackTrace();	}
 		
 		return null;
