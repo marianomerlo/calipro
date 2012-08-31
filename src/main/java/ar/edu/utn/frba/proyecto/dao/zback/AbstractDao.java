@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.proyecto.dao.back;
+package ar.edu.utn.frba.proyecto.dao.zback;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;

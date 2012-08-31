@@ -2,7 +2,7 @@ package ar.edu.utn.frba.proyecto.domain;
 
 import java.io.Serializable;
 
-public class BaseObject implements Serializable {
+public abstract class BaseObject implements Serializable {
 
 	/**
 	 * 
@@ -10,6 +10,8 @@ public class BaseObject implements Serializable {
 	private static final long serialVersionUID = 4923692171618250892L;
 
 	protected Integer id;
+	
+	public abstract String getIdentifingName();
 
 	/**
 	 * @return the id

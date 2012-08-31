@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<p:growl id="updateUsuarioGrowlMessages" showSummary="true" autoUpdate="true"
+		for="updateUsuarioGrowlMessageKeys" />
+	<p:panel id="updateUserPanel">
+		<p:message for="updateUserName" display="both" />
+		<p:message for="updateUserDescription" display="both" />
+		<h:panelGrid columns="2" cellpadding="5" id="modifyUserPanelGrid"
+			style="width:500px !important">
+			<h:outputLabel for="updateUserName" value="Nombre" />
+			<p:inputText value="#{userController.selectedItem.nombre}"
+				id="updateUserName" required="true" label="updateUserName" />
+
+			<h:outputLabel for="updateUserDescription" value="Descripcion" />
+			<p:inputText value="#{userController.selectedItem.apellido}"
+				id="updateUserDescription" required="true" label="updateUserDescription" />
+
+			<f:facet name="footer">
+				<p:commandButton id="updateUserConfirmButton" value="Guardar"
+					style="margin:10px"
+					actionListener="#{userController.updateItem}"
+					update="modifyUserPanelGrid updateUserPanel" />
+
+				<p:commandButton id="updateUserCancelButton" immediate="true"
+					value="Cancelar" style="margin:10px"
+					actionListener="#{userController.restoreOriginalItem()}"
+					oncomplete="window.location.reload()" />
+			</f:facet>
+		</h:panelGrid>
+
+	</p:panel>
+</ui:composition>

@@ -5,31 +5,33 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 					http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<bean id="genericDao" abstract="true">
+	<bean id="baseDao" abstract="true">
 		<property name="sqlDriver" value="${database.sqlDriver}" />
 		<property name="dbURL" value="${database.url}" />
 		<property name="username" value="${database.username}" />
 		<property name="password" value="${database.password}" />
 	</bean>
 	
-	<bean id="profileDao" parent="genericDao" class="ar.edu.utn.frba.proyecto.dao.ProfileDao">
+	<bean id="profileDao" parent="baseDao" class="ar.edu.utn.frba.proyecto.dao.impl.ProfileDao">
 		<property name="DATATABLE_NAME" value="PERFIL" />
 		<property name="DATATABLE_ID" value="idPerfil" />
 	</bean>
 
-	<bean id="genericAbmDao" abstract="true" parent="genericDao" />
+	<bean id="genericDao" parent="baseDao" class="ar.edu.utn.frba.proyecto.dao.impl.GenericDao"/>
 
-	<bean id="productDao" parent="genericAbmDao" class="ar.edu.utn.frba.proyecto.dao.ProductDao">
+	<bean id="baseAbmDao" abstract="true" parent="baseDao" />
+
+	<bean id="productDao" parent="baseAbmDao" class="ar.edu.utn.frba.proyecto.dao.impl.ProductDao">
 		<property name="DATATABLE_NAME" value="PRODUCTO" />
 		<property name="DATATABLE_ID" value="idProducto" />
 	</bean>
 
-	<bean id="analisisDao" parent="genericAbmDao" class="ar.edu.utn.frba.proyecto.dao.AnalisisDao">
+	<bean id="analisisDao" parent="baseAbmDao" class="ar.edu.utn.frba.proyecto.dao.impl.AnalisisDao">
 		<property name="DATATABLE_NAME" value="ANALISIS" />
 		<property name="DATATABLE_ID" value="idAnalisis" />
 	</bean>
 
-	<bean id="userDao" parent="genericAbmDao" class="ar.edu.utn.frba.proyecto.dao.UserDao">
+	<bean id="userDao" parent="baseAbmDao" class="ar.edu.utn.frba.proyecto.dao.impl.UserDao">
 		<property name="DATATABLE_NAME" value="USUARIO" />
 		<property name="DATATABLE_ID" value="idUsuario" />
 	</bean>

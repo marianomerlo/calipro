@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.proyecto.dao;
+package ar.edu.utn.frba.proyecto.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,9 +7,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
+import ar.edu.utn.frba.proyecto.dao.AbmDao;
 import ar.edu.utn.frba.proyecto.domain.AuditObject;
 
-public abstract class GenericAbmDao<T extends AuditObject> extends GenericDao<T> implements AbmDao<T>{
+public abstract class BaseAbmDao<T extends AuditObject> extends BaseDao<T> implements AbmDao<T>{
 
 	@Override
 	public T getByUnique(T element){
@@ -62,7 +63,7 @@ public abstract class GenericAbmDao<T extends AuditObject> extends GenericDao<T>
 	}
 
 	@Override
-	public void add(T element){
+	public T add(T element){
 		conn = getConnection();
 		ResultSet result = null;
 		
@@ -74,12 +75,15 @@ public abstract class GenericAbmDao<T extends AuditObject> extends GenericDao<T>
 			
 			if ( result.next())
 				element.setId(result.getInt(1));
+			
+			return element;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally{
 	        if (result != null) try { result.close(); } catch (SQLException logOrIgnore) {}
 	        releaseConnection(conn);
 		}
+		return null;
 	}
 
 	protected abstract PreparedStatement prepareAddStatement(T element);

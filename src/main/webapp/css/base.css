@@ -58,7 +58,7 @@ ul{
 	background-position: center;
 }
 .logo {
-	background-image: url(../images/mulesoft.png);
+/* 	background-image: url(../images/mulesoft.png); */
 	background-repeat: no-repeat;
 	padding: 0px;
 	float: left;
@@ -97,7 +97,7 @@ ul{
 	text-transform: lowercase;
 	color: #5a5a5a;
 	text-decoration: none;
-	background-image: url(../images/saleforce-logo.png);
+/* 	background-image: url(../images/saleforce-logo.png); */
 	background-repeat: no-repeat;
 	margin: 0px;
 	float: left;
@@ -115,7 +115,7 @@ ul{
 	text-transform: lowercase;
 	color: #ffffff;
 	text-decoration: none;
-	background-image: url(../images/saleforce-logo.png);
+/* 	background-image: url(../images/saleforce-logo.png); */
 	background-repeat: no-repeat;
 	margin: 0px;
 	float: left;
@@ -133,7 +133,7 @@ ul{
 	text-transform: lowercase;
 	color: #5a5a5a;
 	text-decoration: none;
-	background-image: url(../images/boxnet-logo.png);
+/* 	background-image: url(../images/boxnet-logo.png); */
 	background-repeat: no-repeat;
 	margin: 0px;
 	float: left;
@@ -151,7 +151,7 @@ ul{
 	text-transform: lowercase;
 	color: #ffffff;
 	text-decoration: none;
-	background-image: url(../images/boxnet-logo.png);
+/* 	background-image: url(../images/boxnet-logo.png); */
 	background-repeat: no-repeat;
 	margin: 0px;
 	float: left;

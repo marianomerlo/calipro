@@ -8,21 +8,21 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
 	<div style="width: 1000px" align="right">
-		<h:form id="logoutForm" rendered="#{userController.logged}">
+		<h:form id="logoutForm" rendered="#{sessionController.loggedUser != null}">
 			<p:commandButton id="logoutButton"
-				actionListener="#{userController.logout}" value="Logout"
+				actionListener="#{sessionController.logout}" value="Logout"
 				update=":logginForm @this"
 				oncomplete="window.location.reload()" />
 		</h:form>
 	</div>
 
-	<p:separator id="separator" rendered="#{userController.logged}" style="width:1000px"/>
+	<p:separator id="separator" rendered="#{sessionController.loggedUser != null}" style="width:1000px"/>
 	
-	<p:accordionPanel id="baseAccordion" rendered="#{userController.logged}"  style="width:1000px">
+	<p:accordionPanel id="baseAccordion" rendered="#{sessionController.loggedUser != null}"  style="width:1000px">
 		<p:tab title="Desarrollo">
-			<p:tabView id="profileTabView" activeIndex="#{userController.activeIndexTab}"   >
+			<p:tabView id="profileTabView" activeIndex="#{sessionController.activeIndexTab}">
 			
-				<p:ajax event="tabChange" listener="#{userController.onTabChange}"/>
+				<p:ajax event="tabChange" listener="#{sessionController.onTabChange}"/>
 				<p:tab title="Productos">
 					<ui:include src="produccionView.xhtml" />
 				</p:tab>
@@ -36,18 +36,6 @@
 		</p:tab>
 	</p:accordionPanel>
 
-<!-- 		<p:tabView id="baseAccordion" style="width:1000px"> -->
-<!-- 			<c:forEach var="profile" items="#{userController.profiles}"> -->
-<!-- 				<p:tab title="#{profile.name}"> -->
-<!-- 					<p:tabView id="profileTabView"> -->
-<!-- 						<c:forEach var="vista" items="#{profile.vistas}"> -->
-<!-- 							<p:tab title="#{vista.name}"> -->
-<!-- 									<ui:include src="#{vista.view}" /> -->
-<!-- 							</p:tab> -->
-<!-- 						</c:forEach> -->
-<!-- 					</p:tabView> -->
-<!-- 				</p:tab> -->
-<!-- 			</c:forEach> -->
-<!-- 		</p:tabView> -->
+
 </ui:composition>
 

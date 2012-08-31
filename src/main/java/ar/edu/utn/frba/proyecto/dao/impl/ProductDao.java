@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.proyecto.dao;
+package ar.edu.utn.frba.proyecto.dao.impl;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +9,7 @@ import ar.edu.utn.frba.proyecto.domain.Producto;
 
 import com.mysql.jdbc.Statement;
 
-public class ProductDao extends GenericAbmDao<Producto>  {
+public class ProductDao extends BaseAbmDao<Producto>  {
 
 	@Override
 	public Producto getFromResult(ResultSet result) {

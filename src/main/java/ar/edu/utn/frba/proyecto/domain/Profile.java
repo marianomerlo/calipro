@@ -21,50 +21,22 @@ public class Profile extends BaseObject{
 		this.name = name;
 	}
 	
-	public Profile ( String name, String number, String position, Vista... vistas){
+	public Profile ( String name, Vista... vistas){
 		super();
 		this.name = name;
-		this.number = number;
-		this.position = position;
 		this.vistas = vistas != null ? Arrays.asList(vistas) : null;
 	}
 
 	private String name;
 	
-	private String number;
-	
-	private String position;
-	
 	private List<Vista> vistas;
 	
-	/**
-	 * @return the position
-	 */
-	public String getPosition() {
-		return position;
-	}
-
-	/**
-	 * @param position the position to set
-	 */
-	public void setPosition(String position) {
-		this.position = position;
-	}
-
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getNumber() {
-		return number;
-	}
-
-	public void setNumber(String number) {
-		this.number = number;
 	}
 
 	/**
@@ -79,6 +51,11 @@ public class Profile extends BaseObject{
 	 */
 	public void setVistas(List<Vista> vistas) {
 		this.vistas = vistas;
+	}
+
+	@Override
+	public String getIdentifingName() {
+		return this.name;
 	}
 	
 }

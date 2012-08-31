@@ -4,20 +4,18 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 
 import org.primefaces.model.SelectableDataModel;
 
 import ar.edu.utn.frba.proyecto.dao.AbmDao;
-import ar.edu.utn.frba.proyecto.dao.ProductDao;
+import ar.edu.utn.frba.proyecto.dao.impl.ProductDao;
 import ar.edu.utn.frba.proyecto.datamodel.ProductDataModel;
 import ar.edu.utn.frba.proyecto.domain.Producto;
 
 @ManagedBean
-@ViewScoped
-public class ProductController extends BaseController<Producto> {
-
-	private static final long serialVersionUID = 4452567671269942318L;
+@SessionScoped
+public class ProductController extends BaseAbmController<Producto> {
 
 	@ManagedProperty("#{productDao}")
 	private ProductDao productDao;

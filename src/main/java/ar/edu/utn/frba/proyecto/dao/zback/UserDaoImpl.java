@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.proyecto.dao.back;
+package ar.edu.utn.frba.proyecto.dao.zback;
 
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -16,7 +16,7 @@ import ar.edu.utn.frba.proyecto.domain.User;
 public class UserDaoImpl extends AbstractDao<Long, User> implements UserDao {
 
 	/**
-	 * @see org.mule.sfdc2boxnet.dao.UserDao#getByUsername(java.lang.String)
+	 * @see ar.edu.utn.frba.proyecto.dao.impl.mule.sfdc2boxnet.dao.UserDao#getByUsername(java.lang.String)
 	 */
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)

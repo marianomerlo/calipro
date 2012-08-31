@@ -1,15 +1,18 @@
-package ar.edu.utn.frba.proyecto.dao;
+package ar.edu.utn.frba.proyecto.dao.impl;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+
+import org.hibernate.id.IdentityGenerator.GetGeneratedKeysDelegate;
 
 import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
 import ar.edu.utn.frba.proyecto.domain.Usuario;
 
 import com.mysql.jdbc.Statement;
 
-public class UserDao extends GenericAbmDao<Usuario> {
+public class UserDao extends BaseAbmDao<Usuario> {
 
 	@Override
 	protected PreparedStatement prepareAddStatement(Usuario element) {
@@ -73,7 +76,5 @@ public class UserDao extends GenericAbmDao<Usuario> {
 		
 		return prepStatement;
 	}
-	
-	
 
 }

@@ -45,7 +45,7 @@
 			</p:inputText>
 		</h:panelGrid>
 			<p:dataTable id="addUserProfilesDataTable" var="profile" 
-				value="#{userController.profiles}" rowKey="#{profile.name}"
+				value="#{profileController.items}" rowKey="#{profile.name}"
 				selection="#{userController.selectedProfiles}"
 				style="width:auto !important;text-align:center">
 				

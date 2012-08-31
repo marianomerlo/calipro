@@ -19,22 +19,22 @@
 	</ui:define>
 
 	<ui:define name="center-rail" >
-		<h:form id="logginForm" rendered="#{not userController.logged}">
+		<h:form id="logginForm" rendered="#{sessionController.loggedUser == null}">
 			<p:growl id="loginGrowlMessages" showSummary="true" autoUpdate="true" for="loginGrowlMessages" />
 			
 			<p:panel header="Login" style="width:300px">
 				<h:panelGrid columns="2" cellpadding="5">
 					<h:outputLabel for="username" value="Legajo:" />
-					<h:inputText value="#{userController.currentItem.legajo}"
+					<h:inputText value="#{sessionController.legajo}"
 						id="username" required="true" label="username"  />
 
 					<h:outputLabel for="password" value="Contraseña:" />
-					<h:inputSecret value="#{userController.currentItem.contraseña}"
+					<h:inputSecret value="#{sessionController.password}"
 						id="password" required="true" label="password" />
 
 					<f:facet name="footer">
 						<p:commandButton id="loginButton" value="Login"
-							actionListener="#{userController.login}"
+							actionListener="#{sessionController.login}"
 							update="logginForm :baseAccordion"
 							oncomplete="handleLoginRequest(xhr, status, args)" />
 					</f:facet>

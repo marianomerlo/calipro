@@ -17,8 +17,6 @@ public abstract class AuditObject extends BaseObject {
 	
 	protected String fechaUltimaModificacion;
 
-	public abstract String getIdentifingName();
-	
 	public String getUsuarioCreacion() {
 		return usuarioCreacion;
 	}

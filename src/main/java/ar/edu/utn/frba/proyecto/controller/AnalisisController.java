@@ -8,14 +8,14 @@ import javax.faces.bean.ViewScoped;
 
 import org.primefaces.model.SelectableDataModel;
 
-import ar.edu.utn.frba.proyecto.dao.AnalisisDao;
 import ar.edu.utn.frba.proyecto.dao.AbmDao;
+import ar.edu.utn.frba.proyecto.dao.impl.AnalisisDao;
 import ar.edu.utn.frba.proyecto.datamodel.AnalisisDataModel;
 import ar.edu.utn.frba.proyecto.domain.Analisis;
 
 @ManagedBean
 @ViewScoped
-public class AnalisisController extends BaseController<Analisis> {
+public class AnalisisController extends BaseAbmController<Analisis> {
 
 	/**
 	 * 

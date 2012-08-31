@@ -1,4 +1,4 @@
-package ar.edu.utn.frba.proyecto.dao;
+package ar.edu.utn.frba.proyecto.dao.impl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,9 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.edu.utn.frba.proyecto.dao.Dao;
 import ar.edu.utn.frba.proyecto.domain.BaseObject;
 
-public abstract class GenericDao<T extends BaseObject> implements Dao<T> {
+public abstract class BaseDao<T extends BaseObject> implements Dao<T> {
 
 	/* Spring Properties */
 	
