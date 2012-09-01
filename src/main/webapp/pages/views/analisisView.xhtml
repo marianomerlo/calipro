@@ -39,20 +39,20 @@
 			style="width:800px;text-align:center">
 
 			<p:ajax event="rowSelectCheckbox"
-				update=":baseAccordion:profileTabView:analisisDataTableForm:deleteAnalisisDialog" />
+				update=":baseAccordion:profileTabViewDesarrollo:analisisDataTableForm:deleteAnalisisDialog" />
 
 			<p:ajax event="toggleSelect"
-				update=":baseAccordion:profileTabView:analisisDataTableForm:deleteAnalisisDialog" />
+				update=":baseAccordion:profileTabViewDesarrollo:analisisDataTableForm:deleteAnalisisDialog" />
 
 			<p:ajax event="rowUnselectCheckbox"
-				update=":baseAccordion:profileTabView:analisisDataTableForm:deleteAnalisisDialog" />
+				update=":baseAccordion:profileTabViewDesarrollo:analisisDataTableForm:deleteAnalisisDialog" />
 
 			<f:facet name="header">
 				<p:outputPanel>
 					<h:outputText value="Buscar:" />
 					<p:inputText id="globalFilter" onkeyup="analisisTable.filter()" 
 						style="width:200px" />
-					<p:watermark for="globalFilter" value="Analisis" />
+					<p:watermark for="globalFilter" value="Análisis" />
 				</p:outputPanel>
 			</f:facet>
 
@@ -61,7 +61,6 @@
 			<p:column id="analisisRowNumber" headerText="Nº" style="width:auto">
 				<p:commandLink style="text-decoration:none" value="#{analisisIndex + 1}"
 					ajax="true"
-					update=":baseAccordion:profileTabView:analisisDataTableForm:modifyAnalisisPanelGrid"
 					actionListener="#{analisisController.storeOriginalItem(analisis)}"
 					oncomplete="modifyAnalisisWidget.show();">
 					<f:setPropertyActionListener
@@ -75,7 +74,6 @@
 				<p:commandLink style="text-decoration:none"
 					value="#{analisis.id}"
 					actionListener="#{analisisController.storeOriginalItem(analisis)}"
-					update=":baseAccordion:profileTabView:analisisDataTableForm:modifyAnalisisPanelGrid"
 					oncomplete="modifyAnalisisWidget.show();">
 					<f:setPropertyActionListener
 						target="#{analisisController.selectedItem}" value="#{analisis}" />
@@ -88,7 +86,6 @@
 				<p:commandLink style="text-decoration:none"
 					value="#{analisis.nombre}"
 					actionListener="#{analisisController.storeOriginalItem(analisis)}"
-					update=":baseAccordion:profileTabView:analisisDataTableForm:modifyAnalisisPanelGrid"
 					oncomplete="modifyAnalisisWidget.show();">
 					<f:setPropertyActionListener
 						target="#{analisisController.selectedItem}" value="#{analisis}" />
@@ -102,7 +99,6 @@
 				<p:commandLink style="text-decoration:none"
 					value="#{analisis.fechaUltimaModificacion}"
 					actionListener="#{analisisController.storeOriginalItem(analisis)}"
-					update=":baseAccordion:profileTabView:analisisDataTableForm:modifyAnalisisPanelGrid"
 					oncomplete="modifyAnalisisWidget.show();">
 					<f:setPropertyActionListener
 						target="#{analisisController.selectedItem}" value="#{analisis}" />

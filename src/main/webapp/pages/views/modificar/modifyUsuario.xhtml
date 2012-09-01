@@ -11,29 +11,59 @@
 		for="updateUsuarioGrowlMessageKeys" />
 	<p:panel id="updateUserPanel">
 		<p:message for="updateUserName" display="both" />
-		<p:message for="updateUserDescription" display="both" />
-		<h:panelGrid columns="2" cellpadding="5" id="modifyUserPanelGrid"
-			style="width:500px !important">
+		<p:message for="updateUserSurname" display="both" />
+		<h:panelGrid columns="2" cellpadding="5" id="updateUserPanelGrid"
+			style="width:auto !important">
+			<h:outputLabel for="updateUserAlias" value="Alias" />
+			<p:inputText value="#{userController.selectedItem.alias}"
+				id="updateUserAlias" label="updateUserAlias" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+
 			<h:outputLabel for="updateUserName" value="Nombre" />
 			<p:inputText value="#{userController.selectedItem.nombre}"
-				id="updateUserName" required="true" label="updateUserName" />
+				id="updateUserName" label="updateUserName" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
 
-			<h:outputLabel for="updateUserDescription" value="Descripcion" />
+			<h:outputLabel for="updateUserSurname" value="Apellido" />
 			<p:inputText value="#{userController.selectedItem.apellido}"
-				id="updateUserDescription" required="true" label="updateUserDescription" />
+				id="updateUserSurname" label="updateUserSurname" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
 
+			<h:outputLabel for="updateUserLeg" value="Legajo" />
+			<p:inputText value="#{userController.selectedItem.legajo}"
+				id="updateUserLeg" label="updateUserLeg" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+
+			<h:outputLabel for="updateUserPass" value="Contraseña" />
+			<p:inputText value="#{userController.selectedItem.contraseña}"
+				id="updateUserPass" label="updateUserPass" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+		</h:panelGrid>
+			<p:dataTable id="updateUserProfilesDataTable" var="profile" 
+				value="#{profileController.items}" rowKey="#{profile.name}"
+				selection="#{userController.selectedProfiles}"
+				style="width:auto !important;text-align:center">
+				
+				<p:column selectionMode="multiple" style="width:auto" />
+				
+				<p:column headerText="Perfiles">  
+        		    #{profile.name}  
+       			 </p:column>
+			</p:dataTable>
 			<f:facet name="footer">
 				<p:commandButton id="updateUserConfirmButton" value="Guardar"
-					style="margin:10px"
 					actionListener="#{userController.updateItem}"
-					update="modifyUserPanelGrid updateUserPanel" />
+					update="updateUserPanelGrid updateUserPanel" />
 
-				<p:commandButton id="updateUserCancelButton" immediate="true"
-					value="Cancelar" style="margin:10px"
-					actionListener="#{userController.restoreOriginalItem()}"
+				<p:commandButton id="updateUserCancelButton" value="Cancelar"
+					actionListener="#{userController.restoreOriginalItem}" immediate="true"
+					update="updateUserPanelGrid" style="margin:10px"
 					oncomplete="window.location.reload()" />
 			</f:facet>
-		</h:panelGrid>
-
 	</p:panel>
 </ui:composition>

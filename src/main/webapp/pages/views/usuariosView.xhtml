@@ -43,10 +43,12 @@
 				<p:commandLink style="text-decoration:none" value="#{userIndex + 1}"
 					ajax="true"
 					actionListener="#{userController.storeOriginalItem(user)}"
-					update=":baseAccordion:profileTabView:userDataTableForm:modifyUserPanelGrid"
 					oncomplete="modifyUserWidget.show();">
 					<f:setPropertyActionListener
 						target="#{userController.selectedItem}" value="#{user}" />
+					<f:setPropertyActionListener
+						target="#{userController.selectedProfiles}"
+						value="#{userController.userProfilesAsArray}" />
 				</p:commandLink>
 			</p:column>
 
@@ -55,10 +57,12 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none" value="#{user.legajo}"
 					actionListener="#{userController.storeOriginalItem(user)}"
-					update=":baseAccordion:profileTabView:userDataTableForm:modifyUserPanelGrid"
 					oncomplete="modifyUserWidget.show();">
 					<f:setPropertyActionListener
 						target="#{userController.selectedItem}" value="#{user}" />
+					<f:setPropertyActionListener
+						target="#{userController.selectedProfiles}"
+						value="#{userController.userProfilesAsArray}" />
 				</p:commandLink>
 			</p:column>
 
@@ -67,10 +71,12 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none" value="#{user.nombre}"
 					actionListener="#{userController.storeOriginalItem(user)}"
-					update=":baseAccordion:profileTabView:userDataTableForm:modifyUserPanelGrid"
 					oncomplete="modifyUserWidget.show();">
 					<f:setPropertyActionListener
 						target="#{userController.selectedItem}" value="#{user}" />
+					<f:setPropertyActionListener
+						target="#{userController.selectedProfiles}"
+						value="#{userController.userProfilesAsArray}" />
 				</p:commandLink>
 			</p:column>
 
@@ -79,31 +85,35 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none" value="#{user.apellido}"
 					actionListener="#{userController.storeOriginalItem(user)}"
-					update=":baseAccordion:profileTabView:userDataTableForm:modifyUserPanelGrid"
 					oncomplete="modifyUserWidget.show();">
 					<f:setPropertyActionListener
 						target="#{userController.selectedItem}" value="#{user}" />
+					<f:setPropertyActionListener
+						target="#{userController.selectedProfiles}"
+						value="#{userController.userProfilesAsArray}" />
 				</p:commandLink>
 			</p:column>
 
 			<p:column id="userProfiles" filterStyle="display:none"
 				headerText="Perfiles" style="width:auto">
-				<p:dataList value="#{user.perfiles}" var="perfil">
-					<p:commandLink style="text-decoration:none"
-						value="#{perfil.nombre}"
+				<ui:repeat var="perfil" value="#{user.perfiles}">
+					<p:commandLink style="text-decoration:none" value="#{perfil.name}"
 						actionListener="#{userController.storeOriginalItem(user)}"
-						update=":baseAccordion:profileTabView:userDataTableForm:modifyUserPanelGrid"
 						oncomplete="modifyUserWidget.show();">
 						<f:setPropertyActionListener
 							target="#{userController.selectedItem}" value="#{user}" />
+						<f:setPropertyActionListener
+							target="#{userController.selectedProfiles}"
+							value="#{userController.userProfilesAsArray}" />
 					</p:commandLink>
-				</p:dataList>
+					<br />
+				</ui:repeat>
 			</p:column>
 
 		</p:dataTable>
-		<p:dialog id="modifyUserDialog" header="Modificar Usuario" dynamic="true"
-			widgetVar="modifyUserWidget" modal="true" resizable="false"
-			closable="false">
+		<p:dialog id="modifyUserDialog" header="Modificar Usuario"
+			dynamic="true" widgetVar="modifyUserWidget" modal="true"
+			resizable="false" closable="false">
 			<ui:include src="modificar/modifyUsuario.xhtml" />
 
 		</p:dialog>

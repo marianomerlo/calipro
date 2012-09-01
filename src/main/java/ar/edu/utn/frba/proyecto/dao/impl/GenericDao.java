@@ -1,6 +1,7 @@
 package ar.edu.utn.frba.proyecto.dao.impl;
 
 import java.io.Serializable;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,7 +28,7 @@ public class GenericDao extends BaseDao {
 	}
 	
 	public void addProfilesToUser(Usuario user, Profile[] profiles){
-		conn = getConnection();
+		Connection conn = getConnection();
 		ResultSet result = null;
 		String query = "INSERT INTO Perfil_por_Usuario (idPerfil,idUsuario) VALUES (?,?)";
 		try {
@@ -48,7 +49,7 @@ public class GenericDao extends BaseDao {
 	}
 
 	public List<Profile> getProfilesByUser(Usuario user) {
-		conn = getConnection();
+		Connection conn = getConnection();
 		ResultSet result = null;
 		List<Profile> resultList = new ArrayList<Profile>();
 		String query = "SELECT * FROM PERFIL WHERE idPerfil in (SELECT idPerfil FROM Perfil_por_Usuario WHERE idUsuario = ?)";
@@ -60,13 +61,14 @@ public class GenericDao extends BaseDao {
 				while (result.next()){
 					resultList.add(getProfileFromResult(result));
 				}
+				
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally{
 	        if (result != null) try { result.close(); } catch (SQLException logOrIgnore) {}
 	        releaseConnection(conn);
 		}
-		return null;
+		return resultList;
 	}
 
 	private Profile getProfileFromResult(ResultSet result) {
@@ -75,6 +77,21 @@ public class GenericDao extends BaseDao {
 								result.getString(ConstantsDatatable.GENERAL_NOMBRE));
 		} catch (SQLException e) {e.printStackTrace();}
 		return null;
+	}
+	
+	public void removeProfilesFromUser(Usuario user){
+		Connection conn = getConnection();
+		String query = "DELETE FROM Perfil_por_Usuario WHERE idUsuario = ?";
+		try {
+				PreparedStatement prepStatement = conn.prepareStatement(query);
+				prepStatement.setInt(1, user.getId());
+
+				prepStatement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+	        releaseConnection(conn);
+		}
 	}
 
 }

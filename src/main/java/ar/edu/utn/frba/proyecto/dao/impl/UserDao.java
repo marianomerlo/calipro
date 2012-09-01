@@ -3,9 +3,6 @@ package ar.edu.utn.frba.proyecto.dao.impl;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-
-import org.hibernate.id.IdentityGenerator.GetGeneratedKeysDelegate;
 
 import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
 import ar.edu.utn.frba.proyecto.domain.Usuario;
@@ -16,16 +13,15 @@ public class UserDao extends BaseAbmDao<Usuario> {
 
 	@Override
 	protected PreparedStatement prepareAddStatement(Usuario element) {
-		String query = "INSERT INTO USUARIO (alias,nombre,apellido,estado,legajo,contrasenia) VALUES (?,?,?,?,?,?)";
+		String query = "INSERT INTO " + DATATABLE_NAME + " (alias,nombre,apellido,legajo,contrasenia) VALUES (?,?,?,?,?)";
 		PreparedStatement prepStatement = null;
 		try {
 			prepStatement = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 			prepStatement.setString(1, element.getAlias());
 			prepStatement.setString(2, element.getNombre());
 			prepStatement.setString(3, element.getApellido());
-			prepStatement.setInt(4, element.getEstado());
-			prepStatement.setString(5, element.getLegajo());
-			prepStatement.setString(6, element.getContraseña());
+			prepStatement.setString(4, element.getLegajo());
+			prepStatement.setString(5, element.getContraseña());
 		} catch (SQLException e) {e.printStackTrace();}
 		
 		return prepStatement;
@@ -33,17 +29,16 @@ public class UserDao extends BaseAbmDao<Usuario> {
 
 	@Override
 	protected PreparedStatement prepareUpdateStatement(Usuario element) {
-		String query = "UPDATE PRODUCTO SET alias = ?, nombre = ?, apellido = ?, estado = ?, legajo = ?, contrasenia = ? WHERE idUsuario = ? ";
+		String query = "UPDATE " + DATATABLE_NAME + " SET alias = ?, nombre = ?, apellido = ?,  legajo = ?, contrasenia = ? WHERE " + DATATABLE_ID + " = ? ";
 		PreparedStatement prepStatement = null;
 		try {
 			prepStatement = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 			prepStatement.setString(1, element.getAlias());
 			prepStatement.setString(2, element.getNombre());
 			prepStatement.setString(3, element.getApellido());
-			prepStatement.setInt(4, element.getEstado());
-			prepStatement.setString(5, element.getLegajo());
-			prepStatement.setString(6, element.getContraseña());
-			prepStatement.setInt(7, element.getId());
+			prepStatement.setString(4, element.getLegajo());
+			prepStatement.setString(5, element.getContraseña());
+			prepStatement.setInt(6, element.getId());
 		} catch (SQLException e) {e.printStackTrace();}
 		
 		return prepStatement;
@@ -66,7 +61,7 @@ public class UserDao extends BaseAbmDao<Usuario> {
 
 	@Override
 	protected PreparedStatement prepareUniqueStatement(Usuario element) {
-		String query = "SELECT * FROM USUARIO WHERE legajo = ?";
+		String query = "SELECT * FROM " + DATATABLE_NAME + " WHERE legajo = ?";
 		PreparedStatement prepStatement = null;
 		try {
 			prepStatement = conn.prepareStatement(query);

@@ -7,7 +7,7 @@ public interface AbmDao<T extends Serializable> extends Dao<T> {
 
 	public T getByUnique(T element);
 	
-	public T add(T element);
+	public void add(T element);
 	
 	public void update(T element);
 	

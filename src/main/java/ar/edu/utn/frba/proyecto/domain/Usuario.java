@@ -41,6 +41,8 @@ public class Usuario extends AuditObject implements Serializable {
 		this.nombre = usuario.getNombre();
 		this.apellido = usuario.getApellido();
 		this.contraseña = usuario.getContraseña();
+		this.legajo = usuario.getLegajo();
+		this.perfiles = usuario.getPerfiles();
 	}
 	
 	@Override

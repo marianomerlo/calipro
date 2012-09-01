@@ -29,7 +29,7 @@
 					actionListener="#{productController.addItem}"
 					update="addProductPanelGrid addProductPanel" />
 
-				<p:commandButton id="addProductCancelButton" value="Cancelar"
+				<p:commandButton id="addProductCancelButton" value="Cancelar" immediate="true"
 					actionListener="#{productController.resetCurrent}"
 					update="addProductPanelGrid" 
 					style="margin:10px" oncomplete="window.location.reload()" />

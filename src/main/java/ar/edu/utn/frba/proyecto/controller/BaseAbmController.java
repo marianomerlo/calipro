@@ -16,6 +16,9 @@ import ar.edu.utn.frba.proyecto.domain.BaseObject;
 
 public abstract class BaseAbmController<T extends BaseObject> extends BaseController<T> implements Serializable {
 
+	protected String addMessageKey;
+	protected String updateMessageKey;
+	
 	/* Spring Properties */
 	
 	protected T currentItem = newBaseItem();
@@ -36,47 +39,64 @@ public abstract class BaseAbmController<T extends BaseObject> extends BaseContro
 	
 	protected abstract boolean isDifferent();
 	
+	
+	
 	public void resetCurrent() {
 		this.currentItem = newBaseItem();
+		extraResetCurrentProcess();
 	}
 	
+	protected void extraResetCurrentProcess() {
+		// By default, do nothing
+		
+	}
+
 	public void refreshItems() {
 		this.items = getDao().getAll();
+		extraRefreshItemsProcess();
 		this.dataModel = newDataModel(this.items);
 	}
 	
-	public T addItem() {
-		T element = getDao().add(currentItem);
+	protected void extraRefreshItemsProcess() {
+		// By default, do nothing
+	}
 
-		String confirmMessage = ITEM_NAME + " " + currentItem.getIdentifingName()
-				+ " creado satisfactoriamente";
-		FacesContext.getCurrentInstance().addMessage(
-				"add" + ITEM_NAME + "GrowlMessageKeys",
-				new FacesMessage(FacesMessage.SEVERITY_INFO, confirmMessage,
-						null));
+	public void addItem() {
+		getDao().add(currentItem);
+		extraAddItemProcess();
+
 		resetCurrent();
 		refreshItems();
 		
-		return element;
+	}
+
+	protected void extraAddItemProcess() {
+		String confirmMessage = ITEM_NAME + " " + currentItem.getIdentifingName() + " creado satisfactoriamente";
+		FacesContext.getCurrentInstance().addMessage(getAddMessageKey(),
+				new FacesMessage(FacesMessage.SEVERITY_INFO, confirmMessage,
+						null));
 	}
 
 	public void updateItem(){
-		String messageKey = "update" + ITEM_NAME + "GrowlMessageKeys";
 		if ( isDifferent() ){
 			getDao().update(selectedItem);
 
-			String confirmMessage = ITEM_NAME + " " + selectedItem.getIdentifingName() + " modificado satisfactoriamente";
-			FacesContext.getCurrentInstance().addMessage(messageKey, new FacesMessage(FacesMessage.SEVERITY_INFO,confirmMessage, null));
+			extraUpdateItemProcess();
 			
 			storeOriginalItem(selectedItem);
 			refreshItems();
 		} else {
 			String errorMessage = "No ha realizado modificaciones";
-			FacesContext.getCurrentInstance().addMessage(messageKey,
+			FacesContext.getCurrentInstance().addMessage(getUpdateMessageKey(),
 					new FacesMessage(FacesMessage.SEVERITY_WARN, errorMessage,null));
 		}
 	}
 	
+	protected void extraUpdateItemProcess() {
+		String confirmMessage = ITEM_NAME + " " + selectedItem.getIdentifingName() + " modificado satisfactoriamente";
+		FacesContext.getCurrentInstance().addMessage(getUpdateMessageKey(), new FacesMessage(FacesMessage.SEVERITY_INFO,confirmMessage, null));
+	}
+
 	public void deleteItems(){
 		getDao().delete(Arrays.asList(getSelectedItems()));
 		refreshItems();
@@ -111,7 +131,6 @@ public abstract class BaseAbmController<T extends BaseObject> extends BaseContro
 			return StringUtils
 					.collectionToDelimitedString(itemIds, splitter);
 		}
-
 		return "";
 	}
 
@@ -148,6 +167,28 @@ public abstract class BaseAbmController<T extends BaseObject> extends BaseContro
 
 	public void setDataModel(SelectableDataModel<T> dataModel) {
 		this.dataModel = dataModel;
+	}
+
+	public String getAddMessageKey() {
+		if ( this.addMessageKey == null)
+			this.addMessageKey = "add" + ITEM_NAME + "GrowlMessageKeys";
+		
+		return addMessageKey;
+	}
+
+	public void setAddMessageKey(String addMessageKey) {
+		this.addMessageKey = addMessageKey;
+	}
+
+	public String getUpdateMessageKey() {
+		if (this.updateMessageKey == null)
+			 this.updateMessageKey = "update" + ITEM_NAME + "GrowlMessageKeys";
+		
+		return updateMessageKey;
+	}
+
+	public void setUpdateMessageKey(String updateMessageKey) {
+		this.updateMessageKey = updateMessageKey;
 	}
 	
 	

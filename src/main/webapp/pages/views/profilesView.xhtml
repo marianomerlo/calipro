@@ -17,14 +17,15 @@
 	</div>
 
 	<p:separator id="separator" rendered="#{sessionController.loggedUser != null}" style="width:1000px"/>
-	
-	<p:accordionPanel id="baseAccordion" rendered="#{sessionController.loggedUser != null}"  style="width:1000px">
+
+
+	<p:accordionPanel id="baseAccordion" rendered="#{sessionController.loggedUser != null}"	style="width:1000px" >
 		<p:tab title="Desarrollo">
-			<p:tabView id="profileTabView" activeIndex="#{sessionController.activeIndexTab}">
+			<p:tabView id="profileTabViewDesarrollo" activeIndex="#{sessionController.activeIndexTab}">
 			
 				<p:ajax event="tabChange" listener="#{sessionController.onTabChange}"/>
 				<p:tab title="Productos">
-					<ui:include src="produccionView.xhtml" />
+					<ui:include src="productosView.xhtml" />
 				</p:tab>
 				<p:tab title="Análisis">
 					<ui:include src="analisisView.xhtml" />

@@ -1,10 +1,14 @@
 package ar.edu.utn.frba.proyecto.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.model.SelectableDataModel;
 
@@ -27,15 +31,54 @@ public class UserController extends BaseAbmController<Usuario> {
 	private UserDao userDao;
 
 	
-	private Profile[] selectedProfiles;
+	private Profile[] selectedProfiles = new Profile[4];
 	
 	@Override
-	public Usuario addItem(){
-		Usuario user = super.addItem();
-		
-		getGenericDao().addProfilesToUser(user, selectedProfiles);
-		
-		return user;
+	protected void extraAddItemProcess() {
+		if (selectedProfiles.length > 0) {
+			getGenericDao().addProfilesToUser(currentItem, selectedProfiles);
+			super.extraAddItemProcess();
+		} else {
+			String confirmMessage = "Debes seleccionar al menos un perfil";
+			FacesContext.getCurrentInstance().addMessage(getAddMessageKey(),
+					new FacesMessage(FacesMessage.SEVERITY_FATAL, confirmMessage,
+							null));
+		}
+	}
+	
+	@Override
+	public void extraUpdateItemProcess() {
+		if (hasProfilesChanged()) {
+			if (selectedProfiles.length > 0) {
+				getGenericDao().removeProfilesFromUser(selectedItem);
+				getGenericDao().addProfilesToUser(selectedItem,selectedProfiles);
+				super.extraUpdateItemProcess();
+			} else {
+				String confirmMessage = "Debes seleccionar al menos un perfil";
+				FacesContext.getCurrentInstance().addMessage(getUpdateMessageKey(),
+						new FacesMessage(FacesMessage.SEVERITY_FATAL,
+								confirmMessage, null));
+			}
+		}
+	}
+	
+	@Override
+	public void extraRefreshItemsProcess() {
+		for (Usuario usuario : getItems()) {
+			usuario.setPerfiles(getGenericDao().getProfilesByUser(usuario));
+		}
+	}
+	
+	@Override
+	public void extraGetItemsProcess(){
+		for (Usuario usuario : getItems()) {
+			usuario.setPerfiles(getGenericDao().getProfilesByUser(usuario));
+		}
+	}
+	
+	@Override
+	protected void extraResetCurrentProcess() {
+		setSelectedProfiles(new Profile[4]);
 	}
 	
 	@Override
@@ -50,12 +93,7 @@ public class UserController extends BaseAbmController<Usuario> {
 
 	@Override
 	protected Usuario newBaseItem(Usuario item) {
-		return new Usuario(item.getId(),
-							item.getAlias(),
-							item.getNombre(),
-							item.getApellido(),
-							item.getLegajo(),
-							item.getContraseña());
+		return new Usuario(item);
 	}
 
 	@Override
@@ -64,7 +102,14 @@ public class UserController extends BaseAbmController<Usuario> {
 				!getOriginalSelectedItem().getNombre().equals(getSelectedItem().getNombre()) || 
 				!getOriginalSelectedItem().getApellido().equals(getSelectedItem().getApellido()) ||
 				!getOriginalSelectedItem().getLegajo().equals(getSelectedItem().getLegajo()) ||
-				!getOriginalSelectedItem().getContraseña().equals(getSelectedItem().getContraseña());
+				!getOriginalSelectedItem().getContraseña().equals(getSelectedItem().getContraseña()) ||
+				hasProfilesChanged();
+				
+	}
+
+	private boolean hasProfilesChanged() {
+		return !(getOriginalSelectedItem().getPerfiles().containsAll(getSelectedProfilesAsList()) &&
+				getOriginalSelectedItem().getPerfiles().size() == selectedProfiles.length);
 	}
 
 	public void setUserDao(UserDao userDao) {
@@ -90,4 +135,14 @@ public class UserController extends BaseAbmController<Usuario> {
 		this.selectedProfiles = selectedProfiles;
 	}
 
+	public Profile[] getUserProfilesAsArray(){
+		return selectedItem.getPerfiles().toArray(new Profile[4]);
+	}
+	
+	public List<Profile> getSelectedProfilesAsList(){
+		if ( selectedProfiles != null && selectedProfiles.length > 0)
+			return Arrays.asList(selectedProfiles);
+		
+		return new ArrayList<Profile>();
+	}
 }

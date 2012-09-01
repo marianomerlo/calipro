@@ -4,6 +4,8 @@ package ar.edu.utn.frba.proyecto.domain;
 import java.util.Arrays;
 import java.util.List;
 
+import ar.edu.utn.frba.proyecto.helper.ProfileHelper;
+
 public class Profile extends BaseObject{
 	
 	/**
@@ -19,8 +21,9 @@ public class Profile extends BaseObject{
 		super();
 		this.id = id;
 		this.name = name;
+		this.vistas = ProfileHelper.getViews(this);
 	}
-	
+
 	public Profile ( String name, Vista... vistas){
 		super();
 		this.name = name;
@@ -56,6 +59,20 @@ public class Profile extends BaseObject{
 	@Override
 	public String getIdentifingName() {
 		return this.name;
+	}
+	
+	@Override
+	public int hashCode() {
+		return ( name.length() * 31 ) ^ id;
+	}	
+	
+	@Override
+	public boolean equals(Object arg0) {
+		if (arg0 instanceof Profile) {
+		      Profile other = (Profile) arg0;
+		      return (name.equals(other.name) && id == other.id);
+		    }
+		    return false;
 	}
 	
 }

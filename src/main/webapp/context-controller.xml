@@ -5,24 +5,34 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 					http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<bean id="productController" class="ar.edu.utn.frba.proyecto.controller.ProductController" >
+	<bean id="baseController" abstract="true">
+		<property name="genericDao" ref="genericDao" />
+	</bean>
+
+	<bean id="productController" parent="baseController" class="ar.edu.utn.frba.proyecto.controller.ProductController" >
 		<property name="ITEM_NAME" value="Producto" />
 		<property name="productDao" ref="productDao" />
 	</bean>
 
-	<bean id="analisisController" class="ar.edu.utn.frba.proyecto.controller.AnalisisController" >
+	<bean id="analisisController" parent="baseController" class="ar.edu.utn.frba.proyecto.controller.AnalisisController" >
 		<property name="ITEM_NAME" value="Analisis" />
 		<property name="analisisDao" ref="analisisDao" />
 	</bean>
 
-	<bean id="userController" class="ar.edu.utn.frba.proyecto.controller.UserController" >
+	<bean id="userController" parent="baseController" class="ar.edu.utn.frba.proyecto.controller.UserController" >
 		<property name="ITEM_NAME" value="Usuario" />
 		<property name="userDao" ref="userDao" />
 	</bean>
 
-	<bean id="profileController" class="ar.edu.utn.frba.proyecto.controller.ProfileController" scope="singleton">
+	<bean id="profileController" parent="baseController" class="ar.edu.utn.frba.proyecto.controller.ProfileController" scope="singleton">
 		<property name="ITEM_NAME" value="Perfil" />
 		<property name="profileDao" ref="profileDao" />
+	</bean>
+
+	<bean id="sessionController" parent="baseController" class="ar.edu.utn.frba.proyecto.controller.SessionController" scope="session">
+		<property name="ITEM_NAME" value="Perfil" />
+		<property name="userDao" ref="userDao" />
+		<property name="profileController" ref="profileController" />
 	</bean>
 
 </beans>

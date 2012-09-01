@@ -10,6 +10,11 @@ public class ConstantsDatatable {
 
 	public static String PERFIL_ID = "idPerfil";
 
+	public static String PERFIL_PRODUCCION = "Produccón";
+	public static String PERFIL_CALIDAD = "Calidad";
+	public static String PERFIL_DESARROLLO = "Desarrollo";
+	public static String PERFIL_SUPERVISION = "Supervisión";
+
 	public static String USUARIO_CONTRASEÑA = "contrasenia";
 
 	public static String USUARIO_LEGAJO = "legajo";

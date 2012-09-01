@@ -63,7 +63,7 @@ public abstract class BaseAbmDao<T extends AuditObject> extends BaseDao<T> imple
 	}
 
 	@Override
-	public T add(T element){
+	public void add(T element){
 		conn = getConnection();
 		ResultSet result = null;
 		
@@ -76,14 +76,12 @@ public abstract class BaseAbmDao<T extends AuditObject> extends BaseDao<T> imple
 			if ( result.next())
 				element.setId(result.getInt(1));
 			
-			return element;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally{
 	        if (result != null) try { result.close(); } catch (SQLException logOrIgnore) {}
 	        releaseConnection(conn);
 		}
-		return null;
 	}
 
 	protected abstract PreparedStatement prepareAddStatement(T element);

@@ -1,14 +1,31 @@
-<!-- 		<p:tabView id="baseAccordion" style="width:1000px"> -->
-<!-- 			<c:forEach var="profile" items="#{userController.profiles}"> -->
-<!-- 				<p:tab title="#{profile.name}"> -->
-<!-- 					<p:tabView id="profileTabView"> -->
-<!-- 						<c:forEach var="vista" items="#{profile.vistas}"> -->
-<!-- 							<p:tab title="#{vista.name}"> -->
-<!-- 									<ui:include src="#{vista.view}" /> -->
-<!-- 							</p:tab> -->
-<!-- 						</c:forEach> -->
-<!-- 					</p:tabView> -->
-<!-- 				</p:tab> -->
-<!-- 			</c:forEach> -->
-<!-- 		</p:tabView> -->
 
+	<p:accordionPanel id="baseAccordion" rendered="#{sessionController.loggedUser != null}"  style="width:1000px">
+		<p:tab title="Desarrollo">
+			<p:tabView id="profileTabView" activeIndex="#{sessionController.activeIndexTab}">
+			
+				<p:ajax event="tabChange" listener="#{sessionController.onTabChange}"/>
+				<p:tab title="Productos">
+					<ui:include src="productosView.xhtml" />
+				</p:tab>
+				<p:tab title="An‡lisis">
+					<ui:include src="analisisView.xhtml" />
+				</p:tab>
+				<p:tab title="Usuarios">
+					<ui:include src="usuariosView.xhtml" />
+				</p:tab>
+			</p:tabView>
+		</p:tab>
+	</p:accordionPanel>
+
+				<c:forEach var="profile" items="#{sessionController.loggedUser.perfiles}">
+			<p:tab title="#{profile.name}" id="#{profile.name}" >
+				<p:tabView id="profileTabView${profile.name}" activeIndex="#{sessionController.activeIndexTab}">
+					<p:ajax event="tabChange" listener="#{sessionController.onTabChange}" />
+					<c:forEach var="vista" items="#{profile.vistas}">
+						<p:tab title="#{vista.name}" id="#{profile.name}#{vista.name}" >
+							<ui:include src="#{vista.view}" />
+						</p:tab>
+					</c:forEach>
+				</p:tabView>
+			</p:tab>
+		</c:forEach>

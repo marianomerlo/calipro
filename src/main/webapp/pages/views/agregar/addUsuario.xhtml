@@ -10,7 +10,11 @@
 	<p:growl id="addUsuarioGrowlMessages" showSummary="true"
 		autoUpdate="true" for="addUsuarioGrowlMessageKeys" />
 	<p:panel id="addUserPanel">
+		<p:message for="addUserAlias" display="both" />
 		<p:message for="addUserName" display="both" />
+		<p:message for="addUserSurname" display="both" />
+		<p:message for="addUserLeg" display="both" />
+		<p:message for="addUserPass" display="both" />
 
 		<h:panelGrid columns="2" cellpadding="5" id="addUserPanelGrid"
 			style="width:auto !important">
@@ -60,7 +64,7 @@
 					actionListener="#{userController.addItem}"
 					update="addUserPanelGrid addUserPanel" />
 
-				<p:commandButton id="addUserCancelButton" value="Cancelar"
+				<p:commandButton id="addUserCancelButton" value="Cancelar" immediate="true"
 					actionListener="#{userController.resetCurrent}"
 					update="addUserPanelGrid" style="margin:10px"
 					oncomplete="window.location.reload()" />

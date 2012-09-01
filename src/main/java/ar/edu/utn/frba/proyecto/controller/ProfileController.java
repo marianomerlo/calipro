@@ -12,6 +12,7 @@ public class ProfileController extends BaseController<Profile> {
 	 * 
 	 */
 	private static final long serialVersionUID = 8625535476945880957L;
+	
 	@ManagedProperty("#{profileDao}")
 	private ProfileDao profileDao;
 	
@@ -23,5 +24,4 @@ public class ProfileController extends BaseController<Profile> {
 	public void setProfileDao(ProfileDao profileDao) {
 		this.profileDao = profileDao;
 	}
-
 }

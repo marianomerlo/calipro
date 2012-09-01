@@ -24,7 +24,7 @@
 					actionListener="#{analisisController.addItem}"
 					update="addAnalisisPanelGrid addAnalisisPanel" />
 
-				<p:commandButton id="addAnalisisCancelButton" value="Cancelar"
+				<p:commandButton id="addAnalisisCancelButton" value="Cancelar" immediate="true"
 					actionListener="#{analisisController.resetCurrent}"
 					update="addAnalisisPanelGrid" 
 					style="margin:10px" oncomplete="window.location.reload()" />

@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.proyecto.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage;
@@ -40,12 +39,11 @@ public class SessionController extends BaseController {
 	
 	private int activeIndexTab;
 	
-	private List<Profile> profiles;
-	
 	public void login(){
 		
 		Usuario tempUser = getUserDao().getByUnique(new Usuario(0, null, null, null, legajo, null));
 		if ( tempUser != null && password.equals(tempUser.getContraseña()) ){
+			tempUser.setPerfiles(getGenericDao().getProfilesByUser(tempUser));
 			loggedUser = tempUser;
 		} else {
 			String errorMessage = "Legajo y/o contraseña invalidos";
@@ -115,21 +113,6 @@ public class SessionController extends BaseController {
 		this.profileController = profileController;
 	}
 	
-	public List<Profile> getProfiles() {
-		if ( this.profiles == null){
-			this.profiles = getGenericDao().getProfilesByUser(loggedUser);
-//			List<Profile> list = new ArrayList<Profile>();
-//			list.add(new Profile("Produccion", "1", "2", new Vista("Productos", "produccion.xhtml"),
-//					 									new Vista("Analisis", "analisis.xhtml")));
-//			list.add(new Profile("Supervision","1","2", new Vista("Usuarios", "usuarios.xhtml")));
-		}
-		return profiles;
-	}
-
-	public void setProfiles(List<Profile> profiles) {
-		this.profiles = profiles;
-	}
-
 	public Usuario getLoggedUser() {
 		return loggedUser;
 	}
@@ -137,5 +120,4 @@ public class SessionController extends BaseController {
 	public void setLoggedUser(Usuario loggedUser) {
 		this.loggedUser = loggedUser;
 	}
-
 }

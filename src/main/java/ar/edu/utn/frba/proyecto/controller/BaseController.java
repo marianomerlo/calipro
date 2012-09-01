@@ -25,12 +25,18 @@ public abstract class BaseController<T extends Serializable> implements Serializ
 	protected abstract Dao<T> getDao();
 	
 	public List<T> getItems() {
-		if (this.items == null)
+		if (this.items == null) {
 			this.items = getDao().getAll();
+			extraGetItemsProcess();
+		}
 
 		return this.items;
 	}
 	
+	protected void extraGetItemsProcess() {
+		// By default, do nothing.
+	}
+
 	public String getITEM_NAME() {
 		return ITEM_NAME;
 	}
