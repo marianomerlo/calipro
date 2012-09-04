@@ -14,9 +14,9 @@ import org.primefaces.event.TabChangeEvent;
 
 import ar.edu.utn.frba.proyecto.dao.Dao;
 import ar.edu.utn.frba.proyecto.dao.impl.UserDao;
-import ar.edu.utn.frba.proyecto.domain.Profile;
 import ar.edu.utn.frba.proyecto.domain.Usuario;
 
+@SuppressWarnings("rawtypes")
 @ManagedBean
 @SessionScoped
 public class SessionController extends BaseController {
@@ -30,7 +30,7 @@ public class SessionController extends BaseController {
 	private UserDao userDao;
 	
 	@ManagedProperty("#{profileController}")
-	private BaseController<Profile> profileController;
+	private ProfileController profileController;
 	
 	private String legajo;
 	private String password;
@@ -41,9 +41,9 @@ public class SessionController extends BaseController {
 	
 	public void login(){
 		
-		Usuario tempUser = getUserDao().getByUnique(new Usuario(0, null, null, null, legajo, null));
+		Usuario tempUser = getUserDao().getByUnique(new Usuario(null, null, null, null, legajo, null, null));
 		if ( tempUser != null && password.equals(tempUser.getContraseña()) ){
-			tempUser.setPerfiles(getGenericDao().getProfilesByUser(tempUser));
+			tempUser.setPerfiles(getProfileController().getProfilesByUser(tempUser));
 			loggedUser = tempUser;
 		} else {
 			String errorMessage = "Legajo y/o contraseña invalidos";
@@ -105,11 +105,11 @@ public class SessionController extends BaseController {
 		return null;
 	}
 
-	public BaseController<Profile> getProfileController() {
+	public ProfileController getProfileController() {
 		return profileController;
 	}
 
-	public void setProfileController(BaseController<Profile> profileController) {
+	public void setProfileController(ProfileController profileController) {
 		this.profileController = profileController;
 	}
 	

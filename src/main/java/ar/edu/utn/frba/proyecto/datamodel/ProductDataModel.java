@@ -24,6 +24,7 @@ public class ProductDataModel extends ListDataModel<Producto> implements
 		return arg0.getId();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Producto getRowData(String arg0) {
         List<Producto> productos = (List<Producto>) getWrappedData();  

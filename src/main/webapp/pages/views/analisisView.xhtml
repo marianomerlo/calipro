@@ -18,8 +18,7 @@
 				<ui:include src="agregar/addAnalisis.xhtml" />
 		</p:dialog>
 	</h:form>
-
-	<h:form id="analisisDataTableForm">
+	<h:form id="deleteAnalisisForm">
 		<p:commandButton id="analisisDelete" value="Eliminar" immediate="true"
 			style="margin:10px" onclick="deleteAnalisisWidget.show();"
 			type="button" />
@@ -29,6 +28,9 @@
 			closable="false">
 			<ui:include src="eliminar/deleteAnalisis.xhtml" />
 		</p:dialog>
+	</h:form>
+
+	<h:form id="analisisDataTableForm">
 		<p:dataTable id="analisisDataTable" var="analisis"
 			value="#{analisisController.dataModel}"
 			rowIndexVar="analisisIndex" widgetVar="analisisTable"
@@ -39,13 +41,13 @@
 			style="width:800px;text-align:center">
 
 			<p:ajax event="rowSelectCheckbox"
-				update=":baseAccordion:profileTabViewDesarrollo:analisisDataTableForm:deleteAnalisisDialog" />
+				update=":baseAccordion:profileTabViewDesarrollo:deleteAnalisisForm:deleteAnalisisDialog" />
 
 			<p:ajax event="toggleSelect"
-				update=":baseAccordion:profileTabViewDesarrollo:analisisDataTableForm:deleteAnalisisDialog" />
+				update=":baseAccordion:profileTabViewDesarrollo:deleteAnalisisForm:deleteAnalisisDialog" />
 
 			<p:ajax event="rowUnselectCheckbox"
-				update=":baseAccordion:profileTabViewDesarrollo:analisisDataTableForm:deleteAnalisisDialog" />
+				update=":baseAccordion:profileTabViewDesarrollo:deleteAnalisisForm:deleteAnalisisDialog" />
 
 			<f:facet name="header">
 				<p:outputPanel>

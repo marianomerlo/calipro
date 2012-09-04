@@ -3,7 +3,9 @@ package ar.edu.utn.frba.proyecto.domain;
 import java.io.Serializable;
 import java.util.List;
 
-public class Usuario extends AuditObject implements Serializable {
+import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
+
+public class Usuario extends BaseObject implements Serializable {
 
 	/**
 	 * 
@@ -18,19 +20,20 @@ public class Usuario extends AuditObject implements Serializable {
 	
 	private String legajo;
 	
-	private Integer estado;
+	private Estado estado;
 	
 	private String contraseña;
 	
 	private List<Profile> perfiles;
 
-	public Usuario(Integer id,String alias, String nombre, String apellido, String legajo, String contraseña){
+	public Usuario(Integer id,String alias, String nombre, String apellido, String legajo, Integer estado, String contraseña){
 		super();
 		this.id = id;
 		this.alias = alias;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.legajo = legajo;
+		this.estado = new Estado(estado, null);
 		this.contraseña = contraseña;
 	}
 	
@@ -42,9 +45,14 @@ public class Usuario extends AuditObject implements Serializable {
 		this.apellido = usuario.getApellido();
 		this.contraseña = usuario.getContraseña();
 		this.legajo = usuario.getLegajo();
+		this.estado = usuario.getEstado();
 		this.perfiles = usuario.getPerfiles();
 	}
 	
+	public Usuario() {
+		super();
+	}
+
 	@Override
 	public String getIdentifingName() {
 		return getAlias();
@@ -82,14 +90,6 @@ public class Usuario extends AuditObject implements Serializable {
 		this.legajo = legajo;
 	}
 
-	public Integer getEstado() {
-		return estado;
-	}
-
-	public void setEstado(Integer estado) {
-		this.estado = estado;
-	}
-
 	public String getContraseña() {
 		return contraseña;
 	}
@@ -114,6 +114,25 @@ public class Usuario extends AuditObject implements Serializable {
 	 */
 	public void setPerfiles(List<Profile> perfiles) {
 		this.perfiles = perfiles;
+	}
+
+	@Override
+	public Integer getStateGroupId() {
+		return ConstantsDatatable.ESTADO_GROUPID_USUARIO;
+	}
+
+	/**
+	 * @return the estado
+	 */
+	public Estado getEstado() {
+		return estado;
+	}
+
+	/**
+	 * @param estado the estado to set
+	 */
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
 
 }

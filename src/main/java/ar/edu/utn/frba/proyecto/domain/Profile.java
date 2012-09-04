@@ -74,5 +74,4 @@ public class Profile extends BaseObject{
 		    }
 		    return false;
 	}
-	
 }

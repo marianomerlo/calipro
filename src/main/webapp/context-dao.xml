@@ -17,7 +17,10 @@
 		<property name="DATATABLE_ID" value="idPerfil" />
 	</bean>
 
-	<bean id="genericDao" parent="baseDao" class="ar.edu.utn.frba.proyecto.dao.impl.GenericDao"/>
+	<bean id="estadoDao" parent="baseDao" class="ar.edu.utn.frba.proyecto.dao.impl.EstadoDao">
+		<property name="DATATABLE_NAME" value="ESTADO" />
+		<property name="DATATABLE_ID" value="idEstado" />
+	</bean>
 
 	<bean id="baseAbmDao" abstract="true" parent="baseDao" />
 

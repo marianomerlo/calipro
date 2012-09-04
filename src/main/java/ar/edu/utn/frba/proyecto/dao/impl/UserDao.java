@@ -11,9 +11,14 @@ import com.mysql.jdbc.Statement;
 
 public class UserDao extends BaseAbmDao<Usuario> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2630787135372347058L;
+
 	@Override
 	protected PreparedStatement prepareAddStatement(Usuario element) {
-		String query = "INSERT INTO " + DATATABLE_NAME + " (alias,nombre,apellido,legajo,contrasenia) VALUES (?,?,?,?,?)";
+		String query = "INSERT INTO " + DATATABLE_NAME + " (alias,nombre,apellido,legajo,estado,contrasenia) VALUES (?,?,?,?,?,?)";
 		PreparedStatement prepStatement = null;
 		try {
 			prepStatement = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
@@ -21,7 +26,8 @@ public class UserDao extends BaseAbmDao<Usuario> {
 			prepStatement.setString(2, element.getNombre());
 			prepStatement.setString(3, element.getApellido());
 			prepStatement.setString(4, element.getLegajo());
-			prepStatement.setString(5, element.getContraseña());
+			prepStatement.setInt(5, ConstantsDatatable.ESTADO_USUARIO_HABILITADO);
+			prepStatement.setString(6, element.getContraseña());
 		} catch (SQLException e) {e.printStackTrace();}
 		
 		return prepStatement;
@@ -29,7 +35,7 @@ public class UserDao extends BaseAbmDao<Usuario> {
 
 	@Override
 	protected PreparedStatement prepareUpdateStatement(Usuario element) {
-		String query = "UPDATE " + DATATABLE_NAME + " SET alias = ?, nombre = ?, apellido = ?,  legajo = ?, contrasenia = ? WHERE " + DATATABLE_ID + " = ? ";
+		String query = "UPDATE " + DATATABLE_NAME + " SET alias = ?, nombre = ?, apellido = ?,  legajo = ?, estado = ?, contrasenia = ? WHERE " + DATATABLE_ID + " = ? ";
 		PreparedStatement prepStatement = null;
 		try {
 			prepStatement = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
@@ -37,8 +43,9 @@ public class UserDao extends BaseAbmDao<Usuario> {
 			prepStatement.setString(2, element.getNombre());
 			prepStatement.setString(3, element.getApellido());
 			prepStatement.setString(4, element.getLegajo());
-			prepStatement.setString(5, element.getContraseña());
-			prepStatement.setInt(6, element.getId());
+			prepStatement.setInt(5, element.getEstado().getId());
+			prepStatement.setString(6, element.getContraseña());
+			prepStatement.setInt(7, element.getId());
 		} catch (SQLException e) {e.printStackTrace();}
 		
 		return prepStatement;
@@ -52,6 +59,7 @@ public class UserDao extends BaseAbmDao<Usuario> {
 							   result.getString(ConstantsDatatable.GENERAL_NOMBRE), 
 							   result.getString(ConstantsDatatable.GENERAL_APELLIDO), 
 							   result.getString(ConstantsDatatable.USUARIO_LEGAJO), 
+							   result.getInt(ConstantsDatatable.GENERAL_ESTADO),
 							   result.getString(ConstantsDatatable.USUARIO_CONTRASEÑA));
 		} catch (SQLException e) { e.printStackTrace();	}
 		
@@ -71,5 +79,4 @@ public class UserDao extends BaseAbmDao<Usuario> {
 		
 		return prepStatement;
 	}
-
 }

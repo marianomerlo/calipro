@@ -29,3 +29,11 @@
 				</p:tabView>
 			</p:tab>
 		</c:forEach>
+		
+				<p:selectOneMenu id="modifyStateUserBox"	value="#{userController.selectedItem.estado}">
+		<ui:repeat var="estado" value="#{userController.availableStates}">
+			<f:selectItem itemLabel="#{estado.nombre}" itemValue="#{estado}" />
+		</ui:repeat>
+			<f:selectItems value="#{userController.availableStates}" var="estado" 
+				itemLabel="#{estado.nombre}" itemValue="#{estado}" />
+		</p:selectOneMenu>

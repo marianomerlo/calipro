@@ -13,8 +13,13 @@ import ar.edu.utn.frba.proyecto.domain.BaseObject;
 
 public abstract class BaseDao<T extends BaseObject> implements Dao<T> {
 
-	/* Spring Properties */
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -320695358771321702L;
+
+	/* Spring Properties */
 	protected String dbURL;
 	protected String sqlDriver;
 	protected String username;
@@ -55,20 +60,22 @@ public abstract class BaseDao<T extends BaseObject> implements Dao<T> {
 		String query = "SELECT * FROM " + DATATABLE_NAME + " WHERE " + DATATABLE_ID + " = ? ";
 		conn = getConnection();
 		ResultSet result = null;
+		T resultElement = null;
 		try {
 			PreparedStatement prepStatement = conn.prepareStatement(query);
 			prepStatement.setInt(1, element.getId());
 			result = prepStatement.executeQuery();
 			
 			if ( result.first()){
-				return getFromResult(result);
+				resultElement = getFromResult(result);
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 	        releaseConnection(conn);
 		}
-		return null;
+		return resultElement;
 	}
 
 	@Override

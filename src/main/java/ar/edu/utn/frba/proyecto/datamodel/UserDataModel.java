@@ -19,6 +19,7 @@ public class UserDataModel extends ListDataModel<Usuario> implements
 		super(data);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public Usuario getRowData(String arg0) {
 		List<Usuario> usuarios = (List<Usuario>) getWrappedData();  

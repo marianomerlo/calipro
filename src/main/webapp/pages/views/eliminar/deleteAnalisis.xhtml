@@ -7,8 +7,8 @@
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
-	<h:panelGrid columns="2" cellpadding="5" id="deleteAnalisisPanelGrid"
-		width="auto"
+	<h:panelGrid columns="2" cellpadding="5" id="deleteAnalisisPanelGrid" 		
+		style="width:auto !important"
 		rendered="#{not empty analisisController.selectedItems}">
 		<span class="ui-messages-warn-icon" />
 
@@ -26,7 +26,7 @@
 		</f:facet>
 	</h:panelGrid>
 	<h:panelGrid columns="2" cellpadding="5"
-		id="deleteAnalisisPanelGridEmpty" width="auto"
+		id="deleteAnalisisPanelGridEmpty" style="width:auto !important"
 		rendered="#{empty analisisController.selectedItems}">
 		<span class="ui-messages-fatal-icon" />
 

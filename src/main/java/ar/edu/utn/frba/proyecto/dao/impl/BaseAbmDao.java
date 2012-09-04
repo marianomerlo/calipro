@@ -8,9 +8,15 @@ import java.util.List;
 
 import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
 import ar.edu.utn.frba.proyecto.dao.AbmDao;
-import ar.edu.utn.frba.proyecto.domain.AuditObject;
+import ar.edu.utn.frba.proyecto.domain.BaseObject;
 
-public abstract class BaseAbmDao<T extends AuditObject> extends BaseDao<T> implements AbmDao<T>{
+public abstract class BaseAbmDao<T extends BaseObject > extends BaseDao<T> implements AbmDao<T>{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2202133430458748400L;
+
 
 	@Override
 	public T getByUnique(T element){

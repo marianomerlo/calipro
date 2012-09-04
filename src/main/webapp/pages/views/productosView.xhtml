@@ -18,17 +18,18 @@
 			<ui:include src="agregar/addProduct.xhtml" />
 		</p:dialog>
 	</h:form>
-
-	<h:form id="productDataTableForm">
+	<h:form id="deleteProductForm" style="border:0px">
 		<p:commandButton id="productDelete" value="Eliminar" immediate="true"
 			style="margin:10px" onclick="deleteProductWidget.show();"
 			type="button" />
-
 		<p:dialog id="deleteProductDialog" widgetVar="deleteProductWidget"
 			modal="true" resizable="false" header="Eliminar Producto"
 			closable="false">
 			<ui:include src="eliminar/deleteProduct.xhtml" />
 		</p:dialog>
+	</h:form>
+
+	<h:form id="productDataTableForm">
 		<p:dataTable id="productDataTable" var="producto"
 			value="#{productController.dataModel}" rowIndexVar="prodIndex"
 			widgetVar="productsTable" emptyMessage="No hay coincidencias"
@@ -38,13 +39,13 @@
 			style="width:800px;text-align:center">
 
 			<p:ajax event="rowSelectCheckbox"
-				update=":baseAccordion:profileTabViewDesarrollo:productDataTableForm:deleteProductDialog" />
+				update=":baseAccordion:profileTabViewDesarrollo:deleteProductForm:deleteProductDialog" />
 
 			<p:ajax event="toggleSelect"
-				update=":baseAccordion:profileTabViewDesarrollo:productDataTableForm:deleteProductDialog" />
+				update=":baseAccordion:profileTabViewDesarrollo:deleteProductForm:deleteProductDialog" />
 
 			<p:ajax event="rowUnselectCheckbox"
-				update=":baseAccordion:profileTabViewDesarrollo:productDataTableForm:deleteProductDialog" />
+				update=":baseAccordion:profileTabViewDesarrollo:deleteProductForm:deleteProductDialog" />
 			<f:facet name="header">
 				<p:outputPanel>
 					<h:outputText value="Buscar:" />

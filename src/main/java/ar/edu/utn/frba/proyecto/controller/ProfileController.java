@@ -1,10 +1,12 @@
 package ar.edu.utn.frba.proyecto.controller;
 
+import java.util.List;
+
 import javax.faces.bean.ManagedProperty;
 
-import ar.edu.utn.frba.proyecto.dao.Dao;
 import ar.edu.utn.frba.proyecto.dao.impl.ProfileDao;
 import ar.edu.utn.frba.proyecto.domain.Profile;
+import ar.edu.utn.frba.proyecto.domain.Usuario;
 
 public class ProfileController extends BaseController<Profile> {
 
@@ -17,11 +19,23 @@ public class ProfileController extends BaseController<Profile> {
 	private ProfileDao profileDao;
 	
 	@Override
-	protected Dao<Profile> getDao() {
+	protected ProfileDao getDao() {
 		return this.profileDao;
 	}
 
 	public void setProfileDao(ProfileDao profileDao) {
 		this.profileDao = profileDao;
+	}
+	
+	public void addProfilesToUser(Usuario user, Profile[] selectedProfiles){
+		getDao().addProfilesToUser(user, selectedProfiles);
+	}
+	
+	public void removeProfilesFromUser(Usuario user){
+		getDao().removeProfilesFromUser(user);
+	}
+	
+	public List<Profile> getProfilesByUser(Usuario user){
+		return getDao().getProfilesByUser(user);
 	}
 }

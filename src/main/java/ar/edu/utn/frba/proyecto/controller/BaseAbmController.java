@@ -16,10 +16,12 @@ import ar.edu.utn.frba.proyecto.domain.BaseObject;
 
 public abstract class BaseAbmController<T extends BaseObject> extends BaseController<T> implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7913685796974462920L;
 	protected String addMessageKey;
 	protected String updateMessageKey;
-	
-	/* Spring Properties */
 	
 	protected T currentItem = newBaseItem();
 	protected T selectedItem = newBaseItem();
@@ -27,19 +29,13 @@ public abstract class BaseAbmController<T extends BaseObject> extends BaseContro
 	
 	protected T[] selectedItems;
 
-	protected SelectableDataModel<T> dataModel; 
-	
 	protected abstract AbmDao<T> getDao(); 
 	
 	protected abstract T newBaseItem();
 
 	protected abstract T newBaseItem(T item);
 	
-	protected abstract SelectableDataModel<T> newDataModel(List<T> all);
-	
 	protected abstract boolean isDifferent();
-	
-	
 	
 	public void resetCurrent() {
 		this.currentItem = newBaseItem();
@@ -48,17 +44,12 @@ public abstract class BaseAbmController<T extends BaseObject> extends BaseContro
 	
 	protected void extraResetCurrentProcess() {
 		// By default, do nothing
-		
-	}
-
-	public void refreshItems() {
-		this.items = getDao().getAll();
-		extraRefreshItemsProcess();
-		this.dataModel = newDataModel(this.items);
 	}
 	
-	protected void extraRefreshItemsProcess() {
-		// By default, do nothing
+	public void refreshItems(){
+		setItems(getDao().getAll());
+		extraGetItemsProcess();
+		setDataModel(newDataModel(getItems()));
 	}
 
 	public void addItem() {
@@ -67,7 +58,6 @@ public abstract class BaseAbmController<T extends BaseObject> extends BaseContro
 
 		resetCurrent();
 		refreshItems();
-		
 	}
 
 	protected void extraAddItemProcess() {
@@ -108,8 +98,13 @@ public abstract class BaseAbmController<T extends BaseObject> extends BaseContro
 	
 	public void restoreOriginalItem() {
 		selectedItem = newBaseItem(originalSelectedItem);
+		extraRestoreOriginalItemProcess();
 	}
 	
+	protected void extraRestoreOriginalItemProcess() {
+		// By default, do nothing.
+	}
+
 	public void resetSelectedItems() {
 		selectedItems = null;
 	}
@@ -158,17 +153,6 @@ public abstract class BaseAbmController<T extends BaseObject> extends BaseContro
 		this.originalSelectedItem = originalSelectedItem;
 	}
 
-	public SelectableDataModel<T> getDataModel() {
-		if ( this.dataModel == null){
-			this.dataModel = newDataModel(getItems());
-		}
-		return dataModel;
-	}
-
-	public void setDataModel(SelectableDataModel<T> dataModel) {
-		this.dataModel = dataModel;
-	}
-
 	public String getAddMessageKey() {
 		if ( this.addMessageKey == null)
 			this.addMessageKey = "add" + ITEM_NAME + "GrowlMessageKeys";
@@ -191,5 +175,16 @@ public abstract class BaseAbmController<T extends BaseObject> extends BaseContro
 		this.updateMessageKey = updateMessageKey;
 	}
 	
+	public SelectableDataModel<T> getDataModel() {
+		if ( this.dataModel == null){
+			this.dataModel = newDataModel(getItems());
+		}
+		return dataModel;
+	}
 	
+	protected abstract SelectableDataModel<T> newDataModel(List<T> all);
+
+	public void setDataModel(SelectableDataModel<T> dataModel) {
+		this.dataModel = dataModel;
+	}
 }

@@ -5,6 +5,8 @@ public class ConstantsDatatable {
 	public static String PRODUCTO_ID = "idProducto";
 
 	public static String ANALISIS_ID = "idAnalisis";
+
+	public static String ESTADO_ID = "idEstado";
 	
 	public static String USUARIO_ID = "idUsuario";
 
@@ -28,7 +30,7 @@ public class ConstantsDatatable {
 	public static String GENERAL_DESCRIPCION = "descripcion";
 
 	public static String GENERAL_ESTADO = "estado";
-
+	
 	public static String AUDIT_FECHA_CREACION = "fechaCreacion";
 
 	public static String AUDIT_FECHA_ULTIMA_MOD = "fechaUltimaMod";
@@ -36,4 +38,16 @@ public class ConstantsDatatable {
 	public static String AUDIT_USUARIO_CREACION = "usuarioCreacion";
 
 	public static String AUDIT_USUARIO_ULTIMA_MOD = "usuarioUltimaMod";
+	
+	/* Constantes para estados */
+	
+	public static Integer ESTADO_USUARIO_HABILITADO = 1;
+	public static Integer ESTADO_USUARIO_DESHABILITADO = 2;
+	
+	public static Integer ESTADO_GROUPID_USUARIO = 1;
+	public static Integer ESTADO_GROUPID_MAQUINARIA = 2;
+	public static Integer ESTADO_GROUPID_PRODUCTO = 3;
+	public static Integer ESTADO_GROUPID_PROCESO_PRODUCCION = 4;
+	public static Integer ESTADO_GROUPID_SOLICITUD_ANALISIS = 5;
+	
 }

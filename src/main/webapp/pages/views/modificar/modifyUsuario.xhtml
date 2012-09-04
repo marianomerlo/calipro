@@ -9,7 +9,7 @@
 	</h:head>
 	<p:growl id="updateUsuarioGrowlMessages" showSummary="true" autoUpdate="true"
 		for="updateUsuarioGrowlMessageKeys" />
-	<p:panel id="updateUserPanel">
+	<p:panel id="updateUserPanel" >
 		<p:message for="updateUserName" display="both" />
 		<p:message for="updateUserSurname" display="both" />
 		<h:panelGrid columns="2" cellpadding="5" id="updateUserPanelGrid"
@@ -44,18 +44,21 @@
 				<f:validateLength maximum="20" />
 			</p:inputText>
 		</h:panelGrid>
-			<p:dataTable id="updateUserProfilesDataTable" var="profile" 
-				value="#{profileController.items}" rowKey="#{profile.name}"
-				selection="#{userController.selectedProfiles}"
-				style="width:auto !important;text-align:center">
-				
-				<p:column selectionMode="multiple" style="width:auto" />
-				
-				<p:column headerText="Perfiles">  
+
+		<p:dataTable id="updateUserProfilesDataTable" var="profile"
+			value="#{profileController.items}" rowKey="#{profile.name}"
+			selection="#{userController.selectedProfiles}"
+			style="width:auto !important;text-align:center">
+
+			<p:column selectionMode="multiple" style="width:auto" />
+
+			<p:column headerText="Perfiles">  
         		    #{profile.name}  
        			 </p:column>
-			</p:dataTable>
-			<f:facet name="footer">
+		</p:dataTable>
+		<br />
+
+		<f:facet name="footer">
 				<p:commandButton id="updateUserConfirmButton" value="Guardar"
 					actionListener="#{userController.updateItem}"
 					update="updateUserPanelGrid updateUserPanel" />
@@ -65,5 +68,11 @@
 					update="updateUserPanelGrid" style="margin:10px"
 					oncomplete="window.location.reload()" />
 			</f:facet>
+			
+		<p:selectOneMenu id="modifyStateUserBox" 
+			value="#{userController.selectedItemEstadoId}">
+			<f:selectItems value="#{userController.availableStates}" var="estado"
+				itemLabel="#{estado.nombre}" itemValue="#{estado.id}" />
+		</p:selectOneMenu>
 	</p:panel>
 </ui:composition>

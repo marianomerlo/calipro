@@ -12,6 +12,11 @@ public abstract class BaseObject implements Serializable {
 	protected Integer id;
 	
 	public abstract String getIdentifingName();
+	
+	public Integer getStateGroupId(){
+		//By default, return nothing. Only to be implemented for those who have state.
+		return null;
+	}
 
 	/**
 	 * @return the id

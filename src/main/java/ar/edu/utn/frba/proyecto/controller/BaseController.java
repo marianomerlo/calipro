@@ -3,12 +3,12 @@ package ar.edu.utn.frba.proyecto.controller;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.faces.bean.ManagedProperty;
+import org.primefaces.model.SelectableDataModel;
 
 import ar.edu.utn.frba.proyecto.dao.Dao;
-import ar.edu.utn.frba.proyecto.dao.impl.GenericDao;
+import ar.edu.utn.frba.proyecto.domain.BaseObject;
 
-public abstract class BaseController<T extends Serializable> implements Serializable {
+public abstract class BaseController<T extends BaseObject> implements Serializable {
 
 	/**
 	 * 
@@ -19,13 +19,12 @@ public abstract class BaseController<T extends Serializable> implements Serializ
 	
 	protected List<T> items;
 	
-	@ManagedProperty("#{genericDao}")
-	protected GenericDao genericDao;
+	protected SelectableDataModel<T> dataModel; 
 	
 	protected abstract Dao<T> getDao();
 	
 	public List<T> getItems() {
-		if (this.items == null) {
+		if (this.items == null ) {
 			this.items = getDao().getAll();
 			extraGetItemsProcess();
 		}
@@ -33,6 +32,17 @@ public abstract class BaseController<T extends Serializable> implements Serializ
 		return this.items;
 	}
 	
+	public T get(T element) {
+		element = getDao().get(element);
+		extraGetItemProcess( element );
+
+		return element;
+	}
+	
+	protected void extraGetItemProcess( T element ) {
+		// By default, do nothing.
+	}
+
 	protected void extraGetItemsProcess() {
 		// By default, do nothing.
 	}
@@ -48,13 +58,4 @@ public abstract class BaseController<T extends Serializable> implements Serializ
 	public void setItems(List<T> items) {
 		this.items = items;
 	}
-
-	public GenericDao getGenericDao() {
-		return genericDao;
-	}
-
-	public void setGenericDao(GenericDao genericDao) {
-		this.genericDao = genericDao;
-	}
-
 }

@@ -42,6 +42,4 @@ public class Analisis extends AuditObject implements Serializable {
 		return getNombre();
 	}
 
-	
-	
 }

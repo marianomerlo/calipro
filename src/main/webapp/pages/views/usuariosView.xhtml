@@ -49,6 +49,9 @@
 					<f:setPropertyActionListener
 						target="#{userController.selectedProfiles}"
 						value="#{userController.userProfilesAsArray}" />
+					<f:setPropertyActionListener
+						target="#{userController.selectedItemEstadoId}"
+						value="#{user.estado.id}" />
 				</p:commandLink>
 			</p:column>
 
@@ -63,6 +66,9 @@
 					<f:setPropertyActionListener
 						target="#{userController.selectedProfiles}"
 						value="#{userController.userProfilesAsArray}" />
+					<f:setPropertyActionListener
+						target="#{userController.selectedItemEstadoId}"
+						value="#{user.estado.id}" />
 				</p:commandLink>
 			</p:column>
 
@@ -77,6 +83,9 @@
 					<f:setPropertyActionListener
 						target="#{userController.selectedProfiles}"
 						value="#{userController.userProfilesAsArray}" />
+					<f:setPropertyActionListener
+						target="#{userController.selectedItemEstadoId}"
+						value="#{user.estado.id}" />
 				</p:commandLink>
 			</p:column>
 
@@ -91,6 +100,9 @@
 					<f:setPropertyActionListener
 						target="#{userController.selectedProfiles}"
 						value="#{userController.userProfilesAsArray}" />
+					<f:setPropertyActionListener
+						target="#{userController.selectedItemEstadoId}"
+						value="#{user.estado.id}" />
 				</p:commandLink>
 			</p:column>
 
@@ -105,13 +117,33 @@
 						<f:setPropertyActionListener
 							target="#{userController.selectedProfiles}"
 							value="#{userController.userProfilesAsArray}" />
+						<f:setPropertyActionListener
+							target="#{userController.selectedItemEstadoId}"
+							value="#{user.estado.id}" />
 					</p:commandLink>
 					<br />
 				</ui:repeat>
 			</p:column>
 
+			<p:column id="userEstado" filterBy="#{user.estado.nombre}"
+				headerText="Estado" filterMatchMode="exact" style="width:auto">
+				<p:commandLink style="text-decoration:none"
+					value="#{user.estado.nombre}"
+					actionListener="#{userController.storeOriginalItem(user)}"
+					oncomplete="modifyUserWidget.show();">
+					<f:setPropertyActionListener
+						target="#{userController.selectedItem}" value="#{user}" />
+					<f:setPropertyActionListener
+						target="#{userController.selectedProfiles}"
+						value="#{userController.userProfilesAsArray}" />
+					<f:setPropertyActionListener
+						target="#{userController.selectedItemEstadoId}"
+						value="#{user.estado.id}" />
+				</p:commandLink>
+			</p:column>
+
 		</p:dataTable>
-		<p:dialog id="modifyUserDialog" header="Modificar Usuario"
+		<p:dialog id="modifyUserDialog" header="Modificar Usuario" 
 			dynamic="true" widgetVar="modifyUserWidget" modal="true"
 			resizable="false" closable="false">
 			<ui:include src="modificar/modifyUsuario.xhtml" />

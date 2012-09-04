@@ -19,6 +19,7 @@ public class AnalisisDataModel extends ListDataModel<Analisis> implements
 		super(data);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public Analisis getRowData(String arg0) {
 		List<Analisis> analisisList = (List<Analisis>) getWrappedData();  

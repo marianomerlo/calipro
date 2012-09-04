@@ -17,6 +17,10 @@ import ar.edu.utn.frba.proyecto.domain.Producto;
 @SessionScoped
 public class ProductController extends BaseAbmController<Producto> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1878469511223871844L;
 	@ManagedProperty("#{productDao}")
 	private ProductDao productDao;
 

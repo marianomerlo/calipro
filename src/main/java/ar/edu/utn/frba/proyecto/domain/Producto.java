@@ -2,6 +2,8 @@ package ar.edu.utn.frba.proyecto.domain;
 
 import java.io.Serializable;
 
+import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
+
 public class Producto extends AuditObject implements Serializable {
 
 	/**
@@ -46,5 +48,10 @@ public class Producto extends AuditObject implements Serializable {
 	@Override
 	public String getIdentifingName() {
 		return getNombre();
+	}
+
+	@Override
+	public Integer getStateGroupId() {
+		return ConstantsDatatable.ESTADO_GROUPID_PRODUCTO;
 	}
 }

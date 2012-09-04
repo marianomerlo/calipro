@@ -11,6 +11,11 @@ import com.mysql.jdbc.Statement;
 
 public class AnalisisDao extends BaseAbmDao<Analisis> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5774061313214568651L;
+
 	@Override
 	public Analisis getFromResult(ResultSet result) {
 		try {
