@@ -16,6 +16,8 @@ public abstract class BaseController<T extends BaseObject> implements Serializab
 	protected static final long serialVersionUID = 4410085728682028191L;
 	
 	protected String ITEM_NAME;
+
+	protected int autoUpdateFrequencySeconds;
 	
 	protected List<T> items;
 	
@@ -57,5 +59,13 @@ public abstract class BaseController<T extends BaseObject> implements Serializab
 	
 	public void setItems(List<T> items) {
 		this.items = items;
+	}
+
+	public int getAutoUpdateFrequencySeconds() {
+		return autoUpdateFrequencySeconds;
+	}
+
+	public void setAutoUpdateFrequencySeconds(int autoUpdateFrequencySeconds) {
+		this.autoUpdateFrequencySeconds = autoUpdateFrequencySeconds;
 	}
 }

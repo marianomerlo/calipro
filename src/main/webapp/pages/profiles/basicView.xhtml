@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<div style="width: 1100px" align="right">
+		<h:form id="logoutForm"
+			rendered="#{sessionController.loggedUser != null}">
+			<p:commandButton id="logoutButton"
+				actionListener="#{sessionController.logout}" value="Logout"
+				update=":logginForm @this :mainPanelDesarrollo :mainPanelSupervision" oncomplete="window.location.reload()" />
+		</h:form>
+	</div>
+<br />
+<!-- * sessionController.loggedUser.perfiles.size() -->
+
+	<h:form id="baseAccordion">
+		<p:tabMenu id="profileTabMenu" activeIndex="#{sessionController.activeProfileIndexTab}" 
+			style="width:#{1100 }px"
+			rendered="#{sessionController.loggedUser != null}">
+			<c:forEach items="#{sessionController.loggedUser.perfiles}" varStatus="loop"
+				var="perfil">
+				<p:menuitem value="#{perfil.name}" actionListener="#{sessionController.onProfileChange(perfil,loop.index)}" process="@this"
+				update=":mainPanelDesarrollo :mainPanelSupervision" oncomplete="window.location.reload()"  />
+			</c:forEach>
+		</p:tabMenu>
+	</h:form>
+
+	<p:separator id="separatorTwo"
+		rendered="#{sessionController.loggedUser != null}"
+		style="width:1100px" />
+
+	<p:panel id="mainPanelDesarrollo" rendered="#{sessionController.loggedUser != null and sessionController.activeProfile.name == 'Desarrollo' }"	style="width:1095px">
+		<ui:include src="desarrollo/desarrollo.xhtml" />
+	</p:panel>
+	
+	<p:panel id="mainPanelSupervision" rendered="#{sessionController.loggedUser != null and sessionController.activeProfile.name == 'Supervisión'}"	style="width:1095px">
+		<ui:include src="supervision/supervision.xhtml" />
+	</p:panel>
+	<p:panel id="mainPanelProduccion" rendered="#{sessionController.loggedUser != null and sessionController.activeProfile.name == 'Producción'}"	style="width:1095px">
+		<ui:include src="produccion/produccion.xhtml" />
+	</p:panel>
+	
+</ui:composition>
+

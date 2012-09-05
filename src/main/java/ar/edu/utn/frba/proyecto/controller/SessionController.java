@@ -12,8 +12,10 @@ import org.primefaces.component.tabview.TabView;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.TabChangeEvent;
 
+import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
 import ar.edu.utn.frba.proyecto.dao.Dao;
 import ar.edu.utn.frba.proyecto.dao.impl.UserDao;
+import ar.edu.utn.frba.proyecto.domain.Profile;
 import ar.edu.utn.frba.proyecto.domain.Usuario;
 
 @SuppressWarnings("rawtypes")
@@ -37,14 +39,21 @@ public class SessionController extends BaseController {
 	
 	private Usuario loggedUser = null;
 	
-	private int activeIndexTab;
+	private int activeInnerIndexTab;
+	private int activeProfileIndexTab;
+
+	private Profile activeProfile;
 	
 	public void login(){
 		
 		Usuario tempUser = getUserDao().getByUnique(new Usuario(null, null, null, null, legajo, null, null));
-		if ( tempUser != null && password.equals(tempUser.getContraseña()) ){
+		if ( tempUser != null && password.equals(tempUser.getContraseña()) &&
+				!(ConstantsDatatable.ESTADO_USUARIO_DESHABILITADO == tempUser.getEstado().getId())){
 			tempUser.setPerfiles(getProfileController().getProfilesByUser(tempUser));
+			setActiveProfile(tempUser.getPerfiles().get(0));
+			setActiveProfileIndexTab(0);
 			loggedUser = tempUser;
+			
 		} else {
 			String errorMessage = "Legajo y/o contraseña invalidos";
 			FacesContext.getCurrentInstance().addMessage("loginGrowlMessages",
@@ -64,7 +73,13 @@ public class SessionController extends BaseController {
 		TabView tabView = (TabView) event.getComponent();
 		String activeIndexValue = params.get(tabView.getClientId(context)
 				+ "_tabindex");
-		this.setActiveIndexTab(Integer.parseInt(activeIndexValue));
+		setActiveInnerIndexTab(Integer.parseInt(activeIndexValue));
+	}
+
+	public final void onProfileChange(final Profile perfil, final int activeProfileIndexTab ) {
+		setActiveProfile(perfil);
+		setActiveProfileIndexTab(activeProfileIndexTab);
+		setActiveInnerIndexTab(0);
 	}
 
 	public UserDao getUserDao() {
@@ -91,12 +106,12 @@ public class SessionController extends BaseController {
 		this.password = password;
 	}
 	
-	public int getActiveIndexTab() {
-		return activeIndexTab;
+	public int getActiveInnerIndexTab() {
+		return activeInnerIndexTab;
 	}
 
-	public void setActiveIndexTab(int activeIndexTab) {
-		this.activeIndexTab = activeIndexTab;
+	public void setActiveInnerIndexTab(int activeInnerIndexTab) {
+		this.activeInnerIndexTab = activeInnerIndexTab;
 	}
 
 	@Override
@@ -119,5 +134,33 @@ public class SessionController extends BaseController {
 
 	public void setLoggedUser(Usuario loggedUser) {
 		this.loggedUser = loggedUser;
+	}
+
+	/**
+	 * @return the activeProfile
+	 */
+	public Profile getActiveProfile() {
+		return activeProfile;
+	}
+
+	/**
+	 * @param activeProfile the activeProfile to set
+	 */
+	public void setActiveProfile(Profile activeProfile) {
+		this.activeProfile = activeProfile;
+	}
+
+	/**
+	 * @return the activeProfileIndexTab
+	 */
+	public int getActiveProfileIndexTab() {
+		return activeProfileIndexTab;
+	}
+
+	/**
+	 * @param activeProfileIndexTab the activeProfileIndexTab to set
+	 */
+	public void setActiveProfileIndexTab(int activeProfileIndexTab) {
+		this.activeProfileIndexTab = activeProfileIndexTab;
 	}
 }

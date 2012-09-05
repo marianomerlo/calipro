@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+		<p:tabView id="profileTabViewProduccion" style="width:auto !important"
+			widgetVar="profileTabViewProduccionWidget"
+			rendered="#{sessionController.loggedUser != null}"
+			activeIndex="#{sessionController.activeInnerIndexTab}">
+
+			<p:ajax event="tabChange" listener="#{sessionController.onTabChange}" />
+			<p:tab title="Procesos">
+				<ui:include src="procesosView.xhtml" />
+			</p:tab>
+			<p:tab title="Historicos">
+				<ui:include src="historicosView.xhtml" />
+			</p:tab>
+			<p:tab title="Blablabal">
+				Blabla
+			</p:tab>
+
+		</p:tabView>
+
+</ui:composition>

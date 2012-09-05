@@ -15,7 +15,7 @@
 		<p:dialog id="addAnalisisDialog" widgetVar="addAnalisisWidget"
 			resizable="false" header="Agregar Analisis" closable="false"
 			modal="true">
-				<ui:include src="agregar/addAnalisis.xhtml" />
+				<ui:include src="../../agregar/addAnalisis.xhtml" />
 		</p:dialog>
 	</h:form>
 	<h:form id="deleteAnalisisForm">
@@ -26,28 +26,30 @@
 		<p:dialog id="deleteAnalisisDialog" widgetVar="deleteAnalisisWidget"
 			modal="true" resizable="false" header="Eliminar Analisis"
 			closable="false">
-			<ui:include src="eliminar/deleteAnalisis.xhtml" />
+			<ui:include src="../../eliminar/deleteAnalisis.xhtml" />
 		</p:dialog>
 	</h:form>
 
 	<h:form id="analisisDataTableForm">
+		<p:poll interval="#{analisisController.autoUpdateFrequencySeconds}" listener="#{analisisController.refreshItems}" update="@this" />
+	
 		<p:dataTable id="analisisDataTable" var="analisis"
 			value="#{analisisController.dataModel}"
 			rowIndexVar="analisisIndex" widgetVar="analisisTable"
 			emptyMessage="No hay coincidencias"
 			selection="#{analisisController.selectedItems}" paginator="true"
-			paginatorPosition="bottom" rows="10"
+			paginatorPosition="bottom" rows="10" filteredValue="#{analisisController.filteredItems}"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 			style="width:800px;text-align:center">
 
 			<p:ajax event="rowSelectCheckbox"
-				update=":baseAccordion:profileTabViewDesarrollo:deleteAnalisisForm:deleteAnalisisDialog" />
+				update=":profileTabViewDesarrollo:deleteAnalisisForm:deleteAnalisisDialog" />
 
 			<p:ajax event="toggleSelect"
-				update=":baseAccordion:profileTabViewDesarrollo:deleteAnalisisForm:deleteAnalisisDialog" />
+				update=":profileTabViewDesarrollo:deleteAnalisisForm:deleteAnalisisDialog" />
 
 			<p:ajax event="rowUnselectCheckbox"
-				update=":baseAccordion:profileTabViewDesarrollo:deleteAnalisisForm:deleteAnalisisDialog" />
+				update=":profileTabViewDesarrollo:deleteAnalisisForm:deleteAnalisisDialog" />
 
 			<f:facet name="header">
 				<p:outputPanel>
@@ -59,16 +61,6 @@
 			</f:facet>
 
 			<p:column selectionMode="multiple" style="width:auto" />
-
-			<p:column id="analisisRowNumber" headerText="Nº" style="width:auto">
-				<p:commandLink style="text-decoration:none" value="#{analisisIndex + 1}"
-					ajax="true"
-					actionListener="#{analisisController.storeOriginalItem(analisis)}"
-					oncomplete="modifyAnalisisWidget.show();">
-					<f:setPropertyActionListener
-						target="#{analisisController.selectedItem}" value="#{analisis}" />
-				</p:commandLink>
-			</p:column>
 
 			<p:column id="analisisId" filterBy="#{analisis.id}"
 				filterStyle="display:none" headerText="Id"
@@ -111,7 +103,7 @@
 		<p:dialog id="modifyAnalisisDialog" header="Modificar Analisis" dynamic="true"
 			widgetVar="modifyAnalisisWidget" modal="true" resizable="false"
 			closable="false">
-			<ui:include src="modificar/modifyAnalisis.xhtml" />
+			<ui:include src="../../modificar/modifyAnalisis.xhtml" />
 
 		</p:dialog>
 

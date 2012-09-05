@@ -12,6 +12,7 @@
 		<property name="locations">
 			<list>
 				<value>classpath:/app.properties</value>
+				<value>classpath:/use.properties</value>
 			</list>
 		</property>
 		<property name="ignoreUnresolvablePlaceholders" value="true" />

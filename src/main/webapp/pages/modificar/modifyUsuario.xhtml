@@ -10,8 +10,11 @@
 	<p:growl id="updateUsuarioGrowlMessages" showSummary="true" autoUpdate="true"
 		for="updateUsuarioGrowlMessageKeys" />
 	<p:panel id="updateUserPanel" >
+		<p:message for="updateUserAlias" display="both" />
 		<p:message for="updateUserName" display="both" />
 		<p:message for="updateUserSurname" display="both" />
+		<p:message for="updateUserLeg" display="both" />
+		<p:message for="updateUserPass" display="both" />
 		<h:panelGrid columns="2" cellpadding="5" id="updateUserPanelGrid"
 			style="width:auto !important">
 			<h:outputLabel for="updateUserAlias" value="Alias" />

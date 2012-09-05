@@ -16,7 +16,7 @@
 			style="width:auto !important">
 			<h:outputLabel for="addProductName" value="Nombre" />
 			<p:inputText value="#{productController.currentItem.nombre}"
-				id="addProductName" label="Nombre" required="true">
+				id="addProductName" label="Nombre" required="true" maxlength="20">
 				<f:validateLength maximum="20" />
 			</p:inputText>
 

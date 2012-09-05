@@ -1,7 +1,7 @@
 
-	<p:accordionPanel id="baseAccordion" rendered="#{sessionController.loggedUser != null}"  style="width:1000px">
+	<p:accordionPanel id="baseAccordion" rendered="#{sessionController.loggedUser != null}"	style="width:1000px" >
 		<p:tab title="Desarrollo">
-			<p:tabView id="profileTabView" activeIndex="#{sessionController.activeIndexTab}">
+			<p:tabView id="profileTabViewDesarrollo" widgetVar="profileTabViewDesarrolloWidget" activeIndex="#{sessionController.activeIndexTab}">
 			
 				<p:ajax event="tabChange" listener="#{sessionController.onTabChange}"/>
 				<p:tab title="Productos">

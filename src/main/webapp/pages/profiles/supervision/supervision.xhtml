@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	
+		<p:tabView id="profileTabViewSupervision" style="width:auto !important"
+			widgetVar="profileTabViewDesarrolloSupervision"
+			rendered="#{sessionController.loggedUser != null}"
+			activeIndex="#{sessionController.activeInnerIndexTab}">
+
+			<p:ajax event="tabChange" listener="#{sessionController.onTabChange}" />
+			<p:tab title="Usuarios">
+				<ui:include src="usuariosView.xhtml" />
+			</p:tab>
+			<p:tab title="Reportes">
+				<ui:include src="reportesView.xhtml" />
+			</p:tab>
+		</p:tabView>
+
+</ui:composition>

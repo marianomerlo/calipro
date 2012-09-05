@@ -1,0 +1,109 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+
+	<h:form id="startProcessForm" style="border:0px">
+		<p:commandButton id="startProcess" value="Iniciar proceso" style="margin:10px"
+			onclick="startProcessWidget.show();" type="button" />
+
+		<p:dialog id="startProcessDialog" widgetVar="startProcessWidget"
+			resizable="false" header="Agregar Producto" closable="false"
+			modal="true">
+		</p:dialog>
+	</h:form>
+
+	<h:form id="processDataTableForm">
+		<p:dataTable id="processDataTable" var="producto"
+			value="#{productController.dataModel}" rowIndexVar="prodIndex"
+			widgetVar="processTable" emptyMessage="No hay coincidencias"
+			selection="#{productController.selectedItems}" paginator="true"
+			paginatorPosition="bottom" rows="10" filteredValue="#{productController.filteredItems}"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+			style="width:800px;text-align:center">
+
+			<f:facet name="header">
+				<p:outputPanel>
+					<h:outputText value="Buscar:" />
+					<p:inputText id="globalFilter" onkeyup="productsTable.filter()"
+						style="width:200px" />
+					<p:watermark for="globalFilter" value="Producto" />
+				</p:outputPanel>
+			</f:facet>
+
+			<p:column selectionMode="multiple" style="width:auto" />
+
+			<p:column id="processRowNumber" headerText="Nº" style="width:auto">
+				<p:commandLink style="text-decoration:none" value="#{prodIndex + 1}"
+					ajax="true"
+					actionListener="#{productController.storeOriginalItem(producto)}"
+					
+					oncomplete="modifyProcessWidget.show();">
+					<f:setPropertyActionListener
+						target="#{productController.selectedItem}" value="#{producto}" />
+				</p:commandLink>
+			</p:column>
+
+			<p:column id="processId" filterBy="#{producto.id}"
+				filterStyle="display:none" headerText="Id"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none"
+					value="#{producto.id}"
+					actionListener="#{productController.storeOriginalItem(producto)}"
+					oncomplete="modifyProcessWidget.show();">
+					<f:setPropertyActionListener
+						target="#{productController.selectedItem}" value="#{producto}" />
+				</p:commandLink>
+			</p:column>
+
+			<p:column id="processName" filterBy="#{producto.nombre}"
+				filterStyle="display:none" headerText="Nombre"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none"
+					value="#{producto.nombre}"
+					actionListener="#{productController.storeOriginalItem(producto)}"
+					oncomplete="modifyProcessWidget.show();">
+					<f:setPropertyActionListener
+						target="#{productController.selectedItem}" value="#{producto}" />
+				</p:commandLink>
+			</p:column>
+
+			<p:column id="processDescription" filterBy="#{producto.descripcion}"
+				filterStyle="display:none" headerText="Descripcion"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none"
+					value="#{producto.descripcion}"
+					actionListener="#{productController.storeOriginalItem(producto)}"
+					oncomplete="modifyProcessWidget.show();">
+					<f:setPropertyActionListener
+						target="#{productController.selectedItem}" value="#{producto}" />
+				</p:commandLink>
+			</p:column>
+
+			<p:column id="processLastModDate"
+				filterBy="#{producto.fechaUltimaModificacion}"
+				filterStyle="display:none" headerText="Fecha Ultima Modificacion"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none"
+					value="#{producto.fechaUltimaModificacion}"
+					actionListener="#{productController.storeOriginalItem(producto)}"
+					oncomplete="modifyProcessWidget.show();">
+					<f:setPropertyActionListener
+						target="#{productController.selectedItem}" value="#{producto}" />
+				</p:commandLink>
+			</p:column>
+
+		</p:dataTable>
+		<p:dialog id="modifyProcessDialog" header="Modificar Producto" dynamic="true"
+			widgetVar="modifyProcessWidget" modal="true" resizable="false"
+			closable="false">
+
+		</p:dialog>
+
+	</h:form>
+</ui:composition>

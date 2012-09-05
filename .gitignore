@@ -11,4 +11,4 @@ src/main/webapps/console/target/*
 .classpath
 .project
 .metadata
-*.properties
+src/main/resources/app.properties

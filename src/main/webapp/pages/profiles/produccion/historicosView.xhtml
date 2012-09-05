@@ -8,44 +8,15 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
 
-	<h:form id="addProductForm" style="border:0px;float:left">
-		<p:commandButton id="productAdd" value="Agregar" style="margin:10px"
-			onclick="addProductWidget.show();" type="button" />
-
-		<p:dialog id="addProductDialog" widgetVar="addProductWidget"
-			resizable="false" header="Agregar Producto" closable="false"
-			modal="true">
-			<ui:include src="agregar/addProduct.xhtml" />
-		</p:dialog>
-	</h:form>
-	<h:form id="deleteProductForm" style="border:0px">
-		<p:commandButton id="productDelete" value="Eliminar" immediate="true"
-			style="margin:10px" onclick="deleteProductWidget.show();"
-			type="button" />
-		<p:dialog id="deleteProductDialog" widgetVar="deleteProductWidget"
-			modal="true" resizable="false" header="Eliminar Producto"
-			closable="false">
-			<ui:include src="eliminar/deleteProduct.xhtml" />
-		</p:dialog>
-	</h:form>
-
-	<h:form id="productDataTableForm">
-		<p:dataTable id="productDataTable" var="producto"
+	<h:form id="historiProcessDataTableForm">
+		<p:dataTable id="historicProcessDataTable" var="producto"
 			value="#{productController.dataModel}" rowIndexVar="prodIndex"
-			widgetVar="productsTable" emptyMessage="No hay coincidencias"
+			widgetVar="processTable" emptyMessage="No hay coincidencias"
 			selection="#{productController.selectedItems}" paginator="true"
-			paginatorPosition="bottom" rows="10"
+			paginatorPosition="bottom" rows="10" filteredValue="#{productController.filteredItems}"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 			style="width:800px;text-align:center">
 
-			<p:ajax event="rowSelectCheckbox"
-				update=":baseAccordion:profileTabViewDesarrollo:deleteProductForm:deleteProductDialog" />
-
-			<p:ajax event="toggleSelect"
-				update=":baseAccordion:profileTabViewDesarrollo:deleteProductForm:deleteProductDialog" />
-
-			<p:ajax event="rowUnselectCheckbox"
-				update=":baseAccordion:profileTabViewDesarrollo:deleteProductForm:deleteProductDialog" />
 			<f:facet name="header">
 				<p:outputPanel>
 					<h:outputText value="Buscar:" />
@@ -57,71 +28,70 @@
 
 			<p:column selectionMode="multiple" style="width:auto" />
 
-			<p:column id="productRowNumber" headerText="Nº" style="width:auto">
+			<p:column id="historicProcessRowNumber" headerText="Nº" style="width:auto">
 				<p:commandLink style="text-decoration:none" value="#{prodIndex + 1}"
 					ajax="true"
 					actionListener="#{productController.storeOriginalItem(producto)}"
 					
-					oncomplete="modifyProductWidget.show();">
+					oncomplete="modifyHProcessWidget.show();">
 					<f:setPropertyActionListener
 						target="#{productController.selectedItem}" value="#{producto}" />
 				</p:commandLink>
 			</p:column>
 
-			<p:column id="productId" filterBy="#{producto.id}"
+			<p:column id="historicProcessId" filterBy="#{producto.id}"
 				filterStyle="display:none" headerText="Id"
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{producto.id}"
 					actionListener="#{productController.storeOriginalItem(producto)}"
-					oncomplete="modifyProductWidget.show();">
+					oncomplete="modifyHProcessWidget.show();">
 					<f:setPropertyActionListener
 						target="#{productController.selectedItem}" value="#{producto}" />
 				</p:commandLink>
 			</p:column>
 
-			<p:column id="productName" filterBy="#{producto.nombre}"
+			<p:column id="historicProcessName" filterBy="#{producto.nombre}"
 				filterStyle="display:none" headerText="Nombre"
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{producto.nombre}"
 					actionListener="#{productController.storeOriginalItem(producto)}"
-					oncomplete="modifyProductWidget.show();">
+					oncomplete="modifyHProcessWidget.show();">
 					<f:setPropertyActionListener
 						target="#{productController.selectedItem}" value="#{producto}" />
 				</p:commandLink>
 			</p:column>
 
-			<p:column id="productDescription" filterBy="#{producto.descripcion}"
+			<p:column id="historicProcessDescription" filterBy="#{producto.descripcion}"
 				filterStyle="display:none" headerText="Descripcion"
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{producto.descripcion}"
 					actionListener="#{productController.storeOriginalItem(producto)}"
-					oncomplete="modifyProductWidget.show();">
+					oncomplete="modifyHProcessWidget.show();">
 					<f:setPropertyActionListener
 						target="#{productController.selectedItem}" value="#{producto}" />
 				</p:commandLink>
 			</p:column>
 
-			<p:column id="productLastModDate"
+			<p:column id="historicProcessLastModDate"
 				filterBy="#{producto.fechaUltimaModificacion}"
 				filterStyle="display:none" headerText="Fecha Ultima Modificacion"
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{producto.fechaUltimaModificacion}"
 					actionListener="#{productController.storeOriginalItem(producto)}"
-					oncomplete="modifyProductWidget.show();">
+					oncomplete="modifyHProcessWidget.show();">
 					<f:setPropertyActionListener
 						target="#{productController.selectedItem}" value="#{producto}" />
 				</p:commandLink>
 			</p:column>
 
 		</p:dataTable>
-		<p:dialog id="modifyProductDialog" header="Modificar Producto" dynamic="true"
-			widgetVar="modifyProductWidget" modal="true" resizable="false"
+		<p:dialog id="modifyHProcessDialog" header="Modificar Producto" dynamic="true"
+			widgetVar="modifyHProcessWidget" modal="true" resizable="false"
 			closable="false">
-			<ui:include src="modificar/modifyProduct.xhtml" />
 
 		</p:dialog>
 

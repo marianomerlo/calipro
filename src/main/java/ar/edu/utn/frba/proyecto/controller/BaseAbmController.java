@@ -28,6 +28,8 @@ public abstract class BaseAbmController<T extends BaseObject> extends BaseContro
 	protected T originalSelectedItem = newBaseItem();
 	
 	protected T[] selectedItems;
+	
+	protected List<T> filteredItems;
 
 	protected abstract AbmDao<T> getDao(); 
 	
@@ -186,5 +188,13 @@ public abstract class BaseAbmController<T extends BaseObject> extends BaseContro
 
 	public void setDataModel(SelectableDataModel<T> dataModel) {
 		this.dataModel = dataModel;
+	}
+
+	public List<T> getFilteredItems() {
+		return filteredItems;
+	}
+
+	public void setFilteredItems(List<T> filteredItems) {
+		this.filteredItems = filteredItems;
 	}
 }

@@ -98,7 +98,7 @@
    <dependency>
    <groupId>org.primefaces</groupId>
    <artifactId>primefaces</artifactId>
-   <version>3.4-SNAPSHOT</version>
+   <version>3.4</version>
   </dependency>
 
   <!-- Hibernate dependencies -->
