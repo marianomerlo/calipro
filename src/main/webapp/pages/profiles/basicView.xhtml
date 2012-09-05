@@ -10,12 +10,17 @@
 	<div style="width: 1100px" align="right">
 		<h:form id="logoutForm"
 			rendered="#{sessionController.loggedUser != null}">
-			<p:commandButton id="logoutButton"
-				actionListener="#{sessionController.logout}" value="Logout"
-				update=":logginForm @this :mainPanelDesarrollo :mainPanelSupervision" oncomplete="window.location.reload()" />
+			<p:menuButton
+				value="#{sessionController.loggedUser.nombre} #{sessionController.loggedUser.apellido}">
+				<p:menuitem value="Logout"
+					actionListener="#{sessionController.logout}"
+					update=":logginForm @this :mainPanelDesarrollo :mainPanelSupervision"
+					oncomplete="window.location.reload()" icon="ui-icon-extlink" />
+			</p:menuButton>
+
 		</h:form>
 	</div>
-<br />
+	<br />
 <!-- * sessionController.loggedUser.perfiles.size() -->
 
 	<h:form id="baseAccordion">

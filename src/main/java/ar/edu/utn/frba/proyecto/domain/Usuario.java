@@ -45,7 +45,7 @@ public class Usuario extends BaseObject implements Serializable {
 		this.apellido = usuario.getApellido();
 		this.contraseña = usuario.getContraseña();
 		this.legajo = usuario.getLegajo();
-		this.estado = usuario.getEstado();
+		this.estado = new Estado(usuario.getEstado().getId(),usuario.getEstado().getNombre());
 		this.perfiles = usuario.getPerfiles();
 	}
 	

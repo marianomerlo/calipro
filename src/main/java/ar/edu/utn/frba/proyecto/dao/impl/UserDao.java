@@ -69,11 +69,11 @@ public class UserDao extends BaseAbmDao<Usuario> {
 
 	@Override
 	protected PreparedStatement prepareUniqueStatement(Usuario element) {
-		String query = "SELECT * FROM " + DATATABLE_NAME + " WHERE legajo = ?";
+		String query = "SELECT * FROM " + DATATABLE_NAME + " WHERE alias = ?";
 		PreparedStatement prepStatement = null;
 		try {
 			prepStatement = conn.prepareStatement(query);
-			prepStatement.setString(1, element.getLegajo());
+			prepStatement.setString(1, element.getAlias());
 			
 		} catch (SQLException e) {e.printStackTrace(); }
 		

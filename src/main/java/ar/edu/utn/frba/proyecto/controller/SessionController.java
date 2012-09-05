@@ -34,7 +34,7 @@ public class SessionController extends BaseController {
 	@ManagedProperty("#{profileController}")
 	private ProfileController profileController;
 	
-	private String legajo;
+	private String alias;
 	private String password;
 	
 	private Usuario loggedUser = null;
@@ -46,7 +46,7 @@ public class SessionController extends BaseController {
 	
 	public void login(){
 		
-		Usuario tempUser = getUserDao().getByUnique(new Usuario(null, null, null, null, legajo, null, null));
+		Usuario tempUser = getUserDao().getByUnique(new Usuario(null, alias, null, null, null, null, null));
 		if ( tempUser != null && password.equals(tempUser.getContraseña()) &&
 				!(ConstantsDatatable.ESTADO_USUARIO_DESHABILITADO == tempUser.getEstado().getId())){
 			tempUser.setPerfiles(getProfileController().getProfilesByUser(tempUser));
@@ -90,12 +90,12 @@ public class SessionController extends BaseController {
 		this.userDao = userDao;
 	}
 
-	public String getLegajo() {
-		return legajo;
+	public String getAlias() {
+		return alias;
 	}
 
-	public void setLegajo(String legajo) {
-		this.legajo = legajo;
+	public void setAlias(String alias) {
+		this.alias = alias;
 	}
 
 	public String getPassword() {

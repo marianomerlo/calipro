@@ -63,8 +63,8 @@ public class UserController extends BaseAbmController<Usuario> {
 	}
 	
 	@Override
-	public void updateItem(){
-		getSelectedItem().setEstado(new Estado(getSelectedItemEstadoId(),null));
+	public void updateItem() {
+		getSelectedItem().getEstado().setId(getSelectedItemEstadoId());
 		super.updateItem();
 	}
 	
