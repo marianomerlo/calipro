@@ -27,7 +27,7 @@ public class ProcessDao extends BaseAbmDao<Lote> {
 			Lote lote = new Lote(result.getInt(ConstantsDatatable.LOTE_ID), 
 					new Producto(result.getInt(ConstantsDatatable.PRODUCTO_ID)),
 					new Maquinaria(result.getInt(ConstantsDatatable.MAQUINARIA_ID)),
-					result.getInt(ConstantsDatatable.ESTADO_ID));
+					result.getInt(ConstantsDatatable.GENERAL_ESTADO));
 
 			fillAuditInfo(lote, result);
 
