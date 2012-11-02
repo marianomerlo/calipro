@@ -7,7 +7,7 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.model.SelectableDataModel;
@@ -20,7 +20,7 @@ import ar.edu.utn.frba.proyecto.domain.Profile;
 import ar.edu.utn.frba.proyecto.domain.Usuario;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class UserController extends BaseAbmController<Usuario> {
 	
 	/**
@@ -93,13 +93,6 @@ public class UserController extends BaseAbmController<Usuario> {
 	}
 	
 	@Override
-	protected void extraGetItemsProcess(){
-		for (Usuario usuario : getItems()) {
-			extraGetItemProcess(usuario);
-		}
-	}
-	
-	@Override
 	protected void extraResetCurrentProcess() {
 		setSelectedProfiles(new Profile[4]);
 	}
@@ -141,8 +134,15 @@ public class UserController extends BaseAbmController<Usuario> {
 	}
 
 	private boolean hasProfilesChanged() {
-		return !(getOriginalSelectedItem().getPerfiles().containsAll(getSelectedProfilesAsList()) &&
+		return !(getOriginalSelectedItem().getPerfiles().containsAll(getSelectedItemProfilesAsList()) &&
 				getOriginalSelectedItem().getPerfiles().size() == getSelectedProfiles().length);
+	}
+
+	private List<Profile> getSelectedItemProfilesAsList() {
+		if ( getSelectedProfiles() != null && getSelectedProfiles().length > 0)
+			return Arrays.asList(getSelectedProfiles());
+		
+		return new ArrayList<Profile>();
 	}
 
 	public void setUserDao(UserDao userDao) {
@@ -172,13 +172,6 @@ public class UserController extends BaseAbmController<Usuario> {
 		return selectedItem.getPerfiles().toArray(new Profile[4]);
 	}
 	
-	public List<Profile> getSelectedProfilesAsList(){
-		if ( getSelectedProfiles() != null && getSelectedProfiles().length > 0)
-			return Arrays.asList(getSelectedProfiles());
-		
-		return new ArrayList<Profile>();
-	}
-
 	public EstadoController getEstadoController() {
 		return estadoController;
 	}
@@ -234,5 +227,9 @@ public class UserController extends BaseAbmController<Usuario> {
 	 */
 	public void setSelectedItemEstadoId(Integer selectedItemEstadoId) {
 		this.selectedItemEstadoId = selectedItemEstadoId;
+	}
+	
+	public Usuario getByUnique(Usuario user){
+		return getDao().getByUnique(user);
 	}
 }

@@ -20,5 +20,6 @@
 
 	<import resource="context-dao.xml" />
 	<import resource="context-controller.xml" />
+	<import resource="context-converter.xml" />
 
 </beans>

@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<p:growl id="startProcesoGrowlMessages" showSummary="true"
+		autoUpdate="true" for="startProcesoGrowlMessageKeys" />
+	<p:panel id="startProcessPanel">
+		<p:message for="startProcessProduct" display="both" />
+
+		<h:panelGrid columns="2" cellpadding="5" id="startProcessPanelGrid"
+			style="width:auto !important">
+
+			<h:outputLabel value="Producto" for="startProcessProduct" />
+			<p:autoComplete id="startProcessProduct"
+				value="#{processController.selectedProduct.nombre}" var="producto"
+				itemLabel="#{producto.nombre}" itemValue="#{producto}"
+				converter="productConverter" forceSelection="true"
+				completeMethod="#{processController.filterProducts}">
+			</p:autoComplete>
+
+			<h:outputLabel for="startProcessMachineBox" value="Maquinaria" />
+			<p:selectOneMenu id="startProcessMachineBox"
+				value="#{processController.selectedMachineId}">
+				<f:selectItems value="#{processController.availableMachines}"
+					var="maquina" itemLabel="#{maquina.nombre}"
+					itemValue="#{maquina.id}" />
+			</p:selectOneMenu>
+
+			<f:facet name="footer">
+				<p:commandButton id="startProcessConfirmButton" value="Iniciar"
+					update="startProcessPanelGrid startProcessPanel" immediate="true"
+					actionListener="#{processController.addItem}"
+					oncomplete="window.location.reload()" />
+
+				<p:commandButton id="startProcessCancelButton" value="Cancelar"
+					immediate="true" update="startProcessPanelGrid" style="margin:10px"
+					oncomplete="window.location.reload()" />
+			</f:facet>
+		</h:panelGrid>
+	</p:panel>
+</ui:composition>

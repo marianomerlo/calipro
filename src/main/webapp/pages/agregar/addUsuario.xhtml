@@ -49,14 +49,14 @@
 			</p:inputText>
 		</h:panelGrid>
 			<p:dataTable id="addUserProfilesDataTable" var="profile" 
-				value="#{profileController.items}" rowKey="#{profile.name}"
+				value="#{profileController.items}" rowKey="#{profile.nombre}"
 				selection="#{userController.selectedProfiles}"
 				style="width:auto !important;text-align:center">
 				
 				<p:column selectionMode="multiple" style="width:auto" />
 				
 				<p:column headerText="Perfiles">  
-        		    #{profile.name}  
+        		    #{profile.nombre}  
        			 </p:column>
 			</p:dataTable>
 			<f:facet name="footer">

@@ -13,17 +13,17 @@ public class ProfileHelper {
 	public static List<Vista> getViews(Profile profile) {
 		List<Vista> views = new ArrayList<Vista>();
 
-		if (ConstantsDatatable.PERFIL_DESARROLLO.equals(profile.getName())) {
+		if (ConstantsDatatable.PERFIL_DESARROLLO.equals(profile.getNombre())) {
 			views.add(new Vista("Analisis", "analisisView.xhtml"));
 			views.add(new Vista("Productos", "productosView.xhtml"));
 
 		} else if (ConstantsDatatable.PERFIL_PRODUCCION.equals(profile
-				.getName())) {
+				.getNombre())) {
 
 		} else if (ConstantsDatatable.PERFIL_SUPERVISION.equals(profile
-				.getName())) {
+				.getNombre())) {
 			views.add(new Vista("Usuarios", "usuariosView.xhtml"));
-		} else if (ConstantsDatatable.PERFIL_CALIDAD.equals(profile.getName())) {
+		} else if (ConstantsDatatable.PERFIL_CALIDAD.equals(profile.getNombre())) {
 
 		}
 

@@ -1,0 +1,66 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<p:growl id="updateUsuarioLogueadoGrowlMessages" showSummary="true" autoUpdate="true"
+		for="updateUsuarioLogueadoGrowlMessageKeys" />
+	<p:panel id="updateLoggedUserPanel" >
+		<p:message for="updateLoggedUserAlias" display="both" />
+		<p:message for="updateLoggedUserName" display="both" />
+		<p:message for="updateLoggedUserSurname" display="both" />
+		<p:message for="updateLoggedUserLeg" display="both" />
+		<p:message for="updateLoggedUserPass" display="both" />
+		<h:panelGrid columns="2" cellpadding="5" id="updateLoggedUserPanelGrid"
+			style="width:auto !important">
+			<h:outputLabel for="updateLoggedUserAlias" value="Alias" />
+			<p:inputText value="#{sessionController.loggedUser.alias}"
+				id="updateLoggedUserAlias" label="updateLoggedUserAlias" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+
+			<h:outputLabel for="updateLoggedUserName" value="Nombre" />
+			<p:inputText value="#{sessionController.loggedUser.nombre}"
+				id="updateLoggedUserName" label="updateLoggedUserName" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+
+			<h:outputLabel for="updateLoggedUserSurname" value="Apellido" />
+			<p:inputText value="#{sessionController.loggedUser.apellido}"
+				id="updateLoggedUserSurname" label="updateLoggedUserSurname" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+
+			<h:outputLabel for="updateLoggedUserLeg" value="Legajo" />
+			<p:inputText value="#{sessionController.loggedUser.legajo}"
+				id="updateLoggedUserLeg" label="updateLoggedUserLeg" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+
+			<h:outputLabel for="updateLoggedUserPass" value="Contraseña" />
+			<p:inputText value="#{sessionController.loggedUser.contraseña}"
+				id="updateLoggedUserPass" label="updateLoggedUserPass" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+		</h:panelGrid>
+
+		<f:facet name="footer">
+			<p:commandButton id="updateLoggedUserConfirmButton" value="Guardar"
+				actionListener="#{userController.updateItem}"
+				update="updateLoggedUserPanelGrid updateLoggedUserPanel">
+				<f:setPropertyActionListener
+					target="#{userController.selectedItem}"
+					value="#{loggedUser}" />
+			</p:commandButton>
+
+			<p:commandButton id="updateLoggedUserCancelButton" value="Cancelar"
+					actionListener="#{userController.restoreOriginalItem}" immediate="true"
+					update="updateLoggedUserPanelGrid" style="margin:10px"
+					oncomplete="window.location.reload()" />
+			</f:facet>
+	</p:panel>
+</ui:composition>

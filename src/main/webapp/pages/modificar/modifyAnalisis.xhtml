@@ -7,8 +7,8 @@
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
-	<p:growl id="updateAnalisisGrowlMessages" showSummary="true" autoUpdate="true"
-		for="updateAnalisisGrowlMessageKeys" />
+	<p:growl id="updateAnalisisGrowlMessages" showSummary="true"
+		autoUpdate="true" for="updateAnalisisGrowlMessageKeys" />
 	<p:panel id="updateAnalisisPanel">
 		<p:message for="updateAnalisisName" display="both" />
 		<h:panelGrid columns="2" cellpadding="5" id="modifyAnalisisPanelGrid"
@@ -17,17 +17,29 @@
 			<p:inputText value="#{analisisController.selectedItem.nombre}"
 				id="updateAnalisisName" required="true" label="updateAnalisisName" />
 
-			<f:facet name="footer">
-				<p:commandButton id="updateAnalisisConfirmButton" value="Guardar"
-					style="margin:10px"
-					actionListener="#{analisisController.updateItem}"
-					update="modifyAnalisisPanelGrid updateAnalisisPanel" />
-
-				<p:commandButton id="updateAnalisisCancelButton" immediate="true"
-					value="Cancelar" style="margin:10px"
-					actionListener="#{analisisController.restoreOriginalItem}"
-					oncomplete="window.location.reload()" />
-			</f:facet>
 		</h:panelGrid>
+		<p:dataTable id="modifyAnalisisCriteriaDataTable" var="criterio"
+			value="#{criterioController.items}" rowKey="#{criterio.nombre}"
+			selection="#{analisisController.selectedCriterios}"
+			style="width:auto !important;text-align:center">
+
+			<p:column selectionMode="multiple" style="width:auto" />
+
+			<p:column headerText="Criterios">  
+        		    #{criterio.nombre}  
+		</p:column>
+		
+		</p:dataTable>
+		<f:facet name="footer">
+			<p:commandButton id="updateAnalisisConfirmButton" value="Guardar"
+				style="margin:10px"
+				actionListener="#{analisisController.updateItem}"
+				update="modifyAnalisisPanelGrid updateAnalisisPanel" />
+
+			<p:commandButton id="updateAnalisisCancelButton" immediate="true"
+				value="Cancelar" style="margin:10px"
+				actionListener="#{analisisController.restoreOriginalItem}"
+				oncomplete="window.location.reload()" />
+		</f:facet>
 	</p:panel>
 </ui:composition>

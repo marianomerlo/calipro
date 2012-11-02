@@ -7,38 +7,87 @@
 
 	<bean id="baseController" abstract="true">
 		<property name="autoUpdateFrequencySeconds" value="${autoUpdateFrequencySeconds}" />
+		<property name="sessionController" ref="sessionController" />
 	</bean>
 
-	<bean id="productController" parent="baseController" class="ar.edu.utn.frba.proyecto.controller.ProductController" scope="session">
+	<bean id="productController" parent="baseController"
+		class="ar.edu.utn.frba.proyecto.controller.ProductController" scope="session">
 		<property name="ITEM_NAME" value="Producto" />
 		<property name="productDao" ref="productDao" />
+		<property name="recetaDao" ref="recetaDao" />
 	</bean>
 
-	<bean id="analisisController" parent="baseController" class="ar.edu.utn.frba.proyecto.controller.AnalisisController" scope="session" >
+	<bean id="analisisController" parent="baseController"
+		class="ar.edu.utn.frba.proyecto.controller.AnalisisController" scope="session">
 		<property name="ITEM_NAME" value="Analisis" />
 		<property name="analisisDao" ref="analisisDao" />
+		<property name="criterioController" ref="criterioController" />
 	</bean>
 
-	<bean id="userController" class="ar.edu.utn.frba.proyecto.controller.UserController" scope="session" >
+	<bean id="userController" parent="baseController"
+		class="ar.edu.utn.frba.proyecto.controller.UserController" scope="session">
 		<property name="ITEM_NAME" value="Usuario" />
 		<property name="userDao" ref="userDao" />
 		<property name="estadoController" ref="estadoController" />
 		<property name="profileController" ref="profileController" />
 	</bean>
 
-	<bean id="profileController" class="ar.edu.utn.frba.proyecto.controller.ProfileController" scope="singleton">
+	<bean id="pasoController" parent="baseController" scope="session"
+		class="ar.edu.utn.frba.proyecto.controller.PasoController">
+		<property name="ITEM_NAME" value="Paso" />
+		<property name="pasoDao" ref="pasoDao" />
+		<property name="productController" ref="productController" />
+		<property name="analisisController" ref="analisisController" />
+	</bean>
+
+	<bean id="userSessionController" class="ar.edu.utn.frba.proyecto.controller.UserController"
+		scope="session">
+		<property name="ITEM_NAME" value="Usuario" />
+		<property name="userDao" ref="userDao" />
+		<property name="estadoController" ref="estadoController" />
+		<property name="profileController" ref="profileController" />
+	</bean>
+
+	<bean id="profileController" class="ar.edu.utn.frba.proyecto.controller.ProfileController"
+		scope="singleton">
 		<property name="ITEM_NAME" value="Perfil" />
 		<property name="profileDao" ref="profileDao" />
 	</bean>
 
-	<bean id="estadoController" class="ar.edu.utn.frba.proyecto.controller.EstadoController" scope="singleton">
+	<bean id="criterioController" class="ar.edu.utn.frba.proyecto.controller.CriterioController"
+		scope="singleton">
+		<property name="ITEM_NAME" value="Criterio" />
+		<property name="criterioDao" ref="criterioDao" />
+	</bean>
+
+	<bean id="machineController" parent="baseController"
+		class="ar.edu.utn.frba.proyecto.controller.MachineController" scope="session">
+		<property name="ITEM_NAME" value="Maquinaria" />
+		<property name="machineDao" ref="machineDao" />
+		<property name="estadoController" ref="estadoController" />
+
+	</bean>
+
+	<bean id="processController" class="ar.edu.utn.frba.proyecto.controller.ProcessController"
+		parent="baseController" scope="session">
+		<property name="ITEM_NAME" value="Maquina" />
+		<property name="machineController" ref="machineController" />
+		<property name="productController" ref="productController" />
+		<property name="userController" ref="userController" />
+		<property name="processDao" ref="processDao" />
+
+	</bean>
+
+	<bean id="estadoController" class="ar.edu.utn.frba.proyecto.controller.EstadoController"
+		scope="singleton">
 		<property name="ITEM_NAME" value="Estado" />
 		<property name="estadoDao" ref="estadoDao" />
 	</bean>
 
-	<bean id="sessionController" class="ar.edu.utn.frba.proyecto.controller.SessionController" scope="session">
-		<property name="ITEM_NAME" value="Perfil" />
-		<property name="userDao" ref="userDao" />
+	<bean id="sessionController" class="ar.edu.utn.frba.proyecto.controller.SessionController"
+		scope="session">
+		<property name="ITEM_NAME" value="UsuarioLogueado" />
+		<property name="userController" ref="userSessionController" />
 		<property name="profileController" ref="profileController" />
 	</bean>
 

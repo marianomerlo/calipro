@@ -7,7 +7,8 @@
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
-	<p:growl id="addAnalisisGrowlMessages" showSummary="true" autoUpdate="true" for="addAnalisisGrowlMessageKeys" />
+	<p:growl id="addAnalisisGrowlMessages" showSummary="true" 
+		autoUpdate="true" for="addAnalisisGrowlMessageKeys" />
 	<p:panel id="addAnalisisPanel">
 		<p:message for="addAnalisisName" display="both" />
 
@@ -24,11 +25,23 @@
 					actionListener="#{analisisController.addItem}"
 					update="addAnalisisPanelGrid addAnalisisPanel" />
 
-				<p:commandButton id="addAnalisisCancelButton" value="Cancelar" immediate="true"
+				<p:commandButton id="addAnalisisCancelButton" value="Cancelar"
+					immediate="true"
 					actionListener="#{analisisController.resetCurrent}"
-					update="addAnalisisPanelGrid" 
-					style="margin:10px" oncomplete="window.location.reload()" />
+					update="addAnalisisPanelGrid" style="margin:10px"
+					oncomplete="window.location.reload()" />
 			</f:facet>
 		</h:panelGrid>
+		<p:dataTable id="addAnalisisCriteriaDataTable" var="criterio"
+			value="#{criterioController.items}" rowKey="#{criterio.nombre}"
+			selection="#{analisisController.selectedCriterios}"
+			style="width:auto !important;text-align:center">
+
+			<p:column selectionMode="multiple" style="width:auto" />
+
+			<p:column headerText="Criterios">  
+        		    #{criterio.nombre}  
+       			 </p:column>
+		</p:dataTable>
 	</p:panel>
 </ui:composition>

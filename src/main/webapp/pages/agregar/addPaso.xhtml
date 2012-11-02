@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<p:growl id="addPasoGrowlMessages" showSummary="true" autoUpdate="true"
+		for="addPasoGrowlMessageKeys" />
+	<p:panel id="addPasoPanel">
+		<p:message for="addPasoDescription" display="both" />
+
+		<h:panelGrid columns="2" cellpadding="5" id="addPasoPanelGrid"
+			style="width:auto !important">
+
+			<h:outputLabel for="addPasoDescription" value="Descripcion" />
+			<p:inputText value="#{pasoController.currentItem.descripcion}"
+				id="addPasoDescription" required="true" label="Descripcion" />
+
+			<f:facet name="footer">
+				<p:commandButton id="addPasoConfirmButton" value="Agregar"
+					actionListener="#{pasoController.addItem}" partialSubmit="true" process="addPasoPanel"
+					update="addPasoPanelGrid addPasoPanel :profileTabViewDesarrollo:productDataTableForm:recetaDataTable">
+				</p:commandButton>
+
+				<p:commandButton id="addPasoCancelButton" value="Cancelar"
+					immediate="true" actionListener="#{pasoController.resetCurrent}"
+					update="addPasoPanelGrid" style="margin:10px"
+					oncomplete="addPasoWidget.hide()" />
+			</f:facet>
+		</h:panelGrid>
+	</p:panel>
+</ui:composition>

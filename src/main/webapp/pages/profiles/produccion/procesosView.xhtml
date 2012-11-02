@@ -9,99 +9,108 @@
 	</h:head>
 
 	<h:form id="startProcessForm" style="border:0px">
-		<p:commandButton id="startProcess" value="Iniciar proceso" style="margin:10px"
-			onclick="startProcessWidget.show();" type="button" />
+		<p:commandButton id="startProcess" value="Iniciar proceso"
+			style="margin:10px" onclick="startProcessWidget.show();"
+			type="button" />
 
 		<p:dialog id="startProcessDialog" widgetVar="startProcessWidget"
-			resizable="false" header="Agregar Producto" closable="false"
-			modal="true">
+			dynamic="true" resizable="false"
+			header="Iniciar Proceso de Producción" closable="false" modal="true">
+			<ui:include src="../../iniciar/startProcess.xhtml" />
 		</p:dialog>
 	</h:form>
 
 	<h:form id="processDataTableForm">
-		<p:dataTable id="processDataTable" var="producto"
-			value="#{productController.dataModel}" rowIndexVar="prodIndex"
-			widgetVar="processTable" emptyMessage="No hay coincidencias"
-			selection="#{productController.selectedItems}" paginator="true"
-			paginatorPosition="bottom" rows="10" filteredValue="#{productController.filteredItems}"
+		<p:dataTable id="processDataTable" var="lote"
+			value="#{processController.dataModel}" rowIndexVar="loteIndex"
+			widgetVar="processTable" emptyMessage="No hay lotes en proceso"
+			paginator="true" paginatorPosition="bottom" rows="10"
+			filteredValue="#{processController.filteredItems}"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 			style="width:800px;text-align:center">
 
 			<f:facet name="header">
 				<p:outputPanel>
 					<h:outputText value="Buscar:" />
-					<p:inputText id="globalFilter" onkeyup="productsTable.filter()"
+					<p:inputText id="globalFilter" onkeyup="processTable.filter()"
 						style="width:200px" />
-					<p:watermark for="globalFilter" value="Producto" />
+					<p:watermark for="globalFilter" value="Proceso" />
 				</p:outputPanel>
 			</f:facet>
 
-			<p:column selectionMode="multiple" style="width:auto" />
-
 			<p:column id="processRowNumber" headerText="Nº" style="width:auto">
-				<p:commandLink style="text-decoration:none" value="#{prodIndex + 1}"
+				<p:commandLink style="text-decoration:none" value="#{loteIndex + 1}"
 					ajax="true"
-					actionListener="#{productController.storeOriginalItem(producto)}"
-					
+					actionListener="#{processController.storeOriginalItem(lote)}"
 					oncomplete="modifyProcessWidget.show();">
 					<f:setPropertyActionListener
-						target="#{productController.selectedItem}" value="#{producto}" />
+						target="#{processController.selectedItem}" value="#{lote}" />
 				</p:commandLink>
 			</p:column>
 
-			<p:column id="processId" filterBy="#{producto.id}"
+			<p:column id="processId" filterBy="#{lote.id}"
 				filterStyle="display:none" headerText="Id"
 				filterMatchMode="contains" style="width:auto">
-				<p:commandLink style="text-decoration:none"
-					value="#{producto.id}"
-					actionListener="#{productController.storeOriginalItem(producto)}"
+				<p:commandLink style="text-decoration:none" value="#{lote.id}"
+					actionListener="#{processController.storeOriginalItem(lote)}"
 					oncomplete="modifyProcessWidget.show();">
 					<f:setPropertyActionListener
-						target="#{productController.selectedItem}" value="#{producto}" />
+						target="#{processController.selectedItem}" value="#{lote}" />
 				</p:commandLink>
 			</p:column>
 
-			<p:column id="processName" filterBy="#{producto.nombre}"
-				filterStyle="display:none" headerText="Nombre"
+			<p:column id="processProduct" filterBy="#{lote.producto.nombre}"
+				filterStyle="display:none" headerText="Producto"
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
-					value="#{producto.nombre}"
-					actionListener="#{productController.storeOriginalItem(producto)}"
+					value="#{lote.producto.nombre}"
+					actionListener="#{processController.storeOriginalItem(lote)}"
 					oncomplete="modifyProcessWidget.show();">
 					<f:setPropertyActionListener
-						target="#{productController.selectedItem}" value="#{producto}" />
+						target="#{processController.selectedItem}" value="#{lote}" />
 				</p:commandLink>
 			</p:column>
 
-			<p:column id="processDescription" filterBy="#{producto.descripcion}"
-				filterStyle="display:none" headerText="Descripcion"
+			<p:column id="processMachine" filterBy="#{lote.maquinaria.nombre}"
+				filterStyle="display:none" headerText="Maquinaria"
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
-					value="#{producto.descripcion}"
-					actionListener="#{productController.storeOriginalItem(producto)}"
+					value="#{lote.maquinaria.nombre}"
+					actionListener="#{processController.storeOriginalItem(lote)}"
 					oncomplete="modifyProcessWidget.show();">
 					<f:setPropertyActionListener
-						target="#{productController.selectedItem}" value="#{producto}" />
+						target="#{processController.selectedItem}" value="#{lote}" />
 				</p:commandLink>
 			</p:column>
 
-			<p:column id="processLastModDate"
-				filterBy="#{producto.fechaUltimaModificacion}"
-				filterStyle="display:none" headerText="Fecha Ultima Modificacion"
+			<p:column id="processUser" filterBy="#{lote.usuarioCreacion.nombre}"
+				filterStyle="display:none" headerText="Usuario"
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
-					value="#{producto.fechaUltimaModificacion}"
-					actionListener="#{productController.storeOriginalItem(producto)}"
+					value="#{lote.usuarioCreacion.nombre}"
+					actionListener="#{processController.storeOriginalItem(lote)}"
 					oncomplete="modifyProcessWidget.show();">
 					<f:setPropertyActionListener
-						target="#{productController.selectedItem}" value="#{producto}" />
+						target="#{processController.selectedItem}" value="#{lote}" />
+				</p:commandLink>
+			</p:column>
+
+			<p:column id="processCreatedDate" filterBy="#{lote.fechaCreacion}"
+				filterStyle="display:none" headerText="Fecha Creacion"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none"
+					value="#{lote.fechaCreacion}"
+					actionListener="#{processController.storeOriginalItem(lote)}"
+					oncomplete="modifyProcessWidget.show();">
+					<f:setPropertyActionListener
+						target="#{processController.selectedItem}" value="#{lote}" />
 				</p:commandLink>
 			</p:column>
 
 		</p:dataTable>
-		<p:dialog id="modifyProcessDialog" header="Modificar Producto" dynamic="true"
-			widgetVar="modifyProcessWidget" modal="true" resizable="false"
-			closable="false">
+		<p:dialog id="modifyProcessDialog" header="Modificar Proceso"
+			dynamic="true" widgetVar="modifyProcessWidget" modal="true"
+			resizable="false" closable="false">
 
 		</p:dialog>
 

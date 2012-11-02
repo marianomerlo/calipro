@@ -9,19 +9,19 @@ public abstract class AuditObject extends BaseObject {
 	 */
 	private static final long serialVersionUID = -168794914295343374L;
 
-	protected String usuarioCreacion;
+	protected Usuario usuarioCreacion;
 	
 	protected String fechaCreacion;
 	
-	protected String usuarioUltimaModificacion;
+	protected Usuario usuarioUltimaModificacion;
 	
 	protected String fechaUltimaModificacion;
 
-	public String getUsuarioCreacion() {
+	public Usuario getUsuarioCreacion() {
 		return usuarioCreacion;
 	}
 
-	public void setUsuarioCreacion(String usuarioCreacion) {
+	public void setUsuarioCreacion(Usuario usuarioCreacion) {
 		this.usuarioCreacion = usuarioCreacion;
 	}
 
@@ -33,11 +33,11 @@ public abstract class AuditObject extends BaseObject {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public String getUsuarioUltimaModificacion() {
+	public Usuario getUsuarioUltimaModificacion() {
 		return usuarioUltimaModificacion;
 	}
 
-	public void setUsuarioUltimaModificacion(String usuarioUltimaModificacion) {
+	public void setUsuarioUltimaModificacion(Usuario usuarioUltimaModificacion) {
 		this.usuarioUltimaModificacion = usuarioUltimaModificacion;
 	}
 

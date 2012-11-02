@@ -1,0 +1,61 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<p:growl id="addAnalisisToPasoGrowlMessages" showSummary="true"
+		autoUpdate="true" for="addAnalisisToPasoGrowlMessageKeys" />
+	<p:panel id="addAnalisisToPasoPanel" style="width:auto !important">
+
+		<h:panelGrid columns="2" cellpadding="5"
+			id="addAnalisisToPasoPanelGrid" style="width:auto !important">
+
+			<h:outputLabel value="Analisis" for="addAnalisisToPasoAnalisis" />
+			<p:autoComplete id="addAnalisisToPasoAnalisis" forceSelection="true"
+				value="#{analisisController.selectedAnalisis}" var="analisis"
+				itemLabel="#{analisis.nombre}" converter="#{analisisConverter}"
+				itemValue="#{analisis}"
+				completeMethod="#{analisisController.filterProducts}">
+				<p:ajax event="itemSelect"
+					listener="#{analisisController.refreshCurrentCriterios()}"
+					update="analisisToPasoDataTable" process="@this"
+					partialSubmit="true" />
+			</p:autoComplete>
+
+		</h:panelGrid>
+
+		<p:dataTable id="analisisToPasoDataTable" var="criterio"
+			value="#{analisisController.refreshedCriterios}"
+			rowIndexVar="criterioIndex" widgetVar="analissToPasoTable"
+			emptyMessage="No hay coincidencias" rows="10"
+			style="width:auto !important;text-align:center">
+
+			<p:column id="criterio2Name" headerText="Criterio" style="width:auto">#{criterio.nombre}
+			</p:column>
+
+			<p:column id="criterio2ExpectedValue" headerText="Valor Esperado"
+				style="width:auto">
+				<p:inputText value="#{pasoController.expectedValues[criterioIndex]}" />
+			</p:column>
+
+		</p:dataTable>
+
+		<f:facet name="footer">
+
+			<p:commandButton id="addAnalisisToPasoConfirmButton" value="Agregar"
+				actionListener="#{pasoController.addAnalisisToPaso}"
+				partialSubmit="true" process="addAnalisisToPasoPanel"
+				update="addAnalisisToPasoPanelGrid addAnalisisToPasoPanel :profileTabViewDesarrollo:productDataTableForm:recetaDataTable">
+			</p:commandButton>
+
+			<p:commandButton id="addAnalisisToPasoCancelButton" value="Cancelar"
+				immediate="true" actionListener="#{pasoController.resetCurrent}"
+				update="addAnalisisToPasoPanelGrid" style="margin:10px"
+				oncomplete="addAnalisisToPasoWidget.hide()" />
+		</f:facet>
+	</p:panel>
+</ui:composition>

@@ -1,0 +1,42 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<p:growl id="updateMaquinariaGrowlMessages" showSummary="true"
+		autoUpdate="true" for="updateMaquinariaGrowlMessageKeys" />
+	<p:panel id="updateMachinePanel">
+		<p:message for="updateMachineName" display="both" />
+		<h:panelGrid columns="2" cellpadding="5" id="updateMachinePanelGrid"
+			style="width:auto !important">
+
+			<h:outputLabel for="updateMachineName" value="Nombre" />
+			<p:inputText value="#{machineController.selectedItem.nombre}"
+				id="updateMachineName" label="updateMachineName" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+		</h:panelGrid>
+
+		<f:facet name="footer">
+			<p:commandButton id="updateMachineConfirmButton" value="Guardar"
+				actionListener="#{machineController.updateItem}"
+				update="updateMachinePanelGrid updateMachinePanel" />
+
+			<p:commandButton id="updateMachineCancelButton" value="Cancelar"
+				actionListener="#{machineController.restoreOriginalItem}"
+				immediate="true" update="updateMachinePanelGrid" style="margin:10px"
+				oncomplete="window.location.reload()" />
+		</f:facet>
+
+		<p:selectOneMenu id="modifyStateMachineBox"
+			value="#{machineController.selectedItemEstadoId}">
+			<f:selectItems value="#{machineController.availableStates}"
+				var="maquinaria" itemLabel="#{maquinaria.nombre}"
+				itemValue="#{maquinaria.id}" />
+		</p:selectOneMenu>
+	</p:panel>
+</ui:composition>

@@ -1,0 +1,40 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<h:panelGrid columns="2" cellpadding="5" id="deletePasoPanelGrid"
+		style="width:auto !important">
+		<span class="ui-messages-warn-icon" />
+
+		<h:outputText
+			value="¿Desea confirmar la eliminación del Paso #{pasoController.selectedItem.id}?" />
+
+		<f:facet name="footer">
+			<p:commandButton id="deletePasoConfirmButton" value="Si"
+				actionListener="#{pasoController.deleteItems}" process="@this"
+				oncomplete="deletedPasoConfirmationWidget.show()"
+				update="deletedPasoConfirmDialog" />
+
+			<p:commandButton id="deleteProductCancelButton" value="No"
+				onclick="deletePasoWidget.hide()" />
+		</f:facet>
+	</h:panelGrid>
+
+	<p:dialog id="deletedPasoConfirmDialog" closable="false"
+		resizable="false" header="Information"
+		widgetVar="deletedPasoConfirmationWidget">
+		<h:panelGrid columns="2" style="padding: 15px">
+			<span class="ui-messages-info-icon" />
+			<h:outputText value="El Paso #{pasoController.selectedItem.id} ha eliminado satisfactoriamente" />
+		</h:panelGrid>
+		<p:commandButton id="deletedPasoConfirm" value="OK"
+			actionListener="#{pasoController.resetSelectedItems}" process="@this" update=":profileTabViewDesarrollo:productDataTableForm:recetaDataTable" 
+			oncomplete="deletedPasoConfirmationWidget.hide();deletePasoWidget.hide()"/>
+	</p:dialog>
+
+</ui:composition>

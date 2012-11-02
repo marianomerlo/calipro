@@ -3,8 +3,6 @@ package ar.edu.utn.frba.proyecto.controller;
 import java.io.Serializable;
 import java.util.List;
 
-import org.primefaces.model.SelectableDataModel;
-
 import ar.edu.utn.frba.proyecto.dao.Dao;
 import ar.edu.utn.frba.proyecto.domain.BaseObject;
 
@@ -20,8 +18,6 @@ public abstract class BaseController<T extends BaseObject> implements Serializab
 	protected int autoUpdateFrequencySeconds;
 	
 	protected List<T> items;
-	
-	protected SelectableDataModel<T> dataModel; 
 	
 	protected abstract Dao<T> getDao();
 	
@@ -46,7 +42,9 @@ public abstract class BaseController<T extends BaseObject> implements Serializab
 	}
 
 	protected void extraGetItemsProcess() {
-		// By default, do nothing.
+		for (T elem : getItems()) {
+			extraGetItemProcess(elem);
+		}
 	}
 
 	public String getITEM_NAME() {

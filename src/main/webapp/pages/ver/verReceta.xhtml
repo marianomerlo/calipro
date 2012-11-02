@@ -1,0 +1,154 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<p:commandButton id="pasoAdd" value="Agregar Paso" style="margin:10px"
+		onclick="addPasoWidget.show();" type="button">
+	</p:commandButton>
+
+	<p:dialog id="addPasoDialog" widgetVar="addPasoWidget" modal="true"
+		appendToBody="true" resizable="false" header="Agregar Paso"
+		closable="true">
+		<ui:include src="../agregar/addPaso.xhtml" />
+	</p:dialog>
+
+	<p:dialog id="deletePasoDialog" widgetVar="deletePasoWidget"
+		appendToBody="true" modal="true" resizable="false"
+		header="Eliminar Paso" closable="false">
+		<ui:include src="../eliminar/deletePaso.xhtml" />
+	</p:dialog>
+
+	<p:dialog id="addAnalisisToPasoDialog"
+		widgetVar="addAnalisisToPasoWidget" appendToBody="true" modal="true"
+		resizable="false" style="width:800px;"
+		header="Agregar Analisis a Paso" closable="false">
+		<ui:include src="../agregar/addAnalisisToPaso.xhtml" />
+	</p:dialog>
+
+	<p:dataTable id="recetaDataTable" var="paso" rowIndexVar="pasoIndex"
+		value="#{pasoController.items}" widgetVar="recetaTable"
+		emptyMessage="No hay pasos" style="width:800px;text-align:center">
+
+		<p:column style="width:35px">
+			<p:rowToggler />
+		</p:column>
+
+		<p:column id="pasoReceta" headerText="Nº" style="width:51px">
+			<p:commandLink style="text-decoration:none" value="#{pasoIndex + 1}"
+				actionListener="#{pasoController.storeOriginalItem(paso)}"
+				oncomplete="modifyPasoWidget.show();">
+				<f:setPropertyActionListener target="#{pasoController.selectedItem}"
+					value="#{paso}" />
+			</p:commandLink>
+		</p:column>
+
+		<p:column id="pasoId" headerText="Id" style="width:51px">
+			<p:commandLink style="text-decoration:none" value="#{paso.id}"
+				actionListener="#{pasoController.storeOriginalItem(paso)}"
+				oncomplete="modifyPasoWidget.show();">
+				<f:setPropertyActionListener target="#{pasoController.selectedItem}"
+					value="#{paso}" />
+			</p:commandLink>
+		</p:column>
+
+		<p:column id="pasoDescripcion" headerText="Descripción"
+			style="width:auto">
+			<p:commandLink style="text-decoration:none"
+				value="#{paso.descripcion}"
+				actionListener="#{pasoController.storeOriginalItem(paso)}"
+				oncomplete="modifyPasoWidget.show();">
+				<f:setPropertyActionListener target="#{pasoController.selectedItem}"
+					value="#{paso}" />
+			</p:commandLink>
+		</p:column>
+		<p:column id="pasoDelete" headerText="" style="width:57px">
+			<p:commandLink oncomplete="deletePasoWidget.show();"
+				actionListener="#{pasoController.setSelectedItem(paso)}"
+				style="text-decoration:none;float:left" process="@this"
+				immediate="true"
+				update=":profileTabViewDesarrollo:productDataTableForm:deletePasoPanelGrid"
+				styleClass="ui-icon ui-icon-close">
+			</p:commandLink>
+			<p:commandLink
+				actionListener="#{pasoController.setSelectedItem(paso)}"
+				oncomplete="addAnalisisToPasoWidget.show()"
+				style="text-decoration:none;padding-left:5px" process="@this"
+				update=":profileTabViewDesarrollo:productDataTableForm:deletePasoPanelGrid"
+				styleClass="ui-icon ui-icon-document">
+			</p:commandLink>
+		</p:column>
+
+		<p:rowExpansion>
+			<p:dataTable id="subRecetaDataTable" var="analisis"
+				rowIndexVar="subPasoIndex" value="#{analisisController.dataModel}"
+				widgetVar="subrecetaTable" emptyMessage="No hay pasos"
+				style="width:763x;text-align:center;padding-left:36px;padding-right:57px">
+
+				<p:column id="subpasoReceta" headerText="#"
+					style="width:7.4%;text-align:center">
+					<p:commandLink style="text-decoration:none"
+						value="#{pasoIndex + 1}.#{subPasoIndex + 1}"
+						actionListener="#{analisisController.storeOriginalItem(analisis)}"
+						oncomplete="modifyAnalisisWidget.show();">
+						<f:setPropertyActionListener
+							target="#{analisisController.selectedItem}" value="#{analisis}" />
+						<f:setPropertyActionListener
+							target="#{analisisController.selectedCriterios}"
+							value="#{analisisController.analisisCriteriosAsArray}" />
+					</p:commandLink>
+				</p:column>
+				<p:column id="subanalisisName" headerText="Analisis"
+					style="width:auto">
+					<p:commandLink style="text-decoration:none"
+						value="#{analisis.nombre}"
+						actionListener="#{analisisController.storeOriginalItem(analisis)}"
+						oncomplete="modifyAnalisisWidget.show();">
+						<f:setPropertyActionListener
+							target="#{analisisController.selectedItem}" value="#{analisis}" />
+						<f:setPropertyActionListener
+							target="#{analisisController.selectedCriterios}"
+							value="#{analisisController.analisisCriteriosAsArray}" />
+					</p:commandLink>
+				</p:column>
+				<p:column id="subanalisisName1" headerText="Criterio"
+					style="width:auto">
+					<p:commandLink style="text-decoration:none"
+						value="#{analisis.nombre}"
+						actionListener="#{analisisController.storeOriginalItem(analisis)}"
+						oncomplete="modifyAnalisisWidget.show();">
+						<f:setPropertyActionListener
+							target="#{analisisController.selectedItem}" value="#{analisis}" />
+						<f:setPropertyActionListener
+							target="#{analisisController.selectedCriterios}"
+							value="#{analisisController.analisisCriteriosAsArray}" />
+					</p:commandLink>
+				</p:column>
+				<p:column id="subanalisisName2" headerText="Valor Esperado"
+					style="width:auto">
+					<p:commandLink style="text-decoration:none"
+						value="#{analisis.nombre}"
+						actionListener="#{analisisController.storeOriginalItem(analisis)}"
+						oncomplete="modifyAnalisisWidget.show();">
+						<f:setPropertyActionListener
+							target="#{analisisController.selectedItem}" value="#{analisis}" />
+						<f:setPropertyActionListener
+							target="#{analisisController.selectedCriterios}"
+							value="#{analisisController.analisisCriteriosAsArray}" />
+					</p:commandLink>
+				</p:column>
+				<p:column id="subanalisisName3" headerText="" style="width:1%">
+					<p:commandButton onclick="seeProductWidget.show()"
+						style="text-decoration:none" icon="ui-icon-close">
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+		</p:rowExpansion>
+
+	</p:dataTable>
+</ui:composition>

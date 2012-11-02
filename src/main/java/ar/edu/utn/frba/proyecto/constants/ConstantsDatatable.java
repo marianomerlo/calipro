@@ -12,6 +12,16 @@ public class ConstantsDatatable {
 
 	public static String PERFIL_ID = "idPerfil";
 
+	public static String MAQUINARIA_ID = "idMaquinaria";
+
+	public static String CRITERIO_ID = "idCriterio";
+
+	public static String PASO_ID = "idPaso";
+
+	public static String VERSION_ID = "idversion";
+
+	public static String LOTE_ID = "idLote";
+
 	public static String PERFIL_PRODUCCION = "Produccón";
 	public static String PERFIL_CALIDAD = "Calidad";
 	public static String PERFIL_DESARROLLO = "Desarrollo";
@@ -35,19 +45,26 @@ public class ConstantsDatatable {
 
 	public static String AUDIT_FECHA_ULTIMA_MOD = "fechaUltimaMod";
 
-	public static String AUDIT_USUARIO_CREACION = "usuarioCreacion";
+	public static String AUDIT_USUARIO_CREACION = "idUsuarioCreacion";
 
-	public static String AUDIT_USUARIO_ULTIMA_MOD = "usuarioUltimaMod";
+	public static String AUDIT_USUARIO_ULTIMA_MOD = "idUsuarioUltimaMod";
 	
 	/* Constantes para estados */
 	
 	public static Integer ESTADO_USUARIO_HABILITADO = 1;
 	public static Integer ESTADO_USUARIO_DESHABILITADO = 2;
+
+	public static Integer ESTADO_MAQUINARIA_DISPONIBLE = 3;
+	public static Integer ESTADO_MAQUINARIA_NO_DISPONIBLE = 4;
 	
 	public static Integer ESTADO_GROUPID_USUARIO = 1;
 	public static Integer ESTADO_GROUPID_MAQUINARIA = 2;
 	public static Integer ESTADO_GROUPID_PRODUCTO = 3;
 	public static Integer ESTADO_GROUPID_PROCESO_PRODUCCION = 4;
 	public static Integer ESTADO_GROUPID_SOLICITUD_ANALISIS = 5;
+
+	public static Integer ESTADO_PROCESO_EN_PROCESO = 7;
+	public static Integer ESTADO_PROCESO_CANCELADO = 8;
+	public static Integer ESTADO_PROCESO_FINALIZADO = 9;
 	
 }

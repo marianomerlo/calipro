@@ -17,31 +17,21 @@ public class Profile extends BaseObject{
 		super();
 	}
 	
-	public Profile ( Integer id, String name){
+	public Profile ( Integer id, String nombre){
 		super();
 		this.id = id;
-		this.name = name;
+		this.nombre = nombre;
 		this.vistas = ProfileHelper.getViews(this);
 	}
 
-	public Profile ( String name, Vista... vistas){
+	public Profile ( String nombre, Vista... vistas){
 		super();
-		this.name = name;
+		this.nombre = nombre;
 		this.vistas = vistas != null ? Arrays.asList(vistas) : null;
 	}
 
-	private String name;
-	
 	private List<Vista> vistas;
 	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	/**
 	 * @return the vistas
 	 */
@@ -58,19 +48,19 @@ public class Profile extends BaseObject{
 
 	@Override
 	public String getIdentifingName() {
-		return this.name;
+		return this.nombre;
 	}
 	
 	@Override
 	public int hashCode() {
-		return ( name.length() * 31 ) ^ id;
+		return ( nombre.length() * 31 ) ^ id;
 	}	
 	
 	@Override
 	public boolean equals(Object arg0) {
 		if (arg0 instanceof Profile) {
 		      Profile other = (Profile) arg0;
-		      return (name.equals(other.name) && id == other.id);
+		      return (nombre.equals(other.nombre) && id == other.id);
 		    }
 		    return false;
 	}

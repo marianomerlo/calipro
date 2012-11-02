@@ -34,12 +34,13 @@ public class ProductDao extends BaseAbmDao<Producto>  {
 
 	@Override
 	protected PreparedStatement prepareAddStatement(Producto element) {
-			String query = "INSERT INTO PRODUCTO (nombre,descripcion) VALUES (?,?)";
+			String query = "INSERT INTO PRODUCTO (nombre,descripcion,idUsuarioCreacion) VALUES (?,?,?)";
 			PreparedStatement prepStatement = null;
 			try {
 				prepStatement = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 				prepStatement.setString(1, element.getNombre());
 				prepStatement.setString(2, element.getDescripcion());
+				prepStatement.setInt(3, element.getUsuarioCreacion().getId());
 			} catch (SQLException e) {e.printStackTrace();}
 			
 			return prepStatement;
@@ -47,13 +48,14 @@ public class ProductDao extends BaseAbmDao<Producto>  {
 	
 	@Override
 	protected PreparedStatement prepareUpdateStatement(Producto element) {
-		String query = "UPDATE PRODUCTO SET nombre = ?, descripcion = ? WHERE idProducto = ? ";
+		String query = "UPDATE PRODUCTO SET nombre = ?, descripcion = ?, idUsuarioUltimaMod = ? WHERE idProducto = ? ";
 		PreparedStatement prepStatement = null;
 		try {
 			prepStatement = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 			prepStatement.setString(1, element.getNombre());
 			prepStatement.setString(2, element.getDescripcion());
-			prepStatement.setInt(3, element.getId());
+			prepStatement.setInt(3, element.getUsuarioUltimaModificacion().getId());
+			prepStatement.setInt(4, element.getId());
 		} catch (SQLException e) {e.printStackTrace();}
 		
 		return prepStatement;

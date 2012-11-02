@@ -12,24 +12,32 @@
 			rendered="#{sessionController.loggedUser != null}">
 			<p:menuButton
 				value="#{sessionController.loggedUser.nombre} #{sessionController.loggedUser.apellido}">
+				<p:menuitem value="Actualizar cuenta"
+					onclick="modifyLoggedUser.show()"					
+					icon="ui-icon-extlink" />
 				<p:menuitem value="Logout"
 					actionListener="#{sessionController.logout}"
-					update=":logginForm @this :mainPanelDesarrollo :mainPanelSupervision"
+					update=":logginForm @this :mainPanelDesarrollo :mainPanelSupervision :mainPanelProduccion"
 					oncomplete="window.location.reload()" icon="ui-icon-extlink" />
 			</p:menuButton>
+			<p:dialog id="modifyLoggedUserDialog" header="Modificar Usuario" 
+			dynamic="true" widgetVar="modifyLoggedUser" modal="true"
+			resizable="false" closable="false">
+			<ui:include src="../modificar/modifyUsuarioLogueado.xhtml" />
 
+		</p:dialog>
 		</h:form>
 	</div>
 	<br />
-<!-- * sessionController.loggedUser.perfiles.size() -->
 
 	<h:form id="baseAccordion">
+		<!-- * sessionController.loggedUser.perfiles.size() -->
 		<p:tabMenu id="profileTabMenu" activeIndex="#{sessionController.activeProfileIndexTab}" 
 			style="width:#{1100 }px"
 			rendered="#{sessionController.loggedUser != null}">
 			<c:forEach items="#{sessionController.loggedUser.perfiles}" varStatus="loop"
 				var="perfil">
-				<p:menuitem value="#{perfil.name}" actionListener="#{sessionController.onProfileChange(perfil,loop.index)}" process="@this"
+				<p:menuitem value="#{perfil.nombre}" actionListener="#{sessionController.onProfileChange(perfil,loop.index)}" process="@this"
 				update=":mainPanelDesarrollo :mainPanelSupervision" oncomplete="window.location.reload()"  />
 			</c:forEach>
 		</p:tabMenu>
@@ -39,14 +47,13 @@
 		rendered="#{sessionController.loggedUser != null}"
 		style="width:1100px" />
 
-	<p:panel id="mainPanelDesarrollo" rendered="#{sessionController.loggedUser != null and sessionController.activeProfile.name == 'Desarrollo' }"	style="width:1095px">
+	<p:panel id="mainPanelDesarrollo" rendered="#{sessionController.loggedUser != null and sessionController.activeProfile.nombre == 'Desarrollo' }"	style="width:1095px">
 		<ui:include src="desarrollo/desarrollo.xhtml" />
 	</p:panel>
-	
-	<p:panel id="mainPanelSupervision" rendered="#{sessionController.loggedUser != null and sessionController.activeProfile.name == 'Supervisión'}"	style="width:1095px">
+	<p:panel id="mainPanelSupervision" rendered="#{sessionController.loggedUser != null and sessionController.activeProfile.nombre == 'Supervisión'}"	style="width:1095px">
 		<ui:include src="supervision/supervision.xhtml" />
 	</p:panel>
-	<p:panel id="mainPanelProduccion" rendered="#{sessionController.loggedUser != null and sessionController.activeProfile.name == 'Producción'}"	style="width:1095px">
+	<p:panel id="mainPanelProduccion" rendered="#{sessionController.loggedUser != null and sessionController.activeProfile.nombre == 'Producción'}"	style="width:1095px">
 		<ui:include src="produccion/produccion.xhtml" />
 	</p:panel>
 	

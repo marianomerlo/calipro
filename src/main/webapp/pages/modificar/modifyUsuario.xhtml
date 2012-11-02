@@ -7,9 +7,9 @@
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
-	<p:growl id="updateUsuarioGrowlMessages" showSummary="true" autoUpdate="true"
-		for="updateUsuarioGrowlMessageKeys" />
-	<p:panel id="updateUserPanel" >
+	<p:growl id="updateUsuarioGrowlMessages" showSummary="true"
+		autoUpdate="true" for="updateUsuarioGrowlMessageKeys" />
+	<p:panel id="updateUserPanel">
 		<p:message for="updateUserAlias" display="both" />
 		<p:message for="updateUserName" display="both" />
 		<p:message for="updateUserSurname" display="both" />
@@ -49,30 +49,30 @@
 		</h:panelGrid>
 
 		<p:dataTable id="updateUserProfilesDataTable" var="profile"
-			value="#{profileController.items}" rowKey="#{profile.name}"
+			value="#{profileController.items}" rowKey="#{profile.nombre}"
 			selection="#{userController.selectedProfiles}"
 			style="width:auto !important;text-align:center">
 
 			<p:column selectionMode="multiple" style="width:auto" />
 
 			<p:column headerText="Perfiles">  
-        		    #{profile.name}  
+        		    #{profile.nombre}  
        			 </p:column>
 		</p:dataTable>
 		<br />
 
 		<f:facet name="footer">
-				<p:commandButton id="updateUserConfirmButton" value="Guardar"
-					actionListener="#{userController.updateItem}"
-					update="updateUserPanelGrid updateUserPanel" />
+			<p:commandButton id="updateUserConfirmButton" value="Guardar"
+				actionListener="#{userController.updateItem}"
+				update="updateUserPanelGrid updateUserPanel" />
 
-				<p:commandButton id="updateUserCancelButton" value="Cancelar"
-					actionListener="#{userController.restoreOriginalItem}" immediate="true"
-					update="updateUserPanelGrid" style="margin:10px"
-					oncomplete="window.location.reload()" />
-			</f:facet>
-			
-		<p:selectOneMenu id="modifyStateUserBox" 
+			<p:commandButton id="updateUserCancelButton" value="Cancelar"
+				actionListener="#{userController.restoreOriginalItem}"
+				immediate="true" update="updateUserPanelGrid" style="margin:10px"
+				oncomplete="window.location.reload()" />
+		</f:facet>
+
+		<p:selectOneMenu id="modifyStateUserBox"
 			value="#{userController.selectedItemEstadoId}">
 			<f:selectItems value="#{userController.availableStates}" var="estado"
 				itemLabel="#{estado.nombre}" itemValue="#{estado.id}" />

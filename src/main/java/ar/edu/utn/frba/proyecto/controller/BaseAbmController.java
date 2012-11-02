@@ -6,15 +6,16 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.model.SelectableDataModel;
 import org.springframework.util.StringUtils;
 
 import ar.edu.utn.frba.proyecto.dao.AbmDao;
-import ar.edu.utn.frba.proyecto.domain.BaseObject;
+import ar.edu.utn.frba.proyecto.domain.AuditObject;
 
-public abstract class BaseAbmController<T extends BaseObject> extends BaseController<T> implements Serializable {
+public abstract class BaseAbmController<T extends AuditObject> extends BaseController<T> implements Serializable {
 
 	/**
 	 * 
@@ -30,6 +31,11 @@ public abstract class BaseAbmController<T extends BaseObject> extends BaseContro
 	protected T[] selectedItems;
 	
 	protected List<T> filteredItems;
+	
+	@ManagedProperty("#{sessionController}")
+	protected SessionController sessionController;
+	
+	protected SelectableDataModel<T> dataModel; 
 
 	protected abstract AbmDao<T> getDao(); 
 	
@@ -55,7 +61,8 @@ public abstract class BaseAbmController<T extends BaseObject> extends BaseContro
 	}
 
 	public void addItem() {
-		getDao().add(currentItem);
+		getCurrentItem().setUsuarioCreacion(getSessionController().getLoggedUser());
+		getDao().add(getCurrentItem());
 		extraAddItemProcess();
 
 		resetCurrent();
@@ -71,6 +78,7 @@ public abstract class BaseAbmController<T extends BaseObject> extends BaseContro
 
 	public void updateItem(){
 		if ( isDifferent() ){
+			getSelectedItem().setUsuarioUltimaModificacion(getSessionController().getLoggedUser());
 			getDao().update(selectedItem);
 
 			extraUpdateItemProcess();
@@ -177,6 +185,22 @@ public abstract class BaseAbmController<T extends BaseObject> extends BaseContro
 		this.updateMessageKey = updateMessageKey;
 	}
 	
+	public List<T> getFilteredItems() {
+		return filteredItems;
+	}
+
+	public void setFilteredItems(List<T> filteredItems) {
+		this.filteredItems = filteredItems;
+	}
+
+	public SessionController getSessionController() {
+		return sessionController;
+	}
+
+	public void setSessionController(SessionController sessionController) {
+		this.sessionController = sessionController;
+	}
+	
 	public SelectableDataModel<T> getDataModel() {
 		if ( this.dataModel == null){
 			this.dataModel = newDataModel(getItems());
@@ -188,13 +212,5 @@ public abstract class BaseAbmController<T extends BaseObject> extends BaseContro
 
 	public void setDataModel(SelectableDataModel<T> dataModel) {
 		this.dataModel = dataModel;
-	}
-
-	public List<T> getFilteredItems() {
-		return filteredItems;
-	}
-
-	public void setFilteredItems(List<T> filteredItems) {
-		this.filteredItems = filteredItems;
 	}
 }

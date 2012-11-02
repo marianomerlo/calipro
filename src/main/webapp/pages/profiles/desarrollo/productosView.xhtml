@@ -14,7 +14,7 @@
 			onclick="addProductWidget.show();" type="button" />
 
 		<p:dialog id="addProductDialog" widgetVar="addProductWidget"
-			resizable="false" header="Agregar Producto" closable="false"
+			resizable="false" header="Agregar Producto" closable="true" onHide="window.location.reload()"
 			modal="true">
 			<ui:include src="../../agregar/addProduct.xhtml" />
 		</p:dialog>
@@ -31,12 +31,14 @@
 	</h:form>
 
 	<h:form id="productDataTableForm">
-	<p:poll interval="#{productController.autoUpdateFrequencySeconds}" listener="#{productController.refreshItems}" update="@this" />
+		<p:poll interval="#{productController.autoUpdateFrequencySeconds}"
+			listener="#{productController.refreshItems}" update="@this" />
 		<p:dataTable id="productDataTable" var="producto"
 			value="#{productController.dataModel}" rowIndexVar="prodIndex"
 			widgetVar="productsTable" emptyMessage="No hay coincidencias"
 			selection="#{productController.selectedItems}" paginator="true"
-			paginatorPosition="bottom" rows="10" filteredValue="#{productController.filteredItems}"
+			paginatorPosition="bottom" rows="10"
+			filteredValue="#{productController.filteredItems}"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 			style="width:800px;text-align:center">
 
@@ -62,8 +64,7 @@
 			<p:column id="productId" filterBy="#{producto.id}"
 				filterStyle="display:none" headerText="Id"
 				filterMatchMode="contains" style="width:auto">
-				<p:commandLink style="text-decoration:none"
-					value="#{producto.id}"
+				<p:commandLink style="text-decoration:none" value="#{producto.id}"
 					actionListener="#{productController.storeOriginalItem(producto)}"
 					oncomplete="modifyProductWidget.show();">
 					<f:setPropertyActionListener
@@ -107,14 +108,30 @@
 						target="#{productController.selectedItem}" value="#{producto}" />
 				</p:commandLink>
 			</p:column>
+			<p:column id="productReceta" filterStyle="display:none"
+				headerText="Receta" style="width:auto">
+				<p:commandButton oncomplete="seeProductReceiptWidget.show()"
+					actionListener="#{productController.storeOriginalItem(producto)}"
+					style="text-decoration:none" icon="ui-icon-document">
+					<f:setPropertyActionListener
+						target="#{pasoController.productController}"
+						value="#{productController}" />
+					<f:setPropertyActionListener
+						target="#{productController.selectedItem}" value="#{producto}" />
+				</p:commandButton>
+			</p:column>
 
 		</p:dataTable>
-		<p:dialog id="modifyProductDialog" header="Modificar Producto" dynamic="true"
-			widgetVar="modifyProductWidget" modal="true" resizable="false"
-			closable="false">
+		<p:dialog id="modifyProductDialog" header="Modificar Producto"
+			dynamic="true" widgetVar="modifyProductWidget" modal="true"
+			resizable="false" closable="true" onHide="window.location.reload()">
 			<ui:include src="../../modificar/modifyProduct.xhtml" />
-
 		</p:dialog>
-
+		<p:dialog id="seeProductReceipt" header="Receta" dynamic="true"
+			appendToBody="true" widgetVar="seeProductReceiptWidget"
+			onHide="window.location.reload()" modal="true" resizable="false"
+			closable="true">
+			<ui:include src="../../ver/verReceta.xhtml" />
+		</p:dialog>
 	</h:form>
 </ui:composition>

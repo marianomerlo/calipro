@@ -15,7 +15,7 @@
 		<p:dialog id="addAnalisisDialog" widgetVar="addAnalisisWidget"
 			resizable="false" header="Agregar Analisis" closable="false"
 			modal="true">
-				<ui:include src="../../agregar/addAnalisis.xhtml" />
+			<ui:include src="../../agregar/addAnalisis.xhtml" />
 		</p:dialog>
 	</h:form>
 	<h:form id="deleteAnalisisForm">
@@ -31,14 +31,15 @@
 	</h:form>
 
 	<h:form id="analisisDataTableForm">
-		<p:poll interval="#{analisisController.autoUpdateFrequencySeconds}" listener="#{analisisController.refreshItems}" update="@this" />
-	
+		<p:poll interval="#{analisisController.autoUpdateFrequencySeconds}"
+			listener="#{analisisController.refreshItems}" update="@this" />
+
 		<p:dataTable id="analisisDataTable" var="analisis"
-			value="#{analisisController.dataModel}"
-			rowIndexVar="analisisIndex" widgetVar="analisisTable"
-			emptyMessage="No hay coincidencias"
+			value="#{analisisController.dataModel}" rowIndexVar="analisisIndex"
+			widgetVar="analisisTable" emptyMessage="No hay coincidencias"
 			selection="#{analisisController.selectedItems}" paginator="true"
-			paginatorPosition="bottom" rows="10" filteredValue="#{analisisController.filteredItems}"
+			paginatorPosition="bottom" rows="10"
+			filteredValue="#{analisisController.filteredItems}"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 			style="width:800px;text-align:center">
 
@@ -54,7 +55,7 @@
 			<f:facet name="header">
 				<p:outputPanel>
 					<h:outputText value="Buscar:" />
-					<p:inputText id="globalFilter" onkeyup="analisisTable.filter()" 
+					<p:inputText id="globalFilter" onkeyup="analisisTable.filter()"
 						style="width:200px" />
 					<p:watermark for="globalFilter" value="Análisis" />
 				</p:outputPanel>
@@ -65,12 +66,14 @@
 			<p:column id="analisisId" filterBy="#{analisis.id}"
 				filterStyle="display:none" headerText="Id"
 				filterMatchMode="contains" style="width:auto">
-				<p:commandLink style="text-decoration:none"
-					value="#{analisis.id}"
+				<p:commandLink style="text-decoration:none" value="#{analisis.id}"
 					actionListener="#{analisisController.storeOriginalItem(analisis)}"
 					oncomplete="modifyAnalisisWidget.show();">
 					<f:setPropertyActionListener
 						target="#{analisisController.selectedItem}" value="#{analisis}" />
+					<f:setPropertyActionListener
+						target="#{analisisController.selectedCriterios}"
+						value="#{analisisController.analisisCriteriosAsArray}" />
 				</p:commandLink>
 			</p:column>
 
@@ -83,6 +86,9 @@
 					oncomplete="modifyAnalisisWidget.show();">
 					<f:setPropertyActionListener
 						target="#{analisisController.selectedItem}" value="#{analisis}" />
+					<f:setPropertyActionListener
+						target="#{analisisController.selectedCriterios}"
+						value="#{analisisController.analisisCriteriosAsArray}" />
 				</p:commandLink>
 			</p:column>
 
@@ -96,13 +102,16 @@
 					oncomplete="modifyAnalisisWidget.show();">
 					<f:setPropertyActionListener
 						target="#{analisisController.selectedItem}" value="#{analisis}" />
+					<f:setPropertyActionListener
+						target="#{analisisController.selectedCriterios}"
+						value="#{analisisController.analisisCriteriosAsArray}" />
 				</p:commandLink>
 			</p:column>
 
 		</p:dataTable>
-		<p:dialog id="modifyAnalisisDialog" header="Modificar Analisis" dynamic="true"
-			widgetVar="modifyAnalisisWidget" modal="true" resizable="false"
-			closable="false">
+		<p:dialog id="modifyAnalisisDialog" header="Modificar Analisis" 
+			dynamic="true" widgetVar="modifyAnalisisWidget" modal="true"
+			resizable="true" closable="false">
 			<ui:include src="../../modificar/modifyAnalisis.xhtml" />
 
 		</p:dialog>

@@ -11,8 +11,6 @@ public class Producto extends AuditObject implements Serializable {
 	 */
 	private static final long serialVersionUID = 612447183267864545L;
 
-	private String nombre;
-	
 	private String descripcion;
 
 	public Producto(Integer prodId, String nombre, String descripcion){
@@ -28,15 +26,16 @@ public class Producto extends AuditObject implements Serializable {
 		this.nombre = producto.getNombre();
 		this.descripcion = producto.getDescripcion();
 	}
+
+	public Producto(Integer id){
+		super();
+		this.id = id;
+	}
 	
-	public String getNombre() {
-		return nombre;
+	public Producto(){
+		super();
 	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
+	
 	public String getDescripcion() {
 		return descripcion;
 	}

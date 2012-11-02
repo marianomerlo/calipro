@@ -11,6 +11,8 @@ public abstract class BaseObject implements Serializable {
 
 	protected Integer id;
 	
+	protected String nombre;
+	
 	public abstract String getIdentifingName();
 	
 	public Integer getStateGroupId(){
@@ -31,4 +33,13 @@ public abstract class BaseObject implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
 }

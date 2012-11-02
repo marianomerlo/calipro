@@ -14,7 +14,6 @@ import org.primefaces.event.TabChangeEvent;
 
 import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
 import ar.edu.utn.frba.proyecto.dao.Dao;
-import ar.edu.utn.frba.proyecto.dao.impl.UserDao;
 import ar.edu.utn.frba.proyecto.domain.Profile;
 import ar.edu.utn.frba.proyecto.domain.Usuario;
 
@@ -28,8 +27,8 @@ public class SessionController extends BaseController {
 	 */
 	private static final long serialVersionUID = 7522603026332167457L;
 
-	@ManagedProperty("#{userDao}")
-	private UserDao userDao;
+	@ManagedProperty("#{userController}")
+	private UserController userController;
 	
 	@ManagedProperty("#{profileController}")
 	private ProfileController profileController;
@@ -46,7 +45,7 @@ public class SessionController extends BaseController {
 	
 	public void login(){
 		
-		Usuario tempUser = getUserDao().getByUnique(new Usuario(null, alias, null, null, null, null, null));
+		Usuario tempUser = getUserController().getByUnique(new Usuario(null, alias, null, null, null, null, null));
 		if ( tempUser != null && password.equals(tempUser.getContraseña()) &&
 				!(ConstantsDatatable.ESTADO_USUARIO_DESHABILITADO == tempUser.getEstado().getId())){
 			tempUser.setPerfiles(getProfileController().getProfilesByUser(tempUser));
@@ -80,14 +79,6 @@ public class SessionController extends BaseController {
 		setActiveProfile(perfil);
 		setActiveProfileIndexTab(activeProfileIndexTab);
 		setActiveInnerIndexTab(0);
-	}
-
-	public UserDao getUserDao() {
-		return userDao;
-	}
-
-	public void setUserDao(UserDao userDao) {
-		this.userDao = userDao;
 	}
 
 	public String getAlias() {
@@ -162,5 +153,24 @@ public class SessionController extends BaseController {
 	 */
 	public void setActiveProfileIndexTab(int activeProfileIndexTab) {
 		this.activeProfileIndexTab = activeProfileIndexTab;
+	}
+
+	/**
+	 * @return the userController
+	 */
+	public UserController getUserController() {
+		return userController;
+	}
+
+	/**
+	 * @param userController the userController to set
+	 */
+	public void setUserController(UserController userController) {
+		this.userController = userController;
+	}
+	
+	public void updateUser(){
+		getUserController().setSelectedItem(getLoggedUser());
+		getUserController().updateItem();
 	}
 }

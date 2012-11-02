@@ -7,7 +7,6 @@ public class Estado extends BaseObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 5750833109871284829L;
-	private String nombre;
 	
 	public Estado(){
 		super();
@@ -24,20 +23,6 @@ public class Estado extends BaseObject {
 		return getNombre();
 	}
 
-	/**
-	 * @return the nombre
-	 */
-	public String getNombre() {
-		return nombre;
-	}
-
-	/**
-	 * @param nombre the nombre to set
-	 */
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	
 	@Override
 	public int hashCode() {
 		return ( nombre.length() * 31 ) ^ id;

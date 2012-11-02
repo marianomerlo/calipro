@@ -13,14 +13,11 @@
 			activeIndex="#{sessionController.activeInnerIndexTab}">
 
 			<p:ajax event="tabChange" listener="#{sessionController.onTabChange}" />
-			<p:tab title="Procesos">
+			<p:tab title="En Producción">
 				<ui:include src="procesosView.xhtml" />
 			</p:tab>
-			<p:tab title="Historicos">
+			<p:tab title="Históricos">
 				<ui:include src="historicosView.xhtml" />
-			</p:tab>
-			<p:tab title="Blablabal">
-				Blabla
 			</p:tab>
 
 		</p:tabView>

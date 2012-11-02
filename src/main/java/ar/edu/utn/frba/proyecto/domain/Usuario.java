@@ -5,7 +5,7 @@ import java.util.List;
 
 import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
 
-public class Usuario extends BaseObject implements Serializable {
+public class Usuario extends AuditObject implements Serializable {
 
 	/**
 	 * 
@@ -13,8 +13,6 @@ public class Usuario extends BaseObject implements Serializable {
 	private static final long serialVersionUID = -5247586026878417405L;
 	
 	private String alias;
-	
-	private String nombre;
 	
 	private String apellido;
 	
@@ -49,6 +47,11 @@ public class Usuario extends BaseObject implements Serializable {
 		this.perfiles = usuario.getPerfiles();
 	}
 	
+	public Usuario( Integer id){
+		super();
+		this.id = id;
+	}
+	
 	public Usuario() {
 		super();
 	}
@@ -64,14 +67,6 @@ public class Usuario extends BaseObject implements Serializable {
 
 	public void setAlias(String alias) {
 		this.alias = alias;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
 	}
 
 	public String getApellido() {
