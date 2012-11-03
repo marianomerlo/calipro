@@ -25,23 +25,23 @@ public class PasoController extends BaseAbmController<Paso> {
 	private static final long serialVersionUID = -2735492590538830198L;
 
 	private Producto producto;
-	
+
 	private String[] expectedValues;
-	
+
 	@ManagedProperty("#{productController}")
 	private ProductController productController;
 
 	@ManagedProperty("#{analisisController}")
 	private AnalisisController analisisController;
-	
+
 	@ManagedProperty("#{pasoDao}")
 	private PasoDao pasoDao;
-	
+
 	@Override
 	protected PasoDao getDao() {
 		return this.pasoDao;
 	}
-	
+
 	public void setPasoDao(PasoDao pasoDao) {
 		this.pasoDao = pasoDao;
 	}
@@ -55,59 +55,86 @@ public class PasoController extends BaseAbmController<Paso> {
 	protected Paso newBaseItem(Paso item) {
 		return new Paso(item);
 	}
+
+	@Override
+	public void addItem() {
+		getCurrentItem().setProductoId(
+				getProductController().getSelectedItem().getId());
+		getCurrentItem().setVersion(
+				getProductController().getProductVersion(
+						getProductController().getSelectedItem()));
+		super.addItem();
+	}
 	
 	@Override
-	public void addItem(){
-		getCurrentItem().setProductoId(getProductController().getSelectedItem().getId());
-		getCurrentItem().setVersion(getProductController().getProductVersion(getProductController().getSelectedItem()));
-		super.addItem();
+	public void extraAddItemProcess(){
+		refreshPasos();
+		super.extraAddItemProcess();
 	}
 
 	@Override
-	public void deleteItems(){
-		if ( getSelectedItems() == null)
+	public void deleteItems() {
+		if (getSelectedItems() == null)
 			selectedItems = new Paso[1];
-		
-		getSelectedItem().setUsuarioCreacion(getSessionController().getLoggedUser());
+
+		getSelectedItem().setUsuarioCreacion(
+				getSessionController().getLoggedUser());
 		getSelectedItems()[0] = getSelectedItem();
-		
+
 		super.deleteItems();
 	}
-	
-	@Override
-	public List<Paso> getItems() {
-		List<Paso> pasos = getDao().getPasosByProduct(getProductController().getSelectedItem());
-		
-		for (Paso paso : pasos){
-			List<Analisis> firstAnalisisList = getAnalisisController().getAnalisisByPaso(paso);
+
+	private List<Paso> pasos;
+
+	public void refreshPasos() {
+		setPasos(getDao().getPasosByProduct(
+				getProductController().getSelectedItem()));
+
+		for (Paso paso : getPasos()) {
+			List<Analisis> firstAnalisisList = getAnalisisController()
+					.getAnalisisByPaso(paso);
 			List<Analisis> resultList = new ArrayList<Analisis>();
-			for ( Analisis analisis : firstAnalisisList){
+			for (Analisis analisis : firstAnalisisList) {
 				resultList.add(getAnalisisController().get(analisis));
 			}
 			paso.setAnalisis(resultList);
 		}
-		
-		return pasos;
+
+	}
+
+	@Override
+	public List<Paso> getItems() {
+		if (getPasos() == null || getPasos().size() == 0) {
+			refreshPasos();
+		}
+
+		return getPasos();
 	}
 
 	@Override
 	protected boolean isDifferent() {
-		return !getOriginalSelectedItem().getDescripcion().equals(getSelectedItem().getDescripcion()) ||
-				hasAnalisisChanged(); 
+		return !getOriginalSelectedItem().getDescripcion().equals(
+				getSelectedItem().getDescripcion())
+				|| hasAnalisisChanged();
 	}
-	
-	public void addAnalisisToPaso(){
-		getSelectedItem().setUsuarioCreacion(getSessionController().getLoggedUser());
+
+	public void addAnalisisToPaso() {
+		getSelectedItem().setUsuarioCreacion(
+				getSessionController().getLoggedUser());
+
+		getAnalisisController().getSelectedAnalisis().setCriterios(
+				getCriterioValuesAsList());
+
+		getDao().addAnalisisToPaso(getSelectedItem(),
+				getAnalisisController().getSelectedAnalisis());
 		
-		getAnalisisController().getSelectedAnalisis().setCriterios(getCriterioValuesAsList());
-		
-		getDao().addAnalisisToPaso(getSelectedItem(), getAnalisisController().getSelectedAnalisis());
+		refreshPasos();
 	}
-	
+
 	private List<Criterio> getCriterioValuesAsList() {
 		List<Criterio> resultList = new ArrayList<Criterio>();
 		int index = 0;
-		for (Criterio entry : getAnalisisController().getRefreshedCriterios()){
+		for (Criterio entry : getAnalisisController().getRefreshedCriterios()) {
 			Criterio tempCri = new Criterio(entry);
 			tempCri.setValorEsperado(getExpectedValues()[index]);
 			resultList.add(tempCri);
@@ -135,7 +162,8 @@ public class PasoController extends BaseAbmController<Paso> {
 	}
 
 	/**
-	 * @param producto the producto to set
+	 * @param producto
+	 *            the producto to set
 	 */
 	public void setProducto(Producto producto) {
 		this.producto = producto;
@@ -149,25 +177,27 @@ public class PasoController extends BaseAbmController<Paso> {
 	}
 
 	/**
-	 * @param productController the productController to set
+	 * @param productController
+	 *            the productController to set
 	 */
 	public void setProductController(ProductController productController) {
 		this.productController = productController;
 	}
-	
+
 	/**
 	 * @return the expectedValues
 	 */
 	public String[] getExpectedValues() {
-		if ( this.expectedValues == null || this.expectedValues.length == 0){
+		if (this.expectedValues == null || this.expectedValues.length == 0) {
 			this.expectedValues = new String[50];
 		}
-		
+
 		return expectedValues;
 	}
 
 	/**
-	 * @param expectedValues the expectedValues to set
+	 * @param expectedValues
+	 *            the expectedValues to set
 	 */
 	public void setExpectedValues(String[] expectedValues) {
 		this.expectedValues = expectedValues;
@@ -181,10 +211,26 @@ public class PasoController extends BaseAbmController<Paso> {
 	}
 
 	/**
-	 * @param analisisController the analisisController to set
+	 * @param analisisController
+	 *            the analisisController to set
 	 */
 	public void setAnalisisController(AnalisisController analisisController) {
 		this.analisisController = analisisController;
+	}
+
+	/**
+	 * @return the pasos
+	 */
+	public List<Paso> getPasos() {
+		return pasos;
+	}
+
+	/**
+	 * @param pasos
+	 *            the pasos to set
+	 */
+	public void setPasos(List<Paso> pasos) {
+		this.pasos = pasos;
 	}
 
 }
