@@ -105,7 +105,7 @@ public class AnalisisDao extends BaseAbmDao<Analisis> {
 				result = prepStatement.executeQuery();
 				
 				while (result.next())
-					analisisList.add(getFromResult(result));
+					analisisList.add(new Analisis(result.getInt(ConstantsDatatable.ANALISIS_ID), ""));
 					
 				
 		} catch (SQLException e) {

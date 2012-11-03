@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedProperty;
 import org.primefaces.model.SelectableDataModel;
 
 import ar.edu.utn.frba.proyecto.dao.impl.PasoDao;
+import ar.edu.utn.frba.proyecto.domain.Analisis;
 import ar.edu.utn.frba.proyecto.domain.Criterio;
 import ar.edu.utn.frba.proyecto.domain.Paso;
 import ar.edu.utn.frba.proyecto.domain.Producto;
@@ -78,7 +79,12 @@ public class PasoController extends BaseAbmController<Paso> {
 		List<Paso> pasos = getDao().getPasosByProduct(getProductController().getSelectedItem());
 		
 		for (Paso paso : pasos){
-			paso.setAnalisis(getAnalisisController().getAnalisisByPaso(paso));
+			List<Analisis> firstAnalisisList = getAnalisisController().getAnalisisByPaso(paso);
+			List<Analisis> resultList = new ArrayList<Analisis>();
+			for ( Analisis analisis : firstAnalisisList){
+				resultList.add(getAnalisisController().get(analisis));
+			}
+			paso.setAnalisis(resultList);
 		}
 		
 		return pasos;
