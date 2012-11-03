@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
 import ar.edu.utn.frba.proyecto.domain.Analisis;
@@ -88,5 +90,31 @@ public class AnalisisDao extends BaseAbmDao<Analisis> {
 	        if (result != null) try { result.close(); } catch (SQLException logOrIgnore) {}
 	        releaseConnection(conn);
 		}
+	}
+	
+	public List<Analisis> getAnalisisByPaso(Paso paso) {
+		Connection conn = getConnection();
+		ResultSet result = null;
+		List<Analisis> analisisList = new ArrayList<Analisis>();
+		String query = "SELECT ap.* from Analisis_por_Paso ap WHERE ap.idproducto = ? and ap.idpaso = ? and ap.idversion = (select max(p2.idversion) from paso p2 where ap.idproducto=p2.idproducto)";
+		try{
+				PreparedStatement prepStatement = conn.prepareStatement(query);
+				prepStatement.setInt(1, paso.getProductoId());
+				prepStatement.setInt(2, paso.getId());
+				
+				result = prepStatement.executeQuery();
+				
+				while (result.next())
+					analisisList.add(getFromResult(result));
+					
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			if (result != null) try { result.close(); } catch (SQLException logOrIgnore) {}
+			releaseConnection(conn);
+		}
+		
+		return analisisList;
 	}
 }

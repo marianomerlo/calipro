@@ -115,10 +115,9 @@ public class PasoDao extends BaseAbmDao<Paso> {
 	public void addAnalisisToPaso(Paso paso, Analisis analisis){
 		Connection conn = getConnection();
 		ResultSet result = null;
-		String query = "CALL " + "sp_analisis_por_paso_insert" + " (?,?,?,?,?,?)";
 		try {
 			for (Criterio criterio : analisis.getCriterios()) {
-
+				String query = "CALL " + "sp_analisis_por_paso_insert" + " (?,?,?,?,?,?)";
 				PreparedStatement prepStatement = conn.prepareStatement(query);
 				prepStatement.setInt(1, paso.getProductoId());
 				prepStatement.setInt(2, paso.getVersion());

@@ -47,15 +47,6 @@
 			</p:commandLink>
 		</p:column>
 
-		<p:column id="pasoId" headerText="Id" style="width:51px">
-			<p:commandLink style="text-decoration:none" value="#{paso.id}"
-				actionListener="#{pasoController.storeOriginalItem(paso)}"
-				oncomplete="modifyPasoWidget.show();">
-				<f:setPropertyActionListener target="#{pasoController.selectedItem}"
-					value="#{paso}" />
-			</p:commandLink>
-		</p:column>
-
 		<p:column id="pasoDescripcion" headerText="Descripción"
 			style="width:auto">
 			<p:commandLink style="text-decoration:none"
@@ -85,8 +76,8 @@
 
 		<p:rowExpansion>
 			<p:dataTable id="subRecetaDataTable" var="analisis"
-				rowIndexVar="subPasoIndex" value="#{analisisController.dataModel}"
-				widgetVar="subrecetaTable" emptyMessage="No hay pasos"
+				rowIndexVar="subPasoIndex" value="#{paso.analisis}"
+				widgetVar="subrecetaTable" emptyMessage="No hay analisis"
 				style="width:763x;text-align:center;padding-left:36px;padding-right:57px">
 
 				<p:column id="subpasoReceta" headerText="#"

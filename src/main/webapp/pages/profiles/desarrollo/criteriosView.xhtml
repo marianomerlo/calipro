@@ -23,7 +23,7 @@
 		<p:dataTable id="criterioDataTable" var="criterio"
 			value="#{criterioController.dataModel}" rowIndexVar="criterioIndex"
 			widgetVar="criteriosTable" emptyMessage="No hay coincidencias"
-			selection="#{userController.selectedItems}" paginator="true"
+			selection="#{criterioController.selectedItems}" paginator="true"
 			paginatorPosition="bottom" rows="10"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 			style="width:800px;text-align:center">
@@ -42,10 +42,10 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{criterio.nombre}"
-					actionListener="#{userController.storeOriginalItem(criterio)}"
+					actionListener="#{criterioController.storeOriginalItem(criterio)}"
 					oncomplete="modifyCriterioWidget.show();">
 					<f:setPropertyActionListener
-						target="#{userController.selectedItem}" value="#{criterio}" />
+						target="#{criterioController.selectedItem}" value="#{criterio}" />
 				</p:commandLink>
 			</p:column>
 
@@ -53,10 +53,10 @@
 				filterStyle="display:none" headerText="Tipo"
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none" value="#{criterio.tipo}"
-					actionListener="#{userController.storeOriginalItem(criterio)}"
+					actionListener="#{criterioController.storeOriginalItem(criterio)}"
 					oncomplete="modifyCriterioWidget.show();">
 					<f:setPropertyActionListener
-						target="#{userController.selectedItem}" value="#{criterio}" />
+						target="#{criterioController.selectedItem}" value="#{criterio}" />
 				</p:commandLink>
 			</p:column>
 
@@ -66,10 +66,10 @@
 				<ui:repeat var="perfil" value="#{user.perfiles}">
 					<p:commandLink style="text-decoration:none"
 						value="#{perfil.nombre}"
-						actionListener="#{userController.storeOriginalItem(criterio)}"
+						actionListener="#{criterioController.storeOriginalItem(criterio)}"
 						oncomplete="modifyCriterioWidget.show();">
 						<f:setPropertyActionListener
-							target="#{userController.selectedItem}" value="#{criterio}" />
+							target="#{criterioController.selectedItem}" value="#{criterio}" />
 					</p:commandLink>
 					<br />
 				</ui:repeat>

@@ -75,8 +75,13 @@ public class PasoController extends BaseAbmController<Paso> {
 	
 	@Override
 	public List<Paso> getItems() {
+		List<Paso> pasos = getDao().getPasosByProduct(getProductController().getSelectedItem());
 		
-		return getDao().getPasosByProduct(getProductController().getSelectedItem());
+		for (Paso paso : pasos){
+			paso.setAnalisis(getAnalisisController().getAnalisisByPaso(paso));
+		}
+		
+		return pasos;
 	}
 
 	@Override
@@ -149,7 +154,7 @@ public class PasoController extends BaseAbmController<Paso> {
 	 */
 	public String[] getExpectedValues() {
 		if ( this.expectedValues == null || this.expectedValues.length == 0){
-			this.expectedValues = new String[getAnalisisController().getRefreshedCriterios().size()];
+			this.expectedValues = new String[50];
 		}
 		
 		return expectedValues;

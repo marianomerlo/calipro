@@ -12,12 +12,12 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.model.SelectableDataModel;
 
-import ar.edu.utn.frba.proyecto.dao.AbmDao;
 import ar.edu.utn.frba.proyecto.dao.impl.AnalisisDao;
 import ar.edu.utn.frba.proyecto.datamodel.AnalisisDataModel;
 import ar.edu.utn.frba.proyecto.domain.Analisis;
 import ar.edu.utn.frba.proyecto.domain.AuditObject;
 import ar.edu.utn.frba.proyecto.domain.Criterio;
+import ar.edu.utn.frba.proyecto.domain.Paso;
 
 @ManagedBean
 @ViewScoped
@@ -39,7 +39,7 @@ public class AnalisisController extends BaseAbmController<Analisis> {
 	private CriterioController criterioController;
 
 	@Override
-	protected AbmDao<Analisis> getDao() {
+	protected AnalisisDao getDao() {
 		return this.analisisDao;
 	}
 	
@@ -216,4 +216,9 @@ public class AnalisisController extends BaseAbmController<Analisis> {
 	public void setSelectedAnalisis(Analisis selectedAnalisis) {
 		this.selectedAnalisis = selectedAnalisis;
 	}
+
+	public List<Analisis> getAnalisisByPaso(Paso paso) {
+		return getDao().getAnalisisByPaso(paso);
+	}
+	
 }
