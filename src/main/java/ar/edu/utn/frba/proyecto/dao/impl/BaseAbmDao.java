@@ -56,7 +56,7 @@ public abstract class BaseAbmDao<T extends AuditObject> extends BaseDao<T>
 
 	@Override
 	public void deleteAll() {
-		String query = "SELECT * FROM " + DATATABLE_NAME;
+		String query = "DELETE * FROM " + DATATABLE_NAME;
 		conn = getConnection();
 		try {
 			PreparedStatement prepStatement = conn.prepareStatement(query);

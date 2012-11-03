@@ -92,7 +92,7 @@ public class PasoDao extends BaseAbmDao<Paso> {
 		Connection conn = getConnection();
 		ResultSet result = null;
 		List<Paso> resultList = new ArrayList<Paso>();
-		String query = "SELECT * FROM Paso WHERE idProducto = ?";
+		String query = "SELECT p.* FROM Paso p WHERE p.idProducto = ? and p.idversion = (select max(p2.idversion) from paso p2 where p.idproducto=p2.idproducto)";
 		try {
 				PreparedStatement prepStatement = conn.prepareStatement(query);
 				prepStatement.setInt(1, producto.getId());
