@@ -17,6 +17,11 @@
 		<property name="DATATABLE_ID" value="idPerfil" />
 	</bean>
 
+	<bean id="solicitudDao" parent="baseDao" class="ar.edu.utn.frba.proyecto.dao.impl.SolicitudDao">
+		<property name="DATATABLE_NAME" value="Solicitud_Analisis" />
+		<property name="DATATABLE_ID" value="idSolicitud_Analisis" />
+	</bean>
+
 	<bean id="processDao" parent="baseDao" class="ar.edu.utn.frba.proyecto.dao.impl.ProcessDao">
 		<property name="DATATABLE_NAME" value="LOTE" />
 		<property name="DATATABLE_ID" value="idLote" />

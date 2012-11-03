@@ -1,0 +1,125 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+
+	<h:form id="solicitudHDataTableForm">
+		<p:dataTable id="solicitudHDataTable" var="solicitud"
+			value="#{solicitudController.items}" rowIndexVar="solicitudHIndex"
+			widgetVar="solicitudHTable" emptyMessage="No hay solicitudes en el registro"
+			paginator="true" paginatorPosition="bottom" rows="10"
+			filteredValue="#{solicitudController.filteredItems}"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+			style="width:1000px;text-align:center">
+
+			<f:facet name="header">
+				<p:outputPanel>
+					<h:outputText value="Buscar:" />
+					<p:inputText id="globalFilter" onkeyup="solicitudHTable.filter()"
+						style="width:200px" />
+				</p:outputPanel>
+			</f:facet>
+
+			<p:column id="solicitudHRowNumber" headerText="Nº" style="width:auto">
+				<p:commandLink style="text-decoration:none" value="#{solicitudHIndex + 1}"
+					ajax="true"
+					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
+					oncomplete="modifySolicitudHWidget.show();">
+					<f:setPropertyActionListener
+						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
+				</p:commandLink>
+			</p:column>
+
+			<p:column id="solicitudIdH" filterBy="#{solicitud.id}"
+				filterStyle="display:none" headerText="Solicitud"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none" value="#{solicitud.id}"
+					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
+					oncomplete="modifySolicitudHWidget.show();">
+					<f:setPropertyActionListener
+						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
+				</p:commandLink>
+			</p:column>
+
+			<p:column id="solicitudHProducto" filterBy="#{solicitud.lote.producto.nombre}"
+				filterStyle="display:none" headerText="Producto"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none" value="#{solicitud.lote.producto.nombre}"
+					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
+					oncomplete="modifySolicitudHWidget.show();">
+					<f:setPropertyActionListener
+						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
+				</p:commandLink>
+			</p:column>
+
+			<p:column id="solicitudLote" filterBy="#{solicitud.lote.id}"
+				filterStyle="display:none" headerText="Lote"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none" value="#{solicitud.lote.id}"
+					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
+					oncomplete="modifySolicitudHWidget.show();">
+					<f:setPropertyActionListener
+						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
+				</p:commandLink>
+			</p:column>
+
+			<p:column id="solicitudFechaInicial" filterBy="#{solicitud.fechaCreacion}"
+				filterStyle="display:none" headerText="Fecha Solicitado"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none" value="#{solicitud.fechaCreacion}"
+					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
+					oncomplete="modifySolicitudHWidget.show();">
+					<f:setPropertyActionListener
+						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
+				</p:commandLink>
+			</p:column>
+
+			<p:column id="solicitudFecharecibido" filterBy="#{solicitud.fechaRecibido}"
+				filterStyle="display:none" headerText="Fecha Recibido"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none" value="#{solicitud.fechaRecibido}"
+					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
+					oncomplete="modifySolicitudHWidget.show();">
+					<f:setPropertyActionListener
+						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
+				</p:commandLink>
+			</p:column>
+
+			<p:column id="solicitudEstado" filterBy="#{solicitud.estado.nombre}"
+				filterStyle="display:none" headerText="Estado"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none" value="#{solicitud.estado.nombre}"
+					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
+					oncomplete="modifySolicitudHWidget.show();">
+					<f:setPropertyActionListener
+						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
+				</p:commandLink>
+			</p:column>
+			
+						<p:column id="solicitudHFechaUltimaMod"
+				filterBy="#{solicitud.fechaUltimaModificacion}"
+				filterStyle="display:none" headerText="Fecha Ultima Mod."
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none"
+					value="#{solicitud.fechaUltimaModificacion}"
+					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
+					oncomplete="modifySolicitudWidget.show();">
+					<f:setPropertyActionListener
+						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
+				</p:commandLink>
+			</p:column>
+
+		</p:dataTable>
+		<p:dialog id="modifySolicitudHDialog" header="Modificar Proceso"
+			dynamic="true" widgetVar="modifySolicitudHWidget" modal="true"
+			resizable="false" closable="false">
+
+		</p:dialog>
+
+	</h:form>
+</ui:composition>

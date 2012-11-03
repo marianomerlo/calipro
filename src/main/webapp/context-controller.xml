@@ -54,6 +54,12 @@
 		<property name="profileDao" ref="profileDao" />
 	</bean>
 
+	<bean id="solicitudController" class="ar.edu.utn.frba.proyecto.controller.SolicitudController"
+		scope="session">
+		<property name="ITEM_NAME" value="Solicitud" />
+		<property name="solicitudDao" ref="solicitudDao" />
+	</bean>
+
 	<bean id="criterioController" class="ar.edu.utn.frba.proyecto.controller.CriterioController"
 		scope="singleton">
 		<property name="ITEM_NAME" value="Criterio" />

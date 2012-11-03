@@ -1,7 +1,14 @@
 package ar.edu.utn.frba.proyecto.domain;
 
+import java.io.Serializable;
 
-public class Vista {
+
+public class Vista implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1561169901047092429L;
 
 	private String name;
 	

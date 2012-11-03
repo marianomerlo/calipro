@@ -10,7 +10,6 @@ import javax.faces.bean.SessionScoped;
 import org.primefaces.model.SelectableDataModel;
 
 import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
-import ar.edu.utn.frba.proyecto.converter.ProductConverter;
 import ar.edu.utn.frba.proyecto.dao.impl.ProcessDao;
 import ar.edu.utn.frba.proyecto.datamodel.ProcessDataModel;
 import ar.edu.utn.frba.proyecto.domain.Lote;

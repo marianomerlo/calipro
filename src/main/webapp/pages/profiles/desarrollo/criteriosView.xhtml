@@ -1,0 +1,86 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+
+	<h:form id="addCriterioForm" style="border:0px">
+		<p:commandButton id="criterioAdd" value="Agregar" style="margin:10px"
+			onclick="addCriterioWidget.show();" type="button" />
+
+		<p:dialog id="addCriterioDialog" widgetVar="addCriterioWidget"
+			resizable="false" header="Agregar Criterio" closable="false"
+			modal="true">
+			<ui:include src="../../agregar/addCriterio.xhtml" />
+		</p:dialog>
+	</h:form>
+
+	<h:form id="criterioDataTableForm">
+		<p:dataTable id="criterioDataTable" var="criterio"
+			value="#{criterioController.dataModel}" rowIndexVar="criterioIndex"
+			widgetVar="criteriosTable" emptyMessage="No hay coincidencias"
+			selection="#{userController.selectedItems}" paginator="true"
+			paginatorPosition="bottom" rows="10"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+			style="width:800px;text-align:center">
+
+			<f:facet name="header">
+				<p:outputPanel>
+					<h:outputText value="Buscar:" />
+					<p:inputText id="globalFilter" onkeyup="criteriosTable.filter()"
+						style="width:200px" />
+					<p:watermark for="globalFilter" value="Criterio" />
+				</p:outputPanel>
+			</f:facet>
+
+			<p:column id="criterioNombre" filterBy="#{criterio.nombre}"
+				filterStyle="display:none" headerText="Nombre"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none"
+					value="#{criterio.nombre}"
+					actionListener="#{userController.storeOriginalItem(criterio)}"
+					oncomplete="modifyCriterioWidget.show();">
+					<f:setPropertyActionListener
+						target="#{userController.selectedItem}" value="#{criterio}" />
+				</p:commandLink>
+			</p:column>
+
+			<p:column id="criterioTipo" filterBy="#{criterio.tipo}"
+				filterStyle="display:none" headerText="Tipo"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none" value="#{criterio.tipo}"
+					actionListener="#{userController.storeOriginalItem(criterio)}"
+					oncomplete="modifyCriterioWidget.show();">
+					<f:setPropertyActionListener
+						target="#{userController.selectedItem}" value="#{criterio}" />
+				</p:commandLink>
+			</p:column>
+
+
+			<p:column id="criterioValores" filterStyle="display:none"
+				headerText="Valores" style="width:auto">
+				<ui:repeat var="perfil" value="#{user.perfiles}">
+					<p:commandLink style="text-decoration:none"
+						value="#{perfil.nombre}"
+						actionListener="#{userController.storeOriginalItem(criterio)}"
+						oncomplete="modifyCriterioWidget.show();">
+						<f:setPropertyActionListener
+							target="#{userController.selectedItem}" value="#{criterio}" />
+					</p:commandLink>
+					<br />
+				</ui:repeat>
+			</p:column>
+		</p:dataTable>
+
+		<p:dialog id="modifyCriterioDialog" header="Modificar Criterio"
+			dynamic="true" widgetVar="modifyCriterioWidget" modal="true"
+			resizable="false" closable="false">
+			<ui:include src="../../modificar/modifyUsuario.xhtml" />
+		</p:dialog>
+
+	</h:form>
+</ui:composition>

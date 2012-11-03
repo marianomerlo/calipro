@@ -71,7 +71,7 @@ public class ProcessDao extends BaseAbmDao<Lote> {
 		Connection conn = getConnection();
 		ResultSet result = null;
 		List<Lote> resultList = new ArrayList<Lote>();
-		String query = "SELECT * FROM " + DATATABLE_NAME + " WHERE idEstado = ?";
+		String query = "SELECT * FROM " + DATATABLE_NAME + " WHERE " + ConstantsDatatable.GENERAL_ESTADO + " = ?";
 		try {
 			PreparedStatement prepStatement = conn.prepareStatement(query);
 			prepStatement.setInt(1, estado);

@@ -16,6 +16,7 @@ import ar.edu.utn.frba.proyecto.dao.AbmDao;
 import ar.edu.utn.frba.proyecto.dao.impl.AnalisisDao;
 import ar.edu.utn.frba.proyecto.datamodel.AnalisisDataModel;
 import ar.edu.utn.frba.proyecto.domain.Analisis;
+import ar.edu.utn.frba.proyecto.domain.AuditObject;
 import ar.edu.utn.frba.proyecto.domain.Criterio;
 
 @ManagedBean
@@ -74,7 +75,7 @@ public class AnalisisController extends BaseAbmController<Analisis> {
 	
 	@Override
 	public void deleteItems(){
-		for ( Analisis analisis : getSelectedItems()){
+		for ( AuditObject analisis : getSelectedItems()){
 			getCriterioController().removeCriteriosFromAnalisis(new Analisis(analisis.getId(), null));
 		}
 		

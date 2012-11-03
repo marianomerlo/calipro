@@ -1,0 +1,97 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<p:growl id="addCriterioGrowlMessages" showSummary="true"
+		autoUpdate="true" for="addCriterioGrowlMessageKeys" />
+	<p:panel id="addCriterioPanel">
+		<p:message for="addCriterioName" display="both" />
+
+		<h:panelGrid columns="2" cellpadding="5" id="addCriterioPanelGrid"
+			style="width:auto !important">
+
+			<h:outputLabel for="criterioType" value="Tipo:" />
+			<p:selectOneRadio id="criterioType"
+				value="#{criterioController.selectedType}">
+				<f:selectItem itemLabel="Libre" itemValue="texto" />
+				<f:selectItem itemLabel="Combo" itemValue="combo" />
+				<p:ajax process="@this" event="change" update="addCriterioPanel"
+					partialSubmit="true" immediate="true" />
+			</p:selectOneRadio>
+
+			<h:outputLabel for="addCriterioName" value="Nombre" />
+			<p:inputText value="#{criterioController.currentItem.nombre}"
+				id="addCriterioName" label="addCriterioName" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+
+
+		</h:panelGrid>
+
+		<h:panelGrid id="comboCriterioPanelGrid" columns="4"
+			rendered="#{criterioController.selectedType == 'combo'}">
+			<h:outputLabel for="criterioValueToBeAdded" value="Valor:" />
+			<p:inputText value="#{criterioController.valueToBeAdded}"
+				id="criterioValueToBeAdded" label="criterioValueToBeAdded">
+				<p:ajax process="@this" event="change" partialSubmit="true"
+					immediate="true" />
+			</p:inputText>
+			<p:commandButton id="addCriterioValueConfirmButton" value="Agregar"
+				actionListener="#{criterioController.addValue}"
+				update="criteriosDataList" process="@this" immediate="true"
+				partialSubmit="true" />
+			<p:commandButton id="deleteCriterioValueConfirmButton"
+				value="Eliminar" actionListener="#{criterioController.deleteValues}"
+				update="criteriosDataList" process="@this" immediate="true"
+				partialSubmit="true" />
+			<br />
+		</h:panelGrid>
+		<h:panelGrid id="comboCriterioTablePanelGrid" columns="2"
+			rendered="#{criterioController.selectedType == 'combo'}">
+
+			<p:dataTable id="criteriosDataList" var="criterio"
+				value="#{criterioController.stringDataModel}"
+				rowIndexVar="criterio2Index" widgetVar="criterioAddedValuesTable"
+				emptyMessage="No hay valores"
+				selection="#{criterioController.selectedAddedValues}"
+				style="width:auto !important;text-align:center">
+
+				<p:ajax event="rowSelectCheckbox" immediate="true" process="@this"
+					partialSubmit="true">
+					<f:setPropertyActionListener target="#{criterioController.selectedAddedValues[criterio2index]}" value="#{criterio}" />
+				</p:ajax>
+				<p:ajax event="toggleSelect" immediate="true" process="@this"
+					partialSubmit="true">
+					<f:setPropertyActionListener target="#{criterioController.selectedAddedValues}" value="null" />
+				</p:ajax>
+				<p:ajax event="rowUnselectCheckbox" immediate="true" process="@this"
+					partialSubmit="true">
+					<f:setPropertyActionListener target="#{criterioController.selectedAddedValues[criterio2index]}" value="" />
+				</p:ajax>
+
+				<p:column selectionMode="multiple" style="width:auto" />
+
+				<p:column id="criterio2Name" headerText="Valor" style="width:300px">#{criterio}
+			</p:column>
+			</p:dataTable>
+
+		</h:panelGrid>
+
+
+		<f:facet name="footer">
+			<p:commandButton id="addCriterioConfirmButton" value="Agregar"
+				actionListener="#{criterioController.addItem}"
+				update="addCriterioPanelGrid addCriterioPanel" />
+
+			<p:commandButton id="addCriterioCancelButton" value="Cancelar"
+				immediate="true" actionListener="#{criterioController.resetCurrent}"
+				update="addCriterioPanelGrid" style="margin:10px"
+				oncomplete="window.location.reload()" />
+		</f:facet>
+	</p:panel>
+</ui:composition>

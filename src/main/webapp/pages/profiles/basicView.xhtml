@@ -56,6 +56,9 @@
 	<p:panel id="mainPanelProduccion" rendered="#{sessionController.loggedUser != null and sessionController.activeProfile.nombre == 'Producción'}"	style="width:1095px">
 		<ui:include src="produccion/produccion.xhtml" />
 	</p:panel>
+	<p:panel id="mainPanelCalidad" rendered="#{sessionController.loggedUser != null and sessionController.activeProfile.nombre == 'Calidad'}"	style="width:1095px">
+		<ui:include src="calidad/calidad.xhtml" />
+	</p:panel>
 	
 </ui:composition>
 
