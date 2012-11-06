@@ -117,17 +117,20 @@ public class PasoDao extends BaseAbmDao<Paso> {
 		ResultSet result = null;
 		try {
 			for (Criterio criterio : analisis.getCriterios()) {
-				String query = "CALL " + "sp_analisis_por_paso_insert" + " (?,?,?,?,?,?,?)";
-				PreparedStatement prepStatement = conn.prepareStatement(query);
-				prepStatement.setInt(1, paso.getProductoId());
-				prepStatement.setInt(2, paso.getVersion());
-				prepStatement.setInt(3, paso.getId());
-				prepStatement.setInt(4, analisis.getId());
-				prepStatement.setInt(5, criterio.getId());
-				prepStatement.setString(6, criterio.getValorEsperado());
-				prepStatement.setInt(7, paso.getUsuarioCreacion().getId());
-
-				prepStatement.executeUpdate();
+				if (!"".equals(criterio.getValorEsperado().trim())) {
+					String query = "CALL " + "sp_analisis_por_paso_insert"
+							+ " (?,?,?,?,?,?,?)";
+					PreparedStatement prepStatement = conn
+							.prepareStatement(query);
+					prepStatement.setInt(1, paso.getProductoId());
+					prepStatement.setInt(2, paso.getVersion());
+					prepStatement.setInt(3, paso.getId());
+					prepStatement.setInt(4, analisis.getId());
+					prepStatement.setInt(5, criterio.getId());
+					prepStatement.setString(6, criterio.getValorEsperado());
+					prepStatement.setInt(7, paso.getUsuarioCreacion().getId());
+					prepStatement.executeUpdate();
+				}
 			}
 			paso.setAnalisis(Arrays.asList(analisis));
 		} catch (SQLException e) {
