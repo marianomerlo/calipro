@@ -68,7 +68,7 @@ public class PasoController extends BaseAbmController<Paso> {
 	
 	@Override
 	public void extraAddItemProcess(){
-		refreshPasos();
+		refreshItems();
 		super.extraAddItemProcess();
 	}
 
@@ -86,7 +86,7 @@ public class PasoController extends BaseAbmController<Paso> {
 
 	private List<Paso> pasos;
 
-	public void refreshPasos() {
+	public void refreshItems() {
 		setPasos(getDao().getPasosByProduct(
 				getProductController().getSelectedItem()));
 
@@ -96,16 +96,24 @@ public class PasoController extends BaseAbmController<Paso> {
 			List<Analisis> resultList = new ArrayList<Analisis>();
 			for (Analisis analisis : firstAnalisisList) {
 				resultList.add(getAnalisisController().get(analisis));
+				
 			}
+			
+			
 			paso.setAnalisis(resultList);
 		}
 
 	}
 
+	public void setProductAndRefreshPasos(Producto producto) {
+		getProductController().setSelectedItem(producto);
+		refreshItems();
+	}
+
 	@Override
 	public List<Paso> getItems() {
 		if (getPasos() == null || getPasos().size() == 0) {
-			refreshPasos();
+			refreshItems();
 		}
 
 		return getPasos();
@@ -128,7 +136,7 @@ public class PasoController extends BaseAbmController<Paso> {
 		getDao().addAnalisisToPaso(getSelectedItem(),
 				getAnalisisController().getSelectedAnalisis());
 		
-		refreshPasos();
+		refreshItems();
 	}
 
 	private List<Criterio> getCriterioValuesAsList() {

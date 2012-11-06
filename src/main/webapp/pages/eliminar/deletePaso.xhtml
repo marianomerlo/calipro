@@ -30,10 +30,10 @@
 		widgetVar="deletedPasoConfirmationWidget">
 		<h:panelGrid columns="2" style="padding: 15px">
 			<span class="ui-messages-info-icon" />
-			<h:outputText value="El Paso #{pasoController.selectedItem.id} ha eliminado satisfactoriamente" />
+			<h:outputText value="El Paso Nª #{pasoController.selectedItem.id} ha eliminado satisfactoriamente" />
 		</h:panelGrid>
 		<p:commandButton id="deletedPasoConfirm" value="OK"
-			actionListener="#{pasoController.resetSelectedItems}" process="@this" update=":profileTabViewDesarrollo:productDataTableForm:recetaDataTable" 
+			actionListener="#{pasoController.resetSelectedItems}" process="@this" immediate="true" partialSubmit="true" update=":profileTabViewDesarrollo:productDataTableForm:recetaDataTable" 
 			oncomplete="deletedPasoConfirmationWidget.hide();deletePasoWidget.hide()"/>
 	</p:dialog>
 

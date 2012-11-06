@@ -14,8 +14,8 @@
 			onclick="addProductWidget.show();" type="button" />
 
 		<p:dialog id="addProductDialog" widgetVar="addProductWidget"
-			resizable="false" header="Agregar Producto" closable="true" onHide="window.location.reload()"
-			modal="true">
+			resizable="false" header="Agregar Producto" closable="true"
+			onHide="window.location.reload()" modal="true">
 			<ui:include src="../../agregar/addProduct.xhtml" />
 		</p:dialog>
 	</h:form>
@@ -111,7 +111,9 @@
 			<p:column id="productReceta" filterStyle="display:none"
 				headerText="Receta" style="width:auto">
 				<p:commandButton oncomplete="seeProductReceiptWidget.show()"
-					actionListener="#{productController.storeOriginalItem(producto)}"
+					actionListener="#{pasoController.setProductAndRefreshPasos(producto)}"
+					update=":profileTabViewDesarrollo:productDataTableForm:recetaDataTable"
+					partialSubmit="true" process="@this" immediate="true"
 					style="text-decoration:none" icon="ui-icon-document">
 					<f:setPropertyActionListener
 						target="#{pasoController.productController}"
@@ -127,7 +129,7 @@
 			resizable="false" closable="true" onHide="window.location.reload()">
 			<ui:include src="../../modificar/modifyProduct.xhtml" />
 		</p:dialog>
-		<p:dialog id="seeProductReceipt" header="Receta" dynamic="true"
+		<p:dialog id="seeProductReceipt" header="Receta" dynamic="true" 
 			appendToBody="true" widgetVar="seeProductReceiptWidget"
 			onHide="window.location.reload()" modal="true" resizable="false"
 			closable="true">

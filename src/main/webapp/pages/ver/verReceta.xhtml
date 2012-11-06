@@ -108,29 +108,34 @@
 				</p:column>
 				<p:column id="subanalisisName1" headerText="Criterio"
 					style="width:auto">
-					<p:commandLink style="text-decoration:none"
-						value="#{analisis.nombre}"
-						actionListener="#{analisisController.storeOriginalItem(analisis)}"
-						oncomplete="modifyAnalisisWidget.show();">
-						<f:setPropertyActionListener
-							target="#{analisisController.selectedItem}" value="#{analisis}" />
-						<f:setPropertyActionListener
-							target="#{analisisController.selectedCriterios}"
-							value="#{analisisController.analisisCriteriosAsArray}" />
-					</p:commandLink>
+					<ui:repeat var="criterio" value="#{analisis.criterios}">
+						<p:commandLink style="text-decoration:none"
+							value="#{criterio.nombre}"
+							actionListener="#{analisisController.storeOriginalItem(analisis)}"
+							oncomplete="modifyAnalisisWidget.show();">
+							<f:setPropertyActionListener
+								target="#{analisisController.selectedItem}" value="#{analisis}" />
+							<f:setPropertyActionListener
+								target="#{analisisController.selectedCriterios}"
+								value="#{analisisController.analisisCriteriosAsArray}" />
+						</p:commandLink>
+						<br />
+					</ui:repeat>
 				</p:column>
 				<p:column id="subanalisisName2" headerText="Valor Esperado"
 					style="width:auto">
-					<p:commandLink style="text-decoration:none"
-						value="#{analisis.nombre}"
-						actionListener="#{analisisController.storeOriginalItem(analisis)}"
-						oncomplete="modifyAnalisisWidget.show();">
-						<f:setPropertyActionListener
-							target="#{analisisController.selectedItem}" value="#{analisis}" />
-						<f:setPropertyActionListener
-							target="#{analisisController.selectedCriterios}"
-							value="#{analisisController.analisisCriteriosAsArray}" />
-					</p:commandLink>
+					<ui:repeat var="criterio" value="#{analisis.criterios}">
+						<p:commandLink style="text-decoration:none"
+							value="#{criterio.valorEsperado}"
+							actionListener="#{analisisController.storeOriginalItem(analisis)}"
+							oncomplete="modifyAnalisisWidget.show();">
+							<f:setPropertyActionListener
+								target="#{analisisController.selectedItem}" value="#{analisis}" />
+							<f:setPropertyActionListener
+								target="#{analisisController.selectedCriterios}"
+								value="#{analisisController.analisisCriteriosAsArray}" />
+						</p:commandLink>
+					</ui:repeat>
 				</p:column>
 				<p:column id="subanalisisName3" headerText="" style="width:1%">
 					<p:commandButton onclick="seeProductWidget.show()"

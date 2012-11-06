@@ -117,14 +117,15 @@ public class PasoDao extends BaseAbmDao<Paso> {
 		ResultSet result = null;
 		try {
 			for (Criterio criterio : analisis.getCriterios()) {
-				String query = "CALL " + "sp_analisis_por_paso_insert" + " (?,?,?,?,?,?)";
+				String query = "CALL " + "sp_analisis_por_paso_insert" + " (?,?,?,?,?,?,?)";
 				PreparedStatement prepStatement = conn.prepareStatement(query);
 				prepStatement.setInt(1, paso.getProductoId());
 				prepStatement.setInt(2, paso.getVersion());
 				prepStatement.setInt(3, paso.getId());
-				prepStatement.setInt(4, criterio.getId());
-				prepStatement.setString(5, criterio.getValorEsperado());
-				prepStatement.setInt(6, paso.getUsuarioCreacion().getId());
+				prepStatement.setInt(4, analisis.getId());
+				prepStatement.setInt(5, criterio.getId());
+				prepStatement.setString(6, criterio.getValorEsperado());
+				prepStatement.setInt(7, paso.getUsuarioCreacion().getId());
 
 				prepStatement.executeUpdate();
 			}
