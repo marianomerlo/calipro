@@ -218,7 +218,7 @@ public class AnalisisController extends BaseAbmController<Analisis> {
 	}
 
 	public List<Analisis> getAnalisisByPaso(Paso paso) {
-		return getDao().getAnalisisByPaso(paso);
+		return getDao().getAnalisisByPasoT(paso);
 	}
 	
 }

@@ -139,9 +139,13 @@ public class AnalisisDao extends BaseAbmDao<Analisis> {
 		Connection conn = getConnection();
 		ResultSet result = null;
 		List<Analisis> analisisList = new ArrayList<Analisis>();
-		String query = "SELECT ap.* from Analisis_por_Paso ap WHERE ap.idproducto = ? and ap.idpaso = ? and ap.idversion = (select max(p2.idversion) from paso p2 where ap.idproducto=p2.idproducto) GROUP BY idAnalisis ORDER BY fechaCreacion ASC";
+		String query = "SELECT ana.nombre,cri.nombre,ap.valoresperado from Analisis_por_Paso ap, Analisis ana, Criterio cri "
+				+ "WHERE ap.idanalisis = ana.idanalisis and ap.idcriterio = cri.idcriterio and ap.idproducto = ? and ap.idpaso = ? "
+				+ "and ap.idversion = (select max(p2.idversion) from paso p2 where ap.idproducto=p2.idproducto) "
+				+ "ORDER BY ap.fechaCreacion ASC";
 		try {
-			PreparedStatement prepStatement = conn.prepareStatement(query);
+			PreparedStatement prepStatement = conn.prepareStatement(query,
+					ResultSet.TYPE_FORWARD_ONLY);
 			prepStatement.setInt(1, paso.getProductoId());
 			prepStatement.setInt(2, paso.getId());
 
@@ -149,23 +153,22 @@ public class AnalisisDao extends BaseAbmDao<Analisis> {
 
 			result.next();
 
-
-			while (!result.isLast()) {
+			while (result.getRow() != 0) {
 				List<Criterio> currentCriterios = new ArrayList<Criterio>();
-				int analisisId1 = result.getInt(ConstantsDatatable.ANALISIS_ID);
-				int analisisId2 = analisisId1;
+				String analisisId1 = result.getString(1);
+				String analisisId2 = analisisId1;
 
-				while (!result.isLast() && analisisId1 == analisisId2) {
-					Criterio criterio = new Criterio(
-							result.getInt(ConstantsDatatable.CRITERIO_ID), "",
-							null, ConstantsDatatable.VALOR_ESPERADO);
+				while (result.getRow() != 0 && analisisId1.equals(analisisId2)) {
+					Criterio criterio = new Criterio(null, result.getString(2),
+							null,
+							result.getString(ConstantsDatatable.VALOR_ESPERADO));
 
 					currentCriterios.add(criterio);
 					result.next();
-					analisisId2 = result.getInt(ConstantsDatatable.ANALISIS_ID);
+					analisisId2 = result.getRow() != 0 ? result
+							.getString(1) : "";
 				}
-				Analisis analisis = new Analisis(
-						result.getInt(ConstantsDatatable.ANALISIS_ID), "");
+				Analisis analisis = new Analisis(null, analisisId1);
 				analisis.setCriterios(currentCriterios);
 
 				analisisList.add(analisis);

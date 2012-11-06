@@ -93,14 +93,15 @@ public class PasoController extends BaseAbmController<Paso> {
 		for (Paso paso : getPasos()) {
 			List<Analisis> firstAnalisisList = getAnalisisController()
 					.getAnalisisByPaso(paso);
-			List<Analisis> resultList = new ArrayList<Analisis>();
-			for (Analisis analisis : firstAnalisisList) {
-				resultList.add(getAnalisisController().get(analisis));
-				
-			}
+//			for (Analisis analisis : firstAnalisisList) {
+//				analisis.setNombre(getAnalisisController().get(analisis).getNombre());
+//				
+//				for(Criterio criterio : analisis.getCriterios()){
+//					criterio.setNombre(getAnalisisController().getCriterioController().get(criterio).getNombre());
+//				}
+//			}
 			
-			
-			paso.setAnalisis(resultList);
+			paso.setAnalisis(firstAnalisisList);
 		}
 
 	}
