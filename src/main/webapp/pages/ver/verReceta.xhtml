@@ -17,6 +17,13 @@
 		<ui:include src="../agregar/addPaso.xhtml" />
 	</p:dialog>
 
+	<p:dialog id="modifyPasoDialog" widgetVar="modifyPasoWidget"
+		modal="true" appendToBody="true" resizable="false" dynamic="true"
+		header="Modificar Paso" onHide="seeProductReceiptWidget.show()"
+		closable="true">
+		<ui:include src="../modificar/modifyPaso.xhtml" />
+	</p:dialog>
+
 	<p:dialog id="deletePasoDialog" widgetVar="deletePasoWidget"
 		appendToBody="true" modal="true" resizable="false"
 		header="Eliminar Paso" closable="false">
@@ -26,9 +33,17 @@
 	<p:dialog id="addAnalisisToPasoDialog"
 		widgetVar="addAnalisisToPasoWidget" appendToBody="true" modal="true"
 		resizable="false" style="width:800px;"
-		header="Agregar Analisis a Paso" closable="false">
+		header="Agregar Analisis a Paso" closable="true">
 		<ui:include src="../agregar/addAnalisisToPaso.xhtml" />
 	</p:dialog>
+
+	<p:dialog id="modifyAnalisisToPasoDialog"
+		widgetVar="modifyAnalisisToPasoWidget" appendToBody="true"
+		modal="true" resizable="false" style="width:800px;" dynamic="true" onHide="seeProductReceiptWidget.show()"
+		header="Modificar Analisis del Paso" closable="true">
+		<ui:include src="../modificar/modifyAnalisisToPaso.xhtml" />
+	</p:dialog>
+
 
 	<p:dataTable id="recetaDataTable" var="paso" rowIndexVar="pasoIndex"
 		value="#{pasoController.items}" widgetVar="recetaTable"
@@ -41,7 +56,9 @@
 		<p:column id="pasoReceta" headerText="Nº" style="width:51px">
 			<p:commandLink style="text-decoration:none" value="#{pasoIndex + 1}"
 				actionListener="#{pasoController.storeOriginalItem(paso)}"
-				oncomplete="modifyPasoWidget.show();">
+				oncomplete="modifyPasoWidget.show();seeProductReceiptWidget.hide();"
+				process="@this" immediate="true" partialSubmit="true"
+				update=":profileTabViewDesarrollo:productDataTableForm:modifyPasoDialog">
 				<f:setPropertyActionListener target="#{pasoController.selectedItem}"
 					value="#{paso}" />
 			</p:commandLink>
@@ -52,7 +69,9 @@
 			<p:commandLink style="text-decoration:none"
 				value="#{paso.descripcion}"
 				actionListener="#{pasoController.storeOriginalItem(paso)}"
-				oncomplete="modifyPasoWidget.show();">
+				oncomplete="modifyPasoWidget.show();seeProductReceiptWidget.hide();"
+				process="@this" immediate="true" partialSubmit="true"
+				update=":profileTabViewDesarrollo:productDataTableForm:modifyPasoDialog">
 				<f:setPropertyActionListener target="#{pasoController.selectedItem}"
 					value="#{paso}" />
 			</p:commandLink>
@@ -61,7 +80,6 @@
 			<p:commandLink oncomplete="deletePasoWidget.show();"
 				actionListener="#{pasoController.setSelectedItem(paso)}"
 				style="text-decoration:none;float:left" process="@this"
-				immediate="true"
 				update=":profileTabViewDesarrollo:productDataTableForm:deletePasoPanelGrid"
 				styleClass="ui-icon ui-icon-close">
 			</p:commandLink>
@@ -80,67 +98,76 @@
 				widgetVar="subrecetaTable" emptyMessage="No hay analisis"
 				style="width:763x;text-align:center;padding-left:36px;padding-right:57px">
 
-				<p:column id="subpasoReceta" headerText="#"
+				<p:column id="subPasoReceta" headerText="#"
 					style="width:7.4%;text-align:center">
 					<p:commandLink style="text-decoration:none"
 						value="#{pasoIndex + 1}.#{subPasoIndex + 1}"
 						actionListener="#{analisisController.storeOriginalItem(analisis)}"
-						oncomplete="modifyAnalisisWidget.show();">
+						oncomplete="modifyAnalisisToPasoWidget.show();seeProductReceiptWidget.hide();"
+						process="@this" immediate="true" partialSubmit="true"
+						update=":profileTabViewDesarrollo:productDataTableForm:modifyAnalisisToPasoPanel">
 						<f:setPropertyActionListener
-							target="#{analisisController.selectedItem}" value="#{analisis}" />
+							target="#{analisisController.selectedAnalisis}"
+							value="#{analisis}" />
 						<f:setPropertyActionListener
-							target="#{analisisController.selectedCriterios}"
-							value="#{analisisController.analisisCriteriosAsArray}" />
+							target="#{analisisController.refreshedCriterios}"
+							value="#{analisis.criterios}" />
+						<f:setPropertyActionListener
+							target="#{pasoController.expectedValues}"
+							value="#{analisisController.valuesFromCriteriosAsArray}" />
 					</p:commandLink>
 				</p:column>
-				<p:column id="subanalisisName" headerText="Analisis"
+				<p:column id="subAnalisisName" headerText="Analisis"
 					style="width:auto">
 					<p:commandLink style="text-decoration:none"
 						value="#{analisis.nombre}"
 						actionListener="#{analisisController.storeOriginalItem(analisis)}"
-						oncomplete="modifyAnalisisWidget.show();">
+						oncomplete="modifyAnalisisToPasoWidget.show();seeProductReceiptWidget.hide();"
+						process="@this" immediate="true" partialSubmit="true"
+						update=":profileTabViewDesarrollo:productDataTableForm:modifyAnalisisToPasoPanel">
 						<f:setPropertyActionListener
-							target="#{analisisController.selectedItem}" value="#{analisis}" />
-						<f:setPropertyActionListener
-							target="#{analisisController.selectedCriterios}"
-							value="#{analisisController.analisisCriteriosAsArray}" />
+							target="#{analisisController.selectedAnalisis}"
+							value="#{analisis}" />
 					</p:commandLink>
 				</p:column>
-				<p:column id="subanalisisName1" headerText="Criterio"
-					style="width:auto">
+				<p:column id="subCriterio" headerText="Criterio" style="width:auto">
 					<ui:repeat var="criterio" value="#{analisis.criterios}">
 						<p:commandLink style="text-decoration:none"
 							value="#{criterio.nombre}"
 							actionListener="#{analisisController.storeOriginalItem(analisis)}"
-							oncomplete="modifyAnalisisWidget.show();">
+							oncomplete="modifyAnalisisToPasoWidget.show();seeProductReceiptWidget.hide();"
+							process="@this" immediate="true" partialSubmit="true"
+							update=":profileTabViewDesarrollo:productDataTableForm:modifyAnalisisToPasoPanel">
 							<f:setPropertyActionListener
-								target="#{analisisController.selectedItem}" value="#{analisis}" />
-							<f:setPropertyActionListener
-								target="#{analisisController.selectedCriterios}"
-								value="#{analisisController.analisisCriteriosAsArray}" />
+								target="#{analisisController.selectedAnalisis}"
+								value="#{analisis}" />
 						</p:commandLink>
 						<br />
 					</ui:repeat>
 				</p:column>
-				<p:column id="subanalisisName2" headerText="Valor Esperado"
+				<p:column id="subValorEsperado" headerText="Valor Esperado"
 					style="width:auto">
 					<ui:repeat var="criterio" value="#{analisis.criterios}">
 						<p:commandLink style="text-decoration:none"
 							value="#{criterio.valorEsperado}"
 							actionListener="#{analisisController.storeOriginalItem(analisis)}"
-							oncomplete="modifyAnalisisWidget.show();">
+							oncomplete="modifyAnalisisToPasoWidget.show();seeProductReceiptWidget.hide();"
+							process="@this" immediate="true" partialSubmit="true"
+							update=":profileTabViewDesarrollo:productDataTableForm:modifyAnalisisToPasoPanel">
 							<f:setPropertyActionListener
-								target="#{analisisController.selectedItem}" value="#{analisis}" />
-							<f:setPropertyActionListener
-								target="#{analisisController.selectedCriterios}"
-								value="#{analisisController.analisisCriteriosAsArray}" />
-						</p:commandLink><br />
+								target="#{analisisController.selectedAnalisis}"
+								value="#{analisis}" />
+						</p:commandLink>
+						<br />
 					</ui:repeat>
 				</p:column>
 				<p:column id="subanalisisName3" headerText="" style="width:1%">
-					<p:commandButton onclick="seeProductWidget.show()"
-						style="text-decoration:none" icon="ui-icon-close">
-					</p:commandButton>
+					<p:commandLink oncomplete="deletePasoWidget.show();"
+						actionListener="#{pasoController.setSelectedItem(paso)}"
+						style="text-decoration:none;float:left" process="@this"
+						update=":profileTabViewDesarrollo:productDataTableForm:deletePasoPanelGrid"
+						styleClass="ui-icon ui-icon-close">
+					</p:commandLink>
 				</p:column>
 			</p:dataTable>
 

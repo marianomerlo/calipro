@@ -56,15 +56,15 @@ public class PasoDao extends BaseAbmDao<Paso> {
 	@Override
 	protected PreparedStatement prepareUpdateStatement(Paso element) {
 		String query = "UPDATE " + DATATABLE_NAME + 
-		" SET idPaso = ?, idProducto = ?, idVersion = ?,  descripcion = ?, idUsuarioUltimaMod = ? WHERE " + DATATABLE_ID + " = ? ";
+		" SET descripcion = ?, idUsuarioUltimaMod = ? WHERE " + DATATABLE_ID + " = ? and idProducto = ? and idVersion = ?";
 		PreparedStatement prepStatement = null;
 		try {
 			prepStatement = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
-			prepStatement.setInt(1, element.getId());
-			prepStatement.setInt(2, element.getId());
+			prepStatement.setString(1, element.getDescripcion());
+			prepStatement.setInt(2, element.getUsuarioUltimaModificacion().getId());
 			prepStatement.setInt(3, element.getId());
-			prepStatement.setString(4, element.getDescripcion());
-			prepStatement.setInt(5, element.getUsuarioUltimaModificacion().getId());
+			prepStatement.setInt(4, element.getProductoId());
+			prepStatement.setInt(5, element.getVersion());
 		} catch (SQLException e) {e.printStackTrace();}
 		
 		return prepStatement;

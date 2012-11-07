@@ -171,7 +171,16 @@ public class AnalisisController extends BaseAbmController<Analisis> {
 	}
 	
 	public Criterio[] getAnalisisCriteriosAsArray(){
-		return selectedItem.getCriterios().toArray(new Criterio[selectedItem.getCriterios().size()]);
+		return selectedItem.getCriterios().toArray(new Criterio[50]);
+	}
+
+	public String[] getValuesFromCriteriosAsArray(){
+		List<Criterio> criterios = getSelectedAnalisis().getCriterios();
+		String[] resultArray = new String[criterios.size()];
+		for (int i = 0; i < criterios.size(); i++){
+			resultArray[i] = criterios.get(i).getValorEsperado();
+		}
+		return resultArray;
 	}
 
 	/**

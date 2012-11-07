@@ -142,7 +142,7 @@ public class AnalisisDao extends BaseAbmDao<Analisis> {
 		String query = "SELECT ana.nombre,cri.nombre,ap.valoresperado from Analisis_por_Paso ap, Analisis ana, Criterio cri "
 				+ "WHERE ap.idanalisis = ana.idanalisis and ap.idcriterio = cri.idcriterio and ap.idproducto = ? and ap.idpaso = ? "
 				+ "and ap.idversion = (select max(p2.idversion) from paso p2 where ap.idproducto=p2.idproducto) "
-				+ "ORDER BY ap.fechaCreacion ASC,ana.nombre";
+				+ "ORDER BY ana.nombre";
 		try {
 			PreparedStatement prepStatement = conn.prepareStatement(query,
 					ResultSet.TYPE_FORWARD_ONLY);

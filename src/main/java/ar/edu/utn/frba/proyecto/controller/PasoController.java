@@ -3,9 +3,11 @@ package ar.edu.utn.frba.proyecto.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.model.SelectableDataModel;
 
@@ -103,6 +105,7 @@ public class PasoController extends BaseAbmController<Paso> {
 			
 			paso.setAnalisis(firstAnalisisList);
 		}
+		
 
 	}
 
@@ -123,8 +126,7 @@ public class PasoController extends BaseAbmController<Paso> {
 	@Override
 	protected boolean isDifferent() {
 		return !getOriginalSelectedItem().getDescripcion().equals(
-				getSelectedItem().getDescripcion())
-				|| hasAnalisisChanged();
+				getSelectedItem().getDescripcion());
 	}
 
 	public void addAnalisisToPaso() {
@@ -137,7 +139,62 @@ public class PasoController extends BaseAbmController<Paso> {
 		getDao().addAnalisisToPaso(getSelectedItem(),
 				getAnalisisController().getSelectedAnalisis());
 		
+		resetAnalisisToPasoForm();
 		refreshItems();
+		
+		FacesContext.getCurrentInstance().addMessage("addAnalisisToPasoGrowlMessages",
+				new FacesMessage(FacesMessage.SEVERITY_WARN, "Analisis agregado satisfactoriamente",null));
+	}
+
+	public void modifyAnalisisToPaso() {
+		if ( isReallyDifferent() ){
+			getSelectedItem().setUsuarioUltimaModificacion(getSessionController().getLoggedUser());
+			getDao().update(selectedItem);
+
+			extraUpdateItemProcess();
+			
+			storeOriginalItem(selectedItem);
+			refreshItems();
+			
+			FacesContext.getCurrentInstance().addMessage("updateAnalisisToPasoGrowlMessages",
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "Analisis modificado satisfactoriamente",null));
+		} else {
+			String errorMessage = "No ha realizado modificaciones";
+			FacesContext.getCurrentInstance().addMessage("updateAnalisisToPasoGrowlMessages",
+					new FacesMessage(FacesMessage.SEVERITY_WARN, errorMessage,null));
+		}
+		
+		
+		
+		getSelectedItem().setUsuarioCreacion(
+				getSessionController().getLoggedUser());
+		
+		getAnalisisController().getSelectedAnalisis().setCriterios(
+				getCriterioValuesAsList());
+		
+		getDao().addAnalisisToPaso(getSelectedItem(),
+				getAnalisisController().getSelectedAnalisis());
+		
+		resetAnalisisToPasoForm();
+		refreshItems();
+	}
+
+	private boolean isReallyDifferent() {
+		Analisis original = getAnalisisController().getOriginalSelectedItem();
+		Analisis modified = getAnalisisController().getSelectedAnalisis();
+		
+		boolean hasAnalisisNameChanged = !modified.getNombre().equals(original.getNombre());
+		boolean hasNumberOfCriteriosChanged = original.getCriterios().size() != modified.getCriterios().size();
+		
+//		for (int i = 0; i < )
+		
+		return true;
+	}
+
+	private void resetAnalisisToPasoForm() {
+		getAnalisisController().setSelectedAnalisis(getAnalisisController().newBaseItem());
+		setExpectedValues(new String[50]);
+		
 	}
 
 	private List<Criterio> getCriterioValuesAsList() {
@@ -150,11 +207,6 @@ public class PasoController extends BaseAbmController<Paso> {
 			index++;
 		}
 		return resultList;
-	}
-
-	private boolean hasAnalisisChanged() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override
