@@ -15,7 +15,7 @@
 			id="modifyAnalisisToPasoPanelGrid" style="width:auto !important">
 
 			<h:outputLabel value="Analisis" for="modifyAnalisisToPasoAnalisis" />
-			<p:autoComplete id="modifyAnalisisToPasoAnalisis" forceSelection="true"
+			<p:autoComplete id="modifyAnalisisToPasoAnalisis" required="false" 
 				value="#{analisisController.selectedAnalisis}" var="analisis"
 				itemLabel="#{analisis.nombre}" converter="#{analisisConverter}"
 				itemValue="#{analisis}"
@@ -47,7 +47,7 @@
 		<f:facet name="footer">
 
 			<p:commandButton id="modifyAnalisisToPasoConfirmButton" value="Guardar"
-				actionListener="#{pasoController.modifyAnalisisToPaso}"
+				actionListener="#{pasoController.updateAnalisisToPaso}"
 				partialSubmit="true" process="modifyAnalisisToPasoPanel"
 				update="modifyAnalisisToPasoPanelGrid modifyAnalisisToPasoPanel :profileTabViewDesarrollo:productDataTableForm:recetaDataTable">
 			</p:commandButton>

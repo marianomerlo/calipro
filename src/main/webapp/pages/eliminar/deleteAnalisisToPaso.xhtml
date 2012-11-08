@@ -1,0 +1,40 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<h:panelGrid columns="2" cellpadding="5" id="deleteAnalisisToPasoPanelGrid"
+		style="width:auto !important">
+		<span class="ui-messages-warn-icon" />
+
+		<h:outputText
+			value="¿Desea confirmar la eliminación del Analisis?" />
+
+		<f:facet name="footer">
+			<p:commandButton id="deleteAnalisisToPasoConfirmButton" value="Si"
+				actionListener="#{pasoController.deleteAnalisisToPaso}" process="@this"
+				oncomplete="deletedAnalisisToPasoConfirmationWidget.show()"
+				update="deletedAnalisisToPasoConfirmDialog" />
+
+			<p:commandButton id="deleteAnalisisToCancelButton" value="No"
+				onclick="deleteAnalisisToPasoWidget.hide()" />
+		</f:facet>
+	</h:panelGrid>
+
+	<p:dialog id="deletedAnalisisToPasoConfirmDialog" closable="false"
+		resizable="false" header="Information"
+		widgetVar="deletedAnalisisToPasoConfirmationWidget">
+		<h:panelGrid columns="2" style="padding: 15px">
+			<span class="ui-messages-info-icon" />
+			<h:outputText value="El Analisis ha eliminado satisfactoriamente" />
+		</h:panelGrid>
+		<p:commandButton id="deletedAnalisisToPasoConfirm" value="OK"
+			actionListener="#{pasoController.resetSelectedItems}" process="@this" immediate="true" partialSubmit="true" update=":profileTabViewDesarrollo:productDataTableForm:recetaDataTable" 
+			oncomplete="deletedAnalisisToPasoConfirmationWidget.hide();deleteAnalisisToPasoWidget.hide()"/>
+	</p:dialog>
+
+</ui:composition>

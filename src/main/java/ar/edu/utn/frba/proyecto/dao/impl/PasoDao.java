@@ -92,7 +92,7 @@ public class PasoDao extends BaseAbmDao<Paso> {
 		Connection conn = getConnection();
 		ResultSet result = null;
 		List<Paso> resultList = new ArrayList<Paso>();
-		String query = "SELECT p.* FROM Paso p WHERE p.idProducto = ? and p.idversion = (select max(p2.idversion) from paso p2 where p.idproducto=p2.idproducto)";
+		String query = "SELECT p.* FROM Paso p WHERE p.idProducto = ? and p.idversion = (select max(r.idversion) from receta r where r.idproducto=r.idproducto)";
 		try {
 				PreparedStatement prepStatement = conn.prepareStatement(query);
 				prepStatement.setInt(1, producto.getId());
@@ -129,6 +129,63 @@ public class PasoDao extends BaseAbmDao<Paso> {
 					prepStatement.setInt(5, criterio.getId());
 					prepStatement.setString(6, criterio.getValorEsperado());
 					prepStatement.setInt(7, paso.getUsuarioCreacion().getId());
+					prepStatement.executeUpdate();
+				}
+			}
+			paso.setAnalisis(Arrays.asList(analisis));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			if (result != null) try { result.close(); } catch (SQLException logOrIgnore) {}
+			releaseConnection(conn);
+		}
+	}
+
+	public void updateAnalisisToPaso(Paso paso, Analisis analisis){
+		Connection conn = getConnection();
+		ResultSet result = null;
+		try {
+			for (Criterio criterio : analisis.getCriterios()) {
+				if (!"".equals(criterio.getValorEsperado().trim())) {
+					String query = "CALL " + "sp_analisis_por_paso_update"
+							+ " (?,?,?,?,?,?,?)";
+					PreparedStatement prepStatement = conn
+							.prepareStatement(query);
+					prepStatement.setInt(1, paso.getProductoId());
+					prepStatement.setInt(2, paso.getVersion());
+					prepStatement.setInt(3, paso.getId());
+					prepStatement.setInt(4, analisis.getId());
+					prepStatement.setInt(5, criterio.getId());
+					prepStatement.setString(6, criterio.getValorEsperado());
+					prepStatement.setInt(7, paso.getUsuarioUltimaModificacion().getId());
+					prepStatement.executeUpdate();
+				}
+			}
+			paso.setAnalisis(Arrays.asList(analisis));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			if (result != null) try { result.close(); } catch (SQLException logOrIgnore) {}
+			releaseConnection(conn);
+		}
+	}
+
+	public void deleteAnalisisToPaso(Paso paso, Analisis analisis){
+		Connection conn = getConnection();
+		ResultSet result = null;
+		try {
+			for (Criterio criterio : analisis.getCriterios()) {
+				if (!"".equals(criterio.getValorEsperado().trim())) {
+					String query = "CALL " + "sp_analisis_por_paso_delete"
+							+ " (?,?,?,?,?,?)";
+					PreparedStatement prepStatement = conn
+							.prepareStatement(query);
+					prepStatement.setInt(1, paso.getProductoId());
+					prepStatement.setInt(2, paso.getVersion());
+					prepStatement.setInt(3, paso.getId());
+					prepStatement.setInt(4, analisis.getId());
+					prepStatement.setInt(5, criterio.getId());
+					prepStatement.setInt(6, paso.getUsuarioUltimaModificacion().getId());
 					prepStatement.executeUpdate();
 				}
 			}

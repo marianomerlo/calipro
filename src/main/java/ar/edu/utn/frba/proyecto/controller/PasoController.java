@@ -67,9 +67,9 @@ public class PasoController extends BaseAbmController<Paso> {
 						getProductController().getSelectedItem()));
 		super.addItem();
 	}
-	
+
 	@Override
-	public void extraAddItemProcess(){
+	public void extraAddItemProcess() {
 		refreshItems();
 		super.extraAddItemProcess();
 	}
@@ -95,17 +95,16 @@ public class PasoController extends BaseAbmController<Paso> {
 		for (Paso paso : getPasos()) {
 			List<Analisis> firstAnalisisList = getAnalisisController()
 					.getAnalisisByPaso(paso);
-//			for (Analisis analisis : firstAnalisisList) {
-//				analisis.setNombre(getAnalisisController().get(analisis).getNombre());
-//				
-//				for(Criterio criterio : analisis.getCriterios()){
-//					criterio.setNombre(getAnalisisController().getCriterioController().get(criterio).getNombre());
-//				}
-//			}
-			
+			// for (Analisis analisis : firstAnalisisList) {
+			// analisis.setNombre(getAnalisisController().get(analisis).getNombre());
+			//
+			// for(Criterio criterio : analisis.getCriterios()){
+			// criterio.setNombre(getAnalisisController().getCriterioController().get(criterio).getNombre());
+			// }
+			// }
+
 			paso.setAnalisis(firstAnalisisList);
 		}
-		
 
 	}
 
@@ -138,63 +137,83 @@ public class PasoController extends BaseAbmController<Paso> {
 
 		getDao().addAnalisisToPaso(getSelectedItem(),
 				getAnalisisController().getSelectedAnalisis());
-		
+
 		resetAnalisisToPasoForm();
 		refreshItems();
-		
-		FacesContext.getCurrentInstance().addMessage("addAnalisisToPasoGrowlMessages",
-				new FacesMessage(FacesMessage.SEVERITY_WARN, "Analisis agregado satisfactoriamente",null));
+
+		FacesContext.getCurrentInstance().addMessage(
+				"addAnalisisToPasoGrowlMessages",
+				new FacesMessage(FacesMessage.SEVERITY_WARN,
+						"Analisis agregado satisfactoriamente", null));
 	}
 
-	public void modifyAnalisisToPaso() {
-		if ( isReallyDifferent() ){
-			getSelectedItem().setUsuarioUltimaModificacion(getSessionController().getLoggedUser());
-			getDao().update(selectedItem);
+	public void updateAnalisisToPaso() {
+		if (isReallyDifferent()) {
+			getSelectedItem().setUsuarioUltimaModificacion(
+					getSessionController().getLoggedUser());
 
-			extraUpdateItemProcess();
-			
-			storeOriginalItem(selectedItem);
+			getAnalisisController().getSelectedAnalisis().setCriterios(
+					getCriterioValuesAsList());
+
+			getDao().updateAnalisisToPaso(getSelectedItem(),
+					getAnalisisController().getSelectedAnalisis());
+
 			refreshItems();
-			
-			FacesContext.getCurrentInstance().addMessage("updateAnalisisToPasoGrowlMessages",
-					new FacesMessage(FacesMessage.SEVERITY_WARN, "Analisis modificado satisfactoriamente",null));
+
+			FacesContext.getCurrentInstance().addMessage(
+					"updateAnalisisToPasoGrowlMessageKeys",
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							"Analisis modificado satisfactoriamente", null));
 		} else {
 			String errorMessage = "No ha realizado modificaciones";
-			FacesContext.getCurrentInstance().addMessage("updateAnalisisToPasoGrowlMessages",
-					new FacesMessage(FacesMessage.SEVERITY_WARN, errorMessage,null));
+			FacesContext.getCurrentInstance().addMessage(
+					"updateAnalisisToPasoGrowlMessageKeys",
+					new FacesMessage(FacesMessage.SEVERITY_WARN, errorMessage,
+							null));
 		}
-		
-		
-		
-		getSelectedItem().setUsuarioCreacion(
-				getSessionController().getLoggedUser());
-		
-		getAnalisisController().getSelectedAnalisis().setCriterios(
-				getCriterioValuesAsList());
-		
-		getDao().addAnalisisToPaso(getSelectedItem(),
-				getAnalisisController().getSelectedAnalisis());
-		
-		resetAnalisisToPasoForm();
-		refreshItems();
+
+	}
+	
+	public void deleteAnalisisToPaso() {
+			getSelectedItem().setUsuarioUltimaModificacion(
+					getSessionController().getLoggedUser());
+			
+			getDao().deleteAnalisisToPaso(getSelectedItem(),
+					getAnalisisController().getSelectedAnalisis());
+			
+			refreshItems();
+			
 	}
 
 	private boolean isReallyDifferent() {
 		Analisis original = getAnalisisController().getOriginalSelectedItem();
 		Analisis modified = getAnalisisController().getSelectedAnalisis();
-		
-		boolean hasAnalisisNameChanged = !modified.getNombre().equals(original.getNombre());
-		boolean hasNumberOfCriteriosChanged = original.getCriterios().size() != modified.getCriterios().size();
-		
-//		for (int i = 0; i < )
-		
-		return true;
+
+		if (!modified.getNombre().equals(original.getNombre())
+				|| original.getCriterios().size() != modified.getCriterios()
+						.size())
+			return true;
+		else {
+			for (Criterio originalCriterio : original.getCriterios()) {
+				for (int i = 0; i < modified.getCriterios().size(); i++) {
+					Criterio modifiedCriterio = modified.getCriterios().get(i);
+					if (originalCriterio.getNombre().equals(
+							modifiedCriterio.getNombre())
+							&& !originalCriterio.getValorEsperado().equals(
+									getExpectedValues()[i]))
+						return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
-	private void resetAnalisisToPasoForm() {
-		getAnalisisController().setSelectedAnalisis(getAnalisisController().newBaseItem());
+	public void resetAnalisisToPasoForm() {
+		getAnalisisController().setSelectedAnalisis(
+				getAnalisisController().newBaseItem());
 		setExpectedValues(new String[50]);
-		
+
 	}
 
 	private List<Criterio> getCriterioValuesAsList() {

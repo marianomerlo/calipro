@@ -139,7 +139,7 @@ public class AnalisisDao extends BaseAbmDao<Analisis> {
 		Connection conn = getConnection();
 		ResultSet result = null;
 		List<Analisis> analisisList = new ArrayList<Analisis>();
-		String query = "SELECT ana.nombre,cri.nombre,ap.valoresperado from Analisis_por_Paso ap, Analisis ana, Criterio cri "
+		String query = "SELECT ana.nombre,ana.idAnalisis,cri.nombre,cri.idCriterio,ap.valoresperado from Analisis_por_Paso ap, Analisis ana, Criterio cri "
 				+ "WHERE ap.idanalisis = ana.idanalisis and ap.idcriterio = cri.idcriterio and ap.idproducto = ? and ap.idpaso = ? "
 				+ "and ap.idversion = (select max(p2.idversion) from paso p2 where ap.idproducto=p2.idproducto) "
 				+ "ORDER BY ana.nombre";
@@ -155,20 +155,21 @@ public class AnalisisDao extends BaseAbmDao<Analisis> {
 
 			while (result.getRow() != 0) {
 				List<Criterio> currentCriterios = new ArrayList<Criterio>();
-				String analisisId1 = result.getString(1);
-				String analisisId2 = analisisId1;
+				String analisisNombre1 = result.getString(1);
+				int analisisId = result.getInt(2);
+				String analisisNombre2 = analisisNombre1;
 
-				while (result.getRow() != 0 && analisisId1.equals(analisisId2)) {
-					Criterio criterio = new Criterio(null, result.getString(2),
+				while (result.getRow() != 0 && analisisNombre1.equals(analisisNombre2)) {
+					Criterio criterio = new Criterio(result.getInt(4), result.getString(3),
 							null,
 							result.getString(ConstantsDatatable.VALOR_ESPERADO));
 
 					currentCriterios.add(criterio);
 					result.next();
-					analisisId2 = result.getRow() != 0 ? result
+					analisisNombre2 = result.getRow() != 0 ? result
 							.getString(1) : "";
 				}
-				Analisis analisis = new Analisis(null, analisisId1);
+				Analisis analisis = new Analisis(analisisId, analisisNombre1);
 				analisis.setCriterios(currentCriterios);
 
 				analisisList.add(analisis);
