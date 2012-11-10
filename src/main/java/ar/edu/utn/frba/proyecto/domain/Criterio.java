@@ -91,5 +91,19 @@ public class Criterio extends AuditObject {
 	public void setOpciones(List<String> opciones) {
 		this.opciones = opciones;
 	}
+	
+	@Override
+	public int hashCode() {
+		return ( nombre.length() * 31 ) ^ id;
+	}	
+	
+	@Override
+	public boolean equals(Object arg0) {
+		if (arg0 instanceof Criterio) {
+			Criterio other = (Criterio) arg0;
+		      return (nombre.equals(other.nombre) && id == other.id);
+		    }
+		    return false;
+	}
 
 }

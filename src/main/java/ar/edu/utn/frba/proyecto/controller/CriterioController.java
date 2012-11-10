@@ -50,12 +50,12 @@ public class CriterioController extends BaseAbmController<Criterio> {
 	}
 
 	public void addCriteriosToAnalisis(Analisis analisis,
-			Criterio[] selectedCriterios) {
+			List<Criterio> selectedCriterios) {
 		getDao().addCriteriosToAnalisis(analisis, selectedCriterios);
 	}
 
-	public void removeCriteriosFromAnalisis(Analisis selectedItem) {
-		getDao().removeCriteriosFromAnalisis(selectedItem);
+	public void removeCriteriosFromAnalisis(Analisis selectedItem, List<Criterio> criterios) {
+		getDao().removeCriteriosFromAnalisis(selectedItem,criterios);
 	}
 
 	public List<Criterio> getCriteriosByAnalisis(Analisis analisis) {
