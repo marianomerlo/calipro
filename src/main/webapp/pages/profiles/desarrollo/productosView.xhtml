@@ -24,7 +24,7 @@
 			style="margin:10px" onclick="deleteProductWidget.show();"
 			type="button" />
 		<p:dialog id="deleteProductDialog" widgetVar="deleteProductWidget"
-			modal="true" resizable="false" header="Eliminar Producto"
+			modal="true" resizable="false" header="Eliminar Producto" onHide="window.setTimeout(function(){window.location.reload()},1500)"
 			closable="false">
 			<ui:include src="../../eliminar/deleteProduct.xhtml" />
 		</p:dialog>

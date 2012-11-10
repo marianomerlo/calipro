@@ -4,7 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
+import org.springframework.util.StringUtils;
 
 import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
 import ar.edu.utn.frba.proyecto.dao.AbmDao;
@@ -46,8 +52,16 @@ public abstract class BaseAbmDao<T extends AuditObject> extends BaseDao<T>
 				PreparedStatement prepStatement = prepareDeleteStatement(element);
 				prepStatement.execute();
 			}
+			String message = "Se han eliminado satisfactoriamente los siguientes Productos: " + deletedItemIds(elements, ",");
+			FacesContext.getCurrentInstance().addMessage("deleteGrowlMessagesKeys",
+					new FacesMessage(FacesMessage.SEVERITY_INFO, message,
+							null));
+			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			String message = e.getLocalizedMessage();
+			FacesContext.getCurrentInstance().addMessage("deleteGrowlMessagesKeys",
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, message,
+							null));
 		} finally {
 			releaseConnection(conn);
 		}
@@ -168,5 +182,17 @@ public abstract class BaseAbmDao<T extends AuditObject> extends BaseDao<T>
 		elem.setUsuarioCreacion(new Usuario(getIdUsuarioCreacion(result)));
 		elem.setUsuarioUltimaModificacion(new Usuario(getIdUsuarioUltimaMod(result)));
 		
+	}
+	
+	public String deletedItemIds(List<T> elements, String splitter) {
+
+		if (elements != null && elements.size() > 0) {
+			List<Integer> itemIds = new ArrayList<Integer>();
+			for (T item : elements)
+				itemIds.add(item.getId());
+			return StringUtils
+					.collectionToDelimitedString(itemIds, splitter);
+		}
+		return "";
 	}
 }

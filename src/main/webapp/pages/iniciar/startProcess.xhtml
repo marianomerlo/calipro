@@ -8,24 +8,25 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
 	<p:growl id="addProcesoGrowlMessages" showSummary="true"
-		autoUpdate="true" for="addProcesoGrowlMessages" />
+		autoUpdate="true" for="addProcesoGrowlMessagesKeys" />
 	<p:panel id="startProcessPanel">
 		<h:panelGrid columns="2" cellpadding="5" id="startProcessPanelGrid"
 			style="width:auto !important">
 
 			<h:outputLabel value="Producto" for="startProcessProduct" />
-			<p:autoComplete id="startProcessProduct"
+			<p:autoComplete id="startProcessProduct" required="true" autocomplete="true"
 				value="#{processController.selectedProduct}" var="producto"
 				itemLabel="#{producto.nombre}" itemValue="#{producto}"
 				converter="#{productConverter}" forceSelection="true"
 				completeMethod="#{processController.filterProducts}">
-				<p:ajax event="itemSelect"
+				<p:ajax event="itemSelect" update="startProcessPanel"
 					process="@this" immediate="true" />
 			</p:autoComplete>
 
 			<h:outputLabel for="startProcessMachineBox" value="Maquinaria" />
 			<p:selectOneMenu id="startProcessMachineBox" 
 				value="#{processController.selectedMachineId}">
+				<f:selectItem itemLabel="Elija una maquinaria" itemValue="0" />
 				<f:selectItems value="#{processController.availableMachines}"
 					var="maquina" itemLabel="#{maquina.nombre}"
 					itemValue="#{maquina.id}" />
@@ -38,11 +39,12 @@
 			<p:commandButton id="startProcessConfirmButton" value="Iniciar"
 				update="startProcessPanel" process="@this"
 				actionListener="#{processController.addItem}"
-				oncomplete="window.location.reload()" />
+				/>
 
 			<p:commandButton id="startProcessCancelButton" value="Cancelar"
+				actionListener="#{processController.resetCurrent}"
 				immediate="true" style="margin:10px"
-				oncomplete="window.location.reload()" />
+				oncomplete="startProcessWidget.hide()" />
 		</f:facet>
 
 

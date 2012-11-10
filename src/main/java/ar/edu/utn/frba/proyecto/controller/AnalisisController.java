@@ -75,7 +75,7 @@ public class AnalisisController extends BaseAbmController<Analisis> {
 	
 	@Override
 	public void deleteItems(){
-		for ( AuditObject analisis : getSelectedItems()){
+		for ( Analisis analisis : getSelectedItems()){
 			getCriterioController().removeCriteriosFromAnalisis(new Analisis(analisis.getId(), null));
 		}
 		

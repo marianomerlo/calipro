@@ -76,7 +76,7 @@
 
 	<bean id="processController" class="ar.edu.utn.frba.proyecto.controller.ProcessController"
 		parent="baseController" scope="session">
-		<property name="ITEM_NAME" value="Maquina" />
+		<property name="ITEM_NAME" value="Lote" />
 		<property name="machineController" ref="machineController" />
 		<property name="productController" ref="productController" />
 		<property name="userController" ref="userController" />

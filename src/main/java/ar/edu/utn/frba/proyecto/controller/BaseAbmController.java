@@ -99,6 +99,7 @@ public abstract class BaseAbmController<T extends AuditObject> extends BaseContr
 
 	public void deleteItems(){
 		getDao().delete(Arrays.asList(getSelectedItems()));
+		resetSelectedItems();
 		refreshItems();
 	}
 	

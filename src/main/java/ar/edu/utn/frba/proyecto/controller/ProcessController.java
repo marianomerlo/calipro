@@ -3,9 +3,11 @@ package ar.edu.utn.frba.proyecto.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.model.SelectableDataModel;
 
@@ -176,9 +178,36 @@ public class ProcessController extends BaseAbmController<Lote> {
 
 	@Override
 	public void addItem() {
-		getCurrentItem().setProducto(getSelectedProduct());
-		getCurrentItem().setMaquinaria(getMachineController().get(new Maquinaria(getSelectedMachineId())));
-		super.addItem();
+		
+		if (getSelectedMachineId() == 0) {
+			String confirmMessage = "La maquina seleccionada no es válida";
+			FacesContext.getCurrentInstance().addMessage("addProcesoGrowlMessagesKeys",
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, confirmMessage,
+							null));
+		} else if (getSelectedProduct().getNombre() == null) {
+			String confirmMessage = "El producto seleccionado no es válido";
+			FacesContext.getCurrentInstance().addMessage("addProcesoGrowlMessagesKeys",
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, confirmMessage,
+							null));
+		} else {
+			getCurrentItem().setProducto(getSelectedProduct());
+			getCurrentItem().setMaquinaria(
+					getMachineController().get(
+							new Maquinaria(getSelectedMachineId())));
+			super.addItem();
+		}
+	}
+	
+	public void extraAddItemProcess() {
+		String confirmMessage = ITEM_NAME + " creado satisfactoriamente";
+		FacesContext.getCurrentInstance().addMessage("addProcesoGrowlMessagesKeys",
+				new FacesMessage(FacesMessage.SEVERITY_INFO, confirmMessage,
+						null));
+	}
+	
+	public void resetCurrent(){
+		setSelectedMachineId(0);
+		setSelectedProduct(new Producto());
 	}
 
 	@Override

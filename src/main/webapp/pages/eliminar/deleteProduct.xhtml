@@ -7,6 +7,10 @@
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
+	
+		<p:growl id="deleteProductoGrowlMessages" showSummary="true" autoUpdate="true"
+		for="deleteGrowlMessagesKeys" />
+	
 	<h:panelGrid columns="2" cellpadding="5" id="deleteProductPanelGrid"
 		style="width:auto !important"
 		rendered="#{not empty productController.selectedItems}">
@@ -18,8 +22,8 @@
 		<f:facet name="footer">
 			<p:commandButton id="deleteProductConfirmButton" value="Si"
 				actionListener="#{productController.deleteItems}"
-				oncomplete="deletedProductConfirmationWidget.show()"
-				update="deletedProductConfirmDialog" />
+				update=":profileTabViewDesarrollo:productDataTableForm"
+				oncomplete="deleteProductWidget.hide()" />
 
 			<p:commandButton id="deleteProductCancelButton" value="No"
 				onclick="deleteProductWidget.hide()" />

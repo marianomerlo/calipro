@@ -142,7 +142,7 @@ public class PasoController extends BaseAbmController<Paso> {
 		refreshItems();
 
 		FacesContext.getCurrentInstance().addMessage(
-				"addAnalisisToPasoGrowlMessages",
+				"addAnalisisToPasoGrowlMessageKeys",
 				new FacesMessage(FacesMessage.SEVERITY_WARN,
 						"Analisis agregado satisfactoriamente", null));
 	}

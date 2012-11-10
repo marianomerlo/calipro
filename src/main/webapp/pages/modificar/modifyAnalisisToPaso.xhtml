@@ -15,17 +15,8 @@
 			id="modifyAnalisisToPasoPanelGrid" style="width:auto !important">
 
 			<h:outputLabel value="Analisis" for="modifyAnalisisToPasoAnalisis" />
-			<p:autoComplete id="modifyAnalisisToPasoAnalisis" required="false" 
-				value="#{analisisController.selectedAnalisis}" var="analisis"
-				itemLabel="#{analisis.nombre}" converter="#{analisisConverter}"
-				itemValue="#{analisis}"
-				completeMethod="#{analisisController.filterProducts}">
-				<p:ajax event="itemSelect"
-					listener="#{analisisController.refreshCurrentCriterios()}"
-					update="modifyAnalisisToPasoDataTable" process="@this"
-					partialSubmit="true" />
-			</p:autoComplete>
-
+			<h:outputLabel id="modifyAnalisisToPasoAnalisis" value="#{analisisController.selectedAnalisis.nombre}" />
+			
 		</h:panelGrid>
 
 		<p:dataTable id="modifyAnalisisToPasoDataTable" var="criterio"
