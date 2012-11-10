@@ -13,7 +13,7 @@
 	</bean>
 	
 	<bean id="profileDao" parent="baseDao" class="ar.edu.utn.frba.proyecto.dao.impl.ProfileDao">
-		<property name="DATATABLE_NAME" value="PERFIL" />
+		<property name="DATATABLE_NAME" value="Perfil" />
 		<property name="DATATABLE_ID" value="idPerfil" />
 	</bean>
 
@@ -23,22 +23,22 @@
 	</bean>
 
 	<bean id="processDao" parent="baseDao" class="ar.edu.utn.frba.proyecto.dao.impl.ProcessDao">
-		<property name="DATATABLE_NAME" value="LOTE" />
+		<property name="DATATABLE_NAME" value="Lote" />
 		<property name="DATATABLE_ID" value="idLote" />
 	</bean>
 
 	<bean id="criterioDao" parent="baseDao" class="ar.edu.utn.frba.proyecto.dao.impl.CriterioDao">
-		<property name="DATATABLE_NAME" value="CRITERIO" />
+		<property name="DATATABLE_NAME" value="Criterio" />
 		<property name="DATATABLE_ID" value="idCriterio" />
 	</bean>
 
 	<bean id="machineDao" parent="baseAbmDao" class="ar.edu.utn.frba.proyecto.dao.impl.MachineDao">
-		<property name="DATATABLE_NAME" value="MAQUINARIA" />
+		<property name="DATATABLE_NAME" value="Maquinaria" />
 		<property name="DATATABLE_ID" value="idMaquinaria" />
 	</bean>
 
 	<bean id="estadoDao" parent="baseDao" class="ar.edu.utn.frba.proyecto.dao.impl.EstadoDao">
-		<property name="DATATABLE_NAME" value="ESTADO" />
+		<property name="DATATABLE_NAME" value="Estado" />
 		<property name="DATATABLE_ID" value="idEstado" />
 	</bean>
 
@@ -50,22 +50,22 @@
 	<bean id="baseAbmDao" abstract="true" parent="baseDao" />
 
 	<bean id="productDao" parent="baseAbmDao" class="ar.edu.utn.frba.proyecto.dao.impl.ProductDao">
-		<property name="DATATABLE_NAME" value="PRODUCTO" />
+		<property name="DATATABLE_NAME" value="Producto" />
 		<property name="DATATABLE_ID" value="idProducto" />
 	</bean>
 
 	<bean id="analisisDao" parent="baseAbmDao" class="ar.edu.utn.frba.proyecto.dao.impl.AnalisisDao">
-		<property name="DATATABLE_NAME" value="ANALISIS" />
+		<property name="DATATABLE_NAME" value="Analisis" />
 		<property name="DATATABLE_ID" value="idAnalisis" />
 	</bean>
 
 	<bean id="userDao" parent="baseAbmDao" class="ar.edu.utn.frba.proyecto.dao.impl.UserDao">
-		<property name="DATATABLE_NAME" value="USUARIO" />
+		<property name="DATATABLE_NAME" value="Usuario" />
 		<property name="DATATABLE_ID" value="idUsuario" />
 	</bean>
 
 	<bean id="pasoDao" parent="baseAbmDao" class="ar.edu.utn.frba.proyecto.dao.impl.PasoDao">
-		<property name="DATATABLE_NAME" value="PASO" />
+		<property name="DATATABLE_NAME" value="Paso" />
 		<property name="DATATABLE_ID" value="idPaso" />
 	</bean>
 

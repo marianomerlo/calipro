@@ -24,7 +24,7 @@
 			type="button" />
 
 		<p:dialog id="deleteAnalisisDialog" widgetVar="deleteAnalisisWidget"
-			modal="true" resizable="false" header="Eliminar Analisis"
+			modal="true" resizable="false" header="Eliminar Analisis" onHide="window.setTimeout(function(){window.location.reload()},1500)"
 			closable="false">
 			<ui:include src="../../eliminar/deleteAnalisis.xhtml" />
 		</p:dialog>

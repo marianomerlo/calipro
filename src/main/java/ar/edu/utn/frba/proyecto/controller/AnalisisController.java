@@ -73,14 +73,14 @@ public class AnalisisController extends BaseAbmController<Analisis> {
 		}
 	}
 	
-	@Override
-	public void deleteItems(){
-		for ( Analisis analisis : getSelectedItems()){
-			getCriterioController().removeCriteriosFromAnalisis(new Analisis(analisis.getId(), null));
-		}
-		
-		super.deleteItems();
-	}
+//	@Override
+//	public void deleteItems(){
+//		for ( Analisis analisis : getSelectedItems()){
+//			getCriterioController().removeCriteriosFromAnalisis(new Analisis(analisis.getId(), null));
+//		}
+//		
+//		super.deleteItems();
+//	}
 
 	@Override
 	protected void extraAddItemProcess() {

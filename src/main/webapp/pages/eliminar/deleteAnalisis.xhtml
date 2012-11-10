@@ -7,6 +7,10 @@
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
+	
+	<p:growl id="deleteAnalisisGrowlMessages" showSummary="true" autoUpdate="true"
+		for="deleteGrowlMessagesKeys" />
+	
 	<h:panelGrid columns="2" cellpadding="5" id="deleteAnalisisPanelGrid" 		
 		style="width:auto !important"
 		rendered="#{not empty analisisController.selectedItems}">
@@ -18,8 +22,8 @@
 		<f:facet name="footer">
 			<p:commandButton id="deleteAnalisisConfirmButton" value="Si"
 				actionListener="#{analisisController.deleteItems}"
-				oncomplete="deletedAnalisisConfirmationWidget.show()"
-				update="deletedAnalisisConfirmDialog" />
+				oncomplete="deleteAnalisisWidget.hide()"
+				update=":profileTabViewDesarrollo:analisisDataTableForm" />
 
 			<p:commandButton id="deleteAnalisisCancelButton" value="No"
 				onclick="deleteAnalisisWidget.hide()" />

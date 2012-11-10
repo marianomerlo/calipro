@@ -52,7 +52,7 @@ public abstract class BaseAbmDao<T extends AuditObject> extends BaseDao<T>
 				PreparedStatement prepStatement = prepareDeleteStatement(element);
 				prepStatement.execute();
 			}
-			String message = "Se han eliminado satisfactoriamente los siguientes Productos: " + deletedItemIds(elements, ",");
+			String message = "Se han eliminado satisfactoriamente los siguientes " + DATATABLE_NAME + "s: " + deletedItemIds(elements, ",");
 			FacesContext.getCurrentInstance().addMessage("deleteGrowlMessagesKeys",
 					new FacesMessage(FacesMessage.SEVERITY_INFO, message,
 							null));
