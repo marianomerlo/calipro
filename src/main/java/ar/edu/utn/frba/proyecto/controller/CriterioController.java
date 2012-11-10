@@ -126,8 +126,15 @@ public class CriterioController extends BaseAbmController<Criterio> {
 
 	@Override
 	public void addItem(){
-		getCurrentItem().setOpciones(getCurrentCriterioValues());
-		super.addItem();
+		if (getCurrentCriterioValues() != null && getCurrentCriterioValues().size() > 0) {
+			getCurrentItem().setOpciones(getCurrentCriterioValues());
+			super.addItem();
+		} else {
+			String message = "Debes agregar al menos un valor.";
+			FacesContext.getCurrentInstance().addMessage("addCriterioGrowlMessageKeys",
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, message,
+							null));
+		}
 	}
 
 	public void deleteValues() {
