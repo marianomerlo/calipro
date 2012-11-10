@@ -24,16 +24,16 @@
 					partialSubmit="true" immediate="true" />
 			</p:selectOneRadio>
 
-			<h:outputLabel for="addCriterioName" value="Nombre" />
+			<h:outputLabel for="addCriterioName" value="Nombre:" />
 			<p:inputText value="#{criterioController.currentItem.nombre}"
-				id="addCriterioName" label="addCriterioName" required="true">
+				id="addCriterioName" label="Nombre" required="true">
 				<f:validateLength maximum="20" />
 			</p:inputText>
 
 
 		</h:panelGrid>
 
-		<h:panelGrid id="comboCriterioPanelGrid" columns="4"
+		<h:panelGrid id="comboCriterioPanelGrid" columns="4" cellpadding="10"
 			rendered="#{criterioController.selectedType == 'combo'}">
 			<h:outputLabel for="criterioValueToBeAdded" value="Valor:" />
 			<p:inputText value="#{criterioController.valueToBeAdded}"
@@ -41,14 +41,19 @@
 				<p:ajax process="@this" event="change" partialSubmit="true"
 					immediate="true" />
 			</p:inputText>
-			<p:commandButton id="addCriterioValueConfirmButton" value="Agregar"
-				actionListener="#{criterioController.addValue}"
-				update="criteriosDataList" process="@this" immediate="true"
-				partialSubmit="true" />
-			<p:commandButton id="deleteCriterioValueConfirmButton"
-				value="Eliminar" actionListener="#{criterioController.deleteValues}"
-				update="criteriosDataList" process="@this" immediate="true"
-				partialSubmit="true" />
+		
+			<p:commandLink actionListener="#{criterioController.addValue}"
+				style="text-decoration:none;float:left" update="criteriosDataList"
+				process="@this" immediate="true"
+				styleClass="ui-icon ui-icon-document">
+			</p:commandLink>
+
+			<p:commandLink
+				actionListener="#{criterioController.deleteValues}"
+				style="text-decoration:none" process="@this"
+				update="criteriosDataList"
+				styleClass="ui-icon ui-icon-close">
+			</p:commandLink>
 			<br />
 		</h:panelGrid>
 		<h:panelGrid id="comboCriterioTablePanelGrid" columns="2"
@@ -63,15 +68,20 @@
 
 				<p:ajax event="rowSelectCheckbox" immediate="true" process="@this"
 					partialSubmit="true">
-					<f:setPropertyActionListener target="#{criterioController.selectedAddedValues[criterio2index]}" value="#{criterio}" />
+					<f:setPropertyActionListener
+						target="#{criterioController.selectedAddedValues[criterio2index]}"
+						value="#{criterio}" />
 				</p:ajax>
 				<p:ajax event="toggleSelect" immediate="true" process="@this"
 					partialSubmit="true">
-					<f:setPropertyActionListener target="#{criterioController.selectedAddedValues}" value="null" />
+					<f:setPropertyActionListener
+						target="#{criterioController.selectedAddedValues}" value="null" />
 				</p:ajax>
 				<p:ajax event="rowUnselectCheckbox" immediate="true" process="@this"
 					partialSubmit="true">
-					<f:setPropertyActionListener target="#{criterioController.selectedAddedValues[criterio2index]}" value="" />
+					<f:setPropertyActionListener
+						target="#{criterioController.selectedAddedValues[criterio2index]}"
+						value="" />
 				</p:ajax>
 
 				<p:column selectionMode="multiple" style="width:auto" />

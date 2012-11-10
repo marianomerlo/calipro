@@ -9,13 +9,25 @@
 	</h:head>
 
 	<h:form id="addCriterioForm" style="border:0px">
-		<p:commandButton id="criterioAdd" value="Agregar" style="margin:10px"
-			onclick="addCriterioWidget.show();" type="button" />
+		<p:commandButton id="criterioAdd" value="Agregar"
+			style="margin:10px;float:left" onclick="addCriterioWidget.show();"
+			type="button" />
 
 		<p:dialog id="addCriterioDialog" widgetVar="addCriterioWidget"
 			resizable="false" header="Agregar Criterio" closable="false"
 			modal="true">
 			<ui:include src="../../agregar/addCriterio.xhtml" />
+		</p:dialog>
+	</h:form>
+	<h:form id="deleteCriterioForm" style="border:0px">
+		<p:commandButton id="criterioDelete" value="Eliminar" immediate="true"
+			style="margin:10px" onclick="deleteCriterioWidget.show();"
+			type="button" />
+		<p:dialog id="deleteCriterioDialog" widgetVar="deleteCriterioWidget"
+			modal="true" resizable="false" header="Eliminar Criterio"
+			onHide="window.setTimeout(function(){window.location.reload()},1500)"
+			closable="false">
+			<ui:include src="../../eliminar/deleteCriterio.xhtml" />
 		</p:dialog>
 	</h:form>
 
@@ -27,6 +39,15 @@
 			paginatorPosition="bottom" rows="10"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 			style="width:800px;text-align:center">
+			
+			<p:ajax event="rowSelectCheckbox"
+				update=":profileTabViewDesarrollo:deleteCriterioForm:deleteCriterioDialog" />
+
+			<p:ajax event="toggleSelect"
+				update=":profileTabViewDesarrollo:deleteCriterioForm:deleteCriterioDialog" />
+
+			<p:ajax event="rowUnselectCheckbox"
+				update=":profileTabViewDesarrollo:deleteCriterioForm:deleteCriterioDialog" />
 
 			<f:facet name="header">
 				<p:outputPanel>
@@ -36,6 +57,8 @@
 					<p:watermark for="globalFilter" value="Criterio" />
 				</p:outputPanel>
 			</f:facet>
+
+			<p:column selectionMode="multiple" style="width:auto" />
 
 			<p:column id="criterioNombre" filterBy="#{criterio.nombre}"
 				filterStyle="display:none" headerText="Nombre"

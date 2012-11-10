@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.mysql.jdbc.Statement;
+
 import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
 import ar.edu.utn.frba.proyecto.dao.Dao;
 import ar.edu.utn.frba.proyecto.domain.Analisis;
@@ -93,6 +95,39 @@ public class CriterioDao extends BaseAbmDao<Criterio> implements Dao<Criterio> {
 		}
 		return resultList;
 		
+	}
+	
+	@Override
+	public void add(Criterio element) {
+		Connection conn = getConnection();
+		ResultSet result = null;
+		
+		try {
+		String query = "INSERT INTO CRITERIO (nombre) VALUES (?)";
+		PreparedStatement prepStatement = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+		prepStatement.setString(1,element.getNombre());
+		
+		prepStatement.executeUpdate();
+		result = prepStatement.getGeneratedKeys();
+		
+		if (result.next())
+			element.setId(result.getInt(1));
+		
+			for (String opcion : element.getOpciones()) {
+				if (!"".equals(opcion.trim())) {
+					String query2 = "INSERT INTO VALOR (idCriterio,nombre) VALUES (?,?)";
+					PreparedStatement prepStatement2 = conn.prepareStatement(query2);
+					prepStatement2.setInt(1, element.getId());
+					prepStatement2.setString(2, opcion);
+					prepStatement2.executeUpdate();
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			if (result != null) try { result.close(); } catch (SQLException logOrIgnore) {}
+			releaseConnection(conn);
+		}
 	}
 
 	@Override

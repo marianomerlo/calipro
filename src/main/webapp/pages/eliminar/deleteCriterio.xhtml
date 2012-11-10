@@ -1,0 +1,58 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	
+		<p:growl id="deleteCriterioGrowlMessages" showSummary="true" autoUpdate="true"
+		for="deleteGrowlMessagesKeys" />
+	
+	<h:panelGrid columns="2" cellpadding="5" id="deleteCriterioPanelGrid"
+		style="width:auto !important"
+		rendered="#{not empty criterioController.selectedItems}">
+		<span class="ui-messages-warn-icon" />
+
+		<h:outputText
+			value="¿Desea confirmar la eliminación de los Criterios?" />
+
+		<f:facet name="footer">
+			<p:commandButton id="deleteCriterioConfirmButton" value="Si"
+				actionListener="#{criterioController.deleteItems}"
+				update=":profileTabViewDesarrollo:criterioDataTableForm"
+				oncomplete="deleteCriterioWidget.hide()" />
+
+			<p:commandButton id="deleteCriterioCancelButton" value="No"
+				onclick="deleteCriterioWidget.hide()" />
+		</f:facet>
+	</h:panelGrid>
+	<h:panelGrid columns="2" cellpadding="5"
+		id="deleteCriterioPanelGridEmpty" style="width:auto !important"
+		rendered="#{empty criterioController.selectedItems}">
+		<span class="ui-messages-fatal-icon" />
+
+		<h:outputText value="Debes seleccionar al menos un criterio" />
+
+		<f:facet name="footer">
+			<p:commandButton id="deleteCriterioCancelButtonEmpty" value="OK"
+				onclick="deleteCriterioWidget.hide()" />
+		</f:facet>
+	</h:panelGrid>
+
+	<p:dialog id="deletedProductConfirmDialog" closable="false"
+		resizable="false" header="Information"
+		widgetVar="deletedProductConfirmationWidget">
+		<h:panelGrid columns="2" style="padding: 15px">
+			<span class="ui-messages-info-icon" />
+			<h:outputText
+				value="Se han eliminado satisfactoriamente los siguientes Productos: #{productController.deletedItemIds(',')}" />
+		</h:panelGrid>
+		<p:commandButton id="deletedProductConfirm" value="OK"
+			actionListener="#{productController.resetSelectedItems}"
+			oncomplete="window.location.reload()" />
+	</p:dialog>
+
+</ui:composition>

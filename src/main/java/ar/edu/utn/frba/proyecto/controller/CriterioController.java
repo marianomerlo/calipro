@@ -89,6 +89,12 @@ public class CriterioController extends BaseAbmController<Criterio> {
 	public void addValue() {
 		getCurrentCriterioValues().add(getValueToBeAdded());
 	}
+	
+	@Override
+	public void addItem(){
+		getCurrentItem().setOpciones(getCurrentCriterioValues());
+		super.addItem();
+	}
 
 	public void deleteValues() {
 		for (String value : getSelectedAddedValues())

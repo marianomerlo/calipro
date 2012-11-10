@@ -60,8 +60,8 @@
 		<property name="solicitudDao" ref="solicitudDao" />
 	</bean>
 
-	<bean id="criterioController" class="ar.edu.utn.frba.proyecto.controller.CriterioController"
-		scope="singleton">
+	<bean id="criterioController" class="ar.edu.utn.frba.proyecto.controller.CriterioController" parent="baseController"
+		scope="session">
 		<property name="ITEM_NAME" value="Criterio" />
 		<property name="criterioDao" ref="criterioDao" />
 	</bean>

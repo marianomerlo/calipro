@@ -1,5 +1,7 @@
 package ar.edu.utn.frba.proyecto.domain;
 
+import java.util.List;
+
 import ar.edu.utn.frba.proyecto.domain.enumType.CriterioType;
 
 public class Criterio extends AuditObject {
@@ -12,6 +14,8 @@ public class Criterio extends AuditObject {
 	private CriterioType tipo;
 	
 	private String valorEsperado;
+	
+	private List<String> opciones;
 
 	public Criterio(Integer id, String nombre, CriterioType tipo, String valorEsperado){
 		super();
@@ -72,6 +76,20 @@ public class Criterio extends AuditObject {
 	 */
 	public void setValorEsperado(String valorEsperado) {
 		this.valorEsperado = valorEsperado;
+	}
+
+	/**
+	 * @return the opciones
+	 */
+	public List<String> getOpciones() {
+		return opciones;
+	}
+
+	/**
+	 * @param opciones the opciones to set
+	 */
+	public void setOpciones(List<String> opciones) {
+		this.opciones = opciones;
 	}
 
 }
