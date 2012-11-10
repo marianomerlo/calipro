@@ -13,8 +13,8 @@
 			style="margin:10px;float:left" onclick="addCriterioWidget.show();"
 			type="button" />
 
-		<p:dialog id="addCriterioDialog" widgetVar="addCriterioWidget"
-			resizable="false" header="Agregar Criterio" closable="false" dynamic="true"
+		<p:dialog id="addCriterioDialog" widgetVar="addCriterioWidget" onHide="window.location.reload()"
+			resizable="false" header="Agregar Criterio" closable="true" dynamic="true"
 			modal="true">
 			<ui:include src="../../agregar/addCriterio.xhtml" />
 		</p:dialog>
@@ -80,12 +80,5 @@
 				</ui:repeat>
 			</p:column>
 		</p:dataTable>
-
-		<p:dialog id="modifyCriterioDialog" header="Modificar Criterio"
-			dynamic="true" widgetVar="modifyCriterioWidget" modal="true"
-			resizable="false" closable="false">
-			<ui:include src="../../modificar/modifyUsuario.xhtml" />
-		</p:dialog>
-
 	</h:form>
 </ui:composition>

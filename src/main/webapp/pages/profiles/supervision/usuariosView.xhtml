@@ -12,8 +12,8 @@
 		<p:commandButton id="userAdd" value="Agregar" style="margin:10px"
 			onclick="addUserWidget.show();" type="button" />
 
-		<p:dialog id="addUSerDialog" widgetVar="addUserWidget"
-			resizable="false" header="Agregar Usuario" closable="false"
+		<p:dialog id="addUSerDialog" widgetVar="addUserWidget" onHide="window.location.reload()"
+			resizable="false" header="Agregar Usuario" closable="true"
 			modal="true">
 			<ui:include src="../../agregar/addUsuario.xhtml" />
 		</p:dialog>
@@ -128,8 +128,8 @@
 
 		</p:dataTable>
 		<p:dialog id="modifyUserDialog" header="Modificar Usuario"
-			dynamic="true" widgetVar="modifyUserWidget" modal="true"
-			resizable="false" closable="false">
+			dynamic="true" widgetVar="modifyUserWidget" modal="true" onHide="window.location.reload()"
+			resizable="false" closable="true">
 			<ui:include src="../../modificar/modifyUsuario.xhtml" />
 		</p:dialog>
 

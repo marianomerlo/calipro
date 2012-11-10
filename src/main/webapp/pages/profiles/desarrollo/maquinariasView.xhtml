@@ -13,8 +13,8 @@
 		<p:commandButton id="machineAdd" value="Agregar" style="margin:10px"
 			onclick="addMachineWidget.show();" type="button" />
 
-		<p:dialog id="addMachineDialog" widgetVar="addMachineWidget"
-			resizable="false" header="Agregar Maquinaria" closable="false"
+		<p:dialog id="addMachineDialog" widgetVar="addMachineWidget" onHide="window.location.reload()"
+			resizable="false" header="Agregar Maquinaria" closable="true"
 			modal="true">
 			<ui:include src="../../agregar/addMachine.xhtml" />
 		</p:dialog>

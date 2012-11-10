@@ -13,7 +13,7 @@
 			onclick="addAnalisisWidget.show();" type="button" />
 
 		<p:dialog id="addAnalisisDialog" widgetVar="addAnalisisWidget"
-			resizable="false" header="Agregar Analisis" closable="false"
+			resizable="false" header="Agregar Analisis" closable="true" onHide="window.location.reload()"
 			modal="true">
 			<ui:include src="../../agregar/addAnalisis.xhtml" />
 		</p:dialog>
@@ -111,7 +111,7 @@
 		</p:dataTable>
 		<p:dialog id="modifyAnalisisDialog" header="Modificar Analisis" 
 			dynamic="true" widgetVar="modifyAnalisisWidget" modal="true"
-			resizable="true" closable="false">
+			resizable="true" closable="true" onHide="window.location.reload()">
 			<ui:include src="../../modificar/modifyAnalisis.xhtml" />
 
 		</p:dialog>
