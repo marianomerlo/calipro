@@ -42,7 +42,7 @@
 				<p:commandLink style="text-decoration:none" value="#{loteIndex + 1}"
 					ajax="true"
 					actionListener="#{processController.storeOriginalItem(lote)}"
-					oncomplete="modifyProcessWidget.show();">
+					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
 						target="#{processController.selectedItem}" value="#{lote}" />
 				</p:commandLink>
@@ -53,7 +53,7 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none" value="#{lote.id}"
 					actionListener="#{processController.storeOriginalItem(lote)}"
-					oncomplete="modifyProcessWidget.show();">
+					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
 						target="#{processController.selectedItem}" value="#{lote}" />
 				</p:commandLink>
@@ -65,7 +65,7 @@
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.producto.nombre}"
 					actionListener="#{processController.storeOriginalItem(lote)}"
-					oncomplete="modifyProcessWidget.show();">
+					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
 						target="#{processController.selectedItem}" value="#{lote}" />
 				</p:commandLink>
@@ -77,7 +77,7 @@
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.maquinaria.nombre}"
 					actionListener="#{processController.storeOriginalItem(lote)}"
-					oncomplete="modifyProcessWidget.show();">
+					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
 						target="#{processController.selectedItem}" value="#{lote}" />
 				</p:commandLink>
@@ -89,7 +89,7 @@
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.usuarioCreacion.nombre}"
 					actionListener="#{processController.storeOriginalItem(lote)}"
-					oncomplete="modifyProcessWidget.show();">
+					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
 						target="#{processController.selectedItem}" value="#{lote}" />
 				</p:commandLink>
@@ -101,16 +101,17 @@
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.fechaCreacion}"
 					actionListener="#{processController.storeOriginalItem(lote)}"
-					oncomplete="modifyProcessWidget.show();">
+					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
 						target="#{processController.selectedItem}" value="#{lote}" />
 				</p:commandLink>
 			</p:column>
 
 		</p:dataTable>
-		<p:dialog id="modifyProcessDialog" header="Modificar Proceso"
-			dynamic="true" widgetVar="modifyProcessWidget" modal="true"
-			resizable="false" closable="false">
+		<p:dialog id="seeProcessDialog" header="Modificar Proceso"
+			dynamic="true" widgetVar="seeProcessWidget" modal="true"
+			resizable="false" closable="true">
+			<ui:include src="../../ver/verProceso.xhtml" />
 
 		</p:dialog>
 
