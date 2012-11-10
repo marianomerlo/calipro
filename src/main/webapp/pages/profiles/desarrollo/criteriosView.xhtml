@@ -60,6 +60,18 @@
 
 			<p:column selectionMode="multiple" style="width:auto" />
 
+			<p:column id="criterioId" filterBy="#{criterio.id}"
+				filterStyle="display:none" headerText="Nombre"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none"
+					value="#{criterio.id}"
+					actionListener="#{criterioController.storeOriginalItem(criterio)}"
+					oncomplete="modifyCriterioWidget.show();">
+					<f:setPropertyActionListener
+						target="#{criterioController.selectedItem}" value="#{criterio}" />
+				</p:commandLink>
+			</p:column>
+
 			<p:column id="criterioNombre" filterBy="#{criterio.nombre}"
 				filterStyle="display:none" headerText="Nombre"
 				filterMatchMode="contains" style="width:auto">
@@ -72,23 +84,11 @@
 				</p:commandLink>
 			</p:column>
 
-			<p:column id="criterioTipo" filterBy="#{criterio.tipo}"
-				filterStyle="display:none" headerText="Tipo"
-				filterMatchMode="contains" style="width:auto">
-				<p:commandLink style="text-decoration:none" value="#{criterio.tipo}"
-					actionListener="#{criterioController.storeOriginalItem(criterio)}"
-					oncomplete="modifyCriterioWidget.show();">
-					<f:setPropertyActionListener
-						target="#{criterioController.selectedItem}" value="#{criterio}" />
-				</p:commandLink>
-			</p:column>
-
-
 			<p:column id="criterioValores" filterStyle="display:none"
 				headerText="Valores" style="width:auto">
-				<ui:repeat var="perfil" value="#{user.perfiles}">
+				<ui:repeat var="opcion" value="#{criterio.opciones}">
 					<p:commandLink style="text-decoration:none"
-						value="#{perfil.nombre}"
+						value="#{opcion}"
 						actionListener="#{criterioController.storeOriginalItem(criterio)}"
 						oncomplete="modifyCriterioWidget.show();">
 						<f:setPropertyActionListener

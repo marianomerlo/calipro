@@ -129,6 +129,31 @@ public class CriterioDao extends BaseAbmDao<Criterio> implements Dao<Criterio> {
 			releaseConnection(conn);
 		}
 	}
+	
+	public List<String> getValuesFromCriterio(Criterio criterio){
+		Connection conn = getConnection();
+		ResultSet result = null;
+		List<String> resultList = new ArrayList<String>();
+		try {
+		String query = "SELECT * FROM VALOR WHERE idCriterio = ?";
+		PreparedStatement prepStatement = conn.prepareStatement(query);
+		prepStatement.setInt(1,criterio.getId());
+		
+		result = prepStatement.executeQuery();
+		
+		while (result.next()){
+			resultList.add(result.getString(ConstantsDatatable.GENERAL_NOMBRE));
+		}
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			if (result != null) try { result.close(); } catch (SQLException logOrIgnore) {}
+			releaseConnection(conn);
+		}
+		
+		return resultList;
+	}
 
 	@Override
 	protected PreparedStatement prepareAddStatement(Criterio element) {

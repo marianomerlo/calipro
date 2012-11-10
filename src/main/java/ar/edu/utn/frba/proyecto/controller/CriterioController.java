@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.model.SelectableDataModel;
 
@@ -87,9 +89,41 @@ public class CriterioController extends BaseAbmController<Criterio> {
 	}
 
 	public void addValue() {
-		getCurrentCriterioValues().add(getValueToBeAdded());
+		
+		if (getValueToBeAdded() != null && !"".equals(getValueToBeAdded().trim())) {
+			getCurrentCriterioValues().add(getValueToBeAdded());
+			resetValueToBeAdded();
+		} else {
+			String message = "Error: valor requerido.";
+			FacesContext.getCurrentInstance().addMessage("addCriterioGrowlMessageKeys",
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, message,
+							null));
+		}
+		
 	}
 	
+	private void resetValueToBeAdded() {
+		valueToBeAdded = "";
+	}
+	
+	@Override
+	public void resetCurrent(){
+		resetSelectedAddedValues();
+		resetCurrentCriterioValues();
+		resetValueToBeAdded();
+		setCurrentItem(new Criterio());
+		setStringDataModel(new StringDataModel(getCurrentCriterioValues()));
+	}
+	
+	@Override
+	public void extraGetItemProcess(Criterio criterio){
+		criterio.setOpciones(getValuesFromCriterio(criterio));
+	}
+	
+	public List<String> getValuesFromCriterio(Criterio criterio){
+		return getDao().getValuesFromCriterio(criterio);
+	}
+
 	@Override
 	public void addItem(){
 		getCurrentItem().setOpciones(getCurrentCriterioValues());
@@ -106,6 +140,10 @@ public class CriterioController extends BaseAbmController<Criterio> {
 	private void resetSelectedAddedValues() {
 		this.selectedAddedValues = null;
 		
+	}
+	
+	private void resetCurrentCriterioValues(){
+		this.currentCriterioValues = null;
 	}
 
 	/**

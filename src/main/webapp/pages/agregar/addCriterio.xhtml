@@ -37,13 +37,13 @@
 			rendered="#{criterioController.selectedType == 'combo'}">
 			<h:outputLabel for="criterioValueToBeAdded" value="Valor:" />
 			<p:inputText value="#{criterioController.valueToBeAdded}"
-				id="criterioValueToBeAdded" label="criterioValueToBeAdded">
+				id="criterioValueToBeAdded" label="Valor">
 				<p:ajax process="@this" event="change" partialSubmit="true"
 					immediate="true" />
 			</p:inputText>
 		
 			<p:commandLink actionListener="#{criterioController.addValue}"
-				style="text-decoration:none;float:left" update="criteriosDataList"
+				style="text-decoration:none;float:left" update="criterioValueToBeAdded criteriosDataList"
 				process="@this" immediate="true"
 				styleClass="ui-icon ui-icon-document">
 			</p:commandLink>
@@ -100,7 +100,7 @@
 
 			<p:commandButton id="addCriterioCancelButton" value="Cancelar"
 				immediate="true" actionListener="#{criterioController.resetCurrent}"
-				update="addCriterioPanelGrid" style="margin:10px"
+				update="addCriterioPanel" style="margin:10px"
 				oncomplete="window.location.reload()" />
 		</f:facet>
 	</p:panel>
