@@ -157,7 +157,7 @@ public class PasoController extends BaseAbmController<Paso> {
 
 		FacesContext.getCurrentInstance().addMessage(
 				"addAnalisisToPasoGrowlMessageKeys",
-				new FacesMessage(FacesMessage.SEVERITY_WARN,
+				new FacesMessage(FacesMessage.SEVERITY_INFO,
 						"Analisis agregado satisfactoriamente", null));
 	}
 

@@ -218,7 +218,7 @@ public abstract class BaseAbmController<T extends AuditObject> extends BaseContr
 	}
 
 	public int getCurrentVersion() {
-		return currentVersion;
+		return currentVersion == 0 ? 1 : currentVersion;
 	}
 
 	public void setCurrentVersion(int currentVersion) {
