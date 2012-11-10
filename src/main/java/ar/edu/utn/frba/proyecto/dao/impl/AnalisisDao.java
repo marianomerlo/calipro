@@ -111,13 +111,19 @@ public class AnalisisDao extends BaseAbmDao<Analisis> {
 		List<Analisis> analisisList = new ArrayList<Analisis>();
 		String query = "SELECT ana.nombre,ana.idAnalisis,cri.nombre,cri.idCriterio,ap.valoresperado from Analisis_por_Paso ap, Analisis ana, Criterio cri "
 				+ "WHERE ap.idanalisis = ana.idanalisis and ap.idcriterio = cri.idcriterio and ap.idproducto = ? and ap.idpaso = ? "
-				+ "and ap.idversion = (select max(p2.idversion) from receta p2 where ap.idproducto=p2.idproducto) "
+				+ "and ap.idversion = ? "
 				+ "ORDER BY ana.nombre";
 		try {
 			PreparedStatement prepStatement = conn.prepareStatement(query,
 					ResultSet.TYPE_FORWARD_ONLY);
 			prepStatement.setInt(1, paso.getProductoId());
 			prepStatement.setInt(2, paso.getId());
+			prepStatement.setInt(3, paso.getVersion());
+			
+//			if (ConstantsDatatable.ULTIMA_VERSION.equals(version)){
+//				prepStatement.setString(3, "(select max(p2.idversion) from receta p2 where ap.idproducto=p2.idproducto)" );
+//			}else{
+//			}
 
 			result = prepStatement.executeQuery();
 

@@ -36,6 +36,8 @@ public abstract class BaseAbmController<T extends AuditObject> extends BaseContr
 	protected SessionController sessionController;
 	
 	protected SelectableDataModel<T> dataModel; 
+	
+	protected int currentVersion;
 
 	protected abstract AbmDao<T> getDao(); 
 	
@@ -213,5 +215,13 @@ public abstract class BaseAbmController<T extends AuditObject> extends BaseContr
 
 	public void setDataModel(SelectableDataModel<T> dataModel) {
 		this.dataModel = dataModel;
+	}
+
+	public int getCurrentVersion() {
+		return currentVersion;
+	}
+
+	public void setCurrentVersion(int currentVersion) {
+		this.currentVersion = currentVersion;
 	}
 }

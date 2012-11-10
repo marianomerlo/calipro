@@ -7,12 +7,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mysql.jdbc.Statement;
-
 import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
 import ar.edu.utn.frba.proyecto.domain.Lote;
 import ar.edu.utn.frba.proyecto.domain.Maquinaria;
+import ar.edu.utn.frba.proyecto.domain.Paso;
 import ar.edu.utn.frba.proyecto.domain.Producto;
+
+import com.mysql.jdbc.Statement;
 
 public class ProcessDao extends BaseAbmDao<Lote> {
 
@@ -79,6 +80,32 @@ public class ProcessDao extends BaseAbmDao<Lote> {
 			result = prepStatement.executeQuery();
 			while (result.next()){
 				resultList.add(getFromResult(result));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			if (result != null) try { result.close(); } catch (SQLException logOrIgnore) {}
+			releaseConnection(conn);
+		}
+		return resultList;
+	}
+	
+	public List<Paso> getPasosLote(Lote lote){
+		Connection conn = getConnection();
+		ResultSet result = null;
+		List<Paso> resultList = new ArrayList<Paso>();
+		String query = "CALL sp_receta_lote(?)";
+		try {
+			PreparedStatement prepStatement = conn.prepareStatement(query);
+			prepStatement.setInt(1, lote.getId());
+			
+			result = prepStatement.executeQuery();
+			while (result.next()){
+				resultList.add( new Paso(result.getInt(ConstantsDatatable.PASO_ID), 
+											result.getInt(ConstantsDatatable.PRODUCTO_ID), 
+											result.getInt(ConstantsDatatable.VERSION_ID), 
+											result.getString(ConstantsDatatable.GENERAL_DESCRIPCION)));
 			}
 			
 		} catch (SQLException e) {

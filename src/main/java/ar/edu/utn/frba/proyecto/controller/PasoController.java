@@ -74,7 +74,7 @@ public class PasoController extends BaseAbmController<Paso> {
 		refreshItems();
 		super.extraAddItemProcess();
 	}
-
+	
 	@Override
 	public void deleteItems() {
 		if (getSelectedItems() == null)
@@ -117,8 +117,9 @@ public class PasoController extends BaseAbmController<Paso> {
 			// }
 
 			paso.setAnalisis(firstAnalisisList);
+			
+			setCurrentVersion(paso.getVersion());
 		}
-
 	}
 
 	public void setProductAndRefreshPasos(Producto producto) {

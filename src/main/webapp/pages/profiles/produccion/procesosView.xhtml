@@ -41,7 +41,8 @@
 			<p:column id="processRowNumber" headerText="Nº" style="width:auto">
 				<p:commandLink style="text-decoration:none" value="#{loteIndex + 1}"
 					ajax="true"
-					actionListener="#{processController.storeOriginalItem(lote)}"
+					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
+					partialSubmit="true" process="@this" immediate="true"
 					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
 						target="#{processController.selectedItem}" value="#{lote}" />
@@ -52,7 +53,8 @@
 				filterStyle="display:none" headerText="Id"
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none" value="#{lote.id}"
-					actionListener="#{processController.storeOriginalItem(lote)}"
+					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
+					partialSubmit="true" process="@this" immediate="true"
 					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
 						target="#{processController.selectedItem}" value="#{lote}" />
@@ -64,7 +66,8 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.producto.nombre}"
-					actionListener="#{processController.storeOriginalItem(lote)}"
+					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
+					partialSubmit="true" process="@this" immediate="true"
 					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
 						target="#{processController.selectedItem}" value="#{lote}" />
@@ -76,7 +79,8 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.maquinaria.nombre}"
-					actionListener="#{processController.storeOriginalItem(lote)}"
+					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
+					partialSubmit="true" process="@this" immediate="true"
 					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
 						target="#{processController.selectedItem}" value="#{lote}" />
@@ -88,7 +92,8 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.usuarioCreacion.nombre}"
-					actionListener="#{processController.storeOriginalItem(lote)}"
+					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
+					partialSubmit="true" process="@this" immediate="true"
 					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
 						target="#{processController.selectedItem}" value="#{lote}" />
@@ -100,7 +105,8 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.fechaCreacion}"
-					actionListener="#{processController.storeOriginalItem(lote)}"
+					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
+					partialSubmit="true" process="@this" immediate="true"
 					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
 						target="#{processController.selectedItem}" value="#{lote}" />

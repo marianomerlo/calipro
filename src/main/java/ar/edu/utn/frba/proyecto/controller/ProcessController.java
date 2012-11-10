@@ -16,6 +16,7 @@ import ar.edu.utn.frba.proyecto.dao.impl.ProcessDao;
 import ar.edu.utn.frba.proyecto.datamodel.ProcessDataModel;
 import ar.edu.utn.frba.proyecto.domain.Lote;
 import ar.edu.utn.frba.proyecto.domain.Maquinaria;
+import ar.edu.utn.frba.proyecto.domain.Paso;
 import ar.edu.utn.frba.proyecto.domain.Producto;
 
 @ManagedBean
@@ -53,6 +54,9 @@ public class ProcessController extends BaseAbmController<Lote> {
 	@ManagedProperty("#{userController}")
 	private UserController userController;
 
+	@ManagedProperty("#{analisisController}")
+	private AnalisisController analisisController;
+
 	public List<Producto> filterProducts(String query) {
 		List<Producto> resultList = new ArrayList<Producto>();
 
@@ -80,6 +84,33 @@ public class ProcessController extends BaseAbmController<Lote> {
 		}
 
 		return this.items;
+	}
+	
+	private List<Paso> pasosLote;
+
+	public void setPasosLote(List<Paso> pasosLote) {
+		this.pasosLote = pasosLote;
+	}
+
+	public List<Paso> getPasosLote() {
+		if (pasosLote == null || pasosLote.size() == 0) {
+			refreshPasos();
+		}
+
+		return pasosLote;
+	}
+	
+	public void setLoteAndRefreshPasos(Lote lote){
+		setSelectedItem(lote);
+		refreshPasos();
+	}
+	
+	public void refreshPasos(){
+		List<Paso> pasos = getDao().getPasosLote(getSelectedItem());
+		for ( Paso paso : pasos){
+			paso.setAnalisis(getAnalisisController().getAnalisisByPaso(paso));
+		}
+		pasosLote = pasos;
 	}
 
 	/**
@@ -224,5 +255,19 @@ public class ProcessController extends BaseAbmController<Lote> {
 
 	public void setUserController(UserController userController) {
 		this.userController = userController;
+	}
+
+	/**
+	 * @return the analisisController
+	 */
+	public AnalisisController getAnalisisController() {
+		return analisisController;
+	}
+
+	/**
+	 * @param analisisController the analisisController to set
+	 */
+	public void setAnalisisController(AnalisisController analisisController) {
+		this.analisisController = analisisController;
 	}
 }

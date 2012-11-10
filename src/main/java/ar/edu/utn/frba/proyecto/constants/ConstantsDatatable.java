@@ -50,6 +50,8 @@ public class ConstantsDatatable {
 	public static String AUDIT_USUARIO_CREACION = "idUsuarioCreacion";
 
 	public static String AUDIT_USUARIO_ULTIMA_MOD = "idUsuarioUltimaMod";
+
+	public static String ULTIMA_VERSION = "ultimaVersion";
 	
 	/* Constantes para estados */
 	

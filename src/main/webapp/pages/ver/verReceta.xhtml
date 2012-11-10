@@ -10,6 +10,8 @@
 	<p:commandButton id="pasoAdd" value="Agregar Paso" style="margin:10px"
 		onclick="addPasoWidget.show();" type="button">
 	</p:commandButton>
+	
+	<h:outputLabel id="idVersionGlobal" value="Versión #{pasoController.currentVersion}" style="padding-left:500px" />
 
 	<p:dialog id="addPasoDialog" widgetVar="addPasoWidget" modal="true"
 		appendToBody="true" resizable="false" header="Agregar Paso"
