@@ -109,7 +109,7 @@ public class AnalisisDao extends BaseAbmDao<Analisis> {
 		Connection conn = getConnection();
 		ResultSet result = null;
 		List<Analisis> analisisList = new ArrayList<Analisis>();
-		String query = "SELECT ap.* from Analisis_por_Paso ap WHERE ap.idproducto = ? and ap.idpaso = ? and ap.idversion = (select max(p2.idversion) from paso p2 where ap.idproducto=p2.idproducto) GROUP BY idAnalisis ORDER BY fechaCreacion ASC";
+		String query = "SELECT ap.* from Analisis_por_Paso ap WHERE ap.idproducto = ? and ap.idpaso = ? and ap.idversion = (select max(p2.idversion) from receta p2 where ap.idproducto=p2.idproducto) GROUP BY idAnalisis ORDER BY fechaCreacion ASC";
 		try {
 			PreparedStatement prepStatement = conn.prepareStatement(query);
 			prepStatement.setInt(1, paso.getProductoId());
@@ -141,7 +141,7 @@ public class AnalisisDao extends BaseAbmDao<Analisis> {
 		List<Analisis> analisisList = new ArrayList<Analisis>();
 		String query = "SELECT ana.nombre,ana.idAnalisis,cri.nombre,cri.idCriterio,ap.valoresperado from Analisis_por_Paso ap, Analisis ana, Criterio cri "
 				+ "WHERE ap.idanalisis = ana.idanalisis and ap.idcriterio = cri.idcriterio and ap.idproducto = ? and ap.idpaso = ? "
-				+ "and ap.idversion = (select max(p2.idversion) from paso p2 where ap.idproducto=p2.idproducto) "
+				+ "and ap.idversion = (select max(p2.idversion) from receta p2 where ap.idproducto=p2.idproducto) "
 				+ "ORDER BY ana.nombre";
 		try {
 			PreparedStatement prepStatement = conn.prepareStatement(query,
