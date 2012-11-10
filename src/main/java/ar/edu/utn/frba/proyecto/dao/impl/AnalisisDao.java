@@ -105,36 +105,6 @@ public class AnalisisDao extends BaseAbmDao<Analisis> {
 		}
 	}
 
-	public List<Analisis> getAnalisisByPaso(Paso paso) {
-		Connection conn = getConnection();
-		ResultSet result = null;
-		List<Analisis> analisisList = new ArrayList<Analisis>();
-		String query = "SELECT ap.* from Analisis_por_Paso ap WHERE ap.idproducto = ? and ap.idpaso = ? and ap.idversion = (select max(p2.idversion) from receta p2 where ap.idproducto=p2.idproducto) GROUP BY idAnalisis ORDER BY fechaCreacion ASC";
-		try {
-			PreparedStatement prepStatement = conn.prepareStatement(query);
-			prepStatement.setInt(1, paso.getProductoId());
-			prepStatement.setInt(2, paso.getId());
-
-			result = prepStatement.executeQuery();
-
-			while (result.next())
-				analisisList.add(new Analisis(result
-						.getInt(ConstantsDatatable.ANALISIS_ID), ""));
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (result != null)
-				try {
-					result.close();
-				} catch (SQLException logOrIgnore) {
-				}
-			releaseConnection(conn);
-		}
-
-		return analisisList;
-	}
-
 	public List<Analisis> getAnalisisByPasoT(Paso paso) {
 		Connection conn = getConnection();
 		ResultSet result = null;

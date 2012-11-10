@@ -15,8 +15,9 @@
 			id="modifyAnalisisToPasoPanelGrid" style="width:auto !important">
 
 			<h:outputLabel value="Analisis" for="modifyAnalisisToPasoAnalisis" />
-			<h:outputLabel id="modifyAnalisisToPasoAnalisis" value="#{analisisController.selectedAnalisis.nombre}" />
-			
+			<h:outputLabel id="modifyAnalisisToPasoAnalisis"
+				value="#{analisisController.selectedAnalisis.nombre}" />
+
 		</h:panelGrid>
 
 		<p:dataTable id="modifyAnalisisToPasoDataTable" var="criterio"
@@ -30,21 +31,31 @@
 
 			<p:column id="criterio2ExpectedValue" headerText="Valor Esperado"
 				style="width:auto">
-				<p:inputText value="#{pasoController.expectedValues[criterioIndex]}" />
+				<p:inputText value="#{pasoController.expectedValues[criterioIndex]}"
+					rendered="#{criterio.tipo.value == 'texto'}" />
+				<p:selectOneMenu
+					value="#{pasoController.expectedValues[criterioIndex]}"
+					rendered="#{criterio.tipo.value == 'combo'}">
+					<f:selectItem itemLabel="Elija uno" itemValue="" />
+					<f:selectItems value="#{criterio.opciones}" var="opcion"
+						itemLabel="#{opcion}" itemValue="#{opcion}" />
+				</p:selectOneMenu>
 			</p:column>
 
 		</p:dataTable>
 
 		<f:facet name="footer">
 
-			<p:commandButton id="modifyAnalisisToPasoConfirmButton" value="Guardar"
+			<p:commandButton id="modifyAnalisisToPasoConfirmButton"
+				value="Guardar"
 				actionListener="#{pasoController.updateAnalisisToPaso}"
 				partialSubmit="true" process="modifyAnalisisToPasoPanel"
 				update="modifyAnalisisToPasoPanelGrid modifyAnalisisToPasoPanel :profileTabViewDesarrollo:productDataTableForm:recetaDataTable">
 			</p:commandButton>
 
-			<p:commandButton id="modifyAnalisisToPasoCancelButton" value="Cancelar"
-				immediate="true" actionListener="#{pasoController.resetCurrent}"
+			<p:commandButton id="modifyAnalisisToPasoCancelButton"
+				value="Cancelar" immediate="true"
+				actionListener="#{pasoController.resetCurrent}"
 				update="modifyAnalisisToPasoPanelGrid" style="margin:10px"
 				oncomplete="modifyAnalisisToPasoWidget.hide()" />
 		</f:facet>

@@ -16,6 +16,7 @@ import ar.edu.utn.frba.proyecto.domain.Analisis;
 import ar.edu.utn.frba.proyecto.domain.Criterio;
 import ar.edu.utn.frba.proyecto.domain.Paso;
 import ar.edu.utn.frba.proyecto.domain.Producto;
+import ar.edu.utn.frba.proyecto.domain.enumType.CriterioType;
 
 @ManagedBean
 @ApplicationScoped
@@ -95,6 +96,18 @@ public class PasoController extends BaseAbmController<Paso> {
 		for (Paso paso : getPasos()) {
 			List<Analisis> firstAnalisisList = getAnalisisController()
 					.getAnalisisByPaso(paso);
+			
+			for (Analisis analisis : firstAnalisisList){
+				for ( Criterio criterio : analisis.getCriterios()){
+					List<String> values = getAnalisisController().getCriterioController().getValuesFromCriterio(criterio);
+					if ( values.size() > 0){
+						criterio.setTipo(CriterioType.COMBO);
+						criterio.setOpciones(values);
+					}else{
+						criterio.setTipo(CriterioType.TEXTO);
+					}
+				}
+			}
 			// for (Analisis analisis : firstAnalisisList) {
 			// analisis.setNombre(getAnalisisController().get(analisis).getNombre());
 			//
@@ -212,6 +225,8 @@ public class PasoController extends BaseAbmController<Paso> {
 	public void resetAnalisisToPasoForm() {
 		getAnalisisController().setSelectedAnalisis(
 				getAnalisisController().newBaseItem());
+		
+		getAnalisisController().setRefreshedCriterios(new ArrayList<Criterio>());
 		setExpectedValues(new String[50]);
 
 	}

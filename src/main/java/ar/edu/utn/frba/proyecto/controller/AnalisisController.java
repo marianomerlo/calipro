@@ -15,9 +15,9 @@ import org.primefaces.model.SelectableDataModel;
 import ar.edu.utn.frba.proyecto.dao.impl.AnalisisDao;
 import ar.edu.utn.frba.proyecto.datamodel.AnalisisDataModel;
 import ar.edu.utn.frba.proyecto.domain.Analisis;
-import ar.edu.utn.frba.proyecto.domain.AuditObject;
 import ar.edu.utn.frba.proyecto.domain.Criterio;
 import ar.edu.utn.frba.proyecto.domain.Paso;
+import ar.edu.utn.frba.proyecto.domain.enumType.CriterioType;
 
 @ManagedBean
 @ViewScoped
@@ -60,6 +60,16 @@ public class AnalisisController extends BaseAbmController<Analisis> {
 	
 	public void refreshCurrentCriterios(){
 		setRefreshedCriterios(getCriterioController().getCriteriosByAnalisis(getSelectedAnalisis()));
+		
+		for (Criterio criterio : getRefreshedCriterios()){
+			List<String> values = getCriterioController().getValuesFromCriterio(criterio);
+			if ( values.size() > 0){
+				criterio.setTipo(CriterioType.COMBO);
+				criterio.setOpciones(values);
+			}else{
+				criterio.setTipo(CriterioType.TEXTO);
+			}
+		}
 	}
 	@Override
 	public void addItem(){
@@ -102,7 +112,12 @@ public class AnalisisController extends BaseAbmController<Analisis> {
 	
 	@Override
 	protected void extraResetCurrentProcess() {
-		setSelectedCriterios(new Criterio[4]);
+		setSelectedCriterios(new Criterio[50]);
+	}
+	
+	@Override
+	protected void extraRestoreOriginalItemProcess() {
+		resetCurrent();
 	}
 
 	@Override

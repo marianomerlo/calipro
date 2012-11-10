@@ -39,7 +39,14 @@
 
 			<p:column id="criterio2ExpectedValue" headerText="Valor Esperado"
 				style="width:auto">
-				<p:inputText value="#{pasoController.expectedValues[criterioIndex]}" />
+
+				<p:inputText value="#{pasoController.expectedValues[criterioIndex]}"
+					rendered="#{criterio.tipo.value == 'texto'}" />
+				<p:selectOneMenu value="#{pasoController.expectedValues[criterioIndex]}"
+					rendered="#{criterio.tipo.value == 'combo'}" >
+					<f:selectItem itemLabel="Elija uno" itemValue="" />
+					<f:selectItems value="#{criterio.opciones}" var="opcion" itemLabel="#{opcion}" itemValue="#{opcion}" />
+				</p:selectOneMenu>
 			</p:column>
 
 		</p:dataTable>
@@ -49,7 +56,7 @@
 			<p:commandButton id="addAnalisisToPasoConfirmButton" value="Agregar"
 				actionListener="#{pasoController.addAnalisisToPaso}"
 				partialSubmit="true" process="addAnalisisToPasoPanel"
-				update="addAnalisisToPasoPanelGrid addAnalisisToPasoPanel :profileTabViewDesarrollo:productDataTableForm:recetaDataTable">
+				update="addAnalisisToPasoPanelGrid addAnalisisToPasoPanel analisisToPasoDataTable :profileTabViewDesarrollo:productDataTableForm:recetaDataTable">
 			</p:commandButton>
 
 			<p:commandButton id="addAnalisisToPasoCancelButton" value="Cancelar"
