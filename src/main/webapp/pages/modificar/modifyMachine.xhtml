@@ -31,12 +31,5 @@
 				immediate="true" update="updateMachinePanelGrid" style="margin:10px"
 				oncomplete="window.location.reload()" />
 		</f:facet>
-
-		<p:selectOneMenu id="modifyStateMachineBox"
-			value="#{machineController.selectedItemEstadoId}">
-			<f:selectItems value="#{machineController.availableStates}"
-				var="maquinaria" itemLabel="#{maquinaria.nombre}"
-				itemValue="#{maquinaria.id}" />
-		</p:selectOneMenu>
 	</p:panel>
 </ui:composition>
