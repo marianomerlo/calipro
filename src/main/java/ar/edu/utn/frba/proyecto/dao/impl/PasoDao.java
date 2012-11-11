@@ -144,6 +144,7 @@ public class PasoDao extends BaseAbmDao<Paso> {
 	public void updateAnalisisToPaso(Paso paso, Analisis analisis){
 		Connection conn = getConnection();
 		ResultSet result = null;
+		List<Criterio> toRemove = new ArrayList<Criterio>();
 		try {
 			for (Criterio criterio : analisis.getCriterios()) {
 				if (!"".equals(criterio.getValorEsperado().trim())) {
@@ -159,9 +160,14 @@ public class PasoDao extends BaseAbmDao<Paso> {
 					prepStatement.setString(6, criterio.getValorEsperado());
 					prepStatement.setInt(7, paso.getUsuarioUltimaModificacion().getId());
 					prepStatement.executeUpdate();
+				} else {
+					toRemove.add(criterio);
 				}
 			}
-			paso.setAnalisis(Arrays.asList(analisis));
+			analisis.setCriterios(toRemove);
+			deleteAnalisisToPaso(paso, analisis);
+			
+//			paso.setAnalisis(Arrays.asList(analisis));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally{
@@ -175,7 +181,6 @@ public class PasoDao extends BaseAbmDao<Paso> {
 		ResultSet result = null;
 		try {
 			for (Criterio criterio : analisis.getCriterios()) {
-				if (!"".equals(criterio.getValorEsperado().trim())) {
 					String query = "CALL " + "sp_analisis_por_paso_delete"
 							+ " (?,?,?,?,?,?)";
 					PreparedStatement prepStatement = conn
@@ -187,7 +192,6 @@ public class PasoDao extends BaseAbmDao<Paso> {
 					prepStatement.setInt(5, criterio.getId());
 					prepStatement.setInt(6, paso.getUsuarioUltimaModificacion().getId());
 					prepStatement.executeUpdate();
-				}
 			}
 			paso.setAnalisis(Arrays.asList(analisis));
 		} catch (SQLException e) {

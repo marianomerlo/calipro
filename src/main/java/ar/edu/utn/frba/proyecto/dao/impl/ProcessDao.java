@@ -10,8 +10,10 @@ import java.util.List;
 import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
 import ar.edu.utn.frba.proyecto.domain.Lote;
 import ar.edu.utn.frba.proyecto.domain.Maquinaria;
+import ar.edu.utn.frba.proyecto.domain.Message;
 import ar.edu.utn.frba.proyecto.domain.Paso;
 import ar.edu.utn.frba.proyecto.domain.Producto;
+import ar.edu.utn.frba.proyecto.domain.enumType.StatusType;
 
 import com.mysql.jdbc.Statement;
 
@@ -25,10 +27,13 @@ public class ProcessDao extends BaseAbmDao<Lote> {
 	@Override
 	protected Lote getFromResult(ResultSet result) {
 		try {
-			Lote lote = new Lote(result.getInt(ConstantsDatatable.LOTE_ID), 
+			Lote lote = new Lote(
+					result.getInt(ConstantsDatatable.LOTE_ID),
 					new Producto(result.getInt(ConstantsDatatable.PRODUCTO_ID)),
-					new Maquinaria(result.getInt(ConstantsDatatable.MAQUINARIA_ID)),
-					result.getInt(ConstantsDatatable.GENERAL_ESTADO));
+					new Maquinaria(result
+							.getInt(ConstantsDatatable.MAQUINARIA_ID)), result
+							.getInt(ConstantsDatatable.GENERAL_ESTADO), result
+							.getInt(ConstantsDatatable.VERSION_ID));
 
 			fillAuditInfo(lote, result);
 
@@ -47,12 +52,15 @@ public class ProcessDao extends BaseAbmDao<Lote> {
 		String query = "CALL " + "sp_iniciar_proceso " + "(?,?,?)";
 		PreparedStatement prepStatement = null;
 		try {
-			prepStatement = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+			prepStatement = conn.prepareStatement(query,
+					Statement.RETURN_GENERATED_KEYS);
 			prepStatement.setInt(1, element.getProducto().getId());
 			prepStatement.setInt(2, element.getMaquinaria().getId());
 			prepStatement.setInt(3, element.getUsuarioCreacion().getId());
-		} catch (SQLException e) {e.printStackTrace();}
-		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 		return prepStatement;
 	}
 
@@ -72,49 +80,101 @@ public class ProcessDao extends BaseAbmDao<Lote> {
 		Connection conn = getConnection();
 		ResultSet result = null;
 		List<Lote> resultList = new ArrayList<Lote>();
-		String query = "SELECT * FROM " + DATATABLE_NAME + " WHERE " + ConstantsDatatable.GENERAL_ESTADO + " = ?";
+		String query = "SELECT * FROM " + DATATABLE_NAME + " WHERE "
+				+ ConstantsDatatable.GENERAL_ESTADO + " = ?";
 		try {
 			PreparedStatement prepStatement = conn.prepareStatement(query);
 			prepStatement.setInt(1, estado);
-			
+
 			result = prepStatement.executeQuery();
-			while (result.next()){
+			while (result.next()) {
 				resultList.add(getFromResult(result));
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally{
-			if (result != null) try { result.close(); } catch (SQLException logOrIgnore) {}
+		} finally {
+			if (result != null)
+				try {
+					result.close();
+				} catch (SQLException logOrIgnore) {
+				}
 			releaseConnection(conn);
 		}
 		return resultList;
 	}
-	
-	public List<Paso> getPasosLote(Lote lote){
+
+	public List<Paso> getPasosLote(Lote lote) {
 		Connection conn = getConnection();
 		ResultSet result = null;
 		List<Paso> resultList = new ArrayList<Paso>();
-		String query = "CALL sp_receta_lote(?)";
+		String query = "CALL sp_receta_proceso(?)";
 		try {
 			PreparedStatement prepStatement = conn.prepareStatement(query);
 			prepStatement.setInt(1, lote.getId());
-			
+
 			result = prepStatement.executeQuery();
-			while (result.next()){
-				resultList.add( new Paso(result.getInt(ConstantsDatatable.PASO_ID), 
-											result.getInt(ConstantsDatatable.PRODUCTO_ID), 
-											result.getInt(ConstantsDatatable.VERSION_ID), 
-											result.getString(ConstantsDatatable.GENERAL_DESCRIPCION)));
+			while (result.next()) {
+				resultList.add(new Paso(result
+						.getInt(ConstantsDatatable.PASO_ID), result
+						.getInt(ConstantsDatatable.PRODUCTO_ID), result
+						.getInt(ConstantsDatatable.VERSION_ID), result
+						.getString(ConstantsDatatable.GENERAL_DESCRIPCION)));
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally{
-			if (result != null) try { result.close(); } catch (SQLException logOrIgnore) {}
+		} finally {
+			if (result != null)
+				try {
+					result.close();
+				} catch (SQLException logOrIgnore) {
+				}
 			releaseConnection(conn);
 		}
 		return resultList;
+	}
+
+	public Message endProcess(Lote lote) {
+		Connection conn = getConnection();
+		String query = "CALL sp_finalizar_proceso(?,?,?,?)";
+		try {
+			PreparedStatement prepStatement = conn.prepareStatement(query);
+			prepStatement.setInt(1, lote.getProducto().getId());
+			prepStatement.setInt(2, lote.getVersion());
+			prepStatement.setInt(3, lote.getMaquinaria().getId());
+			prepStatement.setInt(4, lote.getUsuarioUltimaModificacion().getId());
+
+			prepStatement.executeQuery();
+
+		} catch (SQLException e) {
+			return new Message(e.getLocalizedMessage(),StatusType.ERROR);
+		} finally {
+			releaseConnection(conn);
+		}
+		
+		return new Message("Proceso de Producción Finalizado Satisfactoriamente",StatusType.SUCCESS);
+	}
+
+	public Message cancelProcess(Lote lote) {
+		Connection conn = getConnection();
+		String query = "CALL sp_cancelar_proceso(?,?,?,?)";
+		try {
+			PreparedStatement prepStatement = conn.prepareStatement(query);
+			prepStatement.setInt(1, lote.getProducto().getId());
+			prepStatement.setInt(2, lote.getVersion());
+			prepStatement.setInt(3, lote.getMaquinaria().getId());
+			prepStatement.setInt(4, lote.getUsuarioUltimaModificacion().getId());
+
+			prepStatement.executeQuery();
+
+		} catch (SQLException e) {
+			return new Message("No se pudo cancelar el proceso",StatusType.ERROR);
+		} finally {
+			releaseConnection(conn);
+		}
+		
+		return new Message("Proceso de Producción Cancelado Satisfactoriamente",StatusType.SUCCESS);
 	}
 
 }

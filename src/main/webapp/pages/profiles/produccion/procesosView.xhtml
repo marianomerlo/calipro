@@ -42,6 +42,7 @@
 				<p:commandLink style="text-decoration:none" value="#{loteIndex + 1}"
 					ajax="true"
 					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
+					update=":profileTabViewProduccion:processDataTableForm"
 					partialSubmit="true" process="@this" immediate="true"
 					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
@@ -54,6 +55,7 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none" value="#{lote.id}"
 					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
+					update=":profileTabViewProduccion:processDataTableForm"
 					partialSubmit="true" process="@this" immediate="true"
 					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
@@ -67,6 +69,7 @@
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.producto.nombre}"
 					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
+					update=":profileTabViewProduccion:processDataTableForm"
 					partialSubmit="true" process="@this" immediate="true"
 					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
@@ -80,6 +83,7 @@
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.maquinaria.nombre}"
 					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
+					update=":profileTabViewProduccion:processDataTableForm"
 					partialSubmit="true" process="@this" immediate="true"
 					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
@@ -93,6 +97,7 @@
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.usuarioCreacion.nombre}"
 					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
+					update=":profileTabViewProduccion:processDataTableForm"
 					partialSubmit="true" process="@this" immediate="true"
 					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
@@ -106,6 +111,7 @@
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.fechaCreacion}"
 					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
+					update=":profileTabViewProduccion:processDataTableForm"
 					partialSubmit="true" process="@this" immediate="true"
 					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
@@ -115,7 +121,7 @@
 
 		</p:dataTable>
 		<p:dialog id="seeProcessDialog" header="Proceso en Producción"
-			dynamic="true" widgetVar="seeProcessWidget" modal="true"
+			dynamic="true" widgetVar="seeProcessWidget" modal="true" maximizable="true"
 			resizable="false" closable="true">
 			<ui:include src="../../ver/verProceso.xhtml" />
 

@@ -16,8 +16,10 @@ import ar.edu.utn.frba.proyecto.dao.impl.ProcessDao;
 import ar.edu.utn.frba.proyecto.datamodel.ProcessDataModel;
 import ar.edu.utn.frba.proyecto.domain.Lote;
 import ar.edu.utn.frba.proyecto.domain.Maquinaria;
+import ar.edu.utn.frba.proyecto.domain.Message;
 import ar.edu.utn.frba.proyecto.domain.Paso;
 import ar.edu.utn.frba.proyecto.domain.Producto;
+import ar.edu.utn.frba.proyecto.domain.enumType.StatusType;
 
 @ManagedBean
 @SessionScoped
@@ -78,14 +80,20 @@ public class ProcessController extends BaseAbmController<Lote> {
 	@Override
 	public List<Lote> getItems() {
 		if (this.items == null) {
-			this.items = getDao().getLotesInStatus(
-					ConstantsDatatable.ESTADO_PROCESO_EN_PROCESO);
-			extraGetItemsProcess();
+			refreshItems();
 		}
 
 		return this.items;
 	}
-	
+
+	@Override
+	public void refreshItems() {
+		setItems(getDao().getLotesInStatus(
+				ConstantsDatatable.ESTADO_PROCESO_EN_PROCESO));
+		extraGetItemsProcess();
+		setDataModel(newDataModel(getItems()));
+	}
+
 	private List<Paso> pasosLote;
 
 	public void setPasosLote(List<Paso> pasosLote) {
@@ -99,18 +107,21 @@ public class ProcessController extends BaseAbmController<Lote> {
 
 		return pasosLote;
 	}
-	
-	public void setLoteAndRefreshPasos(Lote lote){
+
+	public void setLoteAndRefreshPasos(Lote lote) {
 		setSelectedItem(lote);
 		refreshPasos();
 	}
-	
-	public void refreshPasos(){
-		List<Paso> pasos = getDao().getPasosLote(getSelectedItem());
-		for ( Paso paso : pasos){
-			paso.setAnalisis(getAnalisisController().getAnalisisByPaso(paso));
+
+	public void refreshPasos() {
+		if (getSelectedItem() != null && getSelectedItem().getId() != null) {
+			List<Paso> pasos = getDao().getPasosLote(getSelectedItem());
+			for (Paso paso : pasos) {
+				paso.setAnalisis(getAnalisisController()
+						.getAnalisisByPaso(paso));
+			}
+			pasosLote = pasos;
 		}
-		pasosLote = pasos;
 	}
 
 	/**
@@ -209,17 +220,19 @@ public class ProcessController extends BaseAbmController<Lote> {
 
 	@Override
 	public void addItem() {
-		
+
 		if (getSelectedMachineId() == 0) {
 			String confirmMessage = "La maquina seleccionada no es válida";
-			FacesContext.getCurrentInstance().addMessage("addProcesoGrowlMessagesKeys",
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, confirmMessage,
-							null));
+			FacesContext.getCurrentInstance().addMessage(
+					"addLoteGrowlMessagesKeys",
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							confirmMessage, null));
 		} else if (getSelectedProduct().getNombre() == null) {
 			String confirmMessage = "El producto seleccionado no es válido";
-			FacesContext.getCurrentInstance().addMessage("addProcesoGrowlMessagesKeys",
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, confirmMessage,
-							null));
+			FacesContext.getCurrentInstance().addMessage(
+					"addLoteGrowlMessagesKeys",
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							confirmMessage, null));
 		} else {
 			getCurrentItem().setProducto(getSelectedProduct());
 			getCurrentItem().setMaquinaria(
@@ -228,15 +241,20 @@ public class ProcessController extends BaseAbmController<Lote> {
 			super.addItem();
 		}
 	}
-	
+
 	public void extraAddItemProcess() {
-		String confirmMessage = ITEM_NAME + " creado satisfactoriamente";
-		FacesContext.getCurrentInstance().addMessage("addProcesoGrowlMessagesKeys",
-				new FacesMessage(FacesMessage.SEVERITY_INFO, confirmMessage,
-						null));
+		String key = "addLoteGrowlMessagesKeys";
+		if (FacesContext.getCurrentInstance().getMessageList(key).size() == 0) {
+			String confirmMessage = ITEM_NAME + " creado satisfactoriamente";
+			FacesContext.getCurrentInstance().addMessage(
+					key,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							confirmMessage, null));
+		}
+
 	}
-	
-	public void resetCurrent(){
+
+	public void resetCurrent() {
 		setSelectedMachineId(0);
 		setSelectedProduct(new Producto());
 	}
@@ -245,6 +263,8 @@ public class ProcessController extends BaseAbmController<Lote> {
 	protected void extraGetItemProcess(Lote lote) {
 		lote.setUsuarioCreacion(getUserController().get(
 				lote.getUsuarioCreacion()));
+		lote.setUsuarioUltimaModificacion(getUserController().get(
+				lote.getUsuarioUltimaModificacion()));
 		lote.setMaquinaria(getMachineController().get(lote.getMaquinaria()));
 		lote.setProducto(getProductController().get(lote.getProducto()));
 	}
@@ -257,6 +277,39 @@ public class ProcessController extends BaseAbmController<Lote> {
 		this.userController = userController;
 	}
 
+	public void endProcess() {
+		Message message = getDao().endProcess(getSelectedItem());
+
+		FacesContext
+				.getCurrentInstance()
+				.addMessage(
+						"endProcessGrowlMessagesKeys",
+						new FacesMessage(
+
+								StatusType.ERROR.equals(message.getStatus()) ? FacesMessage.SEVERITY_ERROR
+										: FacesMessage.SEVERITY_INFO, message
+										.getMessage(), null));
+
+		refreshItems();
+
+	}
+
+	public void cancelProcess() {
+		Message message = getDao().cancelProcess(getSelectedItem());
+
+		FacesContext
+				.getCurrentInstance()
+				.addMessage(
+						"endProcessGrowlMessagesKeys",
+						new FacesMessage(
+
+								StatusType.ERROR.equals(message.getStatus()) ? FacesMessage.SEVERITY_ERROR
+										: FacesMessage.SEVERITY_INFO, message
+										.getMessage(), null));
+
+		refreshItems();
+	}
+
 	/**
 	 * @return the analisisController
 	 */
@@ -265,7 +318,8 @@ public class ProcessController extends BaseAbmController<Lote> {
 	}
 
 	/**
-	 * @param analisisController the analisisController to set
+	 * @param analisisController
+	 *            the analisisController to set
 	 */
 	public void setAnalisisController(AnalisisController analisisController) {
 		this.analisisController = analisisController;

@@ -74,7 +74,7 @@ public class PasoController extends BaseAbmController<Paso> {
 		refreshItems();
 		super.extraAddItemProcess();
 	}
-	
+
 	@Override
 	public void deleteItems() {
 		if (getSelectedItems() == null)
@@ -96,14 +96,16 @@ public class PasoController extends BaseAbmController<Paso> {
 		for (Paso paso : getPasos()) {
 			List<Analisis> firstAnalisisList = getAnalisisController()
 					.getAnalisisByPaso(paso);
-			
-			for (Analisis analisis : firstAnalisisList){
-				for ( Criterio criterio : analisis.getCriterios()){
-					List<String> values = getAnalisisController().getCriterioController().getValuesFromCriterio(criterio);
-					if ( values.size() > 0){
+
+			for (Analisis analisis : firstAnalisisList) {
+				for (Criterio criterio : analisis.getCriterios()) {
+					List<String> values = getAnalisisController()
+							.getCriterioController().getValuesFromCriterio(
+									criterio);
+					if (values.size() > 0) {
 						criterio.setTipo(CriterioType.COMBO);
 						criterio.setOpciones(values);
-					}else{
+					} else {
 						criterio.setTipo(CriterioType.TEXTO);
 					}
 				}
@@ -117,7 +119,7 @@ public class PasoController extends BaseAbmController<Paso> {
 			// }
 
 			paso.setAnalisis(firstAnalisisList);
-			
+
 			setCurrentVersion(paso.getVersion());
 		}
 	}
@@ -143,22 +145,43 @@ public class PasoController extends BaseAbmController<Paso> {
 	}
 
 	public void addAnalisisToPaso() {
-		getSelectedItem().setUsuarioCreacion(
-				getSessionController().getLoggedUser());
+		if (getAnalisisController().getSelectedAnalisis() == null
+				|| getAnalisisController().getSelectedAnalisis().getId() == 0) {
+			FacesContext.getCurrentInstance().addMessage(
+					"addAnalisisToPasoGrowlMessageKeys",
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							"Analisis Inválido", null));
 
-		getAnalisisController().getSelectedAnalisis().setCriterios(
-				getCriterioValuesAsList());
+		} else {
+			boolean valid = false;
+			for (Criterio criterio : getCriterioValuesAsList()) {
+				if (!"".equals(criterio.getValorEsperado())) {
+					valid = true;
+					break;
+				}
+			}
 
-		getDao().addAnalisisToPaso(getSelectedItem(),
-				getAnalisisController().getSelectedAnalisis());
+			if (valid) {
+				getSelectedItem().setUsuarioCreacion(
+						getSessionController().getLoggedUser());
+				getAnalisisController().getSelectedAnalisis().setCriterios(
+						getCriterioValuesAsList());
+				getDao().addAnalisisToPaso(getSelectedItem(),
+						getAnalisisController().getSelectedAnalisis());
+				resetAnalisisToPasoForm();
+				refreshItems();
+				FacesContext.getCurrentInstance().addMessage(
+						"addAnalisisToPasoGrowlMessageKeys",
+						new FacesMessage(FacesMessage.SEVERITY_INFO,
+								"Analisis agregado satisfactoriamente", null));
+			} else {
+				FacesContext.getCurrentInstance().addMessage(
+						"addAnalisisToPasoGrowlMessageKeys",
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								"Debes completar al menos un criterio", null));
+			}
 
-		resetAnalisisToPasoForm();
-		refreshItems();
-
-		FacesContext.getCurrentInstance().addMessage(
-				"addAnalisisToPasoGrowlMessageKeys",
-				new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Analisis agregado satisfactoriamente", null));
+		}
 	}
 
 	public void updateAnalisisToPaso() {
@@ -187,16 +210,16 @@ public class PasoController extends BaseAbmController<Paso> {
 		}
 
 	}
-	
+
 	public void deleteAnalisisToPaso() {
-			getSelectedItem().setUsuarioUltimaModificacion(
-					getSessionController().getLoggedUser());
-			
-			getDao().deleteAnalisisToPaso(getSelectedItem(),
-					getAnalisisController().getSelectedAnalisis());
-			
-			refreshItems();
-			
+		getSelectedItem().setUsuarioUltimaModificacion(
+				getSessionController().getLoggedUser());
+
+		getDao().deleteAnalisisToPaso(getSelectedItem(),
+				getAnalisisController().getSelectedAnalisis());
+
+		refreshItems();
+
 	}
 
 	private boolean isReallyDifferent() {
@@ -226,8 +249,9 @@ public class PasoController extends BaseAbmController<Paso> {
 	public void resetAnalisisToPasoForm() {
 		getAnalisisController().setSelectedAnalisis(
 				getAnalisisController().newBaseItem());
-		
-		getAnalisisController().setRefreshedCriterios(new ArrayList<Criterio>());
+
+		getAnalisisController()
+				.setRefreshedCriterios(new ArrayList<Criterio>());
 		setExpectedValues(new String[50]);
 
 	}

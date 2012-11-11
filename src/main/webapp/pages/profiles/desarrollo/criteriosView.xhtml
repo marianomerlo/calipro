@@ -13,9 +13,9 @@
 			style="margin:10px;float:left" onclick="addCriterioWidget.show();"
 			type="button" />
 
-		<p:dialog id="addCriterioDialog" widgetVar="addCriterioWidget" onHide="window.location.reload()"
-			resizable="false" header="Agregar Criterio" closable="true" dynamic="true"
-			modal="true">
+		<p:dialog id="addCriterioDialog" widgetVar="addCriterioWidget"
+			onHide="window.location.reload()" resizable="false"
+			header="Agregar Criterio" closable="true" dynamic="true" modal="true">
 			<ui:include src="../../agregar/addCriterio.xhtml" />
 		</p:dialog>
 	</h:form>
@@ -32,6 +32,8 @@
 	</h:form>
 
 	<h:form id="criterioDataTableForm">
+		<p:poll interval="#{criterioController.autoUpdateFrequencySeconds}"
+			listener="#{criterioController.refreshItems}" update="@this" />
 		<p:dataTable id="criterioDataTable" var="criterio"
 			value="#{criterioController.dataModel}" rowIndexVar="criterioIndex"
 			widgetVar="criteriosTable" emptyMessage="No hay coincidencias"
@@ -39,7 +41,7 @@
 			paginatorPosition="bottom" rows="10"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 			style="width:800px;text-align:center">
-			
+
 			<p:ajax event="rowSelectCheckbox"
 				update=":profileTabViewDesarrollo:deleteCriterioForm:deleteCriterioDialog" />
 

@@ -98,7 +98,10 @@ public abstract class BaseAbmDao<T extends AuditObject> extends BaseDao<T>
 				element.setId(result.getInt(1));
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			String message = e.getLocalizedMessage();
+			FacesContext.getCurrentInstance().addMessage("add" + DATATABLE_NAME+ "GrowlMessagesKeys",
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, message,
+							null));
 		} finally {
 			if (result != null)
 				try {

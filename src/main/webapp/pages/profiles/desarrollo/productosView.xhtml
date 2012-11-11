@@ -23,13 +23,14 @@
 		<p:commandButton id="productDelete" value="Eliminar" immediate="true"
 			style="margin:10px" onclick="deleteProductWidget.show();"
 			type="button" />
+
 		<p:dialog id="deleteProductDialog" widgetVar="deleteProductWidget"
-			modal="true" resizable="false" header="Eliminar Producto" onHide="window.setTimeout(function(){window.location.reload()},1500)"
+			modal="true" resizable="false" header="Eliminar Producto"
+			onHide="window.setTimeout(function(){window.location.reload()},1500)"
 			closable="false">
 			<ui:include src="../../eliminar/deleteProduct.xhtml" />
 		</p:dialog>
 	</h:form>
-
 	<h:form id="productDataTableForm">
 		<p:poll interval="#{productController.autoUpdateFrequencySeconds}"
 			listener="#{productController.refreshItems}" update="@this" />
@@ -129,10 +130,9 @@
 			resizable="false" closable="true" onHide="window.location.reload()">
 			<ui:include src="../../modificar/modifyProduct.xhtml" />
 		</p:dialog>
-		<p:dialog id="seeProductReceipt" header="Receta" dynamic="true" 
-			appendToBody="true" widgetVar="seeProductReceiptWidget"
-			modal="true" resizable="false"
-			closable="true">
+		<p:dialog id="seeProductReceipt" header="Receta" dynamic="true"
+			appendToBody="true" widgetVar="seeProductReceiptWidget" modal="true"
+			resizable="false" closable="true">
 			<ui:include src="../../ver/verReceta.xhtml" />
 		</p:dialog>
 	</h:form>
