@@ -7,7 +7,7 @@
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
-	
+
 	<h:form id="refreshProcessH" style="border:0px;padding-right:0px">
 		<p:commandButton id="processHRefresh" immediate="true"
 			value="Actualizar Lista" icon="ui-icon-refresh"
@@ -18,8 +18,6 @@
 	</h:form>
 
 	<h:form id="historiProcessDataTableForm">
-			<p:poll interval="#{processController.autoUpdateFrequencySeconds}"
-			listener="#{processController.refreshItemsHist}" update="@this" />
 		<p:dataTable id="historicProcessDataTable" var="lote"
 			value="#{processController.itemsHist}" rowIndexVar="prodIndex"
 			widgetVar="processTable" emptyMessage="No hay coincidencias"
@@ -42,7 +40,7 @@
 				style="width:auto">
 				<p:commandLink style="text-decoration:none" value="#{prodIndex + 1}"
 					ajax="true"
-					actionListener="#{processController.setSelectedItem(lote)}"
+					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
 					process="@this" partialSubmit="true" immediate="true"
 					update=":profileTabViewProduccion:historiProcessDataTableForm:modifyHProcessDialog"
 					oncomplete="modifyHProcessWidget.show();">
@@ -55,7 +53,7 @@
 				filterStyle="display:none" headerText="Id"
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none" value="#{lote.id}"
-										actionListener="#{processController.setSelectedItem(lote)}"
+					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
 					process="@this" partialSubmit="true" immediate="true"
 					update=":profileTabViewProduccion:historiProcessDataTableForm:modifyHProcessDialog"
 					oncomplete="modifyHProcessWidget.show();">
@@ -69,7 +67,7 @@
 				headerText="Producto" filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.producto.nombre}"
-										actionListener="#{processController.setSelectedItem(lote)}"
+					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
 					process="@this" partialSubmit="true" immediate="true"
 					update=":profileTabViewProduccion:historiProcessDataTableForm:modifyHProcessDialog"
 					oncomplete="modifyHProcessWidget.show();">
@@ -84,7 +82,7 @@
 				style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.maquinaria.nombre}"
-										actionListener="#{processController.setSelectedItem(lote)}"
+					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
 					process="@this" partialSubmit="true" immediate="true"
 					update=":profileTabViewProduccion:historiProcessDataTableForm:modifyHProcessDialog"
 					oncomplete="modifyHProcessWidget.show();">
@@ -94,12 +92,12 @@
 			</p:column>
 
 			<p:column id="historicProcessCreatedUser"
-				filterBy="#{lote.usuarioCreacion.nombre}"
-				filterStyle="display:none" headerText="Usuario Creacion"
-				filterMatchMode="contains" style="width:auto">
+				filterBy="#{lote.usuarioCreacion.nombre}" filterStyle="display:none"
+				headerText="Usuario Creacion" filterMatchMode="contains"
+				style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.usuarioCreacion.nombre}"
-										actionListener="#{processController.setSelectedItem(lote)}"
+					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
 					process="@this" partialSubmit="true" immediate="true"
 					update=":profileTabViewProduccion:historiProcessDataTableForm:modifyHProcessDialog"
 					oncomplete="modifyHProcessWidget.show();">
@@ -114,7 +112,7 @@
 				style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.fechaCreacion}"
-										actionListener="#{processController.setSelectedItem(lote)}"
+					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
 					process="@this" partialSubmit="true" immediate="true"
 					update=":profileTabViewProduccion:historiProcessDataTableForm:modifyHProcessDialog"
 					oncomplete="modifyHProcessWidget.show();">
@@ -129,7 +127,7 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.usuarioUltimaModificacion.nombre}"
-										actionListener="#{processController.setSelectedItem(lote)}"
+					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
 					process="@this" partialSubmit="true" immediate="true"
 					update=":profileTabViewProduccion:historiProcessDataTableForm:modifyHProcessDialog"
 					oncomplete="modifyHProcessWidget.show();">
@@ -143,7 +141,7 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.fechaUltimaModificacion}"
-										actionListener="#{processController.setSelectedItem(lote)}"
+					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
 					process="@this" partialSubmit="true" immediate="true"
 					update=":profileTabViewProduccion:historiProcessDataTableForm:modifyHProcessDialog"
 					oncomplete="modifyHProcessWidget.show();">
@@ -151,13 +149,12 @@
 						target="#{processController.selectedItem}" value="#{lote}" />
 				</p:commandLink>
 			</p:column>
-			<p:column id="historicProcessEstado"
-				filterBy="#{lote.estado.nombre}"
+			<p:column id="historicProcessEstado" filterBy="#{lote.estado.nombre}"
 				filterStyle="display:none" headerText="Estado"
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.estado.nombre}"
-										actionListener="#{processController.setSelectedItem(lote)}"
+					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
 					process="@this" partialSubmit="true" immediate="true"
 					update=":profileTabViewProduccion:historiProcessDataTableForm:modifyHProcessDialog"
 					oncomplete="modifyHProcessWidget.show();">

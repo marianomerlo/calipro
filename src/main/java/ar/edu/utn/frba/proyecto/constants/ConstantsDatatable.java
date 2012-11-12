@@ -1,5 +1,8 @@
 package ar.edu.utn.frba.proyecto.constants;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ConstantsDatatable {
 
 	public static String PRODUCTO_ID = "idProducto";
@@ -78,6 +81,16 @@ public class ConstantsDatatable {
 	public static Integer ESTADO_SOLICITUD_ANALISIS_EN_PROCESO = 12;
 	public static Integer ESTADO_SOLICITUD_ANALISIS_FINALIZADO = 13;
 	public static Integer ESTADO_SOLICITUD_ANALISIS_CANCELADO = 14;
+	
+	/* Constantes para reportes */
+	
+	@SuppressWarnings("serial")
+	public static Map<Integer,String> reportMap = new HashMap<Integer,String>(){{
+		put(1,"rep_cantidad_analisis");
+		put(2,"rep_estado_producto");
+		put(3,"rep_lotes_producto");
+		put(4,"rep_tiempo_promedio");
+	}};
 	
 	
 }

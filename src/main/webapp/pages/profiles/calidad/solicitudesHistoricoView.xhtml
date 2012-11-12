@@ -47,19 +47,6 @@
 				</p:commandLink>
 			</p:column>
 
-			<p:column id="solicitudIdH" filterBy="#{solicitud.id}"
-				filterStyle="display:none" headerText="Solicitud"
-				filterMatchMode="contains" style="width:auto">
-				<p:commandLink style="text-decoration:none" value="#{solicitud.id}"
-					actionListener="#{solicitudController.setSelectedItem(solicitud)}"
-					process="@this" partialSubmit="true" immediate="true"
-					update=":profileTabViewCalidad:solicitudHDataTableForm:seeSolicitudDialog"
-					oncomplete="seeSolicitudWidget.show();">
-					<f:setPropertyActionListener
-						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
-				</p:commandLink>
-			</p:column>
-
 			<p:column id="solicitudHProducto"
 				filterBy="#{solicitud.lote.producto.nombre}"
 				filterStyle="display:none" headerText="Producto"
@@ -75,7 +62,22 @@
 				</p:commandLink>
 			</p:column>
 
-			<p:column id="solicitudLote" filterBy="#{solicitud.lote.id}"
+			<p:column id="solicitudHAnalisis"
+				filterBy="#{solicitud.analisis.nombre}"
+				filterStyle="display:none" headerText="Analisis"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none"
+					value="#{solicitud.analisis.nombre}"
+					actionListener="#{solicitudController.setSelectedItem(solicitud)}"
+					process="@this" partialSubmit="true" immediate="true"
+					update=":profileTabViewCalidad:solicitudHDataTableForm:seeSolicitudDialog"
+					oncomplete="seeSolicitudWidget.show();">
+					<f:setPropertyActionListener
+						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
+				</p:commandLink>
+			</p:column>
+
+			<p:column id="solicitudHLote" filterBy="#{solicitud.lote.id}"
 				filterStyle="display:none" headerText="Lote"
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
@@ -89,7 +91,7 @@
 				</p:commandLink>
 			</p:column>
 
-			<p:column id="solicitudFechaInicial"
+			<p:column id="solicitudHFechaInicial"
 				filterBy="#{solicitud.fechaCreacion}" filterStyle="display:none"
 				headerText="Fecha Solicitado" filterMatchMode="contains"
 				style="width:auto">
@@ -104,7 +106,7 @@
 				</p:commandLink>
 			</p:column>
 
-			<p:column id="solicitudFecharecibido"
+			<p:column id="solicitudHFecharecibido"
 				filterBy="#{solicitud.fechaRecibido}" filterStyle="display:none"
 				headerText="Fecha Recibido" filterMatchMode="contains"
 				style="width:auto">
@@ -119,7 +121,7 @@
 				</p:commandLink>
 			</p:column>
 
-			<p:column id="solicitudEstado" filterBy="#{solicitud.estado.nombre}"
+			<p:column id="solicitudHEstado" filterBy="#{solicitud.estado.nombre}"
 				filterStyle="display:none" headerText="Estado"
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
