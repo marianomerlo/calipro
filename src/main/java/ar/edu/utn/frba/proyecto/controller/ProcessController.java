@@ -60,6 +60,9 @@ public class ProcessController extends BaseAbmController<Lote> {
 	@ManagedProperty("#{analisisController}")
 	private AnalisisController analisisController;
 
+	@ManagedProperty("#{estadoController}")
+	private EstadoController estadoController;
+
 	public List<Producto> filterProducts(String query) {
 		List<Producto> resultList = new ArrayList<Producto>();
 
@@ -93,6 +96,26 @@ public class ProcessController extends BaseAbmController<Lote> {
 				ConstantsDatatable.ESTADO_PROCESO_EN_PROCESO));
 		extraGetItemsProcess();
 		setDataModel(newDataModel(getItems()));
+	}
+	
+	private List<Lote> itemsHist;
+	
+	public List<Lote> getItemsHist() {
+		if (this.itemsHist == null || this.itemsHist.size() == 0){
+			refreshItemsHist();
+		}
+		return itemsHist;
+	}
+	
+	public void refreshItemsHist() {
+		List<Lote> temp = getDao().getLotesInStatus(ConstantsDatatable.ESTADO_PROCESO_CANCELADO);
+		temp.addAll(getDao().getLotesInStatus(ConstantsDatatable.ESTADO_PROCESO_FINALIZADO));
+				
+		setItemsHist(temp);
+		
+		for ( Lote lote : getItemsHist())
+			extraGetItemProcess(lote);
+		
 	}
 
 	private List<Paso> pasosLote;
@@ -268,6 +291,7 @@ public class ProcessController extends BaseAbmController<Lote> {
 				lote.getUsuarioUltimaModificacion()));
 		lote.setMaquinaria(getMachineController().get(lote.getMaquinaria()));
 		lote.setProducto(getProductController().get(lote.getProducto()));
+		lote.setEstado(getEstadoController().get(lote.getEstado()));
 	}
 
 	public UserController getUserController() {
@@ -394,5 +418,26 @@ public class ProcessController extends BaseAbmController<Lote> {
 	 */
 	public void setPasoToAsk(Paso pasoToAsk) {
 		this.pasoToAsk = pasoToAsk;
+	}
+
+	/**
+	 * @param itemsHist the itemsHist to set
+	 */
+	public void setItemsHist(List<Lote> itemsHist) {
+		this.itemsHist = itemsHist;
+	}
+
+	/**
+	 * @return the estadoController
+	 */
+	public EstadoController getEstadoController() {
+		return estadoController;
+	}
+
+	/**
+	 * @param estadoController the estadoController to set
+	 */
+	public void setEstadoController(EstadoController estadoController) {
+		this.estadoController = estadoController;
 	}
 }

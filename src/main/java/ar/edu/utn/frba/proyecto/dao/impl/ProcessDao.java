@@ -10,6 +10,7 @@ import java.util.List;
 import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
 import ar.edu.utn.frba.proyecto.domain.Analisis;
 import ar.edu.utn.frba.proyecto.domain.Criterio;
+import ar.edu.utn.frba.proyecto.domain.Estado;
 import ar.edu.utn.frba.proyecto.domain.Lote;
 import ar.edu.utn.frba.proyecto.domain.Maquinaria;
 import ar.edu.utn.frba.proyecto.domain.Message;
@@ -90,7 +91,9 @@ public class ProcessDao extends BaseAbmDao<Lote> {
 
 			result = prepStatement.executeQuery();
 			while (result.next()) {
-				resultList.add(getFromResult(result));
+				Lote lote = getFromResult(result);
+				lote.setEstado(new Estado(estado, ""));
+				resultList.add(lote);
 			}
 
 		} catch (SQLException e) {

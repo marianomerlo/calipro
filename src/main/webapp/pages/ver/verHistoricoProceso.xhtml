@@ -1,0 +1,123 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<h:panelGrid columns="4" cellpadding="2" id="headerHProcessPanelGrid"
+		style="width:auto !important">
+
+		<h:outputLabel for="addUserAliasH" value="Lote:" />
+		<h:outputText id="addUserAliasH"
+			value="#{processController.selectedItem.id}" />
+
+		<h:outputLabel for="addUserAlias1H" value="Usuario Creación:"
+			style="padding-left:100px" />
+		<h:outputText id="addUserAlias1H"
+			value="#{processController.selectedItem.usuarioCreacion.nombre}" />
+
+
+		<h:outputLabel for="addUserAlias2H" value="Producto:" />
+		<h:outputText id="addUserAlias2H"
+			value="#{processController.selectedItem.producto.nombre}" />
+
+		<h:outputLabel for="addUserAlias3H" value="Fecha Creación:"
+			style="padding-left:100px" />
+		<h:outputText id="addUserAlias3H"
+			value="#{processController.selectedItem.fechaCreacion}" />
+
+
+		<h:outputLabel for="addUserAlias4H" value="Receta Versión:" />
+		<h:outputText id="addUserAlias4H"
+			value="#{processController.selectedItem.version}" />
+
+		<h:outputLabel for="addUserAlias5H" value="Usuario última modificaión:"
+			style="padding-left:100px" />
+		<h:outputText id="addUserAlias5H"
+			value="#{processController.selectedItem.usuarioUltimaModificacion.nombre}" />
+
+
+		<h:outputLabel for="addUserAlias6H" value="Maquinaria:" />
+		<h:outputText id="addUserAlias6H"
+			value="#{processController.selectedItem.maquinaria.nombre}" />
+
+		<h:outputLabel for="addUserAlias7H" value="Fecha última modificación:"
+			style="padding-left:100px" />
+		<h:outputText id="addUserAlias7H"
+			value="#{processController.selectedItem.fechaUltimaModificacion}" />
+
+	</h:panelGrid>
+
+
+	<p:dataTable id="procesoDataTableH" var="paso"
+		rowIndexVar="procesoIndex" value="#{processController.pasosLote}"
+		widgetVar="recetaTableH" emptyMessage="No hay pasos"
+		style="width:100%;text-align:center">
+
+		<p:column style="width:35px">
+			<p:rowToggler />
+		</p:column>
+
+		<p:column id="pasoRecetapH" headerText="Nº" style="width:51px">
+		#{procesoIndex + 1}
+		</p:column>
+
+		<p:column id="pasoDescripcionpH" headerText="Descripción"
+			style="width:auto">
+			#{paso.descripcion}
+		</p:column>
+
+		<p:rowExpansion>
+			<p:dataTable id="subRecetaDataTablepH" var="analisis"
+				rowIndexVar="subPasoIndex" value="#{paso.analisis}"
+				widgetVar="subrecetaTableH" emptyMessage="No hay analisis"
+				style="width:763x;text-align:center;padding-left:36px;padding-right:57px">
+
+				<p:column id="subPasoRecetapH" headerText="#"
+					style="width:7.4%;text-align:center">
+					#{pasoIndex + 1}.#{subPasoIndex + 1}
+				</p:column>
+				<p:column id="subAnalisisNamepH" headerText="Analisis"
+					style="width:auto">
+					#{analisis.nombre}
+				</p:column>
+				<p:column id="subCriteriopH" headerText="Criterio" style="width:auto">
+					<ui:repeat var="criterio" value="#{analisis.criterios}">
+						#{criterio.nombre}<br />
+					</ui:repeat>
+				</p:column>
+				<p:column id="subValorEsperadopH" headerText="Valor Esperado"
+					style="width:auto">
+					<ui:repeat var="criterio" value="#{analisis.criterios}">
+						#{criterio.valorEsperado}
+						<br />
+					</ui:repeat>
+				</p:column>
+				<p:column id="subValorObtenidopH" headerText="Valor Obtenido"
+					style="width:auto">
+					<ui:repeat var="criterio" value="#{analisis.criterios}">
+					#{criterio.valorObtenido}
+						<br />
+					</ui:repeat>
+				</p:column>
+				<p:column id="estadoSolicitudAnalisisPH"
+					headerText="Estado Solicitud" style="width:auto">
+						#{analisis.estado.nombre}
+				</p:column>
+			</p:dataTable>
+
+		</p:rowExpansion>
+
+	</p:dataTable>
+
+
+
+	<f:facet name="footer">
+		<p:commandButton id="endProcessButtonH" value="OK"
+			oncomplete="modifyHProcessWidget.hide()" />
+
+	</f:facet>
+</ui:composition>

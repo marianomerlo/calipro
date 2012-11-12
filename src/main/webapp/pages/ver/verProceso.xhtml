@@ -65,28 +65,12 @@
 		</p:column>
 
 		<p:column id="pasoRecetap" headerText="Nº" style="width:51px">
-			<p:commandLink style="text-decoration:none"
-				value="#{procesoIndex + 1}"
-				actionListener="#{pasoController.storeOriginalItem(paso)}"
-				oncomplete="modifyPasoWidget.show();seeProductReceiptWidget.hide();"
-				process="@this" immediate="true" partialSubmit="true"
-				update=":profileTabViewDesarrollo:productDataTableForm:modifyPasoDialog">
-				<f:setPropertyActionListener target="#{pasoController.selectedItem}"
-					value="#{paso}" />
-			</p:commandLink>
+		#{procesoIndex + 1}
 		</p:column>
 
 		<p:column id="pasoDescripcionp" headerText="Descripción"
 			style="width:auto">
-			<p:commandLink style="text-decoration:none"
-				value="#{paso.descripcion}"
-				actionListener="#{pasoController.storeOriginalItem(paso)}"
-				oncomplete="modifyPasoWidget.show();seeProductReceiptWidget.hide();"
-				process="@this" immediate="true" partialSubmit="true"
-				update=":profileTabViewDesarrollo:productDataTableForm:modifyPasoDialog">
-				<f:setPropertyActionListener target="#{pasoController.selectedItem}"
-					value="#{paso}" />
-			</p:commandLink>
+			#{paso.descripcion}
 		</p:column>
 
 		<p:rowExpansion>
@@ -129,12 +113,14 @@
 				<p:column id="actionsP" headerText="" style="width:65px">
 					<p:commandLink
 						actionListener="#{processController.prepareToAsk(processController.selectedItem,paso,analisis)}"
-						oncomplete="solicitudAnalisisWidget.show()" rendered="#{analisis.estado.id == 0 or analisis.estado.id == 13}"
+						oncomplete="solicitudAnalisisWidget.show()"
+						rendered="#{analisis.estado.id == 0 or analisis.estado.id == 13}"
 						style="text-decoration:none;float:left" process="@this"
 						partialSubmit="true" immediate="true"
 						styleClass="ui-icon ui-icon-document">
 					</p:commandLink>
-					<p:commandLink oncomplete="ticketAnalisisWidget.show();" rendered="#{analisis.estado.id == 10 or analisis.estado.id == 11 or analisis.estado.id == 12}"
+					<p:commandLink oncomplete="ticketAnalisisWidget.show();"
+						rendered="#{analisis.estado.id == 10 or analisis.estado.id == 11 or analisis.estado.id == 12}"
 						actionListener="#{processController.prepareToAsk(processController.selectedItem,paso,analisis)}"
 						style="text-decoration:none;padding-left:5px" process="@this"
 						styleClass="ui-icon ui-icon-print">
@@ -146,7 +132,7 @@
 		</p:rowExpansion>
 
 	</p:dataTable>
-	
+
 
 
 	<f:facet name="footer">

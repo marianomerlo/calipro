@@ -112,6 +112,9 @@ public class SolicitudDao extends BaseAbmDao<Solicitud> implements AbmDao<Solici
 													result.getString(11));
 					
 					criterio.setIdSolicitudAnalisis(result.getInt(1));
+					
+					String valorObtenido = result.getString(ConstantsDatatable.VALOR_OBTENIDO);
+					criterio.setValorObtenido(valorObtenido != null ? valorObtenido : "" );
 
 					currentCriterios.add(criterio);
 					result.next();

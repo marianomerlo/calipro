@@ -82,6 +82,7 @@
 		<property name="productController" ref="productController" />
 		<property name="userController" ref="userController" />
 		<property name="analisisController" ref="analisisController" />
+		<property name="estadoController" ref="estadoController" />
 		<property name="processDao" ref="processDao" />
 
 	</bean>

@@ -8,8 +8,8 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
 
-	<h:form id="solicitudHDataTableForm">			
-	<p:poll interval="#{solicitudController.autoUpdateFrequencySeconds}"
+	<h:form id="solicitudHDataTableForm">
+		<p:poll interval="#{solicitudController.autoUpdateFrequencySeconds}"
 			listener="#{solicitudController.refreshItemsHist}" update="@this" />
 		<p:dataTable id="solicitudHDataTable" var="solicitud"
 			value="#{solicitudController.itemsHist}"
@@ -31,8 +31,10 @@
 			<p:column id="solicitudHRowNumber" headerText="Nº" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{solicitudHIndex + 1}" ajax="true"
-					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
-					oncomplete="modifySolicitudHWidget.show();">
+					actionListener="#{solicitudController.setSelectedItem(solicitud)}"
+					process="@this" partialSubmit="true" immediate="true"
+					update=":profileTabViewCalidad:solicitudHDataTableForm:seeSolicitudDialog"
+					oncomplete="seeSolicitudWidget.show();">
 					<f:setPropertyActionListener
 						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
 				</p:commandLink>
@@ -42,8 +44,10 @@
 				filterStyle="display:none" headerText="Solicitud"
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none" value="#{solicitud.id}"
-					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
-					oncomplete="modifySolicitudHWidget.show();">
+					actionListener="#{solicitudController.setSelectedItem(solicitud)}"
+					process="@this" partialSubmit="true" immediate="true"
+					update=":profileTabViewCalidad:solicitudHDataTableForm:seeSolicitudDialog"
+					oncomplete="seeSolicitudWidget.show();">
 					<f:setPropertyActionListener
 						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
 				</p:commandLink>
@@ -55,8 +59,10 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{solicitud.lote.producto.nombre}"
-					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
-					oncomplete="modifySolicitudHWidget.show();">
+					actionListener="#{solicitudController.setSelectedItem(solicitud)}"
+					process="@this" partialSubmit="true" immediate="true"
+					update=":profileTabViewCalidad:solicitudHDataTableForm:seeSolicitudDialog"
+					oncomplete="seeSolicitudWidget.show();">
 					<f:setPropertyActionListener
 						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
 				</p:commandLink>
@@ -67,8 +73,10 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{solicitud.lote.id}"
-					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
-					oncomplete="modifySolicitudHWidget.show();">
+					actionListener="#{solicitudController.setSelectedItem(solicitud)}"
+					process="@this" partialSubmit="true" immediate="true"
+					update=":profileTabViewCalidad:solicitudHDataTableForm:seeSolicitudDialog"
+					oncomplete="seeSolicitudWidget.show();">
 					<f:setPropertyActionListener
 						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
 				</p:commandLink>
@@ -80,8 +88,10 @@
 				style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{solicitud.fechaCreacion}"
-					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
-					oncomplete="modifySolicitudHWidget.show();">
+					actionListener="#{solicitudController.setSelectedItem(solicitud)}"
+					process="@this" partialSubmit="true" immediate="true"
+					update=":profileTabViewCalidad:solicitudHDataTableForm:seeSolicitudDialog"
+					oncomplete="seeSolicitudWidget.show();">
 					<f:setPropertyActionListener
 						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
 				</p:commandLink>
@@ -93,8 +103,10 @@
 				style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{solicitud.fechaRecibido}"
-					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
-					oncomplete="modifySolicitudHWidget.show();">
+					actionListener="#{solicitudController.setSelectedItem(solicitud)}"
+					process="@this" partialSubmit="true" immediate="true"
+					update=":profileTabViewCalidad:solicitudHDataTableForm:seeSolicitudDialog"
+					oncomplete="seeSolicitudWidget.show();">
 					<f:setPropertyActionListener
 						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
 				</p:commandLink>
@@ -105,8 +117,10 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{solicitud.estado.nombre}"
-					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
-					oncomplete="modifySolicitudHWidget.show();">
+					actionListener="#{solicitudController.setSelectedItem(solicitud)}"
+					process="@this" partialSubmit="true" immediate="true"
+					update=":profileTabViewCalidad:solicitudHDataTableForm:seeSolicitudDialog"
+					oncomplete="seeSolicitudWidget.show();">
 					<f:setPropertyActionListener
 						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
 				</p:commandLink>
@@ -118,18 +132,20 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{solicitud.fechaUltimaModificacion}"
-					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
-					oncomplete="modifySolicitudWidget.show();">
+					actionListener="#{solicitudController.setSelectedItem(solicitud)}"
+					process="@this" partialSubmit="true" immediate="true"
+					update=":profileTabViewCalidad:solicitudHDataTableForm:seeSolicitudDialog"
+					oncomplete="seeSolicitudWidget.show();">
 					<f:setPropertyActionListener
 						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
 				</p:commandLink>
 			</p:column>
 
 		</p:dataTable>
-		<p:dialog id="modifySolicitudHDialog" header="Modificar Proceso"
-			dynamic="true" widgetVar="modifySolicitudHWidget" modal="true"
-			resizable="false" closable="false">
-
+		<p:dialog id="seeSolicitudDialog" header="Datos Historicos"
+			dynamic="true" widgetVar="seeSolicitudWidget" modal="true"
+			resizable="false" closable="true">
+			<ui:include src="../../ver/verHistoricoSolicitudAnalisis.xhtml" />
 		</p:dialog>
 
 	</h:form>

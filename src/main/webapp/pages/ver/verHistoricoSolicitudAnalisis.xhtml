@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<p:panel id="seeSolicitudAnalisisPasoPanel"
+		style="width:auto !important">
+
+		<h:panelGrid columns="1" cellpadding="5"
+			id="seeSolicitudAnalisisPanelGrid" style="width:auto !important">
+
+			<h:outputText value="Valores obtenidos:" />
+
+		</h:panelGrid>
+
+		<p:dataTable id="seeSolicitudAnalisisDataTable" var="criterio"
+			value="#{solicitudController.selectedItem.analisis.criterios}"
+			rowIndexVar="criterioIndex" widgetVar="seeSolicitudAnalisisTable"
+			emptyMessage="No hay coincidencias" rows="10"
+			style="width:auto !important;text-align:center">
+
+			<p:column id="criterio2Namessss" headerText="Criterio" style="width:auto">#{criterio.nombre}
+			</p:column>
+
+			<p:column id="criterio2ObtainedValuessss" headerText="Valor Obtenido"
+				style="width:auto">
+				#{criterio.valorObtenido}
+			</p:column>
+
+		</p:dataTable>
+
+		<f:facet name="footer">
+			<p:commandButton id="seeValorObtenidoToAnalisisSolicitado"
+				value="OK"
+				immediate="true" process="@this"
+				oncomplete="seeSolicitudWidget.hide()" partialSubmit="true" />
+		</f:facet>
+	</p:panel>
+</ui:composition>
