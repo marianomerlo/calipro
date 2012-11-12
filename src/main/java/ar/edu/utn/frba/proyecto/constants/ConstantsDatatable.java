@@ -25,6 +25,8 @@ public class ConstantsDatatable {
 
 	public static String LOTE_ID = "idLote";
 
+	public static String REPORTE_ID = "idReporte";
+
 	public static String PERFIL_PRODUCCION = "Produccón";
 	public static String PERFIL_CALIDAD = "Calidad";
 	public static String PERFIL_DESARROLLO = "Desarrollo";
@@ -83,6 +85,11 @@ public class ConstantsDatatable {
 	public static Integer ESTADO_SOLICITUD_ANALISIS_CANCELADO = 14;
 	
 	/* Constantes para reportes */
+	
+	public static Integer REPORTE_CANT_ANALISIS_USUARIO = 1;
+	public static Integer REPORTE_ESTADO_PROD_PROCESADO = 2;
+	public static Integer REPORTE_LOTES_POR_PRODUCTO = 3;
+	public static Integer REPORTE_TIEMPO_PROMEDIO_PRODUCCION = 4;
 	
 	@SuppressWarnings("serial")
 	public static Map<Integer,String> reportMap = new HashMap<Integer,String>(){{

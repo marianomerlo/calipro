@@ -67,6 +67,12 @@
 		<property name="criterioDao" ref="criterioDao" />
 	</bean>
 
+	<bean id="reportController" class="ar.edu.utn.frba.proyecto.controller.ReportController"
+		scope="session">
+		<property name="ITEM_NAME" value="Reporte" />
+		<property name="reportDao" ref="reportDao" />
+	</bean>
+
 	<bean id="machineController" parent="baseController"
 		class="ar.edu.utn.frba.proyecto.controller.MachineController" scope="session">
 		<property name="ITEM_NAME" value="Maquinaria" />

@@ -5,7 +5,9 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.model.SelectableDataModel;
@@ -16,6 +18,8 @@ import ar.edu.utn.frba.proyecto.datamodel.StringDataModel;
 import ar.edu.utn.frba.proyecto.domain.Analisis;
 import ar.edu.utn.frba.proyecto.domain.Criterio;
 
+@ManagedBean
+@SessionScoped
 public class CriterioController extends BaseAbmController<Criterio> {
 
 	/**

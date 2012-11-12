@@ -6,6 +6,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 
+import org.primefaces.model.SelectableDataModel;
+
 import ar.edu.utn.frba.proyecto.dao.impl.EstadoDao;
 import ar.edu.utn.frba.proyecto.domain.BaseObject;
 import ar.edu.utn.frba.proyecto.domain.Estado;
@@ -36,6 +38,12 @@ public class EstadoController extends BaseController<Estado> {
 	
 	public List<Estado> getEstadosFromElement(BaseObject element){
 		return getDao().getEstadosFromElement(element);
+	}
+
+	@Override
+	protected SelectableDataModel<Estado> newDataModel(List<Estado> all) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

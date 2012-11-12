@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.faces.bean.ManagedProperty;
 
+import org.primefaces.model.SelectableDataModel;
+
 import ar.edu.utn.frba.proyecto.dao.impl.ProfileDao;
 import ar.edu.utn.frba.proyecto.domain.Profile;
 import ar.edu.utn.frba.proyecto.domain.Usuario;
@@ -37,5 +39,11 @@ public class ProfileController extends BaseController<Profile> {
 	
 	public List<Profile> getProfilesByUser(Usuario user){
 		return getDao().getProfilesByUser(user);
+	}
+
+	@Override
+	protected SelectableDataModel<Profile> newDataModel(List<Profile> all) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

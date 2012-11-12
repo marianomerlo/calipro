@@ -204,19 +204,6 @@ public abstract class BaseAbmController<T extends AuditObject> extends BaseContr
 		this.sessionController = sessionController;
 	}
 	
-	public SelectableDataModel<T> getDataModel() {
-		if ( this.dataModel == null){
-			this.dataModel = newDataModel(getItems());
-		}
-		return dataModel;
-	}
-	
-	protected abstract SelectableDataModel<T> newDataModel(List<T> all);
-
-	public void setDataModel(SelectableDataModel<T> dataModel) {
-		this.dataModel = dataModel;
-	}
-
 	public int getCurrentVersion() {
 		return currentVersion == 0 ? 1 : currentVersion;
 	}

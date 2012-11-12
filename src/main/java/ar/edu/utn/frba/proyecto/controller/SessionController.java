@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.proyecto.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage;
@@ -11,6 +12,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.component.tabview.TabView;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.TabChangeEvent;
+import org.primefaces.model.SelectableDataModel;
 
 import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
 import ar.edu.utn.frba.proyecto.dao.Dao;
@@ -172,5 +174,11 @@ public class SessionController extends BaseController {
 	public void updateUser(){
 		getUserController().setSelectedItem(getLoggedUser());
 		getUserController().updateItem();
+	}
+
+	@Override
+	protected SelectableDataModel newDataModel(List all) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

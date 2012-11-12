@@ -3,6 +3,8 @@ package ar.edu.utn.frba.proyecto.controller;
 import java.io.Serializable;
 import java.util.List;
 
+import org.primefaces.model.SelectableDataModel;
+
 import ar.edu.utn.frba.proyecto.dao.Dao;
 import ar.edu.utn.frba.proyecto.domain.BaseObject;
 
@@ -20,6 +22,8 @@ public abstract class BaseController<T extends BaseObject> implements Serializab
 	protected List<T> items;
 	
 	protected abstract Dao<T> getDao();
+	
+	protected SelectableDataModel<T> dataModel;
 	
 	public List<T> getItems() {
 		if (this.items == null ) {
@@ -65,5 +69,18 @@ public abstract class BaseController<T extends BaseObject> implements Serializab
 
 	public void setAutoUpdateFrequencySeconds(int autoUpdateFrequencySeconds) {
 		this.autoUpdateFrequencySeconds = autoUpdateFrequencySeconds;
+	}
+	
+	public SelectableDataModel<T> getDataModel() {
+		if ( this.dataModel == null){
+			this.dataModel = newDataModel(getItems());
+		}
+		return dataModel;
+	}
+	
+	protected abstract SelectableDataModel<T> newDataModel(List<T> all);
+
+	public void setDataModel(SelectableDataModel<T> dataModel) {
+		this.dataModel = dataModel;
 	}
 }
