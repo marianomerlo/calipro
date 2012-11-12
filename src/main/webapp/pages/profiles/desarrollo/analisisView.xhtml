@@ -18,7 +18,7 @@
 			<ui:include src="../../agregar/addAnalisis.xhtml" />
 		</p:dialog>
 	</h:form>
-	<h:form id="deleteAnalisisForm">
+	<h:form id="deleteAnalisisForm" style="border:0px;float:left">
 		<p:commandButton id="analisisDelete" value="Eliminar" immediate="true"
 			style="margin:10px" onclick="deleteAnalisisWidget.show();"
 			type="button" />
@@ -30,11 +30,15 @@
 			<ui:include src="../../eliminar/deleteAnalisis.xhtml" />
 		</p:dialog>
 	</h:form>
+	<h:form id="refreshAnalisisForm" style="border:0px;padding-right:0px">
+		<p:commandButton id="analisisRefresh" immediate="true" icon="ui-icon-refresh"
+			actionListener="#{analisisController.refreshItems}" 
+			process="@this" partialSubmit="true" update=":profileTabViewDesarrollo:analisisDataTableForm:analisisDataTable"
+			style="margin:10px"
+			/>
+	</h:form>
 
 	<h:form id="analisisDataTableForm">
-		<p:poll interval="#{analisisController.autoUpdateFrequencySeconds}"
-			listener="#{analisisController.refreshItems}" update="@this" />
-
 		<p:dataTable id="analisisDataTable" var="analisis"
 			value="#{analisisController.dataModel}" rowIndexVar="analisisIndex"
 			widgetVar="analisisTable" emptyMessage="No hay coincidencias"

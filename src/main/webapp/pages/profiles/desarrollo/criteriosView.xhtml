@@ -19,7 +19,7 @@
 			<ui:include src="../../agregar/addCriterio.xhtml" />
 		</p:dialog>
 	</h:form>
-	<h:form id="deleteCriterioForm" style="border:0px">
+	<h:form id="deleteCriterioForm" style="border:0px;float:left">
 		<p:commandButton id="criterioDelete" value="Eliminar" immediate="true"
 			style="margin:10px" onclick="deleteCriterioWidget.show();"
 			type="button" />
@@ -30,10 +30,15 @@
 			<ui:include src="../../eliminar/deleteCriterio.xhtml" />
 		</p:dialog>
 	</h:form>
+		<h:form id="refreshCriterioForm" style="border:0px;padding-right:0px">
+		<p:commandButton id="criterioRefresh" immediate="true" icon="ui-icon-refresh"
+			actionListener="#{criterioController.refreshItems}" 
+			process="@this" partialSubmit="true" update=":profileTabViewDesarrollo:criterioDataTableForm:criterioDataTable"
+			style="margin:10px"
+			/>
+	</h:form>
 
 	<h:form id="criterioDataTableForm">
-		<p:poll interval="#{criterioController.autoUpdateFrequencySeconds}"
-			listener="#{criterioController.refreshItems}" update="@this" />
 		<p:dataTable id="criterioDataTable" var="criterio"
 			value="#{criterioController.dataModel}" rowIndexVar="criterioIndex"
 			widgetVar="criteriosTable" emptyMessage="No hay coincidencias"

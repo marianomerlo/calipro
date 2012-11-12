@@ -1,0 +1,58 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	
+		<p:growl id="deleteMaquinariaGrowlMessages" showSummary="true" autoUpdate="true"
+		for="deleteGrowlMessagesKeys" />
+	
+	<h:panelGrid columns="2" cellpadding="5" id="deleteMachinePanelGrid"
+		style="width:auto !important"
+		rendered="#{not empty machineController.selectedItems}">
+		<span class="ui-messages-warn-icon" />
+
+		<h:outputText
+			value="¿Desea confirmar la eliminación de las Maquinarias?" />
+
+		<f:facet name="footer">
+			<p:commandButton id="deleteMachineConfirmButton" value="Si"
+				actionListener="#{machineController.deleteItems}"
+				update=":profileTabViewDesarrollo:machineDataTableForm"
+				oncomplete="deleteProductWidget.hide()" />
+
+			<p:commandButton id="deleteMachineCancelButton" value="No"
+				onclick="deleteMachineWidget.hide()" />
+		</f:facet>
+	</h:panelGrid>
+	<h:panelGrid columns="2" cellpadding="5"
+		id="deleteMachinePanelGridEmpty" style="width:auto !important"
+		rendered="#{empty machineController.selectedItems}">
+		<span class="ui-messages-fatal-icon" />
+
+		<h:outputText value="Debes seleccionar al menos una maquinaria" />
+
+		<f:facet name="footer">
+			<p:commandButton id="deleteMachineCancelButtonEmpty" value="OK"
+				onclick="deleteMachineWidget.hide()" />
+		</f:facet>
+	</h:panelGrid>
+
+	<p:dialog id="deletedMachineConfirmDialog" closable="false"
+		resizable="false" header="Information"
+		widgetVar="deletedMachineConfirmationWidget">
+		<h:panelGrid columns="2" style="padding: 15px">
+			<span class="ui-messages-info-icon" />
+			<h:outputText
+				value="Se han eliminado satisfactoriamente las siguientes Maquinarias: #{machineController.deletedItemIds(',')}" />
+		</h:panelGrid>
+		<p:commandButton id="deletedMachineConfirm" value="OK"
+			actionListener="#{machineController.resetSelectedItems}"
+			oncomplete="window.location.reload()" />
+	</p:dialog>
+
+</ui:composition>

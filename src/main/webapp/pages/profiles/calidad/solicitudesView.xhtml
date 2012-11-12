@@ -18,11 +18,15 @@
 			<ui:include src="../../modificar/modifySolicitudAnalisis.xhtml" />
 		</p:dialog>
 	</h:form>
-
+	<h:form id="refreshSolicitudForm" style="border:0px;padding-right:0px">
+		<p:commandButton id="solicitudRefresh" immediate="true" value="Actualizar Lista"
+			icon="ui-icon-refresh"
+			actionListener="#{solicitudController.refreshItemsInProcess}" process="@this"
+			partialSubmit="true"
+			update=":profileTabViewCalidad:solicitudDataTableForm:solicitudDataTable"
+			style="margin:10px" />
+	</h:form>
 	<h:form id="solicitudDataTableForm">
-		<p:poll interval="30"
-			listener="#{solicitudController.refreshItemsInProcess}"
-			update="@this" />
 		<p:dataTable id="solicitudDataTable" var="solicitud"
 			value="#{solicitudController.itemsInProcess}"
 			rowIndexVar="solicitudIndex" widgetVar="solicitudTable"

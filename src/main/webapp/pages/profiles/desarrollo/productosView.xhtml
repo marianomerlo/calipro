@@ -19,7 +19,7 @@
 			<ui:include src="../../agregar/addProduct.xhtml" />
 		</p:dialog>
 	</h:form>
-	<h:form id="deleteProductForm" style="border:0px">
+	<h:form id="deleteProductForm" style="border:0px;float:left">
 		<p:commandButton id="productDelete" value="Eliminar" immediate="true"
 			style="margin:10px" onclick="deleteProductWidget.show();"
 			type="button" />
@@ -31,9 +31,14 @@
 			<ui:include src="../../eliminar/deleteProduct.xhtml" />
 		</p:dialog>
 	</h:form>
+	<h:form id="refreshProductForm" style="border:0px;padding-right:0px">
+		<p:commandButton id="productRefresh" immediate="true" icon="ui-icon-refresh"
+			actionListener="#{productController.refreshItems}" 
+			process="@this" partialSubmit="true" update=":profileTabViewDesarrollo:productDataTableForm:productDataTable"
+			style="margin:10px"
+			/>
+	</h:form>
 	<h:form id="productDataTableForm">
-		<p:poll interval="#{productController.autoUpdateFrequencySeconds}"
-			listener="#{productController.refreshItems}" update="@this" />
 		<p:dataTable id="productDataTable" var="producto"
 			value="#{productController.dataModel}" rowIndexVar="prodIndex"
 			widgetVar="productsTable" emptyMessage="No hay coincidencias"
@@ -41,7 +46,7 @@
 			paginatorPosition="bottom" rows="10"
 			filteredValue="#{productController.filteredItems}"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-			style="width:800px;text-align:center">
+			style="width:100%;text-align:center">
 
 			<p:ajax event="rowSelectCheckbox"
 				update=":profileTabViewDesarrollo:deleteProductForm:deleteProductDialog" />

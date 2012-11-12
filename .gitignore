@@ -6,6 +6,7 @@
 *.ipr
 *.class
 *.log
+*.properties
 target/*
 src/main/webapps/console/target/*
 .classpath

@@ -8,7 +8,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
 
-	<h:form id="addUserForm" style="border:0px">
+	<h:form id="addUserForm" style="border:0px;float:left">
 		<p:commandButton id="userAdd" value="Agregar" style="margin:10px"
 			onclick="addUserWidget.show();" type="button" />
 
@@ -17,6 +17,15 @@
 			modal="true">
 			<ui:include src="../../agregar/addUsuario.xhtml" />
 		</p:dialog>
+	</h:form>
+		
+	<h:form id="refreshUsers" style="border:0px;padding-right:0px">
+		<p:commandButton id="usersRefres" immediate="true"
+			value="Actualizar Lista" icon="ui-icon-refresh"
+			actionListener="#{userController.refreshItems}"
+			process="@this" partialSubmit="true"
+			update=":profileTabViewSupervision:userDataTableForm:userDataTable"
+			style="margin:10px" />
 	</h:form>
 
 	<h:form id="userDataTableForm">

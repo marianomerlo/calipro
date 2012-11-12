@@ -209,4 +209,32 @@ public class ProcessDao extends BaseAbmDao<Lote> {
 		return new Message("Análisis solicitado Satisfactoriamente",StatusType.SUCCESS);
 	}
 
+	public void getHistoricInfo(Paso paso,Lote lote) {
+//		Connection conn = getConnection();
+//		String query = "CALL sp_hint_historico(?,?,?,?,?,?)";
+//		try {
+//			PreparedStatement prepStatement = conn.prepareStatement(query);
+//			prepStatement.setInt(1, paso.getProductoId());
+//			prepStatement.setInt(2, paso.getId());
+//			prepStatement.setInt(3, paso.getVersion());
+//			prepStatement.setInt(4, lote.getId()); //Paso
+//			prepStatement.setInt(5, analisis.getId()); //Analisis
+//			
+//			prepStatement.setInt(7, lote.getUsuarioCreacion().getId());
+//
+//			for ( Criterio criterio : analisis.getCriterios() ){
+//				prepStatement.setInt(6, criterio.getId()); //Criterio
+//				prepStatement.executeQuery();
+//			}
+//
+//		} catch (SQLException e) {
+//			return new Message("No se pudo solicitar el análisis",StatusType.ERROR);
+//		} finally {
+//			releaseConnection(conn);
+//		}
+//		
+//		return new Message("Análisis solicitado Satisfactoriamente",StatusType.SUCCESS);
+		
+	}
+
 }

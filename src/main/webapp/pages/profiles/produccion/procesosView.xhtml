@@ -7,11 +7,11 @@
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
-	
-		<p:growl id="generalProcessGrowlMessages" showSummary="true"
+
+	<p:growl id="generalProcessGrowlMessages" showSummary="true"
 		autoUpdate="true" for="generalProcessGrowlMessagesKeys" />
 
-	<h:form id="startProcessForm" style="border:0px">
+	<h:form id="startProcessForm" style="border:0px;float:left">
 		<p:commandButton id="startProcess" value="Iniciar proceso"
 			style="margin:10px" onclick="startProcessWidget.show();"
 			type="button" />
@@ -23,9 +23,16 @@
 		</p:dialog>
 	</h:form>
 
+	<h:form id="refreshProcessInProgress" style="border:0px;padding-right:0px">
+		<p:commandButton id="processInProgressRefresh" immediate="true"
+			value="Actualizar Lista" icon="ui-icon-refresh"
+			actionListener="#{processController.refreshItems}"
+			process="@this" partialSubmit="true"
+			update=":profileTabViewProduccion:processDataTableForm:processDataTable"
+			style="margin:10px" />
+	</h:form>
+
 	<h:form id="processDataTableForm">
-		<p:poll interval="#{processController.autoUpdateFrequencySeconds}"
-			listener="#{processController.refreshItems}" update="@this" />
 		<p:dataTable id="processDataTable" var="lote"
 			value="#{processController.dataModel}" rowIndexVar="loteIndex"
 			widgetVar="processTable" emptyMessage="No hay lotes en proceso"
@@ -131,79 +138,79 @@
 			<ui:include src="../../ver/verProceso.xhtml" />
 
 		</p:dialog>
-		
+
 		<p:dialog id="endProcessDialog" widgetVar="endProcessWidget"
-		modal="true" resizable="false" header="Finalizar Proceso"
-		appendToBody="true" closable="false">
+			modal="true" resizable="false" header="Finalizar Proceso"
+			appendToBody="true" closable="false">
 
-		<h:panelGrid columns="2" cellpadding="5" id="endProcessPanelGrid"
-			style="width:auto !important">
-			<span class="ui-messages-warn-icon" />
+			<h:panelGrid columns="2" cellpadding="5" id="endProcessPanelGrid"
+				style="width:auto !important">
+				<span class="ui-messages-warn-icon" />
 
-			<h:outputText
-				value="¿Desea confirmar la finalización del Proceso de Producción?" />
+				<h:outputText
+					value="¿Desea confirmar la finalización del Proceso de Producción?" />
 
-			<f:facet name="footer">
-				<p:commandButton id="endProcessConfirmButton" value="Si"
-					actionListener="#{processController.endProcess}"
-					update=":profileTabViewProduccion:processDataTableForm:processDataTable"
-					process="@this" immediate="true" partialSubmit="true"
-					oncomplete="window.setTimeout(function(){window.location.reload()},1500)" />
+				<f:facet name="footer">
+					<p:commandButton id="endProcessConfirmButton" value="Si"
+						actionListener="#{processController.endProcess}"
+						update=":profileTabViewProduccion:processDataTableForm:processDataTable"
+						process="@this" immediate="true" partialSubmit="true"
+						oncomplete="window.setTimeout(function(){window.location.reload()},1500)" />
 
-				<p:commandButton id="endProcessCancelButton" value="No"
-					onclick="endProcessWidget.hide()" />
-			</f:facet>
-		</h:panelGrid>
-	</p:dialog>
+					<p:commandButton id="endProcessCancelButton" value="No"
+						onclick="endProcessWidget.hide()" />
+				</f:facet>
+			</h:panelGrid>
+		</p:dialog>
 
-	<p:dialog id="cancelProcessDialog" widgetVar="cancelProcessWidget"
-		modal="true" resizable="false" header="Cancelar Proceso"
-		appendToBody="true" closable="false">
+		<p:dialog id="cancelProcessDialog" widgetVar="cancelProcessWidget"
+			modal="true" resizable="false" header="Cancelar Proceso"
+			appendToBody="true" closable="false">
 
-		<h:panelGrid columns="2" cellpadding="5" id="cancelProcessPanelGrid"
-			style="width:auto !important">
-			<span class="ui-messages-warn-icon" />
+			<h:panelGrid columns="2" cellpadding="5" id="cancelProcessPanelGrid"
+				style="width:auto !important">
+				<span class="ui-messages-warn-icon" />
 
-			<h:outputText
-				value="¿Desea confirmar la cancelación del Proceso de Producción?" />
+				<h:outputText
+					value="¿Desea confirmar la cancelación del Proceso de Producción?" />
 
-			<f:facet name="footer">
-				<p:commandButton id="cancelProcessConfirmButton" value="Si"
-					actionListener="#{processController.cancelProcess}"
-					update=":profileTabViewProduccion:processDataTableForm:processDataTable"
-					process="@this" immediate="true" partialSubmit="true"
-					oncomplete="window.setTimeout(function(){window.location.reload()},1500)" />
+				<f:facet name="footer">
+					<p:commandButton id="cancelProcessConfirmButton" value="Si"
+						actionListener="#{processController.cancelProcess}"
+						update=":profileTabViewProduccion:processDataTableForm:processDataTable"
+						process="@this" immediate="true" partialSubmit="true"
+						oncomplete="window.setTimeout(function(){window.location.reload()},1500)" />
 
-				<p:commandButton id="cancelProcessCancelButton" value="No"
-					onclick="cancelProcessWidget.hide()" />
-			</f:facet>
-		</h:panelGrid>
-	</p:dialog>
+					<p:commandButton id="cancelProcessCancelButton" value="No"
+						onclick="cancelProcessWidget.hide()" />
+				</f:facet>
+			</h:panelGrid>
+		</p:dialog>
 
-	<p:dialog id="solicitudAnalisisDialog"
-		widgetVar="solicitudAnalisisWidget" modal="true" resizable="false"
-		header="Solicitar Analisis" appendToBody="true" closable="false">
+		<p:dialog id="solicitudAnalisisDialog"
+			widgetVar="solicitudAnalisisWidget" modal="true" resizable="false"
+			header="Solicitar Analisis" appendToBody="true" closable="false">
 
-		<h:panelGrid columns="2" cellpadding="5"
-			id="solicitudAnalisisPanelGrid" style="width:auto !important">
-			<span class="ui-messages-warn-icon" />
+			<h:panelGrid columns="2" cellpadding="5"
+				id="solicitudAnalisisPanelGrid" style="width:auto !important">
+				<span class="ui-messages-warn-icon" />
 
-			<h:outputText value="¿Desea confirmar la Solicitud del Análisis?" />
+				<h:outputText value="¿Desea confirmar la Solicitud del Análisis?" />
 
-			<f:facet name="footer">
-				<p:commandButton id="solicitudAnalisisConfirmButton" value="Si"
-					actionListener="#{processController.askAnalisis}"
-					update=":profileTabViewProduccion:processDataTableForm:procesoDataTable"
-					process="@this" immediate="true" partialSubmit="true"
-					oncomplete="window.setTimeout(function(){solicitudAnalisisWidget.hide()},1500)" />
+				<f:facet name="footer">
+					<p:commandButton id="solicitudAnalisisConfirmButton" value="Si"
+						actionListener="#{processController.askAnalisis}"
+						update=":profileTabViewProduccion:processDataTableForm:procesoDataTable"
+						process="@this" immediate="true" partialSubmit="true"
+						oncomplete="window.setTimeout(function(){solicitudAnalisisWidget.hide()},1500)" />
 
-				<p:commandButton id="solicitudAnalisisCancelButton" value="No"
-					onclick="solicitudAnalisisWidget.hide()" />
-			</f:facet>
-		</h:panelGrid>
-	</p:dialog>
-	
-			<p:dialog id="ticketAnalisisDialog" widgetVar="ticketAnalisisWidget"
+					<p:commandButton id="solicitudAnalisisCancelButton" value="No"
+						onclick="solicitudAnalisisWidget.hide()" />
+				</f:facet>
+			</h:panelGrid>
+		</p:dialog>
+
+		<p:dialog id="ticketAnalisisDialog" widgetVar="ticketAnalisisWidget"
 			modal="true" resizable="false" header="Solicitar Analisis"
 			dynamic="true" appendToBody="true" closable="true">
 
@@ -248,10 +255,10 @@
 
 			<f:facet name="footer">
 				<p:commandButton value="Imprimir" type="button" icon="ui-icon-print">
-					<p:printer target="ticketAnalisisPanelGrid" />  
+					<p:printer target="ticketAnalisisPanelGrid" />
 				</p:commandButton>
 			</f:facet>
 		</p:dialog>
-	
+
 	</h:form>
 </ui:composition>

@@ -8,9 +8,16 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
 
+	<h:form id="refreshSolicitudHForm" style="border:0px;padding-right:0px">
+		<p:commandButton id="solicitudRefreshH" immediate="true"
+			value="Actualizar Lista" icon="ui-icon-refresh"
+			actionListener="#{solicitudController.refreshItemsHist}"
+			process="@this" partialSubmit="true"
+			update=":profileTabViewCalidad:solicitudHDataTableForm:solicitudHDataTable"
+			style="margin:10px" />
+	</h:form>
+
 	<h:form id="solicitudHDataTableForm">
-		<p:poll interval="#{solicitudController.autoUpdateFrequencySeconds}"
-			listener="#{solicitudController.refreshItemsHist}" update="@this" />
 		<p:dataTable id="solicitudHDataTable" var="solicitud"
 			value="#{solicitudController.itemsHist}"
 			rowIndexVar="solicitudHIndex" widgetVar="solicitudHTable"

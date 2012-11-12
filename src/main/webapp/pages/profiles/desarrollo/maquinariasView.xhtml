@@ -9,19 +9,36 @@
 	</h:head>
 
 
-	<h:form id="addMachineForm" style="border:0px">
+	<h:form id="addMachineForm" style="border:0px;float:left">
 		<p:commandButton id="machineAdd" value="Agregar" style="margin:10px"
 			onclick="addMachineWidget.show();" type="button" />
 
-		<p:dialog id="addMachineDialog" widgetVar="addMachineWidget" onHide="window.location.reload()"
-			resizable="false" header="Agregar Maquinaria" closable="true"
-			modal="true">
+		<p:dialog id="addMachineDialog" widgetVar="addMachineWidget"
+			onHide="window.location.reload()" resizable="false"
+			header="Agregar Maquinaria" closable="true" modal="true">
 			<ui:include src="../../agregar/addMachine.xhtml" />
 		</p:dialog>
 	</h:form>
+	<h:form id="deleteMachineForm" style="border:0px;float:left">
+		<p:commandButton id="machineDelete" value="Eliminar"
+			style="margin:10px" onclick="deleteMachineWidget.show();"
+			type="button" />
+
+		<p:dialog id="deleteMachineDialog" widgetVar="deleteMachineWidget"
+			onHide="window.location.reload()" resizable="false"
+			header="Eliminar Maquinaria" closable="true" modal="true">
+			<ui:include src="../../eliminar/deleteMachine.xhtml" />
+		</p:dialog>
+	</h:form>
+	<h:form id="refreshMachineForm" style="border:0px;padding-right:0px">
+		<p:commandButton id="machineRefresh" immediate="true"
+			icon="ui-icon-refresh"
+			actionListener="#{machineController.refreshItems}" process="@this"
+			partialSubmit="true"
+			update=":profileTabViewDesarrollo:machineDataTableForm:machineDataTable"
+			style="margin:10px" />
+	</h:form>
 	<h:form id="machineDataTableForm">
-		<p:poll interval="#{machineController.autoUpdateFrequencySeconds}"
-			listener="#{machineController.refreshItems}" update="@this" />
 		<p:dataTable id="machineDataTable" var="maquinaria"
 			value="#{machineController.dataModel}" rowIndexVar="prodIndex"
 			widgetVar="machinesTable" emptyMessage="No hay coincidencias"
@@ -31,6 +48,15 @@
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 			style="width:800px;text-align:center">
 
+			<p:ajax event="rowSelectCheckbox"
+				update=":profileTabViewDesarrollo:deleteMachineForm:deleteMachineDialog" />
+
+			<p:ajax event="toggleSelect"
+				update=":profileTabViewDesarrollo:deleteMachineForm:deleteMachineDialog" />
+
+			<p:ajax event="rowUnselectCheckbox"
+				update=":profileTabViewDesarrollo:deleteMachineForm:deleteMachineDialog" />
+
 			<f:facet name="header">
 				<p:outputPanel>
 					<h:outputText value="Buscar:" />
@@ -39,6 +65,9 @@
 					<p:watermark for="globalFilter" value="Maquinaria" />
 				</p:outputPanel>
 			</f:facet>
+
+			<p:column selectionMode="multiple" style="width:auto" />
+
 
 			<p:column id="machineId" filterBy="#{maquinaria.id}"
 				filterStyle="display:none" headerText="Id"

@@ -7,6 +7,15 @@
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
+	
+	<h:form id="refreshProcessH" style="border:0px;padding-right:0px">
+		<p:commandButton id="processHRefresh" immediate="true"
+			value="Actualizar Lista" icon="ui-icon-refresh"
+			actionListener="#{processController.refreshItemsHist}"
+			process="@this" partialSubmit="true"
+			update=":profileTabViewProduccion:historiProcessDataTableForm:historicProcessDataTable"
+			style="margin:10px" />
+	</h:form>
 
 	<h:form id="historiProcessDataTableForm">
 			<p:poll interval="#{processController.autoUpdateFrequencySeconds}"

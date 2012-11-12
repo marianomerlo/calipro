@@ -101,7 +101,7 @@ public class ProcessController extends BaseAbmController<Lote> {
 	private List<Lote> itemsHist;
 	
 	public List<Lote> getItemsHist() {
-		if (this.itemsHist == null || this.itemsHist.size() == 0){
+		if (this.itemsHist == null){
 			refreshItemsHist();
 		}
 		return itemsHist;
@@ -368,6 +368,10 @@ public class ProcessController extends BaseAbmController<Lote> {
 	 */
 	public AnalisisController getAnalisisController() {
 		return analisisController;
+	}
+	
+	public void setHistoricInfo(Paso paso){
+//		getDao().getHistoricInfo(paso);
 	}
 
 	/**
