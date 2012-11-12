@@ -117,8 +117,8 @@
 				</p:column>
 				<p:column id="subValorObtenidop" headerText="Valor Obtenido"
 					style="width:auto">
-					<ui:repeat var="valor" value="#{analisis.valoresObtenidos}">
-					#{valor}
+					<ui:repeat var="criterio" value="#{analisis.criterios}">
+					#{criterio.valorObtenido}
 						<br />
 					</ui:repeat>
 				</p:column>

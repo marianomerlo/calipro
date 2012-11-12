@@ -12,8 +12,6 @@ public class Analisis extends AuditObject implements Serializable {
 	
 	private List<Criterio> criterios;
 	
-	private List<String> valoresObtenidos;
-	
 	private Estado estado;
 
 	public Analisis ( Integer analisisId, String nombre ){
@@ -79,19 +77,4 @@ public class Analisis extends AuditObject implements Serializable {
 	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
-
-	/**
-	 * @return the valoresObtenidos
-	 */
-	public List<String> getValoresObtenidos() {
-		return valoresObtenidos;
-	}
-
-	/**
-	 * @param valoresObtenidos the valoresObtenidos to set
-	 */
-	public void setValoresObtenidos(List<String> valoresObtenidos) {
-		this.valoresObtenidos = valoresObtenidos;
-	}
-
 }

@@ -6,8 +6,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
 import ar.edu.utn.frba.proyecto.dao.AbmDao;
 import ar.edu.utn.frba.proyecto.domain.Analisis;
+import ar.edu.utn.frba.proyecto.domain.Criterio;
 import ar.edu.utn.frba.proyecto.domain.Estado;
 import ar.edu.utn.frba.proyecto.domain.Lote;
 import ar.edu.utn.frba.proyecto.domain.Producto;
@@ -54,7 +56,8 @@ public class SolicitudDao extends BaseAbmDao<Solicitud> implements AbmDao<Solici
 			solicitud.setFechaRecibido(result.getString(5));
 			solicitud.setEstado(new Estado(null,result.getString(6)));
 			solicitud.setFechaUltimaModificacion(result.getString(7) != null ? result.getString(7) : "");
-			solicitud.setAnalisis(new Analisis(result.getInt(8), ""));
+			solicitud.setAnalisis(new Analisis(result.getInt(8), result.getString(9)));
+			
 			
 			return solicitud;
 			
@@ -82,16 +85,68 @@ public class SolicitudDao extends BaseAbmDao<Solicitud> implements AbmDao<Solici
 			PreparedStatement prepStatement = conn.prepareStatement(query);
 			result = prepStatement.executeQuery();
 			
-			while (result.next()){
-				resultList.add(getFromResult(result));
+			result.next();
+
+			while (result.getRow() != 0) {
+				List<Criterio> currentCriterios = new ArrayList<Criterio>();
+				int idLote = result.getInt(ConstantsDatatable.LOTE_ID);
+				
+				
+				int idAnalisis = result.getInt(ConstantsDatatable.ANALISIS_ID);
+				String nameAnalisis = result.getString(9);
+				
+				String nameProduct = result.getString(2);
+				String fechaCreacion = result.getString(4);
+				String fechaRecibido = result.getString(5);
+				Estado currentEstado = new Estado(null,result.getString(6));
+				String fechaUltimaMod = result.getString(7) != null ? result.getString(7) : "";
+				
+				int currentLote = idLote;
+				int currentAnalisis = idAnalisis;
+
+				while (result.getRow() != 0
+						&& idLote == currentLote && idAnalisis == currentAnalisis) {
+					
+					Criterio criterio = new Criterio(result.getInt(ConstantsDatatable.CRITERIO_ID),
+													result.getString(11));
+
+					currentCriterios.add(criterio);
+					result.next();
+					
+					if (result.getRow() != 0) {
+						currentLote = result.getInt(ConstantsDatatable.LOTE_ID);
+						currentAnalisis = result.getInt(ConstantsDatatable.ANALISIS_ID);
+					}
+				}
+				
+				Analisis analisis = new Analisis(idAnalisis, nameAnalisis);
+				analisis.setCriterios(currentCriterios);
+
+				Solicitud solicitud = new Solicitud();
+				solicitud.setAnalisis(analisis);
+				
+				Lote lote = new Lote(idLote, new Producto(0, nameProduct, null), null, 7, null);
+				
+				solicitud.setLote(lote);
+				solicitud.setFechaCreacion(fechaCreacion);
+				solicitud.setFechaRecibido(fechaRecibido);
+				solicitud.setEstado(currentEstado);
+				solicitud.setFechaUltimaModificacion(fechaUltimaMod);
+				
+				resultList.add(solicitud);
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-	        releaseConnection(conn);
+			if (result != null)
+				try {
+					result.close();
+				} catch (SQLException logOrIgnore) {
+				}
+			releaseConnection(conn);
 		}
-		
+			
 		return resultList;
 	}
 

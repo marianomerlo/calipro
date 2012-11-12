@@ -28,10 +28,10 @@ public class SolicitudController extends BaseAbmController<Solicitud> {
 		this.solicitudDao = solicitudDao;
 	}
 	
-	private String[] obtainedValues;
-	
-	private List<Criterio> refreshedCriterios;
-	
+	private List<Solicitud> itemsInProcess;
+
+
+
 	private List<Solicitud> itemsHist;
 
 	@Override
@@ -39,17 +39,21 @@ public class SolicitudController extends BaseAbmController<Solicitud> {
 		return solicitudDao;
 	}
 	
-	@Override
-	public List<Solicitud> getItems(){
-		if ( this.items == null || this.items.size() == 0){
-			refreshItems();
+	public List<Solicitud> getItemsInProcess() {
+		if (this.itemsInProcess == null || this.itemsInProcess.size() == 0) {
+			refreshItemsInProcess();
 		}
-		return this.items;
+		return this.itemsInProcess;
 	}
 	
-	@Override
-	public void refreshItems(){
-		this.items = getDao().getSolicitudesInProcess();
+	public void setItemsInProcess(List<Solicitud> itemsInProcess) {
+		this.itemsInProcess = itemsInProcess;
+	}
+	
+	public void refreshItemsInProcess(){
+		List<Solicitud> tempList = getDao().getSolicitudesInProcess();
+		refreshCurrentCriterios(tempList);
+		setItemsInProcess(tempList);
 	}
 
 	public List<Solicitud> getItemsHist(){
@@ -60,7 +64,9 @@ public class SolicitudController extends BaseAbmController<Solicitud> {
 	}
 	
 	public void refreshItemsHist(){
-		this.itemsHist = getDao().getSolicitudesHist();
+		List<Solicitud> tempList = getDao().getSolicitudesHist();
+		refreshCurrentCriterios(tempList);
+		setItems(tempList);
 	}
 	
 	public void nextState(Solicitud solicitud){
@@ -70,18 +76,17 @@ public class SolicitudController extends BaseAbmController<Solicitud> {
 		refreshItems();
 	}
 	
-	public void refreshCurrentCriterios() {
-		setRefreshedCriterios(getCriterioController().getCriteriosByAnalisis(
-				getSelectedItem().getAnalisis()));
-
-		for (Criterio criterio : getRefreshedCriterios()) {
-			List<String> values = getCriterioController()
-					.getValuesFromCriterio(criterio);
-			if (values.size() > 0) {
-				criterio.setTipo(CriterioType.COMBO);
-				criterio.setOpciones(values);
-			} else {
-				criterio.setTipo(CriterioType.TEXTO);
+	public void refreshCurrentCriterios(List<Solicitud> tempList) {
+		for (Solicitud solicitud : tempList) {
+			for (Criterio criterio : solicitud.getAnalisis().getCriterios()) {
+				List<String> values = getCriterioController()
+						.getValuesFromCriterio(criterio);
+				if (values.size() > 0) {
+					criterio.setTipo(CriterioType.COMBO);
+					criterio.setOpciones(values);
+				} else {
+					criterio.setTipo(CriterioType.TEXTO);
+				}
 			}
 		}
 	}
@@ -114,38 +119,6 @@ public class SolicitudController extends BaseAbmController<Solicitud> {
 	 */
 	public void setItemsHist(List<Solicitud> itemsHist) {
 		this.itemsHist = itemsHist;
-	}
-
-	/**
-	 * @return the refreshedCriterios
-	 */
-	public List<Criterio> getRefreshedCriterios() {
-		return refreshedCriterios;
-	}
-
-	/**
-	 * @param refreshedCriterios the refreshedCriterios to set
-	 */
-	public void setRefreshedCriterios(List<Criterio> refreshedCriterios) {
-		this.refreshedCriterios = refreshedCriterios;
-	}
-
-	/**
-	 * @return the obtainedValues
-	 */
-	public String[] getObtainedValues() {
-		if (this.obtainedValues == null || this.obtainedValues.length == 0) {
-			this.obtainedValues = new String[50];
-		}
-
-		return obtainedValues;
-	}
-
-	/**
-	 * @param obtainedValues the obtainedValues to set
-	 */
-	public void setObtainedValues(String[] obtainedValues) {
-		this.obtainedValues = obtainedValues;
 	}
 
 	/**

@@ -19,7 +19,7 @@
 		</h:panelGrid>
 
 		<p:dataTable id="modifySolicitudAnalisisDataTable" var="criterio"
-			value="#{solicitudController.refreshedCriterios}"
+			value="#{solicitudController.selectedItem.analisis.criterios}"
 			rowIndexVar="criterioIndex" widgetVar="analissToPasoTable"
 			emptyMessage="No hay coincidencias" rows="10"
 			style="width:auto !important;text-align:center">
@@ -27,12 +27,12 @@
 			<p:column id="criterio2Name" headerText="Criterio" style="width:auto">#{criterio.nombre}
 			</p:column>
 
-			<p:column id="criterio2ExpectedValue" headerText="Valor Esperado"
+			<p:column id="criterio2ObtainedValue" headerText="Valor Obtenido"
 				style="width:auto">
 
-				<p:inputText value="#{solicitudController.obtainedValues[criterioIndex]}"
+				<p:inputText value="#{criterio.valorObtenido}"
 					rendered="#{criterio.tipo.value == 'texto'}" />
-				<p:selectOneMenu value="#{pasoController.obtainedValues[criterioIndex]}"
+				<p:selectOneMenu value="#{criterio.valorObtenido}"
 					rendered="#{criterio.tipo.value == 'combo'}" >
 					<f:selectItem itemLabel="Elija uno" itemValue="" />
 					<f:selectItems value="#{criterio.opciones}" var="opcion" itemLabel="#{opcion}" itemValue="#{opcion}" />
@@ -43,16 +43,14 @@
 
 		<f:facet name="footer">
 
-			<p:commandButton id="addAnalisisToPasoConfirmButton" value="Agregar"
+			<p:commandButton id="addAnalisisToPasoConfirmButton123" value="Agregar"
 				actionListener="#{pasoController.addAnalisisToPaso}"
-				partialSubmit="true" process="addAnalisisToPasoPanel"
-				update="addAnalisisToPasoPanelGrid addAnalisisToPasoPanel panelGlobalInfo analisisToPasoDataTable :profileTabViewDesarrollo:productDataTableForm:recetaDataTable">
-			</p:commandButton>
+				partialSubmit="true" />
 
-			<p:commandButton id="addAnalisisToPasoCancelButton" value="Cancelar"
-				immediate="true" actionListener="#{pasoController.resetCurrent}"
-				update="addAnalisisToPasoPanelGrid" style="margin:10px"
-				oncomplete="addAnalisisToPasoWidget.hide()" />
+			<p:commandButton id="addAnalisisToPasoCancelButton123" value="Cancelar"
+				immediate="true" 
+			 style="margin:10px"
+				oncomplete="modifySolicitudAnalisisWidget.hide()" />
 		</f:facet>
 	</p:panel>
 </ui:composition>

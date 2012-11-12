@@ -194,7 +194,6 @@ public class AnalisisDao extends BaseAbmDao<Analisis> {
 
 			while (result.getRow() != 0) {
 				List<Criterio> currentCriterios = new ArrayList<Criterio>();
-				List<String> currentValores = new ArrayList<String>();
 				String analisisNombre1 = result.getString(1);
 				int analisisId = result.getInt(2);
 				Estado analisisEstado = new Estado(
@@ -208,17 +207,16 @@ public class AnalisisDao extends BaseAbmDao<Analisis> {
 					Criterio criterio = new Criterio(result.getInt(4),
 							result.getString(3), null,
 							result.getString(ConstantsDatatable.VALOR_ESPERADO));
+					
+					criterio.setValorObtenido(result.getString(ConstantsDatatable.VALOR_OBTENIDO));
 
 					currentCriterios.add(criterio);
-					currentValores.add(result
-							.getString(ConstantsDatatable.VALOR_OBTENIDO));
 					result.next();
 					analisisNombre2 = result.getRow() != 0 ? result
 							.getString(1) : "";
 				}
 				Analisis analisis = new Analisis(analisisId, analisisNombre1);
 				analisis.setCriterios(currentCriterios);
-				analisis.setValoresObtenidos(currentValores);
 				analisis.setEstado(analisisEstado);
 
 				analisisList.add(analisis);

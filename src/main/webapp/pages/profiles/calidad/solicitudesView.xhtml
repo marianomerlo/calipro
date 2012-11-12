@@ -9,10 +9,10 @@
 	</h:head>
 
 	<h:form id="solicitudDataTableForm">
-		<p:poll interval="#{solicitudController.autoUpdateFrequencySeconds}"
-			listener="#{solicitudController.refreshItems}" update="@this" />
+		<p:poll interval="30"
+			listener="#{solicitudController.refreshItemsInProcess}" update="@this" />
 		<p:dataTable id="solicitudDataTable" var="solicitud"
-			value="#{solicitudController.items}" rowIndexVar="solicitudIndex"
+			value="#{solicitudController.itemsInProcess}" rowIndexVar="solicitudIndex"
 			widgetVar="solicitudTable"
 			emptyMessage="No hay solicitudes en proceso" paginator="true"
 			paginatorPosition="bottom" rows="10"
@@ -31,18 +31,6 @@
 			<p:column id="solicitudRowNumber" headerText="Nº" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{solicitudIndex + 1}" ajax="true"
-					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
-					oncomplete="modifySolicitudWidget.show();">
-					<f:setPropertyActionListener
-						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
-				</p:commandLink>
-			</p:column>
-
-			<p:column id="solicitudHId" filterBy="#{solicitud.id}"
-				filterStyle="display:none" headerText="Solicitud"
-				filterMatchMode="contains" style="width:auto">
-				<p:commandLink style="text-decoration:none" value="#{solicitud.id}"
-					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
 					oncomplete="modifySolicitudWidget.show();">
 					<f:setPropertyActionListener
 						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
@@ -55,6 +43,17 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{solicitud.lote.producto.nombre}"
+					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
+					oncomplete="modifySolicitudWidget.show();">
+					<f:setPropertyActionListener
+						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
+				</p:commandLink>
+			</p:column>
+
+			<p:column id="solicitudHId" filterBy="#{solicitud.analisis.nombre}"
+				filterStyle="display:none" headerText="Analisis"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none" value="#{solicitud.analisis.nombre}"
 					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
 					oncomplete="modifySolicitudWidget.show();">
 					<f:setPropertyActionListener
@@ -112,7 +111,7 @@
 				</p:commandLink>
 			</p:column>
 			<p:column id="solicitudHEstadoUpdate" filterStyle="display:none"
-				headerText="Receta" style="width:auto">
+				headerText="" style="width:auto">
 				<p:commandButton
 					actionListener="#{solicitudController.nextState(solicitud)}"
 					oncomplete="window.location.reload()"
@@ -127,10 +126,11 @@
 				</p:commandButton>
 			</p:column>
 		</p:dataTable>
-		<p:dialog id="modifySolicitudDialog" header="Modificar Proceso"
-			dynamic="true" widgetVar="modifySolicitudWidget" modal="true"
-			resizable="false" closable="false">
-
+		<p:dialog id="modifySolicitudDialog"
+			header="Modificar Solicitud de Análisis" dynamic="true"
+			widgetVar="modifySolicitudWidget" modal="true" resizable="false"
+			closable="true">
+			<ui:include src="../../modificar/modifySolicitudAnalisis.xhtml" />
 		</p:dialog>
 
 	</h:form>

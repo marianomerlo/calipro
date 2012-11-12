@@ -14,6 +14,8 @@ public class Criterio extends AuditObject {
 	private CriterioType tipo;
 	
 	private String valorEsperado;
+
+	private String valorObtenido;
 	
 	private List<String> opciones;
 
@@ -104,6 +106,20 @@ public class Criterio extends AuditObject {
 		      return (nombre.equals(other.nombre) && id == other.id);
 		    }
 		    return false;
+	}
+
+	/**
+	 * @return the valorObtenido
+	 */
+	public String getValorObtenido() {
+		return valorObtenido;
+	}
+
+	/**
+	 * @param valorObtenido the valorObtenido to set
+	 */
+	public void setValorObtenido(String valorObtenido) {
+		this.valorObtenido = valorObtenido;
 	}
 
 }
