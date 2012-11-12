@@ -7,6 +7,9 @@
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
+	
+		<p:growl id="generalProcessGrowlMessages" showSummary="true"
+		autoUpdate="true" for="generalProcessGrowlMessagesKeys" />
 
 	<h:form id="startProcessForm" style="border:0px">
 		<p:commandButton id="startProcess" value="Iniciar proceso"
@@ -21,6 +24,8 @@
 	</h:form>
 
 	<h:form id="processDataTableForm">
+		<p:poll interval="#{processController.autoUpdateFrequencySeconds}"
+			listener="#{processController.refreshItems}" update="@this" />
 		<p:dataTable id="processDataTable" var="lote"
 			value="#{processController.dataModel}" rowIndexVar="loteIndex"
 			widgetVar="processTable" emptyMessage="No hay lotes en proceso"
@@ -42,7 +47,7 @@
 				<p:commandLink style="text-decoration:none" value="#{loteIndex + 1}"
 					ajax="true"
 					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
-					update=":profileTabViewProduccion:processDataTableForm"
+					update=":profileTabViewProduccion:processDataTableForm:seeProcessDialog"
 					partialSubmit="true" process="@this" immediate="true"
 					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
@@ -55,7 +60,7 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none" value="#{lote.id}"
 					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
-					update=":profileTabViewProduccion:processDataTableForm"
+					update=":profileTabViewProduccion:processDataTableForm:seeProcessDialog"
 					partialSubmit="true" process="@this" immediate="true"
 					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
@@ -69,7 +74,7 @@
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.producto.nombre}"
 					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
-					update=":profileTabViewProduccion:processDataTableForm"
+					update=":profileTabViewProduccion:processDataTableForm:seeProcessDialog"
 					partialSubmit="true" process="@this" immediate="true"
 					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
@@ -83,7 +88,7 @@
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.maquinaria.nombre}"
 					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
-					update=":profileTabViewProduccion:processDataTableForm"
+					update=":profileTabViewProduccion:processDataTableForm:seeProcessDialog"
 					partialSubmit="true" process="@this" immediate="true"
 					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
@@ -97,7 +102,7 @@
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.usuarioCreacion.nombre}"
 					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
-					update=":profileTabViewProduccion:processDataTableForm"
+					update=":profileTabViewProduccion:processDataTableForm:seeProcessDialog"
 					partialSubmit="true" process="@this" immediate="true"
 					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
@@ -111,7 +116,7 @@
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.fechaCreacion}"
 					actionListener="#{processController.setLoteAndRefreshPasos(lote)}"
-					update=":profileTabViewProduccion:processDataTableForm"
+					update=":profileTabViewProduccion:processDataTableForm:seeProcessDialog"
 					partialSubmit="true" process="@this" immediate="true"
 					oncomplete="seeProcessWidget.show();">
 					<f:setPropertyActionListener
@@ -121,11 +126,132 @@
 
 		</p:dataTable>
 		<p:dialog id="seeProcessDialog" header="Proceso en Producción"
-			dynamic="true" widgetVar="seeProcessWidget" modal="true" maximizable="true"
-			resizable="false" closable="true">
+			dynamic="true" widgetVar="seeProcessWidget" modal="true"
+			maximizable="true" resizable="false" closable="true">
 			<ui:include src="../../ver/verProceso.xhtml" />
 
 		</p:dialog>
+		
+		<p:dialog id="endProcessDialog" widgetVar="endProcessWidget"
+		modal="true" resizable="false" header="Finalizar Proceso"
+		appendToBody="true" closable="false">
 
+		<h:panelGrid columns="2" cellpadding="5" id="endProcessPanelGrid"
+			style="width:auto !important">
+			<span class="ui-messages-warn-icon" />
+
+			<h:outputText
+				value="¿Desea confirmar la finalización del Proceso de Producción?" />
+
+			<f:facet name="footer">
+				<p:commandButton id="endProcessConfirmButton" value="Si"
+					actionListener="#{processController.endProcess}"
+					update=":profileTabViewProduccion:processDataTableForm:processDataTable"
+					process="@this" immediate="true" partialSubmit="true"
+					oncomplete="window.setTimeout(function(){window.location.reload()},1500)" />
+
+				<p:commandButton id="endProcessCancelButton" value="No"
+					onclick="endProcessWidget.hide()" />
+			</f:facet>
+		</h:panelGrid>
+	</p:dialog>
+
+	<p:dialog id="cancelProcessDialog" widgetVar="cancelProcessWidget"
+		modal="true" resizable="false" header="Cancelar Proceso"
+		appendToBody="true" closable="false">
+
+		<h:panelGrid columns="2" cellpadding="5" id="cancelProcessPanelGrid"
+			style="width:auto !important">
+			<span class="ui-messages-warn-icon" />
+
+			<h:outputText
+				value="¿Desea confirmar la cancelación del Proceso de Producción?" />
+
+			<f:facet name="footer">
+				<p:commandButton id="cancelProcessConfirmButton" value="Si"
+					actionListener="#{processController.cancelProcess}"
+					update=":profileTabViewProduccion:processDataTableForm:processDataTable"
+					process="@this" immediate="true" partialSubmit="true"
+					oncomplete="window.setTimeout(function(){window.location.reload()},1500)" />
+
+				<p:commandButton id="cancelProcessCancelButton" value="No"
+					onclick="cancelProcessWidget.hide()" />
+			</f:facet>
+		</h:panelGrid>
+	</p:dialog>
+
+	<p:dialog id="solicitudAnalisisDialog"
+		widgetVar="solicitudAnalisisWidget" modal="true" resizable="false"
+		header="Solicitar Analisis" appendToBody="true" closable="false">
+
+		<h:panelGrid columns="2" cellpadding="5"
+			id="solicitudAnalisisPanelGrid" style="width:auto !important">
+			<span class="ui-messages-warn-icon" />
+
+			<h:outputText value="¿Desea confirmar la Solicitud del Análisis?" />
+
+			<f:facet name="footer">
+				<p:commandButton id="solicitudAnalisisConfirmButton" value="Si"
+					actionListener="#{processController.askAnalisis}"
+					update=":profileTabViewProduccion:processDataTableForm:procesoDataTable"
+					process="@this" immediate="true" partialSubmit="true"
+					oncomplete="window.setTimeout(function(){solicitudAnalisisWidget.hide()},1500)" />
+
+				<p:commandButton id="solicitudAnalisisCancelButton" value="No"
+					onclick="solicitudAnalisisWidget.hide()" />
+			</f:facet>
+		</h:panelGrid>
+	</p:dialog>
+	
+			<p:dialog id="ticketAnalisisDialog" widgetVar="ticketAnalisisWidget"
+			modal="true" resizable="false" header="Solicitar Analisis"
+			dynamic="true" appendToBody="true" closable="true">
+
+			<h:panelGrid columns="4" cellpadding="5" id="ticketAnalisisPanelGrid"
+				style="width:auto !important">
+
+				<h:outputLabel for="addUserAlias66" value="Lote:" />
+				<h:outputText id="addUserAlias66"
+					value="#{processController.selectedItem.id}" />
+
+				<h:outputLabel for="addUserAlias16" value="Paso:"
+					style="padding-left:100px" />
+				<h:outputText id="addUserAlias16"
+					value="#{processController.pasoToAsk.id}" />
+
+
+				<h:outputLabel for="addUserAlias21" value="Producto:" />
+				<h:outputText id="addUserAlias21"
+					value="#{processController.selectedItem.producto.nombre}" />
+
+				<h:outputLabel for="addUserAlias31" value="Analisis:"
+					style="padding-left:100px" />
+				<h:outputText id="addUserAlias31"
+					value="#{processController.analisisToAsk.nombre}" />
+
+
+				<h:outputLabel for="addUserAlias41" value="Receta Versión:" />
+				<h:outputText id="addUserAlias41"
+					value="#{processController.selectedItem.version}" />
+
+				<h:outputLabel for="addUserAlias51" value="Fecha Solicitud:"
+					style="padding-left:100px" />
+				<h:outputText id="addUserAlias51"
+					value="#{processController.selectedItem.fechaCreacion}" />
+
+
+				<h:outputLabel for="addUserAlias61" value="Maquinaria:" />
+				<h:outputText id="addUserAlias61"
+					value="#{processController.selectedItem.maquinaria.nombre}" />
+
+			</h:panelGrid>
+
+			<f:facet name="footer">
+				<p:commandButton value="Imprimir" type="button" icon="ui-icon-print">
+					<p:printer target="ticketAnalisisPanelGrid" />  
+				</p:commandButton>
+			</f:facet>
+		</p:dialog>
+	
 	</h:form>
 </ui:composition>

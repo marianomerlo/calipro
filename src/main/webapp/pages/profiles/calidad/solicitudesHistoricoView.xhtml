@@ -8,11 +8,14 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
 
-	<h:form id="solicitudHDataTableForm">
+	<h:form id="solicitudHDataTableForm">			
+	<p:poll interval="#{solicitudController.autoUpdateFrequencySeconds}"
+			listener="#{solicitudController.refreshItemsHist}" update="@this" />
 		<p:dataTable id="solicitudHDataTable" var="solicitud"
-			value="#{solicitudController.items}" rowIndexVar="solicitudHIndex"
-			widgetVar="solicitudHTable" emptyMessage="No hay solicitudes en el registro"
-			paginator="true" paginatorPosition="bottom" rows="10"
+			value="#{solicitudController.itemsHist}"
+			rowIndexVar="solicitudHIndex" widgetVar="solicitudHTable"
+			emptyMessage="No hay solicitudes en el registro" paginator="true"
+			paginatorPosition="bottom" rows="10"
 			filteredValue="#{solicitudController.filteredItems}"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 			style="width:1000px;text-align:center">
@@ -26,8 +29,8 @@
 			</f:facet>
 
 			<p:column id="solicitudHRowNumber" headerText="Nº" style="width:auto">
-				<p:commandLink style="text-decoration:none" value="#{solicitudHIndex + 1}"
-					ajax="true"
+				<p:commandLink style="text-decoration:none"
+					value="#{solicitudHIndex + 1}" ajax="true"
 					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
 					oncomplete="modifySolicitudHWidget.show();">
 					<f:setPropertyActionListener
@@ -46,10 +49,12 @@
 				</p:commandLink>
 			</p:column>
 
-			<p:column id="solicitudHProducto" filterBy="#{solicitud.lote.producto.nombre}"
+			<p:column id="solicitudHProducto"
+				filterBy="#{solicitud.lote.producto.nombre}"
 				filterStyle="display:none" headerText="Producto"
 				filterMatchMode="contains" style="width:auto">
-				<p:commandLink style="text-decoration:none" value="#{solicitud.lote.producto.nombre}"
+				<p:commandLink style="text-decoration:none"
+					value="#{solicitud.lote.producto.nombre}"
 					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
 					oncomplete="modifySolicitudHWidget.show();">
 					<f:setPropertyActionListener
@@ -60,7 +65,8 @@
 			<p:column id="solicitudLote" filterBy="#{solicitud.lote.id}"
 				filterStyle="display:none" headerText="Lote"
 				filterMatchMode="contains" style="width:auto">
-				<p:commandLink style="text-decoration:none" value="#{solicitud.lote.id}"
+				<p:commandLink style="text-decoration:none"
+					value="#{solicitud.lote.id}"
 					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
 					oncomplete="modifySolicitudHWidget.show();">
 					<f:setPropertyActionListener
@@ -68,10 +74,12 @@
 				</p:commandLink>
 			</p:column>
 
-			<p:column id="solicitudFechaInicial" filterBy="#{solicitud.fechaCreacion}"
-				filterStyle="display:none" headerText="Fecha Solicitado"
-				filterMatchMode="contains" style="width:auto">
-				<p:commandLink style="text-decoration:none" value="#{solicitud.fechaCreacion}"
+			<p:column id="solicitudFechaInicial"
+				filterBy="#{solicitud.fechaCreacion}" filterStyle="display:none"
+				headerText="Fecha Solicitado" filterMatchMode="contains"
+				style="width:auto">
+				<p:commandLink style="text-decoration:none"
+					value="#{solicitud.fechaCreacion}"
 					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
 					oncomplete="modifySolicitudHWidget.show();">
 					<f:setPropertyActionListener
@@ -79,10 +87,12 @@
 				</p:commandLink>
 			</p:column>
 
-			<p:column id="solicitudFecharecibido" filterBy="#{solicitud.fechaRecibido}"
-				filterStyle="display:none" headerText="Fecha Recibido"
-				filterMatchMode="contains" style="width:auto">
-				<p:commandLink style="text-decoration:none" value="#{solicitud.fechaRecibido}"
+			<p:column id="solicitudFecharecibido"
+				filterBy="#{solicitud.fechaRecibido}" filterStyle="display:none"
+				headerText="Fecha Recibido" filterMatchMode="contains"
+				style="width:auto">
+				<p:commandLink style="text-decoration:none"
+					value="#{solicitud.fechaRecibido}"
 					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
 					oncomplete="modifySolicitudHWidget.show();">
 					<f:setPropertyActionListener
@@ -93,15 +103,16 @@
 			<p:column id="solicitudEstado" filterBy="#{solicitud.estado.nombre}"
 				filterStyle="display:none" headerText="Estado"
 				filterMatchMode="contains" style="width:auto">
-				<p:commandLink style="text-decoration:none" value="#{solicitud.estado.nombre}"
+				<p:commandLink style="text-decoration:none"
+					value="#{solicitud.estado.nombre}"
 					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
 					oncomplete="modifySolicitudHWidget.show();">
 					<f:setPropertyActionListener
 						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
 				</p:commandLink>
 			</p:column>
-			
-						<p:column id="solicitudHFechaUltimaMod"
+
+			<p:column id="solicitudHFechaUltimaMod"
 				filterBy="#{solicitud.fechaUltimaModificacion}"
 				filterStyle="display:none" headerText="Fecha Ultima Mod."
 				filterMatchMode="contains" style="width:auto">

@@ -10,8 +10,13 @@
 	<p:commandButton id="pasoAdd" value="Agregar Paso" style="margin:10px"
 		onclick="addPasoWidget.show();" type="button">
 	</p:commandButton>
-	
-	<h:outputLabel id="idVersionGlobal" value="Versión #{pasoController.currentVersion}" style="padding-left:500px" />
+
+	<h:panelGroup id="panelGlobalInfo" style="padding-left:300px">
+		<h:outputLabel id="idProductoGlobalL" value="Producto: " />
+		<h:outputText id="idProductoGlobalT" value="#{productController.selectedItem.nombre}" />
+		<h:outputLabel id="idVersionGlobalL" value="Versión: " style="padding-left:50px" />
+		<h:outputText id="idVersionGlobalT" value="#{pasoController.currentVersion}" />
+	</h:panelGroup>
 
 	<p:dialog id="addPasoDialog" widgetVar="addPasoWidget" modal="true"
 		appendToBody="true" resizable="false" header="Agregar Paso"

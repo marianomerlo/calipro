@@ -113,7 +113,7 @@
 				headerText="Receta" style="width:auto">
 				<p:commandButton oncomplete="seeProductReceiptWidget.show()"
 					actionListener="#{pasoController.setProductAndRefreshPasos(producto)}"
-					update=":profileTabViewDesarrollo:productDataTableForm:recetaDataTable"
+					update=":profileTabViewDesarrollo:productDataTableForm:recetaDataTable :profileTabViewDesarrollo:productDataTableForm:panelGlobalInfo"
 					partialSubmit="true" process="@this" immediate="true"
 					style="text-decoration:none" icon="ui-icon-document">
 					<f:setPropertyActionListener

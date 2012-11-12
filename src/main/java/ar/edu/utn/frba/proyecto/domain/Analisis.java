@@ -11,6 +11,10 @@ public class Analisis extends AuditObject implements Serializable {
 	private static final long serialVersionUID = -1548694953389239757L;
 	
 	private List<Criterio> criterios;
+	
+	private List<String> valoresObtenidos;
+	
+	private Estado estado;
 
 	public Analisis ( Integer analisisId, String nombre ){
 		super();
@@ -60,6 +64,34 @@ public class Analisis extends AuditObject implements Serializable {
 		      return (nombre.equals(other.nombre) && id == other.id);
 		    }
 		    return false;
+	}
+
+	/**
+	 * @return the estado
+	 */
+	public Estado getEstado() {
+		return estado;
+	}
+
+	/**
+	 * @param estado the estado to set
+	 */
+	public void setEstado(Estado estado) {
+		this.estado = estado;
+	}
+
+	/**
+	 * @return the valoresObtenidos
+	 */
+	public List<String> getValoresObtenidos() {
+		return valoresObtenidos;
+	}
+
+	/**
+	 * @param valoresObtenidos the valoresObtenidos to set
+	 */
+	public void setValoresObtenidos(List<String> valoresObtenidos) {
+		this.valoresObtenidos = valoresObtenidos;
 	}
 
 }

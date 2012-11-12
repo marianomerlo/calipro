@@ -14,6 +14,7 @@ import org.primefaces.model.SelectableDataModel;
 import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
 import ar.edu.utn.frba.proyecto.dao.impl.ProcessDao;
 import ar.edu.utn.frba.proyecto.datamodel.ProcessDataModel;
+import ar.edu.utn.frba.proyecto.domain.Analisis;
 import ar.edu.utn.frba.proyecto.domain.Lote;
 import ar.edu.utn.frba.proyecto.domain.Maquinaria;
 import ar.edu.utn.frba.proyecto.domain.Message;
@@ -118,7 +119,7 @@ public class ProcessController extends BaseAbmController<Lote> {
 			List<Paso> pasos = getDao().getPasosLote(getSelectedItem());
 			for (Paso paso : pasos) {
 				paso.setAnalisis(getAnalisisController()
-						.getAnalisisByPaso(paso));
+						.getAnalisisByPasoProceso(paso,getSelectedItem().getId()));
 			}
 			pasosLote = pasos;
 		}
@@ -310,6 +311,34 @@ public class ProcessController extends BaseAbmController<Lote> {
 		refreshItems();
 	}
 
+	public void askAnalisis() {
+		Message message = getDao().askAnalisis(getLoteToAsk(),getPasoToAsk(),getAnalisisToAsk());
+		
+		FacesContext
+		.getCurrentInstance()
+		.addMessage(
+				"generalProcessGrowlMessagesKeys",
+				new FacesMessage(
+
+						StatusType.ERROR.equals(message.getStatus()) ? FacesMessage.SEVERITY_ERROR
+								: FacesMessage.SEVERITY_INFO, message
+								.getMessage(), null));
+		
+		refreshPasos();
+	}
+
+	public void prepareToAsk(Lote lote, Paso paso,Analisis analisis) {
+		setLoteToAsk(lote);
+		setAnalisisToAsk(analisis);
+		setPasoToAsk(paso);
+	}
+	
+	private Lote loteToAsk;
+	
+	private Analisis analisisToAsk;
+
+	private Paso pasoToAsk;
+	
 	/**
 	 * @return the analisisController
 	 */
@@ -323,5 +352,47 @@ public class ProcessController extends BaseAbmController<Lote> {
 	 */
 	public void setAnalisisController(AnalisisController analisisController) {
 		this.analisisController = analisisController;
+	}
+
+	/**
+	 * @return the loteToAsk
+	 */
+	public Lote getLoteToAsk() {
+		return loteToAsk;
+	}
+
+	/**
+	 * @param loteToAsk the loteToAsk to set
+	 */
+	public void setLoteToAsk(Lote loteToAsk) {
+		this.loteToAsk = loteToAsk;
+	}
+
+	/**
+	 * @return the analisisToAsk
+	 */
+	public Analisis getAnalisisToAsk() {
+		return analisisToAsk;
+	}
+
+	/**
+	 * @param analisisToAsk the analisisToAsk to set
+	 */
+	public void setAnalisisToAsk(Analisis analisisToAsk) {
+		this.analisisToAsk = analisisToAsk;
+	}
+
+	/**
+	 * @return the pasoToAsk
+	 */
+	public Paso getPasoToAsk() {
+		return pasoToAsk;
+	}
+
+	/**
+	 * @param pasoToAsk the pasoToAsk to set
+	 */
+	public void setPasoToAsk(Paso pasoToAsk) {
+		this.pasoToAsk = pasoToAsk;
 	}
 }

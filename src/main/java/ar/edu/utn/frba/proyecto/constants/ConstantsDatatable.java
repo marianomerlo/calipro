@@ -42,6 +42,8 @@ public class ConstantsDatatable {
 	public static String GENERAL_ESTADO = "estado";
 
 	public static String VALOR_ESPERADO = "valorEsperado";
+
+	public static String VALOR_OBTENIDO = "valorObtenido";
 	
 	public static String AUDIT_FECHA_CREACION = "fechaCreacion";
 

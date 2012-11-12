@@ -33,7 +33,7 @@
 			<h:outputText value="El Analisis ha sido eliminado satisfactoriamente" />
 		</h:panelGrid>
 		<p:commandButton id="deletedAnalisisToPasoConfirm" value="OK"
-			actionListener="#{pasoController.resetSelectedItems}" process="@this" immediate="true" partialSubmit="true" update="idVersionGlobal :profileTabViewDesarrollo:productDataTableForm:recetaDataTable" 
+			actionListener="#{pasoController.resetSelectedItems}" process="@this" immediate="true" partialSubmit="true" update="panelGlobalInfo :profileTabViewDesarrollo:productDataTableForm:recetaDataTable" 
 			oncomplete="deletedAnalisisToPasoConfirmationWidget.hide();deleteAnalisisToPasoWidget.hide()"/>
 	</p:dialog>
 

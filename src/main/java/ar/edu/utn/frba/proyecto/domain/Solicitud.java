@@ -14,6 +14,8 @@ public class Solicitud extends AuditObject implements Serializable {
 	private String fechaRecibido;
 	
 	private Estado estado;
+	
+	private Analisis analisis;
 
 	@Override
 	public String getIdentifingName() {
@@ -49,6 +51,20 @@ public class Solicitud extends AuditObject implements Serializable {
 	 */
 	public void setEstado(Estado estado) {
 		this.estado = estado;
+	}
+
+	/**
+	 * @return the analisis
+	 */
+	public Analisis getAnalisis() {
+		return analisis;
+	}
+
+	/**
+	 * @param analisis the analisis to set
+	 */
+	public void setAnalisis(Analisis analisis) {
+		this.analisis = analisis;
 	}
 
 }

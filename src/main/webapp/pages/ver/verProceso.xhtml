@@ -10,7 +10,7 @@
 	<p:growl id="endProcessGrowlMessages" showSummary="true"
 		autoUpdate="true" for="endProcessGrowlMessagesKeys" />
 
-	<h:panelGrid columns="4" cellpadding="2" id="headerProcessPanelGrid" 
+	<h:panelGrid columns="4" cellpadding="2" id="headerProcessPanelGrid"
 		style="width:auto !important">
 
 		<h:outputLabel for="addUserAlias" value="Lote:" />
@@ -101,7 +101,7 @@
 				</p:column>
 				<p:column id="subAnalisisNamep" headerText="Analisis"
 					style="width:auto">
-					#{analisis.nombre}"
+					#{analisis.nombre}
 				</p:column>
 				<p:column id="subCriteriop" headerText="Criterio" style="width:auto">
 					<ui:repeat var="criterio" value="#{analisis.criterios}">
@@ -117,30 +117,26 @@
 				</p:column>
 				<p:column id="subValorObtenidop" headerText="Valor Obtenido"
 					style="width:auto">
-					<ui:repeat var="criterio" value="#{analisis.criterios}">
-					AAA
+					<ui:repeat var="valor" value="#{analisis.valoresObtenidos}">
+					#{valor}
 						<br />
 					</ui:repeat>
 				</p:column>
 				<p:column id="estadoSolicitudAnalisisP"
 					headerText="Estado Solicitud" style="width:auto">
-						AAA
+						#{analisis.estado.nombre}
 				</p:column>
-				<p:column id="actionsP" headerText="" style="width:57px">
+				<p:column id="actionsP" headerText="" style="width:65px">
 					<p:commandLink
-						actionListener="#{pasoController.resetAnalisisToPasoForm()}"
-						oncomplete="addAnalisisToPasoWidget.show()"
+						actionListener="#{processController.prepareToAsk(processController.selectedItem,paso,analisis)}"
+						oncomplete="solicitudAnalisisWidget.show()" rendered="#{analisis.estado.id == 0 or analisis.estado.id == 13}"
 						style="text-decoration:none;float:left" process="@this"
-						partialSubmit="true"
-						update=":profileTabViewDesarrollo:productDataTableForm:addAnalisisToPasoPanelGrid"
+						partialSubmit="true" immediate="true"
 						styleClass="ui-icon ui-icon-document">
-						<f:setPropertyActionListener
-							target="#{pasoController.selectedItem}" value="#{paso}" />
 					</p:commandLink>
-					<p:commandLink oncomplete="deletePasoWidget.show();"
-						actionListener="#{pasoController.setSelectedItem(paso)}"
+					<p:commandLink oncomplete="ticketAnalisisWidget.show();" rendered="#{analisis.estado.id == 10 or analisis.estado.id == 11 or analisis.estado.id == 12}"
+						actionListener="#{processController.prepareToAsk(processController.selectedItem,paso,analisis)}"
 						style="text-decoration:none;padding-left:5px" process="@this"
-						update=":profileTabViewDesarrollo:productDataTableForm:deletePasoPanelGrid"
 						styleClass="ui-icon ui-icon-print">
 					</p:commandLink>
 				</p:column>
@@ -150,6 +146,8 @@
 		</p:rowExpansion>
 
 	</p:dataTable>
+	
+
 
 	<f:facet name="footer">
 		<p:commandButton id="endProcessButton" value="Finalizar Proceso"
@@ -160,56 +158,4 @@
 			update=":profileTabViewProduccion:processDataTableForm:processDataTable"
 			onclick="cancelProcessWidget.show()" />
 	</f:facet>
-
-	<p:dialog id="endProcessDialog" widgetVar="endProcessWidget"
-		modal="true" resizable="false" header="Finalizar Proceso"
-		appendToBody="true"
-		onHide="window.setTimeout(function(){window.location.reload()},1500)"
-		closable="false">
-
-		<h:panelGrid columns="2" cellpadding="5" id="endProcessPanelGrid"
-			style="width:auto !important">
-			<span class="ui-messages-warn-icon" />
-
-			<h:outputText
-				value="¿Desea confirmar la finalización del Proceso de Producción?" />
-
-			<f:facet name="footer">
-				<p:commandButton id="endProcessConfirmButton" value="Si"
-					actionListener="#{processController.endProcess}"
-					update=":profileTabViewProduccion:processDataTableForm:processDataTable"
-					process="@this" immediate="true" partialSubmit="true"
-					oncomplete="endProcessWidget.hide()" />
-
-				<p:commandButton id="endProcessCancelButton" value="No"
-					onclick="endProcessWidget.hide()" />
-			</f:facet>
-		</h:panelGrid>
-	</p:dialog>
-
-	<p:dialog id="cancelProcessDialog" widgetVar="cancelProcessWidget"
-		modal="true" resizable="false" header="Cancelar Proceso"
-		appendToBody="true"
-		onHide="window.setTimeout(function(){window.location.reload()},1500)"
-		closable="false">
-
-		<h:panelGrid columns="2" cellpadding="5" id="cancelProcessPanelGrid"
-			style="width:auto !important">
-			<span class="ui-messages-warn-icon" />
-
-			<h:outputText
-				value="¿Desea confirmar la cancelación del Proceso de Producción?" />
-
-			<f:facet name="footer">
-				<p:commandButton id="cancelProcessConfirmButton" value="Si"
-					actionListener="#{processController.cancelProcess}"
-					update=":profileTabViewProduccion:processDataTableForm:processDataTable"
-					process="@this" immediate="true" partialSubmit="true"
-					oncomplete="cancelProcessWidget.hide()" />
-
-				<p:commandButton id="cancelProcessCancelButton" value="No"
-					onclick="cancelProcessWidget.hide()" />
-			</f:facet>
-		</h:panelGrid>
-	</p:dialog>
 </ui:composition>

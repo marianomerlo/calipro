@@ -90,12 +90,14 @@ public class PasoController extends BaseAbmController<Paso> {
 	private List<Paso> pasos;
 
 	public void refreshItems() {
+		int version = 0;
+		
 		setPasos(getDao().getPasosByProduct(
 				getProductController().getSelectedItem()));
 
 		for (Paso paso : getPasos()) {
 			List<Analisis> firstAnalisisList = getAnalisisController()
-					.getAnalisisByPaso(paso);
+					.getAnalisisByPasoReceta(paso);
 
 			for (Analisis analisis : firstAnalisisList) {
 				for (Criterio criterio : analisis.getCriterios()) {
@@ -120,8 +122,10 @@ public class PasoController extends BaseAbmController<Paso> {
 
 			paso.setAnalisis(firstAnalisisList);
 
-			setCurrentVersion(paso.getVersion());
+			version = paso.getVersion();
 		}
+		
+		setCurrentVersion(version);
 	}
 
 	public void setProductAndRefreshPasos(Producto producto) {

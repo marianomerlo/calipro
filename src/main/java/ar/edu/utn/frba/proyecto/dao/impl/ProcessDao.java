@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
+import ar.edu.utn.frba.proyecto.domain.Analisis;
+import ar.edu.utn.frba.proyecto.domain.Criterio;
 import ar.edu.utn.frba.proyecto.domain.Lote;
 import ar.edu.utn.frba.proyecto.domain.Maquinaria;
 import ar.edu.utn.frba.proyecto.domain.Message;
@@ -175,6 +177,33 @@ public class ProcessDao extends BaseAbmDao<Lote> {
 		}
 		
 		return new Message("Proceso de Producción Cancelado Satisfactoriamente",StatusType.SUCCESS);
+	}
+
+	public Message askAnalisis(Lote lote, Paso paso, Analisis analisis) {
+		Connection conn = getConnection();
+		String query = "CALL sp_solicitar_analisis(?,?,?,?,?,?,?)";
+		try {
+			PreparedStatement prepStatement = conn.prepareStatement(query);
+			prepStatement.setInt(1, lote.getProducto().getId());
+			prepStatement.setInt(2, lote.getVersion());
+			prepStatement.setInt(3, lote.getMaquinaria().getId());
+			prepStatement.setInt(4, paso.getId()); //Paso
+			prepStatement.setInt(5, analisis.getId()); //Analisis
+			
+			prepStatement.setInt(7, lote.getUsuarioCreacion().getId());
+
+			for ( Criterio criterio : analisis.getCriterios() ){
+				prepStatement.setInt(6, criterio.getId()); //Criterio
+				prepStatement.executeQuery();
+			}
+
+		} catch (SQLException e) {
+			return new Message("No se pudo solicitar el análisis",StatusType.ERROR);
+		} finally {
+			releaseConnection(conn);
+		}
+		
+		return new Message("Análisis solicitado Satisfactoriamente",StatusType.SUCCESS);
 	}
 
 }

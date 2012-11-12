@@ -274,8 +274,12 @@ public class AnalisisController extends BaseAbmController<Analisis> {
 		this.selectedAnalisis = selectedAnalisis;
 	}
 
-	public List<Analisis> getAnalisisByPaso(Paso paso) {
-		return getDao().getAnalisisByPasoT(paso);
+	public List<Analisis> getAnalisisByPasoReceta(Paso paso) {
+		return getDao().getAnalisisByPasoReceta(paso);
+	}
+
+	public List<Analisis> getAnalisisByPasoProceso(Paso paso, int idLote) {
+		return getDao().getAnalisisByPasoProceso(paso, idLote);
 	}
 
 }

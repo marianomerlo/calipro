@@ -11,6 +11,7 @@ import java.util.List;
 import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
 import ar.edu.utn.frba.proyecto.domain.Analisis;
 import ar.edu.utn.frba.proyecto.domain.Criterio;
+import ar.edu.utn.frba.proyecto.domain.Estado;
 import ar.edu.utn.frba.proyecto.domain.Paso;
 
 import com.mysql.jdbc.Statement;
@@ -105,25 +106,26 @@ public class AnalisisDao extends BaseAbmDao<Analisis> {
 		}
 	}
 
-	public List<Analisis> getAnalisisByPasoT(Paso paso) {
+	public List<Analisis> getAnalisisByPasoReceta(Paso paso) {
 		Connection conn = getConnection();
 		ResultSet result = null;
 		List<Analisis> analisisList = new ArrayList<Analisis>();
 		String query = "SELECT ana.nombre,ana.idAnalisis,cri.nombre,cri.idCriterio,ap.valoresperado from Analisis_por_Paso ap, Analisis ana, Criterio cri "
 				+ "WHERE ap.idanalisis = ana.idanalisis and ap.idcriterio = cri.idcriterio and ap.idproducto = ? and ap.idpaso = ? "
-				+ "and ap.idversion = ? "
-				+ "ORDER BY ana.nombre,cri.nombre";
+				+ "and ap.idversion = ? " + "ORDER BY ana.nombre,cri.nombre";
 		try {
 			PreparedStatement prepStatement = conn.prepareStatement(query,
 					ResultSet.TYPE_FORWARD_ONLY);
 			prepStatement.setInt(1, paso.getProductoId());
 			prepStatement.setInt(2, paso.getId());
 			prepStatement.setInt(3, paso.getVersion());
-			
-//			if (ConstantsDatatable.ULTIMA_VERSION.equals(version)){
-//				prepStatement.setString(3, "(select max(p2.idversion) from receta p2 where ap.idproducto=p2.idproducto)" );
-//			}else{
-//			}
+
+			// if (ConstantsDatatable.ULTIMA_VERSION.equals(version)){
+			// prepStatement.setString(3,
+			// "(select max(p2.idversion) from receta p2 where ap.idproducto=p2.idproducto)"
+			// );
+			// }else{
+			// }
 
 			result = prepStatement.executeQuery();
 
@@ -135,9 +137,10 @@ public class AnalisisDao extends BaseAbmDao<Analisis> {
 				int analisisId = result.getInt(2);
 				String analisisNombre2 = analisisNombre1;
 
-				while (result.getRow() != 0 && analisisNombre1.equals(analisisNombre2)) {
-					Criterio criterio = new Criterio(result.getInt(4), result.getString(3),
-							null,
+				while (result.getRow() != 0
+						&& analisisNombre1.equals(analisisNombre2)) {
+					Criterio criterio = new Criterio(result.getInt(4),
+							result.getString(3), null,
 							result.getString(ConstantsDatatable.VALOR_ESPERADO));
 
 					currentCriterios.add(criterio);
@@ -147,6 +150,76 @@ public class AnalisisDao extends BaseAbmDao<Analisis> {
 				}
 				Analisis analisis = new Analisis(analisisId, analisisNombre1);
 				analisis.setCriterios(currentCriterios);
+
+				analisisList.add(analisis);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (result != null)
+				try {
+					result.close();
+				} catch (SQLException logOrIgnore) {
+				}
+			releaseConnection(conn);
+		}
+
+		return analisisList;
+	}
+
+	public List<Analisis> getAnalisisByPasoProceso(Paso paso, int idLote) {
+		Connection conn = getConnection();
+		ResultSet result = null;
+		List<Analisis> analisisList = new ArrayList<Analisis>();
+		String query = "CALL sp_obtener_analisis_paso (?,?,?,?)";
+		try {
+			PreparedStatement prepStatement = conn.prepareStatement(query,
+					ResultSet.TYPE_FORWARD_ONLY);
+			prepStatement.setInt(1, paso.getProductoId());
+			prepStatement.setInt(2, paso.getId());
+			prepStatement.setInt(3, paso.getVersion());
+			prepStatement.setInt(4, idLote);
+
+			// if (ConstantsDatatable.ULTIMA_VERSION.equals(version)){
+			// prepStatement.setString(3,
+			// "(select max(p2.idversion) from receta p2 where ap.idproducto=p2.idproducto)"
+			// );
+			// }else{
+			// }
+
+			result = prepStatement.executeQuery();
+
+			result.next();
+
+			while (result.getRow() != 0) {
+				List<Criterio> currentCriterios = new ArrayList<Criterio>();
+				List<String> currentValores = new ArrayList<String>();
+				String analisisNombre1 = result.getString(1);
+				int analisisId = result.getInt(2);
+				Estado analisisEstado = new Estado(
+						result.getInt(ConstantsDatatable.GENERAL_ESTADO),
+						result.getString("nombreE"));
+				
+				String analisisNombre2 = analisisNombre1;
+
+				while (result.getRow() != 0
+						&& analisisNombre1.equals(analisisNombre2)) {
+					Criterio criterio = new Criterio(result.getInt(4),
+							result.getString(3), null,
+							result.getString(ConstantsDatatable.VALOR_ESPERADO));
+
+					currentCriterios.add(criterio);
+					currentValores.add(result
+							.getString(ConstantsDatatable.VALOR_OBTENIDO));
+					result.next();
+					analisisNombre2 = result.getRow() != 0 ? result
+							.getString(1) : "";
+				}
+				Analisis analisis = new Analisis(analisisId, analisisNombre1);
+				analisis.setCriterios(currentCriterios);
+				analisis.setValoresObtenidos(currentValores);
+				analisis.setEstado(analisisEstado);
 
 				analisisList.add(analisis);
 			}

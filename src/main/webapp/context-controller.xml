@@ -55,9 +55,10 @@
 	</bean>
 
 	<bean id="solicitudController" class="ar.edu.utn.frba.proyecto.controller.SolicitudController"
-		scope="session">
+		parent="baseController" scope="session">
 		<property name="ITEM_NAME" value="Solicitud" />
 		<property name="solicitudDao" ref="solicitudDao" />
+		<property name="criterioController" ref="criterioController" />
 	</bean>
 
 	<bean id="criterioController" class="ar.edu.utn.frba.proyecto.controller.CriterioController"

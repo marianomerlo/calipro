@@ -9,6 +9,8 @@
 	</h:head>
 
 	<h:form id="solicitudDataTableForm">
+		<p:poll interval="#{solicitudController.autoUpdateFrequencySeconds}"
+			listener="#{solicitudController.refreshItems}" update="@this" />
 		<p:dataTable id="solicitudDataTable" var="solicitud"
 			value="#{solicitudController.items}" rowIndexVar="solicitudIndex"
 			widgetVar="solicitudTable"
@@ -109,7 +111,21 @@
 						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
 				</p:commandLink>
 			</p:column>
-
+			<p:column id="solicitudHEstadoUpdate" filterStyle="display:none"
+				headerText="Receta" style="width:auto">
+				<p:commandButton
+					actionListener="#{solicitudController.nextState(solicitud)}"
+					oncomplete="window.location.reload()"
+					update=":profileTabViewCalidad:solicitudDataTableForm:solicitudDataTable"
+					partialSubmit="true" process="@this" immediate="true"
+					style="text-decoration:none" icon="ui-icon-arrowrefresh-1-w">
+					<f:setPropertyActionListener
+						target="#{pasoController.productController}"
+						value="#{productController}" />
+					<f:setPropertyActionListener
+						target="#{productController.selectedItem}" value="#{producto}" />
+				</p:commandButton>
+			</p:column>
 		</p:dataTable>
 		<p:dialog id="modifySolicitudDialog" header="Modificar Proceso"
 			dynamic="true" widgetVar="modifySolicitudWidget" modal="true"

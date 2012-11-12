@@ -31,7 +31,7 @@ public class Lote extends AuditObject {
 		this.producto = producto;
 		this.maquinaria = maquinaria;
 		this.estado = new Estado(idEstado,null);
-		this.version = version;
+		this.version = version != null ? version : 0;
 	}
 	
 	public Lote(){
