@@ -95,6 +95,7 @@ public class SolicitudDao extends BaseAbmDao<Solicitud> implements AbmDao<Solici
 				int idAnalisis = result.getInt(ConstantsDatatable.ANALISIS_ID);
 				String nameAnalisis = result.getString(9);
 				
+				int idSolicitud = result.getInt(1);
 				String nameProduct = result.getString(2);
 				String fechaCreacion = result.getString(4);
 				String fechaRecibido = result.getString(5);
@@ -109,6 +110,8 @@ public class SolicitudDao extends BaseAbmDao<Solicitud> implements AbmDao<Solici
 					
 					Criterio criterio = new Criterio(result.getInt(ConstantsDatatable.CRITERIO_ID),
 													result.getString(11));
+					
+					criterio.setIdSolicitudAnalisis(result.getInt(1));
 
 					currentCriterios.add(criterio);
 					result.next();
@@ -132,6 +135,7 @@ public class SolicitudDao extends BaseAbmDao<Solicitud> implements AbmDao<Solici
 				solicitud.setFechaRecibido(fechaRecibido);
 				solicitud.setEstado(currentEstado);
 				solicitud.setFechaUltimaModificacion(fechaUltimaMod);
+				solicitud.setId(idSolicitud);
 				
 				resultList.add(solicitud);
 			}
@@ -151,17 +155,42 @@ public class SolicitudDao extends BaseAbmDao<Solicitud> implements AbmDao<Solici
 	}
 
 	public void nextState(Solicitud solicitud) {
-		String query = "CALL sp_modificar_estado_solicitud (?)";
-		conn = getConnection();
 		try {
-			PreparedStatement prepStatement = conn.prepareStatement(query);
-			prepStatement.setInt(1, solicitud.getId());
-			prepStatement.executeQuery();
+			conn = getConnection();
+			for (Criterio criterio : solicitud.getAnalisis().getCriterios()){
+				String query = "CALL sp_modificar_estado_solicitud (?)";
+				PreparedStatement prepStatement = conn.prepareStatement(query);
+				prepStatement.setInt(1, criterio.getIdSolicitudAnalisis());
+				
+				prepStatement.executeQuery();
+			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 	        releaseConnection(conn);
+		}
+		
+	}
+
+	public void finishSolicitud(Solicitud solicitud) {
+		
+		try {
+			conn = getConnection();
+			for (Criterio criterio : solicitud.getAnalisis().getCriterios()) {
+				String query = "UPDATE " + DATATABLE_NAME + " SET valorObtenido = ?, estado = ? WHERE " + DATATABLE_ID + "= ?";
+				PreparedStatement prepStatement = conn.prepareStatement(query);
+				prepStatement.setString(1, criterio.getValorObtenido());
+				prepStatement.setInt(2, ConstantsDatatable.ESTADO_SOLICITUD_ANALISIS_FINALIZADO);
+				prepStatement.setInt(3, criterio.getIdSolicitudAnalisis());
+				
+				prepStatement.execute();
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			releaseConnection(conn);
 		}
 		
 	}

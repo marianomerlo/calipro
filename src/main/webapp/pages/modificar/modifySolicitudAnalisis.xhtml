@@ -9,7 +9,8 @@
 	</h:head>
 	<p:growl id="modifySolicitudAnalisisGrowlMessages" showSummary="true"
 		autoUpdate="true" for="modifySolicitudAnalisisGrowlMessagesKeys" />
-	<p:panel id="modifySolicitudAnalisisPasoPanel" style="width:auto !important">
+	<p:panel id="modifySolicitudAnalisisPasoPanel"
+		style="width:auto !important">
 
 		<h:panelGrid columns="1" cellpadding="5"
 			id="modifySolicitudAnalisisPanelGrid" style="width:auto !important">
@@ -31,11 +32,17 @@
 				style="width:auto">
 
 				<p:inputText value="#{criterio.valorObtenido}"
-					rendered="#{criterio.tipo.value == 'texto'}" />
-				<p:selectOneMenu value="#{criterio.valorObtenido}"
-					rendered="#{criterio.tipo.value == 'combo'}" >
+					rendered="#{criterio.tipo.value == 'texto'}">
+					<p:ajax process="@this" event="change" partialSubmit="true" update=":profileTabViewCalidad:modifySolicitudForm:modifyEndSolicitudDialog"
+						immediate="true" />
+				</p:inputText>
+				<p:selectOneMenu value="#{criterio.valorObtenido}" immediate="true"
+					rendered="#{criterio.tipo.value == 'combo'}">
 					<f:selectItem itemLabel="Elija uno" itemValue="" />
-					<f:selectItems value="#{criterio.opciones}" var="opcion" itemLabel="#{opcion}" itemValue="#{opcion}" />
+					<f:selectItems value="#{criterio.opciones}" var="opcion"
+						itemLabel="#{opcion}" itemValue="#{opcion}" />
+					<p:ajax process="@this" event="change" partialSubmit="true" update=":profileTabViewCalidad:modifySolicitudForm:modifyEndSolicitudDialog"
+						immediate="true" />
 				</p:selectOneMenu>
 			</p:column>
 
@@ -43,14 +50,20 @@
 
 		<f:facet name="footer">
 
-			<p:commandButton id="addAnalisisToPasoConfirmButton123" value="Agregar"
-				actionListener="#{pasoController.addAnalisisToPaso}"
-				partialSubmit="true" />
+			<p:commandButton id="addValorObtenidoToAnalisisSolicitado"
+				value="Aceptar" actionListener="#{solicitudController.endSolicitud}"
+				immediate="true" process="@this"
+				oncomplete="modifyEndSolicitudWidget.show();modifySolicitudWidget.hide()" partialSubmit="true" />
 
-			<p:commandButton id="addAnalisisToPasoCancelButton123" value="Cancelar"
-				immediate="true" 
-			 style="margin:10px"
-				oncomplete="modifySolicitudAnalisisWidget.hide()" />
+			<p:commandButton id="cancelAddValorObtenidoToAnalisisSolicitado"
+				value="Cancelar" immediate="true" style="margin:10px"
+				onclick="modifySolicitudWidget.hide()" />
 		</f:facet>
 	</p:panel>
+
+	<p:dialog id="modifyEndSolicitudDialog"
+		widgetVar="modifyEndSolicitudWidget" modal="true" resizable="false" dynamic="true"
+		header="Finalizar Solicitud" appendToBody="true" closable="false">
+		<ui:include src="modifyEndSolicitud.xhtml" />
+	</p:dialog>
 </ui:composition>

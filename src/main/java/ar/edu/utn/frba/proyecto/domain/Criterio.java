@@ -17,6 +17,8 @@ public class Criterio extends AuditObject {
 
 	private String valorObtenido;
 	
+	private int idSolicitudAnalisis;
+	
 	private List<String> opciones;
 
 	public Criterio(Integer id, String nombre, CriterioType tipo, String valorEsperado){
@@ -120,6 +122,20 @@ public class Criterio extends AuditObject {
 	 */
 	public void setValorObtenido(String valorObtenido) {
 		this.valorObtenido = valorObtenido;
+	}
+
+	/**
+	 * @return the idSolicitudAnalisis
+	 */
+	public int getIdSolicitudAnalisis() {
+		return idSolicitudAnalisis;
+	}
+
+	/**
+	 * @param idSolicitudAnalisis the idSolicitudAnalisis to set
+	 */
+	public void setIdSolicitudAnalisis(int idSolicitudAnalisis) {
+		this.idSolicitudAnalisis = idSolicitudAnalisis;
 	}
 
 }

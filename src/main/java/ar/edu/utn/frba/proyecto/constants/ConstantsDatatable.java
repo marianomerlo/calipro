@@ -72,5 +72,12 @@ public class ConstantsDatatable {
 	public static Integer ESTADO_PROCESO_EN_PROCESO = 7;
 	public static Integer ESTADO_PROCESO_CANCELADO = 8;
 	public static Integer ESTADO_PROCESO_FINALIZADO = 9;
+
+	public static Integer ESTADO_SOLICITUD_ANALISIS_SOLICITADO = 10;
+	public static Integer ESTADO_SOLICITUD_ANALISIS_RECIBIDO = 11;
+	public static Integer ESTADO_SOLICITUD_ANALISIS_EN_PROCESO = 12;
+	public static Integer ESTADO_SOLICITUD_ANALISIS_FINALIZADO = 13;
+	public static Integer ESTADO_SOLICITUD_ANALISIS_CANCELADO = 14;
+	
 	
 }

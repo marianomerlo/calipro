@@ -2,7 +2,9 @@ package ar.edu.utn.frba.proyecto.controller;
 
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.model.SelectableDataModel;
 
@@ -29,8 +31,6 @@ public class SolicitudController extends BaseAbmController<Solicitud> {
 	}
 	
 	private List<Solicitud> itemsInProcess;
-
-
 
 	private List<Solicitud> itemsHist;
 
@@ -66,14 +66,14 @@ public class SolicitudController extends BaseAbmController<Solicitud> {
 	public void refreshItemsHist(){
 		List<Solicitud> tempList = getDao().getSolicitudesHist();
 		refreshCurrentCriterios(tempList);
-		setItems(tempList);
+		setItemsHist(tempList);
 	}
 	
 	public void nextState(Solicitud solicitud){
 		
 		getDao().nextState(solicitud);
 		
-		refreshItems();
+		refreshItemsInProcess();
 	}
 	
 	public void refreshCurrentCriterios(List<Solicitud> tempList) {
@@ -89,6 +89,25 @@ public class SolicitudController extends BaseAbmController<Solicitud> {
 				}
 			}
 		}
+	}
+	
+	private boolean readyToFinish;
+	
+	public void endSolicitud(){
+		for ( Criterio criterio : getSelectedItem().getAnalisis().getCriterios()){
+			if ( criterio.getValorObtenido() == null || "".equals(criterio.getValorObtenido())){
+				setReadyToFinish(false);
+				return;
+			}
+		}
+		setReadyToFinish(true);
+		
+	}
+
+	public void finishSolicitud(){
+		getDao().finishSolicitud(getSelectedItem());
+		
+		refreshItemsInProcess();
 	}
 
 	@Override
@@ -133,6 +152,20 @@ public class SolicitudController extends BaseAbmController<Solicitud> {
 	 */
 	public void setCriterioController(CriterioController criterioController) {
 		this.criterioController = criterioController;
+	}
+
+	/**
+	 * @return the readyToFinish
+	 */
+	public boolean isReadyToFinish() {
+		return readyToFinish;
+	}
+
+	/**
+	 * @param readyToFinish the readyToFinish to set
+	 */
+	public void setReadyToFinish(boolean readyToFinish) {
+		this.readyToFinish = readyToFinish;
 	}
 
 }

@@ -7,13 +7,25 @@
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
+	<p:growl id="solicitudAnalisisGrowlMessages" showSummary="true"
+		autoUpdate="true" for="solicitudAnalisisGrowlMessagesKeys" />
+		
+	<h:form id="modifySolicitudForm">
+		<p:dialog id="modifySolicitudDialog"
+			header="Modificar Solicitud de Análisis" dynamic="true"
+			appendToBody="true" widgetVar="modifySolicitudWidget" modal="true"
+			resizable="false" closable="true">
+			<ui:include src="../../modificar/modifySolicitudAnalisis.xhtml" />
+		</p:dialog>
+	</h:form>
 
 	<h:form id="solicitudDataTableForm">
 		<p:poll interval="30"
-			listener="#{solicitudController.refreshItemsInProcess}" update="@this" />
+			listener="#{solicitudController.refreshItemsInProcess}"
+			update="@this" />
 		<p:dataTable id="solicitudDataTable" var="solicitud"
-			value="#{solicitudController.itemsInProcess}" rowIndexVar="solicitudIndex"
-			widgetVar="solicitudTable"
+			value="#{solicitudController.itemsInProcess}"
+			rowIndexVar="solicitudIndex" widgetVar="solicitudTable"
 			emptyMessage="No hay solicitudes en proceso" paginator="true"
 			paginatorPosition="bottom" rows="10"
 			filteredValue="#{solicitudController.filteredItems}"
@@ -28,9 +40,13 @@
 				</p:outputPanel>
 			</f:facet>
 
-			<p:column id="solicitudRowNumber" headerText="Nº" style="width:auto">
+			<p:column id="solicitudRowNumber" headerText="" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{solicitudIndex + 1}" ajax="true"
+					disabled="#{solicitud.estado.nombre != 'En proceso'}"
+					actionListener="#{solicitudController.setSelectedItem(solicitud)}"
+					process="@this" partialSubmit="true" immediate="true"
+					update=":profileTabViewCalidad:modifySolicitudForm:modifySolicitudDialog"
 					oncomplete="modifySolicitudWidget.show();">
 					<f:setPropertyActionListener
 						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
@@ -43,7 +59,10 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{solicitud.lote.producto.nombre}"
-					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
+					disabled="#{solicitud.estado.nombre != 'En proceso'}"
+					actionListener="#{solicitudController.setSelectedItem(solicitud)}"
+					process="@this" partialSubmit="true" immediate="true"
+					update=":profileTabViewCalidad:modifySolicitudForm:modifySolicitudDialog"
 					oncomplete="modifySolicitudWidget.show();">
 					<f:setPropertyActionListener
 						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
@@ -53,8 +72,12 @@
 			<p:column id="solicitudHId" filterBy="#{solicitud.analisis.nombre}"
 				filterStyle="display:none" headerText="Analisis"
 				filterMatchMode="contains" style="width:auto">
-				<p:commandLink style="text-decoration:none" value="#{solicitud.analisis.nombre}"
-					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
+				<p:commandLink style="text-decoration:none"
+					value="#{solicitud.analisis.nombre}"
+					actionListener="#{solicitudController.setSelectedItem(solicitud)}"
+					process="@this" partialSubmit="true" immediate="true"
+					disabled="#{solicitud.estado.nombre != 'En proceso'}"
+					update=":profileTabViewCalidad:modifySolicitudForm:modifySolicitudDialog"
 					oncomplete="modifySolicitudWidget.show();">
 					<f:setPropertyActionListener
 						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
@@ -66,7 +89,10 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{solicitud.lote.id}"
-					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
+					actionListener="#{solicitudController.setSelectedItem(solicitud)}"
+					process="@this" partialSubmit="true" immediate="true"
+					disabled="#{solicitud.estado.nombre != 'En proceso'}"
+					update=":profileTabViewCalidad:modifySolicitudForm:modifySolicitudDialog"
 					oncomplete="modifySolicitudWidget.show();">
 					<f:setPropertyActionListener
 						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
@@ -79,7 +105,10 @@
 				style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{solicitud.fechaCreacion}"
-					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
+					actionListener="#{solicitudController.setSelectedItem(solicitud)}"
+					process="@this" partialSubmit="true" immediate="true"
+					disabled="#{solicitud.estado.nombre != 'En proceso'}"
+					update=":profileTabViewCalidad:modifySolicitudForm:modifySolicitudDialog"
 					oncomplete="modifySolicitudWidget.show();">
 					<f:setPropertyActionListener
 						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
@@ -92,7 +121,10 @@
 				style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{solicitud.fechaRecibido}"
-					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
+					actionListener="#{solicitudController.setSelectedItem(solicitud)}"
+					process="@this" partialSubmit="true" immediate="true"
+					disabled="#{solicitud.estado.nombre != 'En proceso'}"
+					update=":profileTabViewCalidad:modifySolicitudForm:modifySolicitudDialog"
 					oncomplete="modifySolicitudWidget.show();">
 					<f:setPropertyActionListener
 						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
@@ -104,7 +136,10 @@
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{solicitud.estado.nombre}"
-					actionListener="#{solicitudController.storeOriginalItem(solicitud)}"
+					actionListener="#{solicitudController.setSelectedItem(solicitud)}"
+					process="@this" partialSubmit="true" immediate="true"
+					disabled="#{solicitud.estado.nombre != 'En proceso'}"
+					update=":profileTabViewCalidad:modifySolicitudForm:modifySolicitudDialog"
 					oncomplete="modifySolicitudWidget.show();">
 					<f:setPropertyActionListener
 						target="#{solicitudController.selectedItem}" value="#{solicitud}" />
@@ -115,23 +150,12 @@
 				<p:commandButton
 					actionListener="#{solicitudController.nextState(solicitud)}"
 					oncomplete="window.location.reload()"
-					update=":profileTabViewCalidad:solicitudDataTableForm:solicitudDataTable"
+					disabled="#{solicitud.estado.nombre == 'En proceso'}"
+					update=":profileTabViewCalidad:modifySolicitudForm:modifySolicitudDialog"
 					partialSubmit="true" process="@this" immediate="true"
 					style="text-decoration:none" icon="ui-icon-arrowrefresh-1-w">
-					<f:setPropertyActionListener
-						target="#{pasoController.productController}"
-						value="#{productController}" />
-					<f:setPropertyActionListener
-						target="#{productController.selectedItem}" value="#{producto}" />
 				</p:commandButton>
 			</p:column>
 		</p:dataTable>
-		<p:dialog id="modifySolicitudDialog"
-			header="Modificar Solicitud de Análisis" dynamic="true"
-			widgetVar="modifySolicitudWidget" modal="true" resizable="false"
-			closable="true">
-			<ui:include src="../../modificar/modifySolicitudAnalisis.xhtml" />
-		</p:dialog>
-
 	</h:form>
 </ui:composition>

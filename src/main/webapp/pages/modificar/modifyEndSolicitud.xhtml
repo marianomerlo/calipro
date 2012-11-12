@@ -1,0 +1,55 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	
+	<h:panelGrid columns="2" cellpadding="5" id="modifyEndSolicitudPanelGrid"
+		style="width:auto !important"
+		rendered="#{solicitudController.readyToFinish}">
+		<span class="ui-messages-warn-icon" />
+
+		<h:outputText
+			value="Todos los Criterios poseen su valor obtenido. ¿Desea finalizar la Solicitud del Análisis?" />
+
+		<f:facet name="footer">
+			<p:commandButton id="modifyEndSolicitudConfirmButton" value="Si"
+				actionListener="#{solicitudController.finishSolicitud}"
+				process="@this" partialSubmit="true" immediate="true"
+				update=":profileTabViewDesarrollo:productDataTableForm"
+				oncomplete="modifyEndSolicitudConfirmationWidget.show()" />
+
+			<p:commandButton id="deleteProductCancelButton" value="No"
+				onclick="modifySolicitudWidget.show();modifyEndSolicitudWidget.hide();" />
+		</f:facet>
+	</h:panelGrid>
+	<h:panelGrid columns="2" cellpadding="5"
+		id="modifyEndSolicitudPanelGridEmpty" style="width:auto !important"
+		rendered="#{not solicitudController.readyToFinish}">
+		<span class="ui-messages-fatal-icon" />
+
+		<h:outputText value="Todos los valores obtenidos deben ser completados." />
+
+		<f:facet name="footer">
+			<p:commandButton id="modifyEndSolicitudCancelButtonEmpty" value="OK"
+				onclick="modifyEndSolicitudWidget.hide();modifySolicitudWidget.show();" />
+		</f:facet>
+	</h:panelGrid>
+
+	<p:dialog id="modifyEndSolicitudConfirmDialog" closable="false"
+		resizable="false" header="Information"
+		widgetVar="modifyEndSolicitudConfirmationWidget">
+		<h:panelGrid columns="2" style="padding: 15px">
+			<span class="ui-messages-info-icon" />
+			<h:outputText
+				value="Solicitud de Analisis finalizada satisfactoriamente" />
+		</h:panelGrid>
+		<p:commandButton id="modifyEndSolicitudConfirm" value="OK"
+			oncomplete="window.location.reload()" />
+	</p:dialog>
+
+</ui:composition>
