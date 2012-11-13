@@ -18,9 +18,15 @@
 
 		<h:panelGrid columns="2" cellpadding="5" id="addUserPanelGrid"
 			style="width:auto !important">
-			<h:outputLabel for="addUserAlias" value="Alias" />
+			<h:outputLabel for="addUserAlias" value="Usuario" />
 			<p:inputText value="#{userController.currentItem.alias}"
 				id="addUserAlias" label="Alias" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+
+			<h:outputLabel for="addUserPass" value="Contraseña" />
+			<p:inputText value="#{userController.currentItem.contraseña}"
+				id="addUserPass" label="Contraseña" required="true">
 				<f:validateLength maximum="20" />
 			</p:inputText>
 
@@ -42,33 +48,27 @@
 				<f:validateLength maximum="20" />
 			</p:inputText>
 
-			<h:outputLabel for="addUserPass" value="Contraseña" />
-			<p:inputText value="#{userController.currentItem.contraseña}"
-				id="addUserPass" label="Contraseña" required="true">
-				<f:validateLength maximum="20" />
-			</p:inputText>
 		</h:panelGrid>
-			<p:dataTable id="addUserProfilesDataTable" var="profile" 
-				value="#{profileController.items}" rowKey="#{profile.nombre}"
-				selection="#{userController.selectedProfiles}"
-				style="width:auto !important;text-align:center">
-				
-				<p:column selectionMode="multiple" style="width:auto" />
-				
-				<p:column headerText="Perfiles">  
+		<p:dataTable id="addUserProfilesDataTable" var="profile"
+			value="#{profileController.items}" rowKey="#{profile.nombre}"
+			selection="#{userController.selectedProfiles}"
+			style="width:auto !important;text-align:center">
+
+			<p:column selectionMode="multiple" style="width:auto" />
+
+			<p:column headerText="Perfiles">  
         		    #{profile.nombre}  
        			 </p:column>
-			</p:dataTable>
-			<f:facet name="footer">
-				<p:commandButton id="addUserConfirmButton" value="Agregar"
-					actionListener="#{userController.addItem}"
-					update="addUserPanelGrid addUserPanel"
-					 />
+		</p:dataTable>
+		<f:facet name="footer">
+			<p:commandButton id="addUserConfirmButton" value="Agregar"
+				actionListener="#{userController.addItem}"
+				update="addUserPanelGrid addUserPanel" />
 
-				<p:commandButton id="addUserCancelButton" value="Cancelar" immediate="true"
-					actionListener="#{userController.resetCurrent}"
-					update="addUserPanelGrid" style="margin:10px"
-					oncomplete="addUserWidget.hide()" />
-			</f:facet>
+			<p:commandButton id="addUserCancelButton" value="Cancelar"
+				immediate="true" actionListener="#{userController.resetCurrent}"
+				update="addUserPanelGrid" style="margin:10px"
+				oncomplete="addUserWidget.hide()" />
+		</f:facet>
 	</p:panel>
 </ui:composition>

@@ -33,7 +33,7 @@
 	</h:form>
 	<h:form id="refreshProductForm" style="border:0px;padding-right:0px">
 		<p:commandButton id="productRefresh" immediate="true" icon="ui-icon-refresh"
-			actionListener="#{productController.refreshItems}" 
+			actionListener="#{productController.refreshItems}" value="Actualizar"
 			process="@this" partialSubmit="true" update=":profileTabViewDesarrollo:productDataTableForm:productDataTable"
 			style="margin:10px"
 			/>
@@ -91,7 +91,7 @@
 			</p:column>
 
 			<p:column id="productDescription" filterBy="#{producto.descripcion}"
-				filterStyle="display:none" headerText="Descripcion"
+				filterStyle="display:none" headerText="Descripción"
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{producto.descripcion}"
@@ -104,7 +104,7 @@
 
 			<p:column id="productLastModDate"
 				filterBy="#{producto.fechaUltimaModificacion}"
-				filterStyle="display:none" headerText="Fecha Ultima Modificacion"
+				filterStyle="display:none" headerText="Fecha Última Modificación"
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{producto.fechaUltimaModificacion}"

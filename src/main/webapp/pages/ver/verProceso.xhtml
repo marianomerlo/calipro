@@ -37,7 +37,7 @@
 		<h:outputText id="addUserAlias4"
 			value="#{processController.selectedItem.version}" />
 
-		<h:outputLabel for="addUserAlias5" value="Usuario última modificaión:"
+		<h:outputLabel for="addUserAlias5" value="Usuario última modificación:"
 			style="padding-left:100px" />
 		<h:outputText id="addUserAlias5"
 			value="#{processController.selectedItem.usuarioUltimaModificacion.nombre}" />
@@ -59,8 +59,6 @@
 		rowIndexVar="procesoIndex" value="#{processController.pasosLote}"
 		widgetVar="recetaTable" emptyMessage="No hay pasos"
 		style="width:100%;text-align:center">
-		
-		<p:ajax event="rowToggle" listener="#{processController.setHistoricInfo(paso)}" immediate="true" partialSubmit="true" process="@this"/>
 
 		<p:column style="width:35px">
 			<p:rowToggler />
@@ -77,13 +75,13 @@
 
 		<p:rowExpansion>
 			<p:dataTable id="subRecetaDataTablep" var="analisis"
-				rowIndexVar="subPasoIndex" value="#{paso.analisis}"
+				rowIndexVar="subProcesoIndex" value="#{paso.analisis}"
 				widgetVar="subrecetaTable" emptyMessage="No hay analisis"
 				style="width:763x;text-align:center;padding-left:36px;padding-right:57px">
 
 				<p:column id="subPasoRecetap" headerText="#"
 					style="width:7.4%;text-align:center">
-					#{pasoIndex + 1}.#{subPasoIndex + 1}
+					#{procesoIndex + 1}.#{subProcesoIndex + 1}
 				</p:column>
 				<p:column id="subAnalisisNamep" headerText="Analisis"
 					style="width:auto">
@@ -137,17 +135,18 @@
 						style="text-decoration:none" process="@this"
 						styleClass="ui-icon ui-icon-star">
 					</p:commandLink>
-					<p:overlayPanel id="asejeresadasda" for="asejere" showEvent="mouseover" my="left top" 
-						hideEvent="mouseout">
+					<p:overlayPanel id="asejeresadasda" for="asejere"
+						showEvent="mouseover" my="left top" hideEvent="mouseout">
 						<p:panelGrid columns="2">
 							<f:facet name="header">Antecedentes</f:facet>
-							
-							<h:outputLabel value="Fecha" />
-							<h:outputLabel value="Valor Obtenido" />
-
-							<h:outputLabel value="#{processController.selectedItem.fechaUltimaModificacion}" />
-							<h:outputLabel value="#{analisis.criterios[0].valorEsperado}" />
-
+							<p:dataTable var="over" value="#{analisis.overlayInfo}">
+								<p:column headerText="Fecha">
+									<h:outputText value="#{over.fechaUltimaMod}" />
+								</p:column>
+								<p:column headerText="Valor Obtenido" style="text-align:center">
+									<h:outputText value="#{over.valorObtenido}" />
+								</p:column>
+							</p:dataTable>
 						</p:panelGrid>
 					</p:overlayPanel>
 				</p:column>

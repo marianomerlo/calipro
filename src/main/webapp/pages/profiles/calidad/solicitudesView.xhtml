@@ -19,7 +19,7 @@
 		</p:dialog>
 	</h:form>
 	<h:form id="refreshSolicitudForm" style="border:0px;padding-right:0px">
-		<p:commandButton id="solicitudRefresh" immediate="true" value="Actualizar Lista"
+		<p:commandButton id="solicitudRefresh" immediate="true" value="Actualizar"
 			icon="ui-icon-refresh"
 			actionListener="#{solicitudController.refreshItemsInProcess}" process="@this"
 			partialSubmit="true"
@@ -74,7 +74,7 @@
 			</p:column>
 
 			<p:column id="solicitudId" filterBy="#{solicitud.analisis.nombre}"
-				filterStyle="display:none" headerText="Analisis"
+				filterStyle="display:none" headerText="Análisis"
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{solicitud.analisis.nombre}"

@@ -1884,3 +1884,31 @@ background-color: #d0910b;
 .ui-datatable-data-empty .ui-dt-c {
     width: 100% !important;
   }
+  
+.iconPDF {
+background:url('../images/pdf.png') no-repeat;
+padding-bottom:5px;
+height:30px;
+width:30px;
+}  
+.iconEXCEL {
+background:url('../images/excel.png') no-repeat;
+padding-bottom:50px;
+height:30px;
+width:30px;
+}  
+.iconCSV {
+background:url('../images/csv.png') no-repeat;
+padding-bottom:5px;
+height:30px;
+width:30px;
+}  
+.iconXML {
+background:url('../images/xml.png') no-repeat;
+padding-bottom:5px;
+height:30px;
+width:30px;
+}  
+  
+  
+  

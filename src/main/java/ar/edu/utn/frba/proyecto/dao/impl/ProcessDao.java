@@ -14,6 +14,7 @@ import ar.edu.utn.frba.proyecto.domain.Estado;
 import ar.edu.utn.frba.proyecto.domain.Lote;
 import ar.edu.utn.frba.proyecto.domain.Maquinaria;
 import ar.edu.utn.frba.proyecto.domain.Message;
+import ar.edu.utn.frba.proyecto.domain.OverlayInfo;
 import ar.edu.utn.frba.proyecto.domain.Paso;
 import ar.edu.utn.frba.proyecto.domain.Producto;
 import ar.edu.utn.frba.proyecto.domain.enumType.StatusType;
@@ -148,17 +149,20 @@ public class ProcessDao extends BaseAbmDao<Lote> {
 			prepStatement.setInt(1, lote.getProducto().getId());
 			prepStatement.setInt(2, lote.getVersion());
 			prepStatement.setInt(3, lote.getMaquinaria().getId());
-			prepStatement.setInt(4, lote.getUsuarioUltimaModificacion().getId());
+			prepStatement
+					.setInt(4, lote.getUsuarioUltimaModificacion().getId());
 
 			prepStatement.executeQuery();
 
 		} catch (SQLException e) {
-			return new Message(e.getLocalizedMessage(),StatusType.ERROR);
+			return new Message(e.getLocalizedMessage(), StatusType.ERROR);
 		} finally {
 			releaseConnection(conn);
 		}
-		
-		return new Message("Proceso de Producción Finalizado Satisfactoriamente",StatusType.SUCCESS);
+
+		return new Message(
+				"Proceso de Producción Finalizado Satisfactoriamente",
+				StatusType.SUCCESS);
 	}
 
 	public Message cancelProcess(Lote lote) {
@@ -169,17 +173,21 @@ public class ProcessDao extends BaseAbmDao<Lote> {
 			prepStatement.setInt(1, lote.getProducto().getId());
 			prepStatement.setInt(2, lote.getVersion());
 			prepStatement.setInt(3, lote.getMaquinaria().getId());
-			prepStatement.setInt(4, lote.getUsuarioUltimaModificacion().getId());
+			prepStatement
+					.setInt(4, lote.getUsuarioUltimaModificacion().getId());
 
 			prepStatement.executeQuery();
 
 		} catch (SQLException e) {
-			return new Message("No se pudo cancelar el proceso",StatusType.ERROR);
+			return new Message("No se pudo cancelar el proceso",
+					StatusType.ERROR);
 		} finally {
 			releaseConnection(conn);
 		}
-		
-		return new Message("Proceso de Producción Cancelado Satisfactoriamente",StatusType.SUCCESS);
+
+		return new Message(
+				"Proceso de Producción Cancelado Satisfactoriamente",
+				StatusType.SUCCESS);
 	}
 
 	public Message askAnalisis(Lote lote, Paso paso, Analisis analisis) {
@@ -190,51 +198,85 @@ public class ProcessDao extends BaseAbmDao<Lote> {
 			prepStatement.setInt(1, lote.getProducto().getId());
 			prepStatement.setInt(2, lote.getVersion());
 			prepStatement.setInt(3, lote.getMaquinaria().getId());
-			prepStatement.setInt(4, paso.getId()); //Paso
-			prepStatement.setInt(5, analisis.getId()); //Analisis
-			
+			prepStatement.setInt(4, paso.getId()); // Paso
+			prepStatement.setInt(5, analisis.getId()); // Analisis
+
 			prepStatement.setInt(7, lote.getUsuarioCreacion().getId());
 
-			for ( Criterio criterio : analisis.getCriterios() ){
-				prepStatement.setInt(6, criterio.getId()); //Criterio
+			for (Criterio criterio : analisis.getCriterios()) {
+				prepStatement.setInt(6, criterio.getId()); // Criterio
 				prepStatement.executeQuery();
 			}
 
 		} catch (SQLException e) {
-			return new Message(e.getLocalizedMessage(),StatusType.ERROR);
+			return new Message(e.getLocalizedMessage(), StatusType.ERROR);
 		} finally {
 			releaseConnection(conn);
 		}
-		
-		return new Message("Análisis solicitado Satisfactoriamente",StatusType.SUCCESS);
+
+		return new Message("Análisis solicitado Satisfactoriamente",
+				StatusType.SUCCESS);
 	}
 
-	public void getHistoricInfo(Paso paso,Lote lote) {
-//		Connection conn = getConnection();
-//		String query = "CALL sp_hint_historico(?,?,?,?,?,?)";
-//		try {
-//			PreparedStatement prepStatement = conn.prepareStatement(query);
-//			prepStatement.setInt(1, paso.getProductoId());
-//			prepStatement.setInt(2, paso.getId());
-//			prepStatement.setInt(3, paso.getVersion());
-//			prepStatement.setInt(4, lote.getId()); //Paso
-//			prepStatement.setInt(5, analisis.getId()); //Analisis
-//			
-//			prepStatement.setInt(7, lote.getUsuarioCreacion().getId());
-//
-//			for ( Criterio criterio : analisis.getCriterios() ){
-//				prepStatement.setInt(6, criterio.getId()); //Criterio
-//				prepStatement.executeQuery();
-//			}
-//
-//		} catch (SQLException e) {
-//			return new Message("No se pudo solicitar el análisis",StatusType.ERROR);
-//		} finally {
-//			releaseConnection(conn);
-//		}
-//		
-//		return new Message("Análisis solicitado Satisfactoriamente",StatusType.SUCCESS);
-		
+	public void getHistoricInfo(Paso paso, Lote lote) {
+		// Connection conn = getConnection();
+		// String query = "CALL sp_hint_historico(?,?,?,?,?,?)";
+		// try {
+		// PreparedStatement prepStatement = conn.prepareStatement(query);
+		// prepStatement.setInt(1, paso.getProductoId());
+		// prepStatement.setInt(2, paso.getId());
+		// prepStatement.setInt(3, paso.getVersion());
+		// prepStatement.setInt(4, lote.getId()); //Paso
+		// prepStatement.setInt(5, analisis.getId()); //Analisis
+		//
+		// prepStatement.setInt(7, lote.getUsuarioCreacion().getId());
+		//
+		// for ( Criterio criterio : analisis.getCriterios() ){
+		// prepStatement.setInt(6, criterio.getId()); //Criterio
+		// prepStatement.executeQuery();
+		// }
+		//
+		// } catch (SQLException e) {
+		// return new
+		// Message("No se pudo solicitar el análisis",StatusType.ERROR);
+		// } finally {
+		// releaseConnection(conn);
+		// }
+		//
+		// return new
+		// Message("Análisis solicitado Satisfactoriamente",StatusType.SUCCESS);
+
 	}
 
+	public List<OverlayInfo> getOverlayInfo(Lote lote, Paso paso,
+			Analisis analisis) {
+		Connection conn = getConnection();
+		String query = "CALL sp_hint_historico(?,?,?,?,?,?)";
+		ResultSet result;
+		List<OverlayInfo> resultList = new ArrayList<OverlayInfo>();
+		;
+		try {
+			PreparedStatement prepStatement = conn.prepareStatement(query);
+			prepStatement.setInt(1, paso.getProductoId());
+			prepStatement.setInt(2, paso.getId());
+			prepStatement.setInt(3, paso.getVersion());
+			prepStatement.setInt(4, lote.getId()); // Paso
+			prepStatement.setInt(5, analisis.getId()); // Analisis
+			prepStatement.setInt(6, analisis.getCriterios().get(0).getId());
+
+			result = prepStatement.executeQuery();
+
+			while (result.next()) {
+				resultList.add(new OverlayInfo(result.getString(1).split(" ")[0], result
+						.getString(2)));
+			}
+
+		} catch (SQLException e) {
+			resultList = new ArrayList<OverlayInfo>();
+		} finally {
+			releaseConnection(conn);
+		}
+
+		return resultList;
+	}
 }

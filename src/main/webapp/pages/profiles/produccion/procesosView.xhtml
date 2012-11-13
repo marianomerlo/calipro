@@ -25,7 +25,7 @@
 
 	<h:form id="refreshProcessInProgress" style="border:0px;padding-right:0px">
 		<p:commandButton id="processInProgressRefresh" immediate="true"
-			value="Actualizar Lista" icon="ui-icon-refresh"
+			value="Actualizar" icon="ui-icon-refresh"
 			actionListener="#{processController.refreshItems}"
 			process="@this" partialSubmit="true"
 			update=":profileTabViewProduccion:processDataTableForm:processDataTable"
@@ -118,7 +118,7 @@
 			</p:column>
 
 			<p:column id="processCreatedDate" filterBy="#{lote.fechaCreacion}"
-				filterStyle="display:none" headerText="Fecha Creacion"
+				filterStyle="display:none" headerText="Fecha Creación"
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.fechaCreacion}"

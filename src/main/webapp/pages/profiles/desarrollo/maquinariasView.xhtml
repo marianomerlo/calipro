@@ -32,7 +32,7 @@
 	</h:form>
 	<h:form id="refreshMachineForm" style="border:0px;padding-right:0px">
 		<p:commandButton id="machineRefresh" immediate="true"
-			icon="ui-icon-refresh"
+			icon="ui-icon-refresh" value="Actualizar"
 			actionListener="#{machineController.refreshItems}" process="@this"
 			partialSubmit="true"
 			update=":profileTabViewDesarrollo:machineDataTableForm:machineDataTable"
@@ -109,7 +109,7 @@
 
 			<p:column id="machineLastModDate"
 				filterBy="#{maquinaria.fechaUltimaModificacion}"
-				filterStyle="display:none" headerText="Fecha Ultima Modificacion"
+				filterStyle="display:none" headerText="Fecha Última Modificación"
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{maquinaria.fechaUltimaModificacion}"

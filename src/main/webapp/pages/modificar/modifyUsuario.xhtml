@@ -17,9 +17,15 @@
 		<p:message for="updateUserPass" display="both" />
 		<h:panelGrid columns="2" cellpadding="5" id="updateUserPanelGrid"
 			style="width:auto !important">
-			<h:outputLabel for="updateUserAlias" value="Alias" />
+			<h:outputLabel for="updateUserAlias" value="Usuario" />
 			<p:inputText value="#{userController.selectedItem.alias}"
 				id="updateUserAlias" label="updateUserAlias" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+
+			<h:outputLabel for="updateUserPass" value="Contraseña" />
+			<p:inputText value="#{userController.selectedItem.contraseña}"
+				id="updateUserPass" label="updateUserPass" required="true">
 				<f:validateLength maximum="20" />
 			</p:inputText>
 
@@ -41,11 +47,7 @@
 				<f:validateLength maximum="20" />
 			</p:inputText>
 
-			<h:outputLabel for="updateUserPass" value="Contraseña" />
-			<p:inputText value="#{userController.selectedItem.contraseña}"
-				id="updateUserPass" label="updateUserPass" required="true">
-				<f:validateLength maximum="20" />
-			</p:inputText>
+
 		</h:panelGrid>
 
 		<p:dataTable id="updateUserProfilesDataTable" var="profile"

@@ -13,6 +13,8 @@ public class Analisis extends AuditObject implements Serializable {
 	private List<Criterio> criterios;
 	
 	private Estado estado;
+	
+	private List<OverlayInfo> overlayInfo;
 
 	public Analisis ( Integer analisisId, String nombre ){
 		super();
@@ -77,4 +79,19 @@ public class Analisis extends AuditObject implements Serializable {
 	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
+
+	/**
+	 * @return the overlayInfo
+	 */
+	public List<OverlayInfo> getOverlayInfo() {
+		return overlayInfo;
+	}
+
+	/**
+	 * @param overlayInfo the overlayInfo to set
+	 */
+	public void setOverlayInfo(List<OverlayInfo> overlayInfo) {
+		this.overlayInfo = overlayInfo;
+	}
+
 }

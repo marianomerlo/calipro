@@ -7,8 +7,9 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 
+import org.primefaces.event.DateSelectEvent;
 import org.primefaces.model.SelectableDataModel;
 
 import ar.edu.utn.frba.proyecto.dao.impl.ReportDao;
@@ -19,7 +20,7 @@ import ar.edu.utn.frba.proyecto.domain.Reporte;
 import ar.edu.utn.frba.proyecto.domain.ReporteContainer;
 
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class ReportController extends BaseController<Reporte> {
 
 	/**
@@ -136,6 +137,13 @@ public class ReportController extends BaseController<Reporte> {
 		return getEstadoController().getEstadosFromElement(new Lote());
 	}
 	
+    public void handleStartDateSelect(DateSelectEvent event) {  
+    	setFechaInicio(event.getDate());
+    }  
+
+    public void handleEndDateSelect(DateSelectEvent event) {  
+    	setFechaFin(event.getDate());
+    }  
 	
 
 	/**

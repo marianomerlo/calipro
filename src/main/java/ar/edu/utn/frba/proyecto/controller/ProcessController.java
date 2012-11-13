@@ -141,8 +141,13 @@ public class ProcessController extends BaseAbmController<Lote> {
 		if (getSelectedItem() != null && getSelectedItem().getId() != null) {
 			List<Paso> pasos = getDao().getPasosLote(getSelectedItem());
 			for (Paso paso : pasos) {
-				paso.setAnalisis(getAnalisisController()
-						.getAnalisisByPasoProceso(paso,getSelectedItem().getId()));
+				List<Analisis> tmpList = getAnalisisController()
+						.getAnalisisByPasoProceso(paso,getSelectedItem().getId());
+				
+				for (Analisis analisis : tmpList){
+					analisis.setOverlayInfo(getDao().getOverlayInfo(getSelectedItem(),paso,analisis));
+				}
+				paso.setAnalisis(tmpList);
 			}
 			pasosLote = pasos;
 		}
@@ -370,10 +375,6 @@ public class ProcessController extends BaseAbmController<Lote> {
 		return analisisController;
 	}
 	
-	public void setHistoricInfo(Paso paso){
-//		getDao().getHistoricInfo(paso);
-	}
-
 	/**
 	 * @param analisisController
 	 *            the analisisController to set

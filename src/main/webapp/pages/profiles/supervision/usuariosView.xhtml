@@ -21,7 +21,7 @@
 		
 	<h:form id="refreshUsers" style="border:0px;padding-right:0px">
 		<p:commandButton id="usersRefres" immediate="true"
-			value="Actualizar Lista" icon="ui-icon-refresh"
+			value="Actualizar" icon="ui-icon-refresh"
 			actionListener="#{userController.refreshItems}"
 			process="@this" partialSubmit="true"
 			update=":profileTabViewSupervision:userDataTableForm:userDataTable"
@@ -46,10 +46,10 @@
 				</p:outputPanel>
 			</f:facet>
 
-			<p:column id="userLegajo" filterBy="#{user.legajo}"
-				filterStyle="display:none" headerText="Legajo"
+			<p:column id="userLegajo" filterBy="#{user.alias}"
+				filterStyle="display:none" headerText="Usuario"
 				filterMatchMode="contains" style="width:auto">
-				<p:commandLink style="text-decoration:none" value="#{user.legajo}"
+				<p:commandLink style="text-decoration:none" value="#{user.alias}" disabled="#{user.alias == 'ADMIN'}"
 					actionListener="#{userController.storeOriginalItem(user)}"
 					oncomplete="modifyUserWidget.show();">
 					<f:setPropertyActionListener
@@ -66,7 +66,7 @@
 			<p:column id="userName" filterBy="#{user.nombre}"
 				filterStyle="display:none" headerText="Nombre"
 				filterMatchMode="contains" style="width:auto">
-				<p:commandLink style="text-decoration:none" value="#{user.nombre}"
+				<p:commandLink style="text-decoration:none" value="#{user.nombre}" disabled="#{user.alias == 'ADMIN'}"
 					actionListener="#{userController.storeOriginalItem(user)}"
 					oncomplete="modifyUserWidget.show();">
 					<f:setPropertyActionListener
@@ -83,7 +83,7 @@
 			<p:column id="userApellido" filterBy="#{user.apellido}"
 				filterStyle="display:none" headerText="Apellido"
 				filterMatchMode="contains" style="width:auto">
-				<p:commandLink style="text-decoration:none" value="#{user.apellido}"
+				<p:commandLink style="text-decoration:none" value="#{user.apellido}" disabled="#{user.alias == 'ADMIN'}"
 					actionListener="#{userController.storeOriginalItem(user)}"
 					oncomplete="modifyUserWidget.show();">
 					<f:setPropertyActionListener
@@ -100,7 +100,7 @@
 			<p:column id="userProfiles" filterStyle="display:none"
 				headerText="Perfiles" style="width:auto">
 				<ui:repeat var="perfil" value="#{user.perfiles}">
-					<p:commandLink style="text-decoration:none"
+					<p:commandLink style="text-decoration:none" disabled="#{user.alias == 'ADMIN'}"
 						value="#{perfil.nombre}"
 						actionListener="#{userController.storeOriginalItem(user)}"
 						oncomplete="modifyUserWidget.show();">
@@ -120,7 +120,7 @@
 			<p:column id="userEstado" filterBy="#{user.estado.nombre}"
 				filterStyle="display:none" headerText="Estado"
 				filterMatchMode="exact" style="width:auto">
-				<p:commandLink style="text-decoration:none"
+				<p:commandLink style="text-decoration:none" disabled="#{user.alias == 'ADMIN'}"
 					value="#{user.estado.nombre}"
 					actionListener="#{userController.storeOriginalItem(user)}"
 					oncomplete="modifyUserWidget.show();">

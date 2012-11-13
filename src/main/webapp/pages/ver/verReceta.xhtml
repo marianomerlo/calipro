@@ -37,10 +37,10 @@
 		<ui:include src="../eliminar/deletePaso.xhtml" />
 	</p:dialog>
 
-	<p:dialog id="addAnalisisToPasoDialog"
+	<p:dialog id="addAnalisisToPasoDialog" dynamic="true"
 		widgetVar="addAnalisisToPasoWidget" appendToBody="true" modal="true"
 		resizable="false" style="width:800px;"
-		header="Agregar Analisis a Paso" closable="true">
+		header="Agregar Análisis a Paso" closable="true">
 		<ui:include src="../agregar/addAnalisisToPaso.xhtml" />
 	</p:dialog>
 
@@ -48,7 +48,7 @@
 		widgetVar="modifyAnalisisToPasoWidget" appendToBody="true"
 		modal="true" resizable="false" style="width:800px;" dynamic="true"
 		onHide="seeProductReceiptWidget.show()"
-		header="Modificar Analisis del Paso" closable="true">
+		header="Modificar Análisis del Paso" closable="true">
 		<ui:include src="../modificar/modifyAnalisisToPaso.xhtml" />
 	</p:dialog>
 
@@ -92,7 +92,7 @@
 		<p:column id="pasoDelete" headerText="" style="width:57px">
 			<p:commandLink
 				actionListener="#{pasoController.resetAnalisisToPasoForm()}"
-				oncomplete="addAnalisisToPasoWidget.show()"
+				oncomplete="addAnalisisToPasoWidget.show();seeProductReceiptWidget.hide()"
 				style="text-decoration:none;float:left" process="@this"
 				partialSubmit="true"
 				update=":profileTabViewDesarrollo:productDataTableForm:addAnalisisToPasoPanelGrid"
@@ -111,7 +111,7 @@
 		<p:rowExpansion>
 			<p:dataTable id="subRecetaDataTable" var="analisis"
 				rowIndexVar="subPasoIndex" value="#{paso.analisis}"
-				widgetVar="subrecetaTable" emptyMessage="No hay analisis"
+				widgetVar="subrecetaTable" emptyMessage="No hay análisis"
 				style="width:763x;text-align:center;padding-left:36px;padding-right:57px">
 
 				<p:column id="subPasoReceta" headerText="#"
@@ -135,7 +135,7 @@
 							target="#{pasoController.selectedItem}" value="#{paso}" />
 					</p:commandLink>
 				</p:column>
-				<p:column id="subAnalisisName" headerText="Analisis"
+				<p:column id="subAnalisisName" headerText="Análisis"
 					style="width:auto">
 					<p:commandLink style="text-decoration:none"
 						value="#{analisis.nombre}"

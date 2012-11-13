@@ -38,14 +38,16 @@
 			</p:column>
 
 			<p:column id="criterio2ExpectedValue" headerText="Valor Esperado"
-				style="width:auto">
+				style="width:200px">
 
 				<p:inputText value="#{pasoController.expectedValues[criterioIndex]}"
 					rendered="#{criterio.tipo.value == 'texto'}" />
-				<p:selectOneMenu value="#{pasoController.expectedValues[criterioIndex]}"
-					rendered="#{criterio.tipo.value == 'combo'}" >
+				<p:selectOneMenu
+					value="#{pasoController.expectedValues[criterioIndex]}"
+					style="width:150px" rendered="#{criterio.tipo.value == 'combo'}">
 					<f:selectItem itemLabel="Elija uno" itemValue="" />
-					<f:selectItems value="#{criterio.opciones}" var="opcion" itemLabel="#{opcion}" itemValue="#{opcion}" />
+					<f:selectItems value="#{criterio.opciones}" var="opcion"
+						itemLabel="#{opcion}" itemValue="#{opcion}" />
 				</p:selectOneMenu>
 			</p:column>
 
@@ -60,9 +62,11 @@
 			</p:commandButton>
 
 			<p:commandButton id="addAnalisisToPasoCancelButton" value="Cancelar"
-				immediate="true" actionListener="#{pasoController.resetCurrent}"
-				update="addAnalisisToPasoPanelGrid" style="margin:10px"
-				oncomplete="addAnalisisToPasoWidget.hide()" />
+				immediate="true"
+				actionListener="#{pasoController.resetAnalisisToPasoForm}"
+				process="@this" partialSubmit="true"
+				update="addAnalisisToPasoPanel" style="margin:10px"
+				oncomplete="addAnalisisToPasoWidget.hide();seeProductReceiptWidget.show()" />
 		</f:facet>
 	</p:panel>
 </ui:composition>

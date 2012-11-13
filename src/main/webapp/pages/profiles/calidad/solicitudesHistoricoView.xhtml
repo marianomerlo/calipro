@@ -10,7 +10,7 @@
 
 	<h:form id="refreshSolicitudHForm" style="border:0px;padding-right:0px">
 		<p:commandButton id="solicitudRefreshH" immediate="true"
-			value="Actualizar Lista" icon="ui-icon-refresh"
+			value="Actualizar" icon="ui-icon-refresh"
 			actionListener="#{solicitudController.refreshItemsHist}"
 			process="@this" partialSubmit="true"
 			update=":profileTabViewCalidad:solicitudHDataTableForm:solicitudHDataTable"
@@ -64,7 +64,7 @@
 
 			<p:column id="solicitudHAnalisis"
 				filterBy="#{solicitud.analisis.nombre}"
-				filterStyle="display:none" headerText="Analisis"
+				filterStyle="display:none" headerText="Análisis"
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{solicitud.analisis.nombre}"
@@ -137,7 +137,7 @@
 
 			<p:column id="solicitudHFechaUltimaMod"
 				filterBy="#{solicitud.fechaUltimaModificacion}"
-				filterStyle="display:none" headerText="Fecha Ultima Mod."
+				filterStyle="display:none" headerText="Fecha Última Mod."
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{solicitud.fechaUltimaModificacion}"
@@ -151,7 +151,7 @@
 			</p:column>
 
 		</p:dataTable>
-		<p:dialog id="seeSolicitudDialog" header="Datos Historicos"
+		<p:dialog id="seeSolicitudDialog" header="Datos Históricos"
 			dynamic="true" widgetVar="seeSolicitudWidget" modal="true"
 			resizable="false" closable="true">
 			<ui:include src="../../ver/verHistoricoSolicitudAnalisis.xhtml" />

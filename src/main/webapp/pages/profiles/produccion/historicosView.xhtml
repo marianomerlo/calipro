@@ -10,7 +10,7 @@
 
 	<h:form id="refreshProcessH" style="border:0px;padding-right:0px">
 		<p:commandButton id="processHRefresh" immediate="true"
-			value="Actualizar Lista" icon="ui-icon-refresh"
+			value="Actualizar" icon="ui-icon-refresh"
 			actionListener="#{processController.refreshItemsHist}"
 			process="@this" partialSubmit="true"
 			update=":profileTabViewProduccion:historiProcessDataTableForm:historicProcessDataTable"
@@ -93,7 +93,7 @@
 
 			<p:column id="historicProcessCreatedUser"
 				filterBy="#{lote.usuarioCreacion.nombre}" filterStyle="display:none"
-				headerText="Usuario Creacion" filterMatchMode="contains"
+				headerText="Usuario Creación" filterMatchMode="contains"
 				style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.usuarioCreacion.nombre}"
@@ -108,7 +108,7 @@
 
 			<p:column id="historicProcessCreatedDate"
 				filterBy="#{lote.fechaCreacion}" filterStyle="display:none"
-				headerText="Fecha Creacion" filterMatchMode="contains"
+				headerText="Fecha Creación" filterMatchMode="contains"
 				style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.fechaCreacion}"
@@ -123,7 +123,7 @@
 
 			<p:column id="historicProcessLastModUser"
 				filterBy="#{lote.usuarioUltimaModificacion.nombre}"
-				filterStyle="display:none" headerText="Usuario Ultima Modificacion"
+				filterStyle="display:none" headerText="Usuario Última Modificación"
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.usuarioUltimaModificacion.nombre}"
@@ -137,7 +137,7 @@
 			</p:column>
 			<p:column id="historicProcessLastModDate"
 				filterBy="#{lote.fechaUltimaModificacion}"
-				filterStyle="display:none" headerText="Fecha Ultima Modificacion"
+				filterStyle="display:none" headerText="Fecha Última Modificación"
 				filterMatchMode="contains" style="width:auto">
 				<p:commandLink style="text-decoration:none"
 					value="#{lote.fechaUltimaModificacion}"
@@ -164,7 +164,7 @@
 			</p:column>
 
 		</p:dataTable>
-		<p:dialog id="modifyHProcessDialog" header="Datos Historicos"
+		<p:dialog id="modifyHProcessDialog" header="Datos Históricos"
 			dynamic="true" widgetVar="modifyHProcessWidget" modal="true"
 			resizable="false" closable="true">
 			<ui:include src="../../ver/verHistoricoProceso.xhtml" />

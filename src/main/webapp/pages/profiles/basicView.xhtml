@@ -12,9 +12,6 @@
 			rendered="#{sessionController.loggedUser != null}">
 			<p:menuButton
 				value="#{sessionController.loggedUser.nombre} #{sessionController.loggedUser.apellido}">
-				<p:menuitem value="Actualizar cuenta"
-					onclick="modifyLoggedUser.show()"					
-					icon="ui-icon-extlink" />
 				<p:menuitem value="Logout"
 					actionListener="#{sessionController.logout}"
 					update=":logginForm @this :mainPanelDesarrollo :mainPanelSupervision :mainPanelProduccion"

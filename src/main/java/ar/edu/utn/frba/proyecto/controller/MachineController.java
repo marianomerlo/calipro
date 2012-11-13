@@ -66,12 +66,6 @@ public class MachineController extends BaseAbmController<Maquinaria> {
 	}
 	
 	@Override
-	public void updateItem() {
-		getSelectedItem().getEstado().setId(getSelectedItemEstadoId());
-		super.updateItem();
-	}
-
-	@Override
 	protected boolean isDifferent() {
 		return !getOriginalSelectedItem().getNombre().equals(getSelectedItem().getNombre()) ||
 				hasStateChanged();

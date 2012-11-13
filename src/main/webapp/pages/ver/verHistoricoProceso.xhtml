@@ -34,7 +34,7 @@
 		<h:outputText id="addUserAlias4H"
 			value="#{processController.selectedItem.version}" />
 
-		<h:outputLabel for="addUserAlias5H" value="Usuario última modificaión:"
+		<h:outputLabel for="addUserAlias5H" value="Usuario Última modificación:"
 			style="padding-left:100px" />
 		<h:outputText id="addUserAlias5H"
 			value="#{processController.selectedItem.usuarioUltimaModificacion.nombre}" />
@@ -73,14 +73,14 @@
 		<p:rowExpansion>
 			<p:dataTable id="subRecetaDataTablepH" var="analisis"
 				rowIndexVar="subPasoIndex" value="#{paso.analisis}"
-				widgetVar="subrecetaTableH" emptyMessage="No hay analisis"
+				widgetVar="subrecetaTableH" emptyMessage="No hay análisis"
 				style="width:763x;text-align:center;padding-left:36px;padding-right:57px">
 
 				<p:column id="subPasoRecetapH" headerText="#"
 					style="width:7.4%;text-align:center">
-					#{pasoIndex + 1}.#{subPasoIndex + 1}
+					#{procesoIndex + 1}.#{subPasoIndex + 1}
 				</p:column>
-				<p:column id="subAnalisisNamepH" headerText="Analisis"
+				<p:column id="subAnalisisNamepH" headerText="Análisis"
 					style="width:auto">
 					#{analisis.nombre}
 				</p:column>
