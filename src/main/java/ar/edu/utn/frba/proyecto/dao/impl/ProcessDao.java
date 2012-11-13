@@ -201,7 +201,7 @@ public class ProcessDao extends BaseAbmDao<Lote> {
 			}
 
 		} catch (SQLException e) {
-			return new Message("No se pudo solicitar el análisis",StatusType.ERROR);
+			return new Message(e.getLocalizedMessage(),StatusType.ERROR);
 		} finally {
 			releaseConnection(conn);
 		}

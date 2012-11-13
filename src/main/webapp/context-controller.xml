@@ -71,6 +71,7 @@
 		scope="session">
 		<property name="ITEM_NAME" value="Reporte" />
 		<property name="reportDao" ref="reportDao" />
+		<property name="estadoController" ref="estadoController" />
 	</bean>
 
 	<bean id="machineController" parent="baseController"

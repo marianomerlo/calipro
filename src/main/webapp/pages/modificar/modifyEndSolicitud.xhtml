@@ -8,13 +8,16 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
 	
-	<h:panelGrid columns="2" cellpadding="5" id="modifyEndSolicitudPanelGrid"
+	<h:panelGrid columns="1" cellpadding="5" id="modifyEndSolicitudPanelGrid"
 		style="width:auto !important"
 		rendered="#{solicitudController.readyToFinish}">
 		<span class="ui-messages-warn-icon" />
 
 		<h:outputText
-			value="Todos los Criterios poseen su valor obtenido. ¿Desea finalizar la Solicitud del Análisis?" />
+			value="Todos los Criterios poseen su valor obtenido." />
+
+		<h:outputText
+			value="¿Desea finalizar la Solicitud del Análisis?" />
 
 		<f:facet name="footer">
 			<p:commandButton id="modifyEndSolicitudConfirmButton" value="Si"

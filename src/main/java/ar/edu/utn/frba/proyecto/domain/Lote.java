@@ -92,5 +92,9 @@ public class Lote extends AuditObject {
 	public void setVersion(int version) {
 		this.version = version;
 	}
+	
+	public Integer getStateGroupId(){
+		return 4;
+	}
 
 }

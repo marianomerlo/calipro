@@ -1,5 +1,7 @@
 package ar.edu.utn.frba.proyecto.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,11 +11,12 @@ import javax.faces.bean.SessionScoped;
 
 import org.primefaces.model.SelectableDataModel;
 
-import ar.edu.utn.frba.proyecto.dao.Dao;
 import ar.edu.utn.frba.proyecto.dao.impl.ReportDao;
 import ar.edu.utn.frba.proyecto.datamodel.ReportDataModel;
 import ar.edu.utn.frba.proyecto.domain.Estado;
+import ar.edu.utn.frba.proyecto.domain.Lote;
 import ar.edu.utn.frba.proyecto.domain.Reporte;
+import ar.edu.utn.frba.proyecto.domain.ReporteContainer;
 
 @ManagedBean
 @SessionScoped
@@ -27,23 +30,32 @@ public class ReportController extends BaseController<Reporte> {
 	@ManagedProperty("#{reportDao}")
 	private ReportDao reportDao;
 	
-	private Reporte selectedItem;
+	@ManagedProperty("#{estadoController}")
+	private EstadoController estadoController;
 	
-	private Integer idProducto;
+	private Reporte selectedItem;
+
+	private List<ReporteContainer> report;
+	
+	private String idProducto;
 	
 	private String nombreProducto;
 	
-	private Integer idUsuario;
+	private String idUsuario;
 	
 	private String nombreUsuario;
 	
 	private String nombreAnalisis;
 	
-	private Estado estado;
+	private Integer estado;
 	
 	private Date fechaInicio;
 	
 	private Date fechaFin;
+	
+	private String ALL_VALUES = "*";
+	
+	private String dateFormat = "ddMMyyyy";
 
 	@Override
 	protected ReportDao getDao() {
@@ -51,12 +63,12 @@ public class ReportController extends BaseController<Reporte> {
 	}
 	
 	public void resetValues(){
-		this.idProducto = null;
-		this.nombreProducto = null;
-		this.idUsuario = null;
-		this.nombreUsuario = null;
-		this.nombreAnalisis = null;
-		this.estado = null;
+		this.idProducto = ALL_VALUES;
+		this.nombreProducto = ALL_VALUES;
+		this.idUsuario = ALL_VALUES;
+		this.nombreUsuario = ALL_VALUES;
+		this.nombreAnalisis = ALL_VALUES;
+		this.estado = 0;
 		this.fechaInicio = null;
 		this.fechaFin = null;
 	}
@@ -72,23 +84,59 @@ public class ReportController extends BaseController<Reporte> {
 	
 	public void generateReport(){
 			Integer reportId = getSelectedItem().getId();
+			SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+			
+			Integer currentIdProducto = ALL_VALUES.equals(getIdProducto()) ? null : Integer.valueOf(getIdProducto());
+			String currentNombreProduct = ALL_VALUES.equals(getNombreProducto()) ? "''" : "'" + getNombreProducto() + "'";
+			Integer currentIdUsuario = ALL_VALUES.equals(getIdUsuario()) ? null : Integer.valueOf(getIdUsuario());
+			String currentNombreUsuario = ALL_VALUES.equals(getNombreUsuario()) ? "''" : "'" + getNombreUsuario() + "'";
+			String currentNombreAnalisis = ALL_VALUES.equals(getNombreAnalisis()) ? "''" : "'" + getNombreAnalisis() + "'";
+			Integer currentEstado = 0 == getEstado() ? null : getEstado();
+			
+			String fechaInicioStr = "'" + sdf.format(fechaInicio) + "'";
+			String fechaFinStr = "'" + sdf.format(fechaFin) + "'";
+			
+			List<ReporteContainer> result;
 			
 			switch(reportId){
-			//Recibe idproducto, nombreusuario, idusuario, nombreanalisis, fechaDesde, fechaHasta
-			case 1:	getDao().getReporteCantidadAnalisisUsuario();
+			//Recibe nombreusuario, idusuario, nombreanalisis, fechaDesde, fechaHasta
+			case 1:	result = getDao().getReporteCantidadAnalisisUsuario( currentNombreUsuario, 
+																currentIdUsuario, 
+																currentNombreAnalisis, 
+																fechaInicioStr, 
+																fechaFinStr );
 					break;
 			
-			//Recibe idproducto, nombreusuario, idusuario, nombreanalisis, fechaDesde, fechaHasta
-			case 2: getDao().getReporteEstadosProductosProcesadios();
+			//Recibe idproducto, nombreproducto, estado, fechaDesde, fechaHasta
+			case 2: result = getDao().getReporteEstadosProductosProcesados(currentIdProducto,
+																	currentNombreUsuario,
+																	currentEstado,
+																	fechaInicioStr,
+																	fechaFinStr);
 					break;
 				
-			case 3:	getDao().getReporteLotesProducto();
+			//Recibe idproducto, nombreproducto, fechaDesde, fechaHasta
+			case 3:	result = getDao().getReporteLotesProducto(currentIdProducto,
+														currentNombreProduct,
+														fechaInicioStr,
+														fechaFinStr);
 					break;
-				
-			case 4:	getDao().getReporteTiempoPromedioProducto();
+			
+			//Recibe fechaDesde, fechaHasta		
+			case 4:	result = getDao().getReporteTiempoPromedioProducto(fechaInicioStr,fechaFinStr);
 					break;
+					
+			default: result = new ArrayList<ReporteContainer>();
 			}
+			
+			setReport(result);
 	}
+	
+	public List<Estado> loteStates(){
+		return getEstadoController().getEstadosFromElement(new Lote());
+	}
+	
+	
 
 	/**
 	 * @return the selectedItem
@@ -104,28 +152,12 @@ public class ReportController extends BaseController<Reporte> {
 		this.selectedItem = selectedItem;
 	}
 
-	public Integer getIdProducto() {
-		return idProducto;
-	}
-
-	public void setIdProducto(Integer idProducto) {
-		this.idProducto = idProducto;
-	}
-
 	public String getNombreProducto() {
 		return nombreProducto;
 	}
 
 	public void setNombreProducto(String nombreProducto) {
 		this.nombreProducto = nombreProducto;
-	}
-
-	public Integer getIdUsuario() {
-		return idUsuario;
-	}
-
-	public void setIdUsuario(Integer idUsuario) {
-		this.idUsuario = idUsuario;
 	}
 
 	public String getNombreUsuario() {
@@ -142,14 +174,6 @@ public class ReportController extends BaseController<Reporte> {
 
 	public void setNombreAnalisis(String nombreAnalisis) {
 		this.nombreAnalisis = nombreAnalisis;
-	}
-
-	public Estado getEstado() {
-		return estado;
-	}
-
-	public void setEstado(Estado estado) {
-		this.estado = estado;
 	}
 
 	public Date getFechaInicio() {
@@ -170,6 +194,64 @@ public class ReportController extends BaseController<Reporte> {
 
 	public ReportDao getReportDao() {
 		return reportDao;
+	}
+
+	public String getIdProducto() {
+		return idProducto;
+	}
+
+	public void setIdProducto(String idProducto) {
+		this.idProducto = idProducto;
+	}
+
+	public String getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(String idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+
+	/**
+	 * @return the estado
+	 */
+	public Integer getEstado() {
+		return estado;
+	}
+
+	/**
+	 * @param estado the estado to set
+	 */
+	public void setEstado(Integer estado) {
+		this.estado = estado;
+	}
+
+	/**
+	 * @return the estadoController
+	 */
+	public EstadoController getEstadoController() {
+		return estadoController;
+	}
+
+	/**
+	 * @param estadoController the estadoController to set
+	 */
+	public void setEstadoController(EstadoController estadoController) {
+		this.estadoController = estadoController;
+	}
+
+	/**
+	 * @return the report
+	 */
+	public List<ReporteContainer> getReport() {
+		return report;
+	}
+
+	/**
+	 * @param report the report to set
+	 */
+	public void setReport(List<ReporteContainer> report) {
+		this.report = report;
 	}
 
 }

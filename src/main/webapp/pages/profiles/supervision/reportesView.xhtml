@@ -12,13 +12,15 @@
 
 		<p:dataTable id="reportDataTable" var="reporte" style="width:50%"
 			value="#{reportController.dataModel}" rowKey="#{reporte.id}"
+			emptyMessage="No hay reportes"
 			selection="#{reportController.selectedItem}" selectionMode="single">
 
 			<p:column headerText="Reportes" style="text-align:center">  
             #{reporte.nombre}  
         </p:column>
 
-			<p:ajax event="rowSelect" listener="#{reportController.resetValues()}"
+			<p:ajax event="rowSelect"
+				listener="#{reportController.resetValues()}"
 				update=":profileTabViewSupervision:reportDataTableForm:preReportDialog"
 				partialSubmit="true" process="@this" immediate="true" />
 
@@ -43,56 +45,72 @@
 				</f:facet>
 
 				<h:outputText value="ID Producto"
-					rendered="${reportController.selectedItem.id == 2 or reportController.selectedItem.id == 3}" />
-				<h:inputText value="${reportController.idProducto}"
-					rendered="${reportController.selectedItem.id == 2 or reportController.selectedItem.id == 3}" />
+					rendered="#{reportController.selectedItem.id == 2 or reportController.selectedItem.id == 3}" />
+				<h:inputText value="#{reportController.idProducto}" required="true"
+					rendered="#{reportController.selectedItem.id == 2 or reportController.selectedItem.id == 3}" />
 
 				<h:outputText value="Nombre Producto"
-					rendered="${reportController.selectedItem.id == 2 or reportController.selectedItem.id == 3}" />
-				<h:inputText value="${reportController.nombreProducto}"
-					rendered="${reportController.selectedItem.id == 2 or reportController.selectedItem.id == 3}" />
+					rendered="#{reportController.selectedItem.id == 2 or reportController.selectedItem.id == 3}" />
+				<h:inputText value="#{reportController.nombreProducto}"
+					required="true"
+					rendered="#{reportController.selectedItem.id == 2 or reportController.selectedItem.id == 3}" />
 
 				<h:outputText value="Estado"
-					rendered="${reportController.selectedItem.id == 2}" />
-				<h:inputText value="${reportController.estado}"
-					rendered="${reportController.selectedItem.id == 2}" />
+					rendered="#{reportController.selectedItem.id == 2}" />
+				<p:selectOneMenu id="stateReportBox"
+					rendered="#{reportController.selectedItem.id == 2}"
+					value="#{reportController.estado}">
+					<f:selectItem itemLabel="*" itemValue="0" />
+					<f:selectItems value="#{reportController.loteStates}" var="estado"
+						itemLabel="#{estado.nombre}" itemValue="#{estado.id}" />
+				</p:selectOneMenu>
+
+				<h:inputText value="#{reportController.estado}"
+					rendered="#{reportController.selectedItem.id == 2}" required="true" />
 
 				<h:outputText value="ID Usuario"
-					rendered="${reportController.selectedItem.id == 1}" />
-				<h:inputText value="${reportController.idUsuario}"
-					rendered="${reportController.selectedItem.id == 1}" />
+					rendered="#{reportController.selectedItem.id == 1}" />
+				<h:inputText value="#{reportController.idUsuario}"
+					rendered="#{reportController.selectedItem.id == 1}" required="true" />
 
 				<h:outputText value="Nombre Usuario"
-					rendered="${reportController.selectedItem.id == 1}" />
-				<h:inputText value="${reportController.nombreProducto}"
-					rendered="${reportController.selectedItem.id == 1}" />
+					rendered="#{reportController.selectedItem.id == 1}" />
+				<h:inputText value="#{reportController.nombreProducto}"
+					rendered="#{reportController.selectedItem.id == 1}" required="true" />
 
 				<h:outputText value="Nombre Analisis"
-					rendered="${reportController.selectedItem.id == 1}" />
-				<h:inputText value="${reportController.nombreAnalisis}"
-					rendered="${reportController.selectedItem.id == 1}" />
+					rendered="#{reportController.selectedItem.id == 1}" />
+				<h:inputText value="#{reportController.nombreAnalisis}"
+					rendered="#{reportController.selectedItem.id == 1}" required="true" />
 
 				<h:outputText value="Fecha Inicio" />
 				<p:calendar pattern="dd/MM/yyyy"
-					value="${reportController.fechaInicio}" id="popupButtonCalIni" showOn="button" readonlyInput="true" />
+					value="#{reportController.fechaInicio}" id="popupButtonCalIni"
+					showOn="button" readonlyInput="true" />
 
 				<h:outputText value="Fecha Fin" />
 				<p:calendar pattern="dd/MM/yyyy"
-					value="${reportController.fechaFin}" id="popupButtonCalFin" showOn="button" readonlyInput="true" />
+					value="#{reportController.fechaFin}" id="popupButtonCalFin"
+					showOn="button" readonlyInput="true" />
 
 				<f:facet name="footer">
 					<p:commandButton id="reportConfirmButton" value="OK"
-						actionListener="#{reportController.generateReport()}"/>
+						actionListener="#{reportController.generateReport()}"
+						process="@this" partialSubmit="true" immediate="true"
+						oncomplete="seeReportResultWidget.show()" />
 
 					<p:commandButton id="reportCancelButton" value="Cancelar"
 						immediate="true"
 						actionListener="#{reportController.resetValues()}"
-						style="margin:10px"
-						oncomplete="preReportWidget.hide()" />
+						style="margin:10px" oncomplete="preReportWidget.hide()" />
 				</f:facet>
 
 			</h:panelGrid>
-		</p:dialog>
-
+			
+			<p:dialog id="seeReportResult" header="Receta" dynamic="true"
+				appendToBody="true" widgetVar="seeReportResultWidget" modal="true"
+				resizable="false" closable="true">
+				<ui:include src="../../ver/verReporte.xhtml" />
+			</p:dialog>
 	</h:form>
 </ui:composition>
