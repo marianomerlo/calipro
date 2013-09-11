@@ -46,6 +46,16 @@ CREATE TABLE Perfil_por_Usuario (
       ON UPDATE NO ACTION
 );
 
+CREATE TABLE `festival` (
+  `idFestival` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) NOT NULL,
+  `fecha_inicio` varchar(45) NOT NULL,
+  `cantidad_dias` int(11) NOT NULL,
+  `horasPorDia` int(11) DEFAULT NULL,
+  `estado` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`idFestival`)
+);
+
  -- Insert table ESTADO.
 
 -- Grupo 1 - Estado Usuarios.
