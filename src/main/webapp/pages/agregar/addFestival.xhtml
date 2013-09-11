@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<p:growl id="addFestivalGrowlMessages" showSummary="true"
+		autoUpdate="true" for="addFestivalGrowlMessageKeys" />
+	<p:panel id="addFestPanel">
+		<p:message for="addFestName" display="both" />
+		<p:message for="addFestFechaInicio" display="both" />
+		<p:message for="addFestCantDias" display="both" />
+
+		<h:panelGrid columns="2" cellpadding="5" id="addFestPanelGrid"
+			style="width:auto !important">
+			<h:outputLabel for="addFestName" value="Nombre" />
+			<p:inputText value="#{festivalController.currentItem.nombre}"
+				id="addFestName" label="Nombre" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+
+			<h:outputLabel for="addFestFechaInicio" value="Fecha Inicio" />
+			<p:inputText value="#{festivalController.currentItem.fechaInicio}"
+				id="addFestFechaInicio" label="Fecha Inicio" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+
+			<h:outputLabel for="addFestCantDias" value="Cantidad dias" />
+			<p:inputText value="#{festivalController.currentItem.cantidadDias}"
+				id="addFestCantDias" label="Cantidad dias" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+
+		</h:panelGrid>
+		<f:facet name="footer">
+			<p:commandButton id="addFestConfirmButton" value="Agregar"
+				actionListener="#{festivalController.addItem}"
+				update="addFestPanelGrid addFestPanel" />
+
+			<p:commandButton id="addFestCancelButton" value="Cancelar"
+				immediate="true" actionListener="#{festivalController.resetCurrent}"
+				update="addFestPanelGrid" style="margin:10px"
+				oncomplete="addFestWidget.hide()" />
+		</f:facet>
+	</p:panel>
+</ui:composition>

@@ -47,7 +47,7 @@
 	<p:panel id="mainPanelDesarrollo" rendered="#{sessionController.loggedUser != null and sessionController.activeProfile.nombre == 'Desarrollo' }"	style="width:1095px">
 		<ui:include src="desarrollo/desarrollo.xhtml" />
 	</p:panel>
-	<p:panel id="mainPanelSupervision" rendered="#{sessionController.loggedUser != null and sessionController.activeProfile.nombre == 'Supervisión'}"	style="width:1095px">
+	<p:panel id="mainPanelSupervision" rendered="#{sessionController.loggedUser != null and sessionController.activeProfile.nombre == 'Administrador'}"	style="width:1095px">
 		<ui:include src="supervision/supervision.xhtml" />
 	</p:panel>
 	<p:panel id="mainPanelProduccion" rendered="#{sessionController.loggedUser != null and sessionController.activeProfile.nombre == 'Producción'}"	style="width:1095px">

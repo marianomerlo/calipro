@@ -19,7 +19,7 @@ public class UserDao extends BaseAbmDao<Usuario> {
 	@Override
 	protected PreparedStatement prepareAddStatement(Usuario element) {
 		String query = "INSERT INTO " + DATATABLE_NAME + 
-				" (alias,nombre,apellido,legajo,estado,contrasenia,idUsuarioCreacion) VALUES (?,?,?,?,?,?,?)";
+				" (alias,nombre,apellido,legajo,estado,contrasenia) VALUES (?,?,?,?,?,?)";
 		PreparedStatement prepStatement = null;
 		try {
 			prepStatement = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
@@ -29,7 +29,6 @@ public class UserDao extends BaseAbmDao<Usuario> {
 			prepStatement.setString(4, element.getLegajo());
 			prepStatement.setInt(5, ConstantsDatatable.ESTADO_USUARIO_HABILITADO);
 			prepStatement.setString(6, element.getContraseña());
-			prepStatement.setInt(7, element.getUsuarioCreacion().getId());
 		} catch (SQLException e) {e.printStackTrace();}
 		
 		return prepStatement;
@@ -38,7 +37,7 @@ public class UserDao extends BaseAbmDao<Usuario> {
 	@Override
 	protected PreparedStatement prepareUpdateStatement(Usuario element) {
 		String query = "UPDATE " + DATATABLE_NAME + 
-		" SET alias = ?, nombre = ?, apellido = ?,  legajo = ?, estado = ?, contrasenia = ?, idUsuarioUltimaMod = ? WHERE " + DATATABLE_ID + " = ? ";
+		" SET alias = ?, nombre = ?, apellido = ?,  legajo = ?, estado = ?, contrasenia = ? WHERE " + DATATABLE_ID + " = ? ";
 		PreparedStatement prepStatement = null;
 		try {
 			prepStatement = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
@@ -48,8 +47,7 @@ public class UserDao extends BaseAbmDao<Usuario> {
 			prepStatement.setString(4, element.getLegajo());
 			prepStatement.setInt(5, element.getEstado().getId());
 			prepStatement.setString(6, element.getContraseña());
-			prepStatement.setInt(7, element.getUsuarioUltimaModificacion().getId());
-			prepStatement.setInt(8, element.getId());
+			prepStatement.setInt(7, element.getId());
 		} catch (SQLException e) {e.printStackTrace();}
 		
 		return prepStatement;

@@ -1,7 +1,5 @@
 package ar.edu.utn.frba.proyecto.constants;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class ConstantsDatatable {
 
@@ -26,6 +24,8 @@ public class ConstantsDatatable {
 	public static String LOTE_ID = "idLote";
 
 	public static String REPORTE_ID = "idReporte";
+
+	public static String FESTIVAL_ID = "idFestival";
 
 	public static String PERFIL_PRODUCCION = "Produccón";
 	public static String PERFIL_CALIDAD = "Calidad";
@@ -59,17 +59,22 @@ public class ConstantsDatatable {
 	public static String AUDIT_USUARIO_ULTIMA_MOD = "idUsuarioUltimaMod";
 
 	public static String ULTIMA_VERSION = "ultimaVersion";
+
+	public static String FESTIVAL_FECHA_INICIO = "fecha_inicio";
+
+	public static String FESTIVAL_CANTIDAD_DIAS = "cantidad_dias";
 	
 	/* Constantes para estados */
 	
 	public static Integer ESTADO_USUARIO_HABILITADO = 1;
 	public static Integer ESTADO_USUARIO_DESHABILITADO = 2;
 
-	public static Integer ESTADO_MAQUINARIA_DISPONIBLE = 3;
-	public static Integer ESTADO_MAQUINARIA_NO_DISPONIBLE = 4;
+	public static Integer ESTADO_FESTIVAL_EN_PROGRAMCION = 3;
+	public static Integer ESTADO_FESTIVAL_PROGRAMADO = 4;
+	public static Integer ESTADO_FESTIVAL_EN_CURSO = 5;
 	
 	public static Integer ESTADO_GROUPID_USUARIO = 1;
-	public static Integer ESTADO_GROUPID_MAQUINARIA = 2;
+	public static Integer ESTADO_GROUPID_FESTIVAL = 2;
 	public static Integer ESTADO_GROUPID_PRODUCTO = 3;
 	public static Integer ESTADO_GROUPID_PROCESO_PRODUCCION = 4;
 	public static Integer ESTADO_GROUPID_SOLICITUD_ANALISIS = 5;
@@ -83,21 +88,5 @@ public class ConstantsDatatable {
 	public static Integer ESTADO_SOLICITUD_ANALISIS_EN_PROCESO = 12;
 	public static Integer ESTADO_SOLICITUD_ANALISIS_FINALIZADO = 13;
 	public static Integer ESTADO_SOLICITUD_ANALISIS_CANCELADO = 14;
-	
-	/* Constantes para reportes */
-	
-	public static Integer REPORTE_CANT_ANALISIS_USUARIO = 1;
-	public static Integer REPORTE_ESTADO_PROD_PROCESADO = 2;
-	public static Integer REPORTE_LOTES_POR_PRODUCTO = 3;
-	public static Integer REPORTE_TIEMPO_PROMEDIO_PRODUCCION = 4;
-	
-	@SuppressWarnings("serial")
-	public static Map<Integer,String> reportMap = new HashMap<Integer,String>(){{
-		put(1,"rep_cantidad_analisis");
-		put(2,"rep_estado_producto");
-		put(3,"rep_lotes_producto");
-		put(4,"rep_tiempo_promedio");
-	}};
-	
 	
 }

@@ -120,13 +120,6 @@ public class AnalisisDao extends BaseAbmDao<Analisis> {
 			prepStatement.setInt(2, paso.getId());
 			prepStatement.setInt(3, paso.getVersion());
 
-			// if (ConstantsDatatable.ULTIMA_VERSION.equals(version)){
-			// prepStatement.setString(3,
-			// "(select max(p2.idversion) from receta p2 where ap.idproducto=p2.idproducto)"
-			// );
-			// }else{
-			// }
-
 			result = prepStatement.executeQuery();
 
 			result.next();

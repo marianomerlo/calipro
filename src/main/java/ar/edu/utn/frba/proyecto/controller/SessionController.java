@@ -56,7 +56,7 @@ public class SessionController extends BaseController {
 			loggedUser = tempUser;
 			
 		} else {
-			String errorMessage = "Legajo y/o contraseña invalidos";
+			String errorMessage = "Usuario y/o contraseña inválidos";
 			FacesContext.getCurrentInstance().addMessage("loginGrowlMessages",
 					new FacesMessage(FacesMessage.SEVERITY_WARN, errorMessage,null));
 		}

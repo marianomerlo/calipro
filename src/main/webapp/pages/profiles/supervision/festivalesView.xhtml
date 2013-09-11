@@ -1,0 +1,113 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+
+	<h:form id="addFestForm" style="border:0px;float:left">
+		<p:commandButton id="userAdd" value="Agregar" style="margin:10px"
+			onclick="addFestWidget.show();" type="button" />
+
+		<p:dialog id="addFestDialog" widgetVar="addFestWidget" onHide="window.location.reload()"
+			resizable="false" header="Agregar Festival" closable="true"
+			modal="true">
+			<ui:include src="../../agregar/addFestival.xhtml" />
+		</p:dialog>
+	</h:form>
+		
+	<h:form id="refreshFest" style="border:0px;padding-right:0px">
+		<p:commandButton id="festsRefres" immediate="true"
+			value="Actualizar" icon="ui-icon-refresh"
+			actionListener="#{festivalController.refreshItems}"
+			process="@this" partialSubmit="true"
+			update=":profileTabViewSupervision:festDataTableForm:festDataTable"
+			style="margin:10px" />
+	</h:form>
+
+	<h:form id="festDataTableForm">
+		<p:dataTable id="festDataTable" var="fest"
+			value="#{festivalController.dataModel}" rowIndexVar="festIndex"
+			widgetVar="festsTable" emptyMessage="No hay coincidencias"
+			selection="#{festivalController.selectedItems}" paginator="true"
+			paginatorPosition="bottom" rows="10"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+			style="width:800px;text-align:center">
+
+			<f:facet name="header">
+				<p:outputPanel>
+					<h:outputText value="Buscar:" />
+					<p:inputText id="globalFilter" onkeyup="festsTable.filter()"
+						style="width:200px" />
+					<p:watermark for="globalFilter" value="Festival" />
+				</p:outputPanel>
+			</f:facet>
+
+			<p:column id="festNombre" filterBy="#{fest.nombre}"
+				filterStyle="display:none" headerText="Nombre"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none" value="#{fest.nombre}" 
+					actionListener="#{festivalController.storeOriginalItem(fest)}"
+					oncomplete="modifyFestWidget.show();">
+					<f:setPropertyActionListener
+						target="#{festivalController.selectedItem}" value="#{fest}" />
+					<f:setPropertyActionListener
+						target="#{festivalController.selectedItemEstadoId}"
+						value="#{fest.estado.id}" />
+				</p:commandLink>
+			</p:column>
+
+			<p:column id="festFechaInicio" filterBy="#{fest.fechaInicio}"
+				filterStyle="display:none" headerText="Fecha Inicio"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none" value="#{fest.fechaInicio}" 
+					actionListener="#{festivalController.storeOriginalItem(fest)}"
+					oncomplete="modifyFestWidget.show();">
+					<f:setPropertyActionListener
+						target="#{festivalController.selectedItem}" value="#{fest}" />
+					<f:setPropertyActionListener
+						target="#{festivalController.selectedItemEstadoId}"
+						value="#{fest.estado.id}" />
+				</p:commandLink>
+			</p:column>
+
+			<p:column id="festCantiDias" filterBy="#{fest.cantidadDias}"
+				filterStyle="display:none" headerText="Cantidad dias"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none" value="#{fest.cantidadDias}" 
+					actionListener="#{festivalController.storeOriginalItem(fest)}"
+					oncomplete="modifyFestWidget.show();">
+					<f:setPropertyActionListener
+						target="#{festivalController.selectedItem}" value="#{fest}" />
+					<f:setPropertyActionListener
+						target="#{festivalController.selectedItemEstadoId}"
+						value="#{fest.estado.id}" />
+				</p:commandLink>
+			</p:column>
+
+			<p:column id="festEstado" filterBy="#{fest.estado.nombre}"
+				filterStyle="display:none" headerText="Estado"
+				filterMatchMode="contains" style="width:auto">
+				<p:commandLink style="text-decoration:none" value="#{fest.estado.nombre}" 
+					actionListener="#{festivalController.storeOriginalItem(fest)}"
+					oncomplete="modifyFestWidget.show();">
+					<f:setPropertyActionListener
+						target="#{festivalController.selectedItem}" value="#{fest}" />
+					<f:setPropertyActionListener
+						target="#{festivalController.selectedItemEstadoId}"
+						value="#{fest.estado.id}" />
+				</p:commandLink>
+			</p:column>
+
+		</p:dataTable>
+		<p:dialog id="modifyFestDialog" header="Modificar Festival"
+			dynamic="true" widgetVar="modifyFestWidget" modal="true" onHide="window.location.reload()"
+			resizable="false" closable="true">
+			<ui:include src="../../modificar/modifyFestival.xhtml" />
+		</p:dialog>
+
+	</h:form>
+</ui:composition>
