@@ -23,6 +23,13 @@ CREATE TABLE Usuario (
   CONSTRAINT CONST_ALIAS UNIQUE(alias)
 );
 
+CREATE TABLE `banda` (
+  `idBanda` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) NOT NULL,
+  PRIMARY KEY (`idBanda`),
+  UNIQUE KEY `nombre_UNIQUE` (`nombre`)
+);
+
 CREATE TABLE Perfil_por_Usuario (
   idPerfil INTEGER UNSIGNED NOT NULL,
   idUsuario INTEGER UNSIGNED NOT NULL,
