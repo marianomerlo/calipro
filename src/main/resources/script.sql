@@ -30,6 +30,40 @@ CREATE TABLE `banda` (
   UNIQUE KEY `nombre_UNIQUE` (`nombre`)
 );
 
+
+CREATE TABLE `festival` (
+  `idFestival` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) NOT NULL,
+  `fecha_inicio` varchar(45) NOT NULL,
+  `cantidad_dias` int(11) NOT NULL,
+  `horasPorDia` int(11) DEFAULT NULL,
+  `estado` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`idFestival`)
+);
+
+
+CREATE TABLE `banda_dia_festival` (
+  `posicion` int(11) NOT NULL AUTO_INCREMENT,
+  `idBanda` int(11) NOT NULL,
+  `IdDia` int(11) NOT NULL,
+  `idFestival` int(11) NOT NULL,
+  `tiempoAsignado` varchar(45) NOT NULL,
+  `costoExtra` varchar(20) NOT NULL,
+  PRIMARY KEY (`posicion`,`idBanda`,`IdDia`,`idFestival`),
+  KEY `idBandaFK` (`idBanda`),
+  CONSTRAINT `idBandaFK` FOREIGN KEY (`idBanda`) REFERENCES `banda` (`idBanda`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `dia_festival` (
+  `idDia` int(11) NOT NULL,
+  `idFestival` int(11) NOT NULL,
+  `hora_inicio` varchar(45) NOT NULL,
+  PRIMARY KEY (`idDia`,`idFestival`),
+  KEY `idFestival` (`idFestival`),
+  CONSTRAINT `idFestival` FOREIGN KEY (`idFestival`) REFERENCES `festival` (`idFestival`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 CREATE TABLE Perfil_por_Usuario (
   idPerfil INTEGER UNSIGNED NOT NULL,
   idUsuario INTEGER UNSIGNED NOT NULL,
@@ -44,16 +78,6 @@ CREATE TABLE Perfil_por_Usuario (
     REFERENCES Usuario(idUsuario)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION
-);
-
-CREATE TABLE `festival` (
-  `idFestival` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(45) NOT NULL,
-  `fecha_inicio` varchar(45) NOT NULL,
-  `cantidad_dias` int(11) NOT NULL,
-  `horasPorDia` int(11) DEFAULT NULL,
-  `estado` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`idFestival`)
 );
 
  -- Insert table ESTADO.
