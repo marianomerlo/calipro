@@ -79,7 +79,6 @@
 		<property name="ITEM_NAME" value="Maquinaria" />
 		<property name="machineDao" ref="machineDao" />
 		<property name="estadoController" ref="estadoController" />
-
 	</bean>
 
 	<bean id="festivalController" class="ar.edu.utn.frba.proyecto.controller.FestivalController"
@@ -87,7 +86,13 @@
 		<property name="ITEM_NAME" value="Festival" />
 		<property name="estadoController" ref="estadoController" />
 		<property name="festDao" ref="festDao" />
+		<property name="bandaController" ref="bandaController" />
+	</bean>
 
+	<bean id="bandaController" class="ar.edu.utn.frba.proyecto.controller.BandaController"
+		parent="baseController" scope="session">
+		<property name="ITEM_NAME" value="Banda" />
+		<property name="bandaDao" ref="bandaDao" />
 	</bean>
 
 	<bean id="estadoController" class="ar.edu.utn.frba.proyecto.controller.EstadoController"

@@ -107,6 +107,7 @@ public abstract class BaseAbmController<T extends AuditObject> extends BaseContr
 	
 	public void storeOriginalItem(T item) {
 		originalSelectedItem = newBaseItem(item);
+		extraStoreOriginalItemProcess();
 	}
 	
 	public void restoreOriginalItem() {
@@ -114,6 +115,10 @@ public abstract class BaseAbmController<T extends AuditObject> extends BaseContr
 		extraRestoreOriginalItemProcess();
 	}
 	
+	protected void extraStoreOriginalItemProcess() {
+		// By default, do nothing.
+	}
+
 	protected void extraRestoreOriginalItemProcess() {
 		// By default, do nothing.
 	}

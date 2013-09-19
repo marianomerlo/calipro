@@ -29,15 +29,12 @@
 			</p:inputText>
 
 			<h:outputLabel for="modifyFestCantDias" value="Cantidad dias" />
-			<p:inputText value="#{festivalController.selectedItem.cantidadDias}"
-				id="modifyFestCantDias" label="modifyFestCantDias" required="true">
-				<f:validateLength maximum="20" />
-			</p:inputText>
+			<h:outputLabel id="modifyFestCantDias" value="#{festivalController.selectedItem.cantidadDias}" />
 			
-			<p:commandButton id="verProgramacion" value="Ver Programacion"
-				actionListener="#{festivalController.restoreOriginalItem}"
-				immediate="true" update="updateFestPanelGrid" style="margin:10px"
-				oncomplete="seeSolicituddWidget.show();" />
+			<p:commandButton id="verProgramacion" value="Ver Programacion" onclick="modifyFestWidget.hide();"
+				immediate="true" update="verProgramacionDialog" style="margin:10px"
+				actionListener="#{festivalController.refreshBandasDisponibles()}"
+				oncomplete="verProgramacionWidget.show();" />
 			
 		</h:panelGrid>
 
@@ -55,9 +52,9 @@
 		</f:facet>
 
 	</p:panel>
-		<p:dialog id="seeSolicituddDialog" header="Datos Históricos"
-			dynamic="true" widgetVar="seeSolicituddWidget" modal="true"
+		<p:dialog id="verProgramacionDialog" header="Ver Programación"
+			dynamic="true" widgetVar="verProgramacionWidget" modal="true" appendToBody="true"
 			resizable="false" closable="true">
-			<ui:include src="../agregar/addUsuario.xhtml" />
+			<ui:include src="../ver/verProgramacion.xhtml" />
 		</p:dialog>
 </ui:composition>

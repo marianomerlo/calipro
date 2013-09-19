@@ -27,6 +27,11 @@
 		<property name="DATATABLE_ID" value="idFestival" />
 	</bean>
 
+	<bean id="bandaDao" parent="baseAbmDao" class="ar.edu.utn.frba.proyecto.dao.impl.BandaDao">
+		<property name="DATATABLE_NAME" value="banda" />
+		<property name="DATATABLE_ID" value="idBanda" />
+	</bean>
+
 	<bean id="estadoDao" parent="baseDao" class="ar.edu.utn.frba.proyecto.dao.impl.EstadoDao">
 		<property name="DATATABLE_NAME" value="Estado" />
 		<property name="DATATABLE_ID" value="idEstado" />

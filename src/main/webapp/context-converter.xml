@@ -14,4 +14,9 @@
 		scope="session">
 		<property name="analisisController" ref="analisisController" />
 	</bean>
+
+	<bean id="bandaConverter" class="ar.edu.utn.frba.proyecto.converter.BandaConverter"
+		scope="session">
+		<property name="bandaController" ref="bandaController" />
+	</bean>
 </beans>

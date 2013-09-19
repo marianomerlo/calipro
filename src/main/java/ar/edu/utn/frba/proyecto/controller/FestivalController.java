@@ -1,16 +1,22 @@
 package ar.edu.utn.frba.proyecto.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
+import org.primefaces.component.tabview.TabView;
+import org.primefaces.event.TabChangeEvent;
 import org.primefaces.model.SelectableDataModel;
 
-import ar.edu.utn.frba.proyecto.dao.AbmDao;
 import ar.edu.utn.frba.proyecto.dao.impl.FestDao;
 import ar.edu.utn.frba.proyecto.datamodel.FestivalDataModel;
+import ar.edu.utn.frba.proyecto.domain.Banda;
+import ar.edu.utn.frba.proyecto.domain.Dia;
 import ar.edu.utn.frba.proyecto.domain.Estado;
 import ar.edu.utn.frba.proyecto.domain.Festival;
 
@@ -26,30 +32,36 @@ public class FestivalController extends BaseAbmController<Festival> {
 	@ManagedProperty("#{festDao}")
 	private FestDao festDao;
 
+	@ManagedProperty("#{bandaController}")
+	private BandaController bandaController;
+
 	@ManagedProperty("#{estadoController}")
 	private EstadoController estadoController;
 
 	private List<Estado> availableStates;
 	
+	private List<Banda> bandasDisponibles;
+
+	private Banda bandaParaAgregar = new Banda();
+	
 	private Integer selectedItemEstadoId = 0;
+	
+	private int dayIndexTab = 1;
+	
+	private String costoExtra = "0";
+	
+	private String tiempoAsignado = "0";
 	
 //	@Override
 //	public void addItem(){
-//		if ( getSelectedProfiles().length > 0){
-//			super.addItem();
-//			
-//		} else {
-//			String confirmMessage = "Debes seleccionar al menos un perfil";
-//			FacesContext.getCurrentInstance().addMessage(getAddMessageKey(),
-//					new FacesMessage(FacesMessage.SEVERITY_FATAL, confirmMessage, null));
-//		}
+//		super.addItem();
 //	}
 	
-//	@Override
-//	protected void extraAddItemProcess() {
-//		getProfileController().addProfilesToUser(getCurrentItem(), getSelectedProfiles());
-//		super.extraAddItemProcess();
-//	}
+	@Override
+	protected void extraAddItemProcess() {
+		addDiasToFestival(getCurrentItem());
+		super.extraAddItemProcess();
+	}
 	
 //	@Override
 //	protected void extraUpdateItemProcess() {
@@ -69,18 +81,31 @@ public class FestivalController extends BaseAbmController<Festival> {
 //		super.extraUpdateItemProcess();
 //	}
 	
+	private void addDiasToFestival(Festival currentItem) {
+		getDao().addDiasToFestival(currentItem);
+	}
+
 	@Override
 	protected void extraGetItemProcess(Festival festival) {
-		festival.setEstado(getEstadoController().get(festival.getEstado()));
+		festival.setDias(getDiasFromFestival(festival));
+		populateBandasFromFestival(festival);
 	}
 	
+	private void populateBandasFromFestival(Festival festival) {
+		this.bandaController.populateBandasFromFestival(festival);
+	}
+
+	private List<Dia> getDiasFromFestival(Festival festival) {
+		return getDao().getDiasByFestival(festival);
+	}
+
 	@Override
 	protected void extraRestoreOriginalItemProcess() {
 		extraResetCurrentProcess();
 	}
 	
 	@Override
-	protected AbmDao<Festival> getDao() {
+	protected FestDao getDao() {
 		return this.festDao;
 	}
 
@@ -110,6 +135,10 @@ public class FestivalController extends BaseAbmController<Festival> {
 
 	public void setFestDao(FestDao festDao) {
 		this.festDao = festDao;
+	}
+
+	public void setBandaController(BandaController bandaController) {
+		this.bandaController = bandaController;
 	}
 
 	@Override
@@ -163,4 +192,99 @@ public class FestivalController extends BaseAbmController<Festival> {
 	public Festival getByUnique(Festival festival){
 		return getDao().getByUnique(festival);
 	}
+
+	/**
+	 * @return the bandasDisponibles
+	 */
+	public List<Banda> getBandasDisponibles() {
+		if (this.bandasDisponibles == null){
+			this.bandasDisponibles = this.bandaController.getItems();
+			this.bandasDisponibles.removeAll(getSelectedItem().getBandasFromFestival());
+		}
+		
+		return bandasDisponibles;
+	}
+
+	/**
+	 * @param bandasDisponibles the bandasDisponibles to set
+	 */
+	public void setBandasDisponibles(List<Banda> bandasDisponibles) {
+		this.bandasDisponibles = bandasDisponibles;
+	}
+	
+	public void refreshBandasDisponibles(){
+		this.bandaController.refreshItems();
+		this.bandasDisponibles = this.bandaController.getItems();
+		this.bandasDisponibles.removeAll(getSelectedItem().getBandasFromFestival());
+		this.bandasDisponibles.remove(getBandaParaAgregar());
+	}
+
+	/**
+	 * @return the bandasParaAgregar
+	 */
+	public Banda getBandaParaAgregar() {
+		return bandaParaAgregar;
+	}
+
+	/**
+	 * @param bandasParaAgregar the bandasParaAgregar to set
+	 */
+	public void setBandaParaAgregar(Banda bandaParaAgregar) {
+		this.bandaParaAgregar = bandaParaAgregar;
+	}
+	
+	public void agregarBanda(){
+		getBandaParaAgregar().setCostoExtra(new BigDecimal(costoExtra));
+		getBandaParaAgregar().setTiempoAsignado(tiempoAsignado);
+		this.bandaController.agregarBandaADia(getBandaParaAgregar(), getDayIndexTab() , getSelectedItem());
+		refreshBandasDisponibles();
+	}
+	
+	public final void onTabChange(final TabChangeEvent event) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		Map<String, String> params = context.getExternalContext()
+				.getRequestParameterMap();
+		TabView tabView = (TabView) event.getComponent();
+		String activeIndexValue = params.get(tabView.getClientId(context)
+				+ "_tabindex");
+		setDayIndexTab(Integer.parseInt(activeIndexValue) + 1);
+	}
+
+	private void setDayIndexTab(int day) {
+		this.dayIndexTab = day;
+		
+	}
+	
+	private int getDayIndexTab(){
+		return this.dayIndexTab;
+	}
+
+	/**
+	 * @return the costoExtra
+	 */
+	public String getCostoExtra() {
+		return costoExtra;
+	}
+
+	/**
+	 * @param costoExtra the costoExtra to set
+	 */
+	public void setCostoExtra(String costoExtra) {
+		this.costoExtra = costoExtra;
+	}
+
+	/**
+	 * @return the tiempoAsignado
+	 */
+	public String getTiempoAsignado() {
+		return tiempoAsignado;
+	}
+
+	/**
+	 * @param tiempoAsignado the tiempoAsignado to set
+	 */
+	public void setTiempoAsignado(String tiempoAsignado) {
+		this.tiempoAsignado = tiempoAsignado;
+	}
+	
 }

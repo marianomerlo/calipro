@@ -1,5 +1,8 @@
 package ar.edu.utn.frba.proyecto.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
 
 public class Festival extends AuditObject {
@@ -15,6 +18,7 @@ public class Festival extends AuditObject {
 	
 	private Estado estado;
 	
+	private List<Dia> dias;
 	
 	public Festival(){
 		super();
@@ -82,6 +86,44 @@ public class Festival extends AuditObject {
 	@Override
 	public Integer getStateGroupId() {
 		return ConstantsDatatable.ESTADO_GROUPID_FESTIVAL;
+	}
+
+	/**
+	 * @return the dias
+	 */
+	public List<Dia> getDias() {
+		return dias;
+	}
+
+	/**
+	 * @param dias the dias to set
+	 */
+	public void setDias(List<Dia> dias) {
+		this.dias = dias;
+	}
+	
+	public List<Banda> getBandasFromFestival(){
+		List<Banda> result = new ArrayList<Banda>();
+		
+		for (Dia dia : getDias() ){
+			result.addAll(dia.getBandas());
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public int hashCode() {
+		return ( nombre.length() * 31 ) ^ id;
+	}	
+	
+	@Override
+	public boolean equals(Object arg0) {
+		if (arg0 instanceof Festival) {
+			Festival other = (Festival) arg0;
+		      return (nombre.equals(other.nombre) && id == other.id);
+		    }
+		    return false;
 	}
 
 }

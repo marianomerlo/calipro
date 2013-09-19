@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<p:panel id="addBandaADiaPanel">
+		<p:message for="bandaTiempoAsignado" display="both" />
+		<p:message for="bandaCostoExtra" display="both" />
+
+		<h:panelGrid columns="2" cellpadding="5" id="addBandaADiaPanelGrid"
+			style="width:auto !important">
+			<h:outputLabel for="elegirBanda" value="Elija banda" />
+   					<p:selectOneMenu id="elegirBanda" value="#{festivalController.bandaParaAgregar}" converter="#{bandaConverter}" effect="fade" >  
+			            <f:selectItem itemLabel="Elija banda" itemValue="" />
+			            <f:selectItems value="#{festivalController.bandasDisponibles}" var="banda" itemLabel="#{banda.nombre}" itemValue="#{banda}" />  
+			            <p:ajax event="valueChange"
+								listener="#{festivalController.setBandaParaAgregar(banda)}"
+								process="@this"
+								partialSubmit="true" />
+			        </p:selectOneMenu>
+			
+			<h:outputLabel for="bandaTiempoAsignado" value="Tiempo asignado" />
+			<p:inputText value="#{festivalController.tiempoAsignado}" immediate="true"
+					process="@this" partialSubmit="true" 
+				id="bandaTiempoAsignado" label="bandaTiempoAsignado" required="true">
+				<f:validateLength maximum="20" />
+				<p:ajax event="valueChange"
+						process="@this"
+						partialSubmit="true" />
+			</p:inputText>
+			
+			<h:outputLabel for="bandaCostoExtra" value="Costo extra" />
+			<p:inputText value="#{festivalController.costoExtra}" immediate="true"
+					process="@this" partialSubmit="true"
+				id="bandaCostoExtra" label="bandaCostoExtra" required="true">
+				<f:validateLength maximum="20" />
+				<p:ajax event="valueChange"
+						process="@this"
+						partialSubmit="true" />
+			</p:inputText>
+
+			<f:facet name="footer">
+				<p:commandButton id="addBandaADiaConfirmButton" value="Agregar"
+					actionListener="#{festivalController.agregarBanda()}" immediate="true"
+					process="@this" partialSubmit="true"
+					update="addBandaADiaPanelGrid addBandaADiaPanel" />
+
+				<p:commandButton id="addBandaADiaCancelButton" value="Cancelar"
+					immediate="true"
+					update="addBandaADiaPanelGrid" style="margin:10px"
+					oncomplete="window.location.reload()" />
+			</f:facet>
+		</h:panelGrid>
+	</p:panel>
+</ui:composition>

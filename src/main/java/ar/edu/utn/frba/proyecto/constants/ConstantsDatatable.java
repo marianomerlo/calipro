@@ -27,6 +27,8 @@ public class ConstantsDatatable {
 
 	public static String FESTIVAL_ID = "idFestival";
 
+	public static String BANDA_ID = "idBanda";
+
 	public static String PERFIL_PRODUCCION = "Produccón";
 	public static String PERFIL_CALIDAD = "Calidad";
 	public static String PERFIL_DESARROLLO = "Desarrollo";

@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<p:tabView id="tabView" var="dia" value="#{festivalController.selectedItem.dias}">  
+  
+  				<p:ajax event="tabChange" listener="#{festivalController.onTabChange}" />
+	    <p:tab id="playerTab" title="#{dia.nombre}" >  
+	            <h:panelGrid columns="2" cellpadding="10">  
+	                <h:outputText value="Hora Inicio: " />  
+	                <p:inplace id="ajaxInplace" >  
+                		<p:inputText value="#{dia.horaInicio}" />  
+            		</p:inplace>
+	                <h:outputText value="Bandas: " />  
+	                <p:dataList value="#{dia.bandas}" var="banda" type="ordered" rendered="#{dia.bandas.size() > 0}">  
+   							 #{banda.nombre} 
+					</p:dataList>  
+					<h:outputText value="No has agregado bandas" rendered="#{dia.bandas.size() == 0}" />
+			        <p:commandLink onclick="verProgramacionWidget.hide()" oncomplete="addBandaADiaWidget.show();" value="Agregar Banda"
+						style="text-decoration:none;float:left" 
+						process="@this" immediate="true">
+					</p:commandLink>
+			        
+	        </h:panelGrid>  
+	  
+	    </p:tab>  
+	  
+	</p:tabView>
+			<p:dialog id="addBandaADiaDialog" header="Agregar Banda" 
+			dynamic="true" widgetVar="addBandaADiaWidget" modal="true" appendToBody="true"
+			resizable="false" closable="true">
+			<ui:include src="../agregar/agregarBandaADia.xhtml" />
+		</p:dialog>
+	
+</ui:composition>

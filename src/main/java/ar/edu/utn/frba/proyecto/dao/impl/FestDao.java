@@ -1,11 +1,17 @@
 package ar.edu.utn.frba.proyecto.dao.impl;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import ar.edu.utn.frba.proyecto.constants.ConstantsDatatable;
+import ar.edu.utn.frba.proyecto.domain.Dia;
 import ar.edu.utn.frba.proyecto.domain.Festival;
+import ar.edu.utn.frba.proyecto.domain.Profile;
+import ar.edu.utn.frba.proyecto.domain.Usuario;
 
 import com.mysql.jdbc.Statement;
 
@@ -75,4 +81,59 @@ public class FestDao extends BaseAbmDao<Festival> {
 		
 		return prepStatement;
 	}
+
+	public PreparedStatement addDiasToFestival(Festival element) {
+		Connection conn = getConnection();
+		String query = "INSERT INTO dia_festival (idDia,idFestival,hora_inicio) VALUES(?,?,?)";
+		PreparedStatement prepStatement = null;
+		try {
+			
+			for (int i = 1; i <= element.getCantidadDias() ; i++){
+				prepStatement = conn.prepareStatement(query);
+				prepStatement.setInt(1, i);
+				prepStatement.setInt(2, element.getId());
+				prepStatement.setString(3, "18:00");
+
+				prepStatement.executeUpdate();
+			}
+			
+			
+		} catch (SQLException e) {e.printStackTrace(); }
+		
+		return prepStatement;
+	}
+	
+	public List<Dia> getDiasByFestival(Festival festival) {
+		Connection conn = getConnection();
+		ResultSet result = null;
+		List<Dia> resultList = new ArrayList<Dia>();
+		String query = "SELECT * FROM dia_festival WHERE idFestival = ?";
+		try {
+				PreparedStatement prepStatement = conn.prepareStatement(query);
+				prepStatement.setInt(1, festival.getId());
+
+				result = prepStatement.executeQuery();
+				while (result.next()){
+					resultList.add(getDiaFromResult(result));
+				}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+	        if (result != null) try { result.close(); } catch (SQLException logOrIgnore) {}
+	        releaseConnection(conn);
+		}
+		return resultList;
+	}
+
+	private Dia getDiaFromResult(ResultSet result) throws SQLException {
+
+		return new Dia(result.getInt("idDia"), 
+							result.getString("hora_inicio"),
+							null);
+	}
+	
+	
+	
+	
 }
