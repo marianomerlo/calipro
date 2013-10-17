@@ -7,18 +7,14 @@
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	</h:head>
-	
-		<p:tabView id="profileTabViewSupervision" style="width:auto !important"
-			widgetVar="profileTabViewDesarrolloSupervision"
+		<p:tabView id="profileTabViewVendedor" style="width:auto !important"
+			widgetVar="profileTabViewVendedor"
 			rendered="#{sessionController.loggedUser != null}"
 			activeIndex="#{sessionController.activeInnerIndexTab}">
 
 			<p:ajax event="tabChange" listener="#{sessionController.onTabChange}" />
-			<p:tab title="Usuarios">
-				<ui:include src="usuariosView.xhtml" />
-			</p:tab>
-			<p:tab title="Festivales">
-				<ui:include src="festivalesView.xhtml" />
+			<p:tab title="Ventas">
+				<ui:include src="ventasView.xhtml" />
 			</p:tab>
 		</p:tabView>
 

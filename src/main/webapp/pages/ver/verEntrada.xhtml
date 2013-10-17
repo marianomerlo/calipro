@@ -1,0 +1,83 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+
+	<h:panelGrid id="mainFacturaPanel">
+		<h:panelGrid id="panelEntradaFactura" columns="2" style="width:500px" >
+			
+			<h:panelGrid id="facturaInfo" columns="1" >
+				<h:outputLabel id="numeroFactura" value="Factura Nº: #{facturaController.currentItem.id}" />
+				<h:outputLabel id="fechaFactura" value="Fecha: #{facturaController.currentItem.fecha}" />
+			</h:panelGrid>
+			
+			<h:panelGrid id="panelCompanyInfo" columns="1" >
+				<h:outputLabel id="companyName" value="TicketUTN" />
+				<h:outputLabel id="cuit" value="CUIT: 1234567890" />
+				<h:outputLabel id="iva" value="Iva Responsable Inscripto" />
+			</h:panelGrid>
+	
+		</h:panelGrid>
+		
+		<p:separator />
+		
+		<h:panelGrid id="festivalEntradaInfo" columns="2" style="width:500px" >
+			<h:panelGrid id="festivalInfo" columns="1" >
+				<h:outputLabel id="festivalName" value="#{estadioController.festivalElegido.nombre} " />
+				<h:outputLabel id="diaNombre" value="#{estadioController.diaElegido.nombre}" />
+				<h:outputLabel id="diaHoraInicio" value="#{estadioController.diaElegido.horaInicio}" />
+			</h:panelGrid>
+			
+			<h:panelGrid id="entradaInfo" columns="1" >
+				<h:outputLabel id="sectorName" value="#{estadioController.sectorElegido.nombre} " />
+				<h:outputLabel id="filaName" value="#{estadioController.filaElegida.nombre}" />
+				<h:outputLabel id="asientoName" value="#{estadioController.asientoElegido.nombre}" />
+			</h:panelGrid>
+			
+		</h:panelGrid>
+		
+		<p:separator />
+		
+		<h:panelGrid id="panelGlobalInfo22" columns="2" style="width:500px" >
+			<h:panelGrid id="panelGlobalInfo23" columns="1" >
+				<ui:repeat varStatus="index" var="banda" value="#{estadioController.festivalElegido.getDia(estadioController.diaElegido.id).bandas}">
+					<h:outputLabel id="banda#{index}" value="#{banda.nombre}" /><br />
+				</ui:repeat>
+			</h:panelGrid>
+			
+			<h:panelGrid id="panelGlobalInfo33" columns="1" >
+				<h:outputLabel id="festivalName3" value="TOTAL " />
+				<h:outputLabel id="sectorName3" value="$ #{facturaController.currentItem.costoTotal}" />
+			</h:panelGrid>
+			
+		</h:panelGrid>
+	</h:panelGrid>
+	
+	<h:panelGrid columns="2" cellpadding="5" id="botonesEntradaPanelGrid" style="width:auto !important" >	
+			<f:facet name="footer">
+				<p:commandButton id="confirmarBoton" value="Confirmar"
+					actionListener="#{estadioController.confirmarCompra}" oncomplete="showConfirmacionWidget.show()"
+					immediate="true" process="@this" partialSubmit="true"
+					/>
+
+                <p:commandButton id="cancelarBoton" 
+                        value="Cancelar"
+                        process="@this" partialSubmit="true"
+                        oncomplete="showEntradaWidget.hide()"
+                        style="margin:10px" />	
+                        
+			</f:facet>
+		</h:panelGrid>
+		
+		<p:dialog id="showConfirmacion" widgetVar="showConfirmacionWidget" onHide="window.location.reload()"
+			resizable="false" header="Entrada" closable="true" appendToBody="true"
+			modal="true">
+			<ui:include src="verConfirmacion.xhtml" />
+		</p:dialog>
+
+</ui:composition>

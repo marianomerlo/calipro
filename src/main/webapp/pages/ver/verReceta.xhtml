@@ -60,13 +60,13 @@
 
 	<p:dataTable id="recetaDataTable" var="paso" rowIndexVar="pasoIndex"
 		value="#{pasoController.items}" widgetVar="recetaTable"
-		emptyMessage="No hay pasos" style="width:800px;text-align:center">
+		emptyMessage="No hay pasos" style="width:800px">
 
 		<p:column style="width:35px">
 			<p:rowToggler />
 		</p:column>
 
-		<p:column id="pasoReceta" headerText="Nº" style="width:51px">
+		<p:column id="pasoReceta" headerText="Nº" style="width:51px;text-align:center">
 			<p:commandLink style="text-decoration:none" value="#{pasoIndex + 1}"
 				actionListener="#{pasoController.storeOriginalItem(paso)}"
 				oncomplete="modifyPasoWidget.show();seeProductReceiptWidget.hide();"
@@ -79,7 +79,7 @@
 
 		<p:column id="pasoDescripcion" headerText="Descripción"
 			style="width:auto">
-			<p:commandLink style="text-decoration:none"
+			<p:commandLink style="text-decoration:none;text-align:left"
 				value="#{paso.descripcion}"
 				actionListener="#{pasoController.storeOriginalItem(paso)}"
 				oncomplete="modifyPasoWidget.show();seeProductReceiptWidget.hide();"

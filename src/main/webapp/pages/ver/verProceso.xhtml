@@ -58,18 +58,18 @@
 	<p:dataTable id="procesoDataTable" var="paso"
 		rowIndexVar="procesoIndex" value="#{processController.pasosLote}"
 		widgetVar="recetaTable" emptyMessage="No hay pasos"
-		style="width:100%;text-align:center">
+		style="width:100%">
 
 		<p:column style="width:35px">
 			<p:rowToggler />
 		</p:column>
 
-		<p:column id="pasoRecetap" headerText="Nº" style="width:51px">
+		<p:column id="pasoRecetap" headerText="Nº" style="width:51px;text-align:center">
 		#{procesoIndex + 1}
 		</p:column>
 
 		<p:column id="pasoDescripcionp" headerText="Descripción"
-			style="width:auto">
+			style="width:auto;text-align:left">
 			#{paso.descripcion}
 		</p:column>
 
@@ -77,7 +77,7 @@
 			<p:dataTable id="subRecetaDataTablep" var="analisis"
 				rowIndexVar="subProcesoIndex" value="#{paso.analisis}"
 				widgetVar="subrecetaTable" emptyMessage="No hay analisis"
-				style="width:763x;text-align:center;padding-left:36px;padding-right:57px">
+				style="width:763x;padding-left:36px;padding-right:57px;text-align:center">
 
 				<p:column id="subPasoRecetap" headerText="#"
 					style="width:7.4%;text-align:center">
@@ -130,7 +130,7 @@
 						process="@this" styleClass="ui-icon ui-icon-print">
 					</p:commandLink>
 					<p:commandLink id="asejere"
-						rendered="#{analisis.estado.id == 10 or analisis.estado.id == 11 or analisis.estado.id == 12}"
+						rendered="#{analisis.estado.id == 13 and not empty analisis.overlayInfo }"
 						actionListener="#{processController.prepareToAsk(processController.selectedItem,paso,analisis)}"
 						style="text-decoration:none" process="@this"
 						styleClass="ui-icon ui-icon-star">
@@ -139,7 +139,7 @@
 						showEvent="mouseover" my="left top" hideEvent="mouseout">
 						<p:panelGrid columns="2">
 							<f:facet name="header">Antecedentes</f:facet>
-							<p:dataTable var="over" value="#{analisis.overlayInfo}">
+							<p:dataTable var="over" value="#{analisis.overlayInfo}" emptyMessage="Sin antecedentes">
 								<p:column headerText="Fecha">
 									<h:outputText value="#{over.fechaUltimaMod}" />
 								</p:column>

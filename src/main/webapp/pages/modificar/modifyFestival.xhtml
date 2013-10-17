@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<p:growl id="updateFestivalGrowlMessages" showSummary="true"
+		autoUpdate="true" for="updateFestivalGrowlMessageKeys" />
+	<p:panel id="updateFestPanel">
+		<p:message for="modifyFestName" display="both" />
+		<p:message for="modifyFestFechaInicio" display="both" />
+		<p:message for="modifyFestCantDias" display="both" />
+		
+		<h:panelGrid columns="2" cellpadding="5" id="updateFestPanelGrid"
+			style="width:auto !important">
+			<h:outputLabel for="modifyFestName" value="Nombre" />
+			<p:inputText value="#{festivalController.selectedItem.nombre}"
+				id="modifyFestName" label="modifyFestName" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+
+			<h:outputLabel for="modifyFestFechaInicio" value="Fecha Inicio" />
+			<p:inputText value="#{festivalController.selectedItem.fechaInicio}"
+				id="modifyFestFechaInicio" label="modifyFestFechaInicio" required="true">
+				<f:validateLength maximum="20" />
+			</p:inputText>
+
+			<h:outputLabel for="modifyFestCantDias" value="Cantidad dias" />
+			<h:outputLabel id="modifyFestCantDias" value="#{festivalController.selectedItem.cantidadDias}" />
+			
+			<p:commandButton id="verProgramacion" value="Ver Programacion" onclick="modifyFestWidget.hide();"
+				immediate="true" update="verProgramacionDialog" style="margin:10px"
+				actionListener="#{festivalController.refreshBandasDisponibles()}"
+				oncomplete="verProgramacionWidget.show();" />
+			
+		</h:panelGrid>
+
+		<br />
+
+		<f:facet name="footer">
+			<p:commandButton id="updateFestConfirmButton" value="Guardar"
+				actionListener="#{festivalController.updateItem}"
+				update="updateFestPanelGrid updateFestPanel" />
+
+			<p:commandButton id="updateFestCancelButton" value="Cancelar"
+				actionListener="#{festivalController.restoreOriginalItem}"
+				immediate="true" update="updateFestPanelGrid" style="margin:10px"
+				oncomplete="window.location.reload()" />
+		</f:facet>
+
+	</p:panel>
+		<p:dialog id="verProgramacionDialog" header="Ver Programación"
+			dynamic="true" widgetVar="verProgramacionWidget" modal="true" appendToBody="true"
+			resizable="false" closable="true">
+			<ui:include src="../ver/verProgramacion.xhtml" />
+		</p:dialog>
+</ui:composition>

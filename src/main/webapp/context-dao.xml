@@ -14,32 +14,17 @@
 	
 	<bean id="profileDao" parent="baseDao" class="ar.edu.utn.frba.proyecto.dao.impl.ProfileDao">
 		<property name="DATATABLE_NAME" value="Perfil" />
+		<property name="DATATABLE_ID" value="idEstadio" />
+	</bean>
+
+	<bean id="estadioDao" parent="baseDao" class="ar.edu.utn.frba.proyecto.dao.impl.EstadioDao">
+		<property name="DATATABLE_NAME" value="Estadio" />
 		<property name="DATATABLE_ID" value="idPerfil" />
-	</bean>
-
-	<bean id="reportDao" parent="baseDao" class="ar.edu.utn.frba.proyecto.dao.impl.ReportDao">
-		<property name="DATATABLE_NAME" value="Reporte" />
-		<property name="DATATABLE_ID" value="idReporte" />
-	</bean>
-
-	<bean id="solicitudDao" parent="baseDao" class="ar.edu.utn.frba.proyecto.dao.impl.SolicitudDao">
-		<property name="DATATABLE_NAME" value="Solicitud_Analisis" />
-		<property name="DATATABLE_ID" value="idSolicitud_Analisis" />
-	</bean>
-
-	<bean id="processDao" parent="baseDao" class="ar.edu.utn.frba.proyecto.dao.impl.ProcessDao">
-		<property name="DATATABLE_NAME" value="Lote" />
-		<property name="DATATABLE_ID" value="idLote" />
 	</bean>
 
 	<bean id="criterioDao" parent="baseDao" class="ar.edu.utn.frba.proyecto.dao.impl.CriterioDao">
 		<property name="DATATABLE_NAME" value="Criterio" />
 		<property name="DATATABLE_ID" value="idCriterio" />
-	</bean>
-
-	<bean id="machineDao" parent="baseAbmDao" class="ar.edu.utn.frba.proyecto.dao.impl.MachineDao">
-		<property name="DATATABLE_NAME" value="Maquinaria" />
-		<property name="DATATABLE_ID" value="idMaquinaria" />
 	</bean>
 
 	<bean id="estadoDao" parent="baseDao" class="ar.edu.utn.frba.proyecto.dao.impl.EstadoDao">
@@ -54,6 +39,16 @@
 
 	<bean id="baseAbmDao" abstract="true" parent="baseDao" />
 
+	<bean id="festDao" parent="baseAbmDao" class="ar.edu.utn.frba.proyecto.dao.impl.FestDao">
+		<property name="DATATABLE_NAME" value="festival" />
+		<property name="DATATABLE_ID" value="idFestival" />
+	</bean>
+
+	<bean id="bandaDao" parent="baseAbmDao" class="ar.edu.utn.frba.proyecto.dao.impl.BandaDao">
+		<property name="DATATABLE_NAME" value="banda" />
+		<property name="DATATABLE_ID" value="idBanda" />
+	</bean>
+
 	<bean id="productDao" parent="baseAbmDao" class="ar.edu.utn.frba.proyecto.dao.impl.ProductDao">
 		<property name="DATATABLE_NAME" value="Producto" />
 		<property name="DATATABLE_ID" value="idProducto" />
@@ -67,6 +62,11 @@
 	<bean id="userDao" parent="baseAbmDao" class="ar.edu.utn.frba.proyecto.dao.impl.UserDao">
 		<property name="DATATABLE_NAME" value="Usuario" />
 		<property name="DATATABLE_ID" value="idUsuario" />
+	</bean>
+
+	<bean id="facturaDao" parent="baseAbmDao" class="ar.edu.utn.frba.proyecto.dao.impl.FacturaDao">
+		<property name="DATATABLE_NAME" value="factura" />
+		<property name="DATATABLE_ID" value="idFactura" />
 	</bean>
 
 	<bean id="pasoDao" parent="baseAbmDao" class="ar.edu.utn.frba.proyecto.dao.impl.PasoDao">

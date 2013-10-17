@@ -55,18 +55,18 @@
 	<p:dataTable id="procesoDataTableH" var="paso"
 		rowIndexVar="procesoIndex" value="#{processController.pasosLote}"
 		widgetVar="recetaTableH" emptyMessage="No hay pasos"
-		style="width:100%;text-align:center">
+		style="width:100%">
 
 		<p:column style="width:35px">
 			<p:rowToggler />
 		</p:column>
 
-		<p:column id="pasoRecetapH" headerText="Nº" style="width:51px">
+		<p:column id="pasoRecetapH" headerText="Nº" style="width:51px;text-align:center">
 		#{procesoIndex + 1}
 		</p:column>
 
 		<p:column id="pasoDescripcionpH" headerText="Descripción"
-			style="width:auto">
+			style="width:auto;text-align:left">
 			#{paso.descripcion}
 		</p:column>
 

@@ -17,6 +17,14 @@
 		<property name="recetaDao" ref="recetaDao" />
 	</bean>
 
+	<bean id="estadioController" 
+		class="ar.edu.utn.frba.proyecto.controller.EstadioController" scope="session">
+		<property name="ITEM_NAME" value="Estadio" />
+		<property name="estadioDao" ref="estadioDao" />
+		<property name="bandaController" ref="bandaController" />
+		<property name="facturaController" ref="facturaController" />
+	</bean>
+
 	<bean id="analisisController" parent="baseController"
 		class="ar.edu.utn.frba.proyecto.controller.AnalisisController" scope="session">
 		<property name="ITEM_NAME" value="Analisis" />
@@ -30,6 +38,12 @@
 		<property name="userDao" ref="userDao" />
 		<property name="estadoController" ref="estadoController" />
 		<property name="profileController" ref="profileController" />
+	</bean>
+
+	<bean id="facturaController" parent="baseController"
+		class="ar.edu.utn.frba.proyecto.controller.FacturaController" scope="session">
+		<property name="ITEM_NAME" value="Factura" />
+		<property name="facturaDao" ref="facturaDao" />
 	</bean>
 
 	<bean id="pasoController" parent="baseController" scope="session"
@@ -79,19 +93,20 @@
 		<property name="ITEM_NAME" value="Maquinaria" />
 		<property name="machineDao" ref="machineDao" />
 		<property name="estadoController" ref="estadoController" />
-
 	</bean>
 
-	<bean id="processController" class="ar.edu.utn.frba.proyecto.controller.ProcessController"
+	<bean id="festivalController" class="ar.edu.utn.frba.proyecto.controller.FestivalController"
 		parent="baseController" scope="session">
-		<property name="ITEM_NAME" value="Lote" />
-		<property name="machineController" ref="machineController" />
-		<property name="productController" ref="productController" />
-		<property name="userController" ref="userController" />
-		<property name="analisisController" ref="analisisController" />
+		<property name="ITEM_NAME" value="Festival" />
 		<property name="estadoController" ref="estadoController" />
-		<property name="processDao" ref="processDao" />
+		<property name="festDao" ref="festDao" />
+		<property name="bandaController" ref="bandaController" />
+	</bean>
 
+	<bean id="bandaController" class="ar.edu.utn.frba.proyecto.controller.BandaController"
+		parent="baseController" scope="session">
+		<property name="ITEM_NAME" value="Banda" />
+		<property name="bandaDao" ref="bandaDao" />
 	</bean>
 
 	<bean id="estadoController" class="ar.edu.utn.frba.proyecto.controller.EstadoController"
