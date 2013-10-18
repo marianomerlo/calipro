@@ -1,35 +1,109 @@
-CREATE TABLE Estado (
-  idEstado INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  idGrupo INTEGER UNSIGNED NOT NULL,
-  nombre VARCHAR(45) NULL,
-  PRIMARY KEY(idEstado, idGrupo)
-);
+delimiter $$
 
-CREATE TABLE Perfil (
-  idPerfil INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  nombre VARCHAR(20) NULL,
-  PRIMARY KEY(idPerfil)
-);
+CREATE TABLE `estado` (
+  `idEstado` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idGrupo` int(10) unsigned NOT NULL,
+  `nombre` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`idEstado`,`idGrupo`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8$$
 
-CREATE TABLE Usuario (
-  idUsuario INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  alias VARCHAR(6),
-  nombre VARCHAR(45) NULL,
-  apellido VARCHAR(45) NULL,
-  estado INTEGER UNSIGNED NULL,
-  legajo VARCHAR(20) NULL,
-  contrasenia VARCHAR(20) NULL,
-  PRIMARY KEY(idUsuario),
-  CONSTRAINT CONST_ALIAS UNIQUE(alias)
-);
+CREATE TABLE `perfil` (
+  `idPerfil` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`idPerfil`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8$$;
+
+delimiter $$
+
+CREATE TABLE `perfil_por_usuario` (
+  `idPerfil` int(10) unsigned NOT NULL,
+  `idUsuario` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`idPerfil`,`idUsuario`),
+  KEY `Perfil_has_Usuario_FKIndex1` (`idPerfil`),
+  KEY `Perfil_has_Usuario_FKIndex2` (`idUsuario`),
+  CONSTRAINT `perfil_por_usuario_ibfk_1` FOREIGN KEY (`idPerfil`) REFERENCES `Perfil` (`idPerfil`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `perfil_por_usuario_ibfk_2` FOREIGN KEY (`idUsuario`) REFERENCES `Usuario` (`idUsuario`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8$$
+
+delimiter $$
+
+CREATE TABLE `usuario` (
+  `idUsuario` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `alias` varchar(6) DEFAULT NULL,
+  `nombre` varchar(45) DEFAULT NULL,
+  `apellido` varchar(45) DEFAULT NULL,
+  `estado` int(10) unsigned DEFAULT NULL,
+  `legajo` varchar(20) DEFAULT NULL,
+  `contrasenia` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`idUsuario`),
+  UNIQUE KEY `CONST_ALIAS` (`alias`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8$$
+
+delimiter $$
 
 CREATE TABLE `banda` (
   `idBanda` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   PRIMARY KEY (`idBanda`),
   UNIQUE KEY `nombre_UNIQUE` (`nombre`)
-);
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8$$
 
+delimiter $$
+
+CREATE TABLE `banda_dia_festival` (
+  `posicion` int(11) NOT NULL AUTO_INCREMENT,
+  `idBanda` int(11) NOT NULL,
+  `IdDia` int(11) NOT NULL,
+  `idFestival` int(11) NOT NULL,
+  `tiempoAsignado` varchar(45) NOT NULL,
+  `costoExtra` decimal(5,2) NOT NULL,
+  PRIMARY KEY (`posicion`,`idBanda`,`IdDia`,`idFestival`),
+  KEY `idBandaFK` (`idBanda`),
+  CONSTRAINT `idBandaFK` FOREIGN KEY (`idBanda`) REFERENCES `banda` (`idBanda`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8$$
+
+delimiter $$
+
+CREATE TABLE `dia_festival` (
+  `idDia` int(11) NOT NULL,
+  `idFestival` int(11) NOT NULL,
+  `hora_inicio` varchar(45) NOT NULL,
+  PRIMARY KEY (`idDia`,`idFestival`),
+  KEY `idFestival` (`idFestival`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8$$
+
+delimiter $$
+
+CREATE TABLE `dia_festival_estadio` (
+  `idFestival` int(11) NOT NULL,
+  `idEstadio` int(11) NOT NULL AUTO_INCREMENT,
+  `idDia` int(11) NOT NULL,
+  PRIMARY KEY (`idEstadio`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8$$
+
+delimiter $$
+
+CREATE TABLE `estadio` (
+  `idEstadio` int(11) NOT NULL,
+  `idSector` int(11) NOT NULL,
+  `nombreSector` varchar(45) NOT NULL,
+  `fila` int(11) NOT NULL,
+  `asiento` int(11) NOT NULL,
+  `disponible` varchar(45) NOT NULL DEFAULT 'TRUE',
+  `precioBase` decimal(5,2) NOT NULL,
+  PRIMARY KEY (`idSector`,`fila`,`asiento`,`idEstadio`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8$$
+
+delimiter $$
+
+CREATE TABLE `factura` (
+  `idFactura` int(11) NOT NULL AUTO_INCREMENT,
+  `costoTotal` decimal(5,2) NOT NULL,
+  `fecha` varchar(55) NOT NULL,
+  PRIMARY KEY (`idFactura`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8$$
+
+delimiter $$
 
 CREATE TABLE `festival` (
   `idFestival` int(11) NOT NULL AUTO_INCREMENT,
@@ -39,48 +113,47 @@ CREATE TABLE `festival` (
   `horasPorDia` int(11) DEFAULT NULL,
   `estado` int(10) unsigned NOT NULL,
   PRIMARY KEY (`idFestival`)
-);
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8$$
+
+delimiter $$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `llenar_sector`(IN idSectorInput varchar(45),
+                                                             IN nombreSector varchar(45),
+                                                            IN precioBaseInput decimal,
+                                                            IN idEstadioInput int)
+BEGIN
+  DECLARE i,j INT DEFAULT 1;
+
+  WHILE i < 11 DO
+    SET j = 1;
+    WHILE j < 11 DO
+       
+    insert into estadio(idEstadio,idSector, nombreSector, fila, asiento,precioBase) values (idEstadioInput,idSectorInput, nombreSector, i,j,precioBaseInput);
+    SET j = j+1;
+    END WHILE;
+    SET i = i + 1;
+  END WHILE;
+
+END$$
+
+delimiter $$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `llenar_estadio`(IN idEstadio int)
+BEGIN
+  CALL llenar_sector(1,'Palco Vip',400.00,idEstadio);
+
+  CALL llenar_sector(2,'Platea Alta',150.00,idEstadio);
+
+  CALL llenar_sector(3,'Platea Media',200.00,idEstadio);
+
+  CALL llenar_sector(4,'Platea Baja',250.00,idEstadio);
+
+  CALL llenar_sector(5,'Campo',100.00,idEstadio);
+
+END$$
 
 
-CREATE TABLE `banda_dia_festival` (
-  `posicion` int(11) NOT NULL AUTO_INCREMENT,
-  `idBanda` int(11) NOT NULL,
-  `IdDia` int(11) NOT NULL,
-  `idFestival` int(11) NOT NULL,
-  `tiempoAsignado` varchar(45) NOT NULL,
-  `costoExtra` varchar(20) NOT NULL,
-  PRIMARY KEY (`posicion`,`idBanda`,`IdDia`,`idFestival`),
-  KEY `idBandaFK` (`idBanda`),
-  CONSTRAINT `idBandaFK` FOREIGN KEY (`idBanda`) REFERENCES `banda` (`idBanda`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
-
-CREATE TABLE `dia_festival` (
-  `idDia` int(11) NOT NULL,
-  `idFestival` int(11) NOT NULL,
-  `hora_inicio` varchar(45) NOT NULL,
-  PRIMARY KEY (`idDia`,`idFestival`),
-  KEY `idFestival` (`idFestival`),
-  CONSTRAINT `idFestival` FOREIGN KEY (`idFestival`) REFERENCES `festival` (`idFestival`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-CREATE TABLE Perfil_por_Usuario (
-  idPerfil INTEGER UNSIGNED NOT NULL,
-  idUsuario INTEGER UNSIGNED NOT NULL,
-  PRIMARY KEY(idPerfil, idUsuario),
-  INDEX Perfil_has_Usuario_FKIndex1(idPerfil),
-  INDEX Perfil_has_Usuario_FKIndex2(idUsuario),
-  FOREIGN KEY(idPerfil)
-    REFERENCES Perfil(idPerfil)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION,
-  FOREIGN KEY(idUsuario)
-    REFERENCES Usuario(idUsuario)
-      ON DELETE NO ACTION
-      ON UPDATE NO ACTION
-);
-
- -- Insert table ESTADO.
+-- Insert table ESTADO.
 
 -- Grupo 1 - Estado Usuarios.
 insert into estado (idgrupo,nombre) values(1,'Habilitado');  /*id:1*/
@@ -147,3 +220,40 @@ insert into banda(nombre) values ('Charly Garcia'); /*Id:22*/
 insert into banda(nombre) values ('Callejeros'); /*Id:23*/
 insert into banda(nombre) values ('Las Pelotas'); /*Id:24*/
 insert into banda(nombre) values ('No te va a Gustar'); /*Id:25*/
+
+-- Insert Tabla Estadio
+
+DELIMITER $$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `llenar_sector`(IN idSectorInput varchar(45),
+                                                             IN nombreSector varchar(45),
+                                                            IN precioBaseInput decimal,
+                                                            IN idEstadioInput int)
+BEGIN
+  DECLARE i,j INT DEFAULT 1;
+
+  WHILE i < 11 DO
+    SET j = 1;
+    WHILE j < 11 DO
+       
+    insert into estadio(idEstadio,idSector, nombreSector, fila, asiento,precioBase) values (idEstadioInput,idSectorInput, nombreSector, i,j,precioBaseInput);
+    SET j = j+1;
+    END WHILE;
+    SET i = i + 1;
+  END WHILE;
+
+END;$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `llenar_estadio`(IN idEstadio int)
+BEGIN
+  CALL llenar_sector(1,'Palco Vip',400.00,idEstadio);
+
+  CALL llenar_sector(2,'Platea Alta',150.00,idEstadio);
+
+  CALL llenar_sector(3,'Platea Media',200.00,idEstadio);
+
+  CALL llenar_sector(4,'Platea Baja',250.00,idEstadio);
+
+  CALL llenar_sector(5,'Campo',100.00,idEstadio);
+
+END;$$
