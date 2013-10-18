@@ -5,7 +5,7 @@
   <artifactId>FestivalRock</artifactId>
   <packaging>war</packaging>
   <version>1.0</version>
-  <name>calipro Maven Webapp</name>
+  <name>TpAnual Maven Webapp</name>
   <url>http://maven.apache.org</url>
   
   <properties>
@@ -169,6 +169,6 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-    <finalName>calipro</finalName>
+    <finalName>tpanual</finalName>
   </build>
 </project>
