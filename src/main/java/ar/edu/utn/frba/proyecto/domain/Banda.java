@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.proyecto.domain;
 
-import java.math.BigDecimal;
 
 public class Banda extends AuditObject {
 
@@ -11,7 +10,7 @@ public class Banda extends AuditObject {
 	
 	private String tiempoAsignado;
 	
-	private BigDecimal costoExtra;
+	private Double costoExtra;
 
 	@Override
 	public String getIdentifingName() {
@@ -27,7 +26,7 @@ public class Banda extends AuditObject {
 		this.id = id;
 		this.nombre = nombre;
 		this.tiempoAsignado = tiempoAsignado;
-		this.costoExtra = costoExtra != null ? new BigDecimal(costoExtra) : null;
+		this.costoExtra = costoExtra != null ? new Double(costoExtra) : null;
 	}
 
 	public Banda(Banda element){
@@ -55,14 +54,14 @@ public class Banda extends AuditObject {
 	/**
 	 * @return the costoExtra
 	 */
-	public BigDecimal getCostoExtra() {
+	public Double getCostoExtra() {
 		return costoExtra;
 	}
 
 	/**
 	 * @param costoExtra the costoExtra to set
 	 */
-	public void setCostoExtra(BigDecimal costoExtra) {
+	public void setCostoExtra(Double costoExtra) {
 		this.costoExtra = costoExtra;
 	}
 	

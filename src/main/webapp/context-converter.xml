@@ -19,4 +19,27 @@
 		scope="session">
 		<property name="bandaController" ref="bandaController" />
 	</bean>
+
+	<bean id="sectorConverter" class="ar.edu.utn.frba.proyecto.converter.SectorConverter"
+		scope="session">
+		<property name="estadioController" ref="estadioController" />
+	</bean>
+	<bean id="filaConverter" class="ar.edu.utn.frba.proyecto.converter.FilaConverter"
+		scope="session">
+		<property name="estadioController" ref="estadioController" />
+	</bean>
+	<bean id="asientoConverter" class="ar.edu.utn.frba.proyecto.converter.AsientoConverter"
+		scope="session">
+		<property name="estadioController" ref="estadioController" />
+	</bean>
+	
+	<bean id="festivalConverter" class="ar.edu.utn.frba.proyecto.converter.FestivalConverter"
+		scope="session">
+		<property name="festivalController" ref="festivalController" />
+	</bean>
+
+	<bean id="diaConverter" class="ar.edu.utn.frba.proyecto.converter.DiaConverter"
+		scope="session">
+		<property name="estadioController" ref="estadioController" />
+	</bean>
 </beans>

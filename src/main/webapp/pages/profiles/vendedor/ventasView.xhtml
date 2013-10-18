@@ -1,0 +1,92 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</h:head>
+	<p:panel id="elegirButacaPanel">
+		<h:panelGrid columns="2" cellpadding="5" id="elegirFestivalPanelGrid" style="width:auto !important">
+			<h:outputLabel for="elegirFestival" value="Elija Festival" />
+   			<p:selectOneMenu id="elegirFestival" value="#{estadioController.festivalElegido}" converter="#{festivalConverter}" effect="fade" >  
+			    <f:selectItem itemLabel="Elija Festival" itemValue="" />
+		        <f:selectItems value="#{festivalController.items}" var="festival" itemLabel="#{festival.nombre}" itemValue="#{festival}" />  	            
+		        <p:ajax event="valueChange"
+								listener="#{estadioController.setFestivalElegido(festival)}"
+								process="@this" oncomplete="window.location.reload()"
+								partialSubmit="true" />
+			</p:selectOneMenu>
+		</h:panelGrid>
+
+		<h:panelGrid columns="2" cellpadding="5" id="elegirDiaPanelGrid" style="width:auto !important" rendered="#{estadioController.festivalElegido.id != null}" >
+			<h:outputLabel for="elegirDia" value="Elija Dia" />
+   			<p:selectOneMenu id="elegirDia" value="#{estadioController.diaElegido}" converter="#{diaConverter}" effect="fade" >  
+			    <f:selectItem itemLabel="Elija Dia" itemValue="" />
+		        <f:selectItems value="#{estadioController.festivalElegido.dias}" var="dia" itemLabel="#{dia.nombre}" itemValue="#{dia}" />  	            
+		        <p:ajax event="valueChange"
+								listener="#{estadioController.setDiaElegido(dia)}"
+								process="@this" oncomplete="window.location.reload()"
+								partialSubmit="true" />
+			</p:selectOneMenu>
+		</h:panelGrid>
+
+		<h:panelGrid columns="2" cellpadding="5" id="elegirSectorPanelGrid" style="width:auto !important" rendered="#{estadioController.festivalElegido.id != null and estadioController.diaElegido.id != null}">
+			<h:outputLabel for="elegirSector" value="Elija Sector" />
+   			<p:selectOneMenu id="elegirSector" value="#{estadioController.sectorElegido}" converter="#{sectorConverter}" effect="fade" >  
+			    <f:selectItem itemLabel="Elija Sector" itemValue="" />
+		        <f:selectItems value="#{estadioController.getSectoresDisponiblesFromFestivalAndDia(estadioController.festivalElegido,estadioController.diaElegido)}" var="sector" itemLabel="#{sector.nombre}" itemValue="#{sector}" />  	            
+		        <p:ajax event="valueChange"
+								listener="#{estadioController.setSectorElegido(sector)}"
+								process="@this" oncomplete="window.location.reload()"
+								partialSubmit="true" />
+			</p:selectOneMenu>
+		</h:panelGrid>
+		
+		<h:panelGrid columns="2" cellpadding="5" id="elegirFilaPanelGrid" style="width:auto !important" rendered="#{estadioController.festivalElegido.id != null and estadioController.diaElegido.id != null and estadioController.sectorElegido.id != null}">
+			<h:outputLabel for="elegirFila" value="Elija Fila" />
+   			<p:selectOneMenu id="elegirFila" value="#{estadioController.filaElegida}" converter="#{filaConverter}" effect="fade" >  
+			    <f:selectItem itemLabel="Elija Fila" itemValue="" />
+		        <f:selectItems value="#{estadioController.getFilasDisponiblesFromSector(estadioController.sectorElegido)}" var="fila" itemLabel="#{fila.nombre}" itemValue="${fila}" />  	            
+		        <p:ajax event="valueChange"
+								listener="#{estadioController.setFilaElegida(fila)}"
+								process="@this" oncomplete="window.location.reload()"
+								partialSubmit="true" />
+			</p:selectOneMenu>
+		</h:panelGrid>
+
+		<h:panelGrid columns="2" cellpadding="5" id="elegirAsientoPanelGrid" style="width:auto !important" rendered="#{estadioController.festivalElegido.id != null and estadioController.diaElegido.id != null and estadioController.sectorElegido.id != null and estadioController.filaElegida.id != null}">
+			<h:outputLabel for="elegirAsiento" value="Elija Asiento" />
+   			<p:selectOneMenu id="elegirAsiento" value="#{estadioController.asientoElegido}" converter="#{asientoConverter}" effect="fade" >  
+			    <f:selectItem itemLabel="Elija Asiento" itemValue="" />
+		        <f:selectItems value="#{estadioController.getAsientosDisponibleFromFila(estadioController.filaElegida)}" var="asiento" itemLabel="#{asiento.nombre}" itemValue="#{asiento}" />  	            
+		        <p:ajax event="valueChange"
+								listener="#{estadioController.setAsientoElegido(asiento)}"
+								process="@this" oncomplete="window.location.reload()"
+								partialSubmit="true" />
+			</p:selectOneMenu>
+		</h:panelGrid>
+		<h:panelGrid columns="2" cellpadding="5" id="botonesPanelGrid" style="width:auto !important" rendered="#{estadioController.festivalElegido.id != null and estadioController.diaElegido.id != null and estadioController.sectorElegido.id != null and estadioController.filaElegida.id != null and estadioController.asientoElegido.id != null}">	
+			<f:facet name="footer">
+				<p:commandButton id="siguientePasoBoton" value="Siguiente"
+					actionListener="#{estadioController.generarFactura}" oncomplete="showEntradaWidget.show()"
+					immediate="true" process="@this" partialSubmit="true"
+					/>
+
+                <p:commandButton id="limparFormButton" immediate="true"
+                        value="Limpiar" icon="ui-icon-refresh"
+                        actionListener="#{estadioController.resetearSeleccion()}"
+                        process="@this" partialSubmit="true"
+                        oncomplete="window.location.reload()"
+                        style="margin:10px" />					
+
+			</f:facet>
+		</h:panelGrid>
+	</p:panel>	
+		<p:dialog id="showEntrada" widgetVar="showEntradaWidget" onHide="window.location.reload()"
+			resizable="false" header="Entrada" closable="true"
+			modal="true">
+			<ui:include src="../../ver/verEntrada.xhtml" />
+		</p:dialog>
+</ui:composition>

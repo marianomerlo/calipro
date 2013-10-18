@@ -1,6 +1,5 @@
 package ar.edu.utn.frba.proyecto.controller;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -60,6 +59,7 @@ public class FestivalController extends BaseAbmController<Festival> {
 	@Override
 	protected void extraAddItemProcess() {
 		addDiasToFestival(getCurrentItem());
+		addEstadioToFestival(getCurrentItem());
 		super.extraAddItemProcess();
 	}
 	
@@ -81,6 +81,11 @@ public class FestivalController extends BaseAbmController<Festival> {
 //		super.extraUpdateItemProcess();
 //	}
 	
+	private void addEstadioToFestival(Festival currentItem) {
+		getDao().addEstadioToFestival(currentItem);
+		
+	}
+
 	private void addDiasToFestival(Festival currentItem) {
 		getDao().addDiasToFestival(currentItem);
 	}
@@ -234,7 +239,7 @@ public class FestivalController extends BaseAbmController<Festival> {
 	}
 	
 	public void agregarBanda(){
-		getBandaParaAgregar().setCostoExtra(new BigDecimal(costoExtra));
+		getBandaParaAgregar().setCostoExtra(new Double(costoExtra));
 		getBandaParaAgregar().setTiempoAsignado(tiempoAsignado);
 		this.bandaController.agregarBandaADia(getBandaParaAgregar(), getDayIndexTab() , getSelectedItem());
 		refreshBandasDisponibles();

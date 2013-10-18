@@ -47,6 +47,15 @@ public class Festival extends AuditObject {
 		this.estado = new Estado(estado, null);
 		
 	}
+	
+	public Dia getDia(Integer idDia){
+		for (Dia dia : dias){
+			if (idDia == dia.getId())
+				return dia;
+		}
+		
+		return null;
+	}
 
 	public String getFechaInicio() {
 		return fechaInicio;

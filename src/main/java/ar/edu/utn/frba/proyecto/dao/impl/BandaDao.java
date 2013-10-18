@@ -130,7 +130,7 @@ public class BandaDao extends BaseAbmDao<Banda> {
 				prepStatement.setInt(2, dia);
 				prepStatement.setInt(3, festival.getId());
 				prepStatement.setString(4, banda.getTiempoAsignado());
-				prepStatement.setString(5, banda.getCostoExtra().toPlainString());
+				prepStatement.setDouble(5, banda.getCostoExtra());
 				
 				prepStatement.executeUpdate();
 				
