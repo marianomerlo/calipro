@@ -98,8 +98,8 @@
    <dependency>
    <groupId>org.primefaces</groupId>
    <artifactId>primefaces</artifactId>
-<!--    <version>4.0</version> -->
-   <version>3.4</version>
+   <version>4.0</version>
+<!--    <version>3.4</version> -->
   </dependency>
 
   <!-- Hibernate dependencies -->
@@ -134,6 +134,12 @@
   	<artifactId>el-api</artifactId>
   	<version>2.2</version>
   </dependency>
+  
+   <dependency>
+      <groupId>net.sourceforge.barbecue</groupId>
+      <artifactId>barbecue</artifactId>
+      <version>1.5-beta1</version>
+    </dependency>
   
  </dependencies>
 

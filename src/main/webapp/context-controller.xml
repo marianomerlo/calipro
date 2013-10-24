@@ -23,6 +23,9 @@
 		<property name="estadioDao" ref="estadioDao" />
 		<property name="bandaController" ref="bandaController" />
 		<property name="facturaController" ref="facturaController" />
+		<property name="descuentoMayores" value="${descuento.mayores}" />
+		<property name="descuentoMenores" value="${descuento.menores}" />
+		<property name="descuentoJubilados" value="${descuento.jubilados}" />
 	</bean>
 
 	<bean id="analisisController" parent="baseController"

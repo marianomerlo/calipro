@@ -18,8 +18,24 @@
 		<property name="ignoreUnresolvablePlaceholders" value="true" />
 	</bean>
 
+	<bean id="Mayor" class="ar.edu.utn.frba.proyecto.domain.Categoria" scope="singleton">
+		<property name="id" value="1" />
+		<property name="nombre" value="Mayor" />
+		<property name="descuento" value="0" />
+	</bean>
+	<bean id="Menor" class="ar.edu.utn.frba.proyecto.domain.Categoria" scope="singleton">
+		<property name="id" value="2" />
+		<property name="nombre" value="Menor" />
+		<property name="descuento" value="10" />
+	</bean>
+	<bean id="Jubilado" class="ar.edu.utn.frba.proyecto.domain.Categoria" scope="singleton">
+		<property name="id" value="3" />
+		<property name="nombre" value="Jubilado" />
+		<property name="descuento" value="15" />
+	</bean>
 	<import resource="context-dao.xml" />
 	<import resource="context-controller.xml" />
 	<import resource="context-converter.xml" />
+	
 
 </beans>

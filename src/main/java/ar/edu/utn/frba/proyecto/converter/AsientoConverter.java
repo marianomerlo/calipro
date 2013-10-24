@@ -72,7 +72,7 @@ public class AsientoConverter implements Converter {
 	 * @return the analisis
 	 */
 	public List<Asiento> getItems() {
-		return getEstadioController().getAsientosDisponibleFromFila(getEstadioController().getFilaElegida());
+		return getEstadioController().getAsientosDisponiblesFromFila(getEstadioController().getFilaElegida());
 	}
 
 }

@@ -18,14 +18,10 @@ import ar.edu.utn.frba.proyecto.domain.Sector;
 
 public class EstadioDao extends BaseDao<Estadio> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 7228527751654408011L;
 
 	@Override
 	protected Estadio getFromResult(ResultSet result) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
@@ -33,7 +29,7 @@ public class EstadioDao extends BaseDao<Estadio> {
 		Connection conn = getConnection();
 		ResultSet result = null;
 		List<Sector> resultList = new ArrayList<Sector>();
-		String query = "SELECT idEstadio,idSector,nombreSector as nombre FROM estadio e1 where e1.idEstadio = (SELECT idEstadio from dia_festival_estadio where idFestival = ? AND idDia = ?) AND (SELECT count(*) FROM estadio e2 WHERE e1.idSector = e2.idSector and e2.disponible=?) > 0 GROUP BY idSector";
+		String query = "SELECT idEstadio,idSector,nombreSector as nombre FROM estadio e1 where e1.idEstadio = (SELECT idEstadio from dia_festival_estadio where idFestival = ? AND idDia = ?) AND (SELECT count(*) FROM estadio e2 WHERE e1.idEstadio = e2.idEstadio and e1.idSector = e2.idSector and e2.disponible=?) > 0 GROUP BY idSector";
 		try {
 				PreparedStatement prepStatement = conn.prepareStatement(query);
 				prepStatement.setInt(1, festival.getId());
@@ -61,7 +57,7 @@ public class EstadioDao extends BaseDao<Estadio> {
 		Connection conn = getConnection();
 		ResultSet result = null;
 		List<Fila> resultList = new ArrayList<Fila>();
-		String query = "SELECT fila FROM estadio e1 where e1.idSector = ? and e1.idEstadio = ? and (SELECT count(*) from estadio e2 WHERE e1.idSector = e2.idSector and e1.fila = e2.fila and e2.disponible='TRUE') > 0 GROUP BY fila";
+		String query = "SELECT fila FROM estadio e1 where e1.idSector = ? and e1.idEstadio = ? and (SELECT count(*) from estadio e2 WHERE e1.idEstadio = e2.idEstadio and e1.idSector = e2.idSector and e1.fila = e2.fila and e2.disponible='TRUE') > 0 GROUP BY fila";
 		try {
 			PreparedStatement prepStatement = conn.prepareStatement(query);
 			prepStatement.setInt(1, sector.getId());
@@ -122,6 +118,7 @@ public class EstadioDao extends BaseDao<Estadio> {
 				entrada.setPrecioBase(result.getDouble("precioBase"));
 			}
 			
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally{
@@ -141,7 +138,7 @@ public class EstadioDao extends BaseDao<Estadio> {
 			prepStatement.setInt(3, entrada.getSector().getId());
 			prepStatement.setInt(4, entrada.getFila().getId());
 			prepStatement.setInt(5, entrada.getAsiento().getId());
-			
+
 			prepStatement.execute();
 			
 		} catch (SQLException e) {

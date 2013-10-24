@@ -1,5 +1,6 @@
 package ar.edu.utn.frba.proyecto.domain;
 
+
 public class Entrada extends BaseObject {
 	
 	private Festival festival;
@@ -16,16 +17,19 @@ public class Entrada extends BaseObject {
 	
 	private Double precioExtraPorBandas;
 	
+	private Categoria categoria;
+	
 	public Entrada(){
 		super();
 	}
 	
-	public Entrada(Dia dia, Sector sector, Fila fila, Asiento asiento){
+	public Entrada(Dia dia, Sector sector, Fila fila, Asiento asiento, Categoria categoria){
 		super();
 		this.dia = dia;
 		this.sector = sector;
 		this.fila = fila;
 		this.asiento = asiento;
+		this.categoria = categoria;
 	}
 	
 	@Override
@@ -125,6 +129,20 @@ public class Entrada extends BaseObject {
 	 */
 	public void setFestival(Festival festival) {
 		this.festival = festival;
+	}
+
+	/**
+	 * @return the categoria
+	 */
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	/**
+	 * @param categoria the categoria to set
+	 */
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 
 }

@@ -36,7 +36,7 @@
 			<h:panelGrid id="entradaInfo" columns="1" >
 				<h:outputLabel id="sectorName" value="#{estadioController.sectorElegido.nombre} " />
 				<h:outputLabel id="filaName" value="#{estadioController.filaElegida.nombre}" />
-				<h:outputLabel id="asientoName" value="#{estadioController.asientoElegido.nombre}" />
+				<h:outputLabel id="asientoName" value="Asientos: #{estadioController.getAsientosIds()}" />
 			</h:panelGrid>
 			
 		</h:panelGrid>
@@ -44,20 +44,31 @@
 		<p:separator />
 		
 		<h:panelGrid id="panelGlobalInfo22" columns="2" style="width:500px" >
-			<h:panelGrid id="panelGlobalInfo23" columns="1" >
+			<h:panelGrid id="panelGlobalInfo23" columns="1" style="width:60%" >
 				<ui:repeat varStatus="index" var="banda" value="#{estadioController.festivalElegido.getDia(estadioController.diaElegido.id).bandas}">
 					<h:outputLabel id="banda#{index}" value="#{banda.nombre}" /><br />
 				</ui:repeat>
 			</h:panelGrid>
 			
-			<h:panelGrid id="panelGlobalInfo33" columns="1" >
-				<h:outputLabel id="festivalName3" value="TOTAL " />
-				<h:outputLabel id="sectorName3" value="$ #{facturaController.currentItem.costoTotal}" />
+			<h:panelGrid id="panelGlobalInfo33" columns="2" style="width:40%" >
+				<ui:repeat var="entrada" value="#{facturaController.currentItem.entradas}" varStatus="index">
+					<h:panelGrid id="panelPriceInfo#{index}" columns="2" style="width:150px" >
+						<h:outputLabel for="PrecioUnitario#{index}" id="Tipo#{index}" value="#{entrada.categoria.nombre}"  />
+						<h:outputText id="PrecioUnitario#{index}" value="$ #{(entrada.precioBase + entrada.precioExtraPorBandas) * (100 - entrada.categoria.descuento) / 100}" />
+					</h:panelGrid>
+				</ui:repeat> 
+				<h:outputLabel id="ParaLlenarEspacio1" value=""  />
+				<p:separator />
+				<h:outputLabel id="ParaLlenarEspacio2" value=""  />
+				<h:outputLabel id="TotalLabel" value="Total: $ #{facturaController.currentItem.getCalculatedCostoTotal()}"  />
+			
 			</h:panelGrid>
 			
 		</h:panelGrid>
+				<p:graphicImage value="#{facturaController.barcode}" />
 	</h:panelGrid>
 	
+  
 	<h:panelGrid columns="2" cellpadding="5" id="botonesEntradaPanelGrid" style="width:auto !important" >	
 			<f:facet name="footer">
 				<p:commandButton id="confirmarBoton" value="Confirmar"
@@ -75,7 +86,7 @@
 		</h:panelGrid>
 		
 		<p:dialog id="showConfirmacion" widgetVar="showConfirmacionWidget" onHide="window.location.reload()"
-			resizable="false" header="Entrada" closable="true" appendToBody="true"
+			resizable="false" header="Entrada" closable="true" appendTo="@(body)"
 			modal="true">
 			<ui:include src="verConfirmacion.xhtml" />
 		</p:dialog>
